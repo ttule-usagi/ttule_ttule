@@ -1,0 +1,36 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended",
+    "prettier"
+  ],
+  "plugins": ["react", "react-hooks", "import", "@typescript-eslint"],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    
+    // TS 사용 시 미사용 변수 설정
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+
+    // Import 정렬
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "newlines-between": "always",
+        "alphabetize": { "order": "asc", "caseInsensitive": true }
+      }
+    ],
+
+    // 컴포넌트 내 console.log 방지 (빌드 시 실수 방지)
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  },
+  "settings": {
+    "react": { "version": "detect" }
+  }
+}
