@@ -1,0 +1,19 @@
+---
+name: ttule-issue-template-toma
+about: Describe this issue template's purpose here.
+title: "[A-001]명세서 요구사항명"
+labels: "✨Feat"
+assignees: tomatto0
+
+---
+
+## ✨ 새로운 기능
+- 요구사항 명세서 기반으로 구현한 기능 
+
+## ✅ 작업한 내용
+- [ ] 구현 내용
+
+## 🗓️ 개발 일정 
+
+## 💬 리뷰하고 싶은 점
+- 기능과 관련해서 나누고 싶은 점
