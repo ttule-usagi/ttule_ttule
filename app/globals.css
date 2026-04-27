@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+/* 공식 디폴트 테마 참조 : https://tailwindcss.com/docs/theme#default-theme-variable-reference
+// 정의해놓은거 외에는 공식에서 정의해 놓은 것들 그대로 사용가능합니다.
+
+// --radius-sm: 4px
+// --radius-md: 6px
+// --radius-lg: 8px
+*/
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -10,6 +18,100 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-pretendard: var(--font-pretendard), sans-serif;
+}
+
+@theme {
+  /* Typography */
+  --text-typo-big-title: 1.75rem;
+  --text-typo-big-title--line-height: 2.275rem;
+  --text-typo-big-title--font-weight: 700;
+  --text-typo-big-title--letter-spacing: -0.03em;
+
+  --text-typo-title: 1.5rem;
+  --text-typo-title--line-height: 2rem;
+  --text-typo-title--font-weight: 600;
+  --text-typo-title--letter-spacing: -0.03em;
+
+  --text-typo-sub-title: 1.25rem;
+  --text-typo-sub-title--line-height: 1.875rem;
+  --text-typo-sub-title--font-weight: 600;
+  --text-typo-sub-title--letter-spacing: -0.03em;
+
+  --text-typo-base: 1rem;
+  --text-typo-base--line-height: 1.5rem;
+  --text-typo-base--font-weight: 400;
+  --text-typo-base--letter-spacing: -0.03em;
+
+  --text-typo-base-bold: 1rem;
+  --text-typo-base-bold--line-height: 1.5rem;
+  --text-typo-base-bold--font-weight: 600;
+  --text-typo-base-bold--letter-spacing: -0.03em;
+
+  --text-typo-description: 0.875rem;
+  --text-typo-description--line-height: 1.25rem;
+  --text-typo-description--font-weight: 400;
+  --text-typo-description--letter-spacing: -0.03em;
+
+  --text-typo-caption: 0.75rem;
+  --text-typo-caption--line-height: 1rem;
+  --text-typo-caption--font-weight: 400;
+  --text-typo-caption--letter-spacing: -0.03em;
+
+  /* Colors - brand-blue */
+  --color-brand-blue-50: #EDF3FF;
+  --color-brand-blue-100: #C9DCFF;
+  --color-brand-blue-200: #A6C3FF;
+  --color-brand-blue-300: #7AA3FD;
+  --color-brand-blue-400: #5187FC;
+  --color-brand-blue-500: #3676F5;
+  --color-brand-blue-600: #3465D7;
+  --color-brand-blue-700: #3A5EBB;
+  --color-brand-blue-800: #264697;
+  --color-brand-blue-900: #1C3575;
+
+  /* Colors - brand-gray */
+  --color-brand-gray-0: #ffffff;
+  --color-brand-gray-50: #F9F9FB;
+  --color-brand-gray-100: #EFF1F5;
+  --color-brand-gray-200: #E4E7EC;
+  --color-brand-gray-300: #B9C0D4;
+  --color-brand-gray-400: #7D89AF;
+  --color-brand-gray-500: #5D6B98;
+  --color-brand-gray-600: #4A5578;
+  --color-brand-gray-700: #404968;
+  --color-brand-gray-800: #30374F;
+  --color-brand-gray-900: #111322;
+
+  /* Colors - single */
+  --color-bg-sub-blue: #466ABF;
+  --color-neon-green: #D0F65E;
+
+  /* Colors - tag */
+  --color-tag-red-text: #E95C58;
+  --color-tag-red-stroke: #FED4D2;
+  --color-tag-red-fill: #FDF0F0;
+  --color-tag-green-text: #29991F;
+  --color-tag-green-stroke: #D7EFC2;
+  --color-tag-green-fill: #F6FFE2;
+  --color-tag-yellow-text: #FFAA0D;
+  --color-tag-yellow-stroke: #FFF2BF;
+  --color-tag-yellow-fill: #FFFFED;
+  --color-tag-purple-text: #7968E8;
+  --color-tag-purple-stroke: #D7C9FF;
+  --color-tag-purple-fill: #F4F0FF;
+  --color-tag-hotpink-text: #EF3DBA;
+  --color-tag-hotpink-stroke: #FDCEF3;
+  --color-tag-hotpink-fill: #FFEDFA;
+
+  /* Box Shadow */
+  --shadow-medium: 0 4px 8px -2px rgba(16, 24, 40, 0.1), 0 2px 4px -2px rgba(16, 24, 40, 0.06);
+  --shadow-large: 0 12px 16px -4px #10182814, 0 4px 6px -2px rgba(16, 24, 40, 0.03);
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
 }
 
 @media (prefers-color-scheme: dark) {
