@@ -12,7 +12,7 @@ export const pretendard = localFont({
 export const mona12 = localFont({
   src: [
     {
-      path: './Mona12ColorEmoji',
+      path: './Mona12ColorEmoji.woff2',
       weight: '400',
       style: 'normal',
     },
