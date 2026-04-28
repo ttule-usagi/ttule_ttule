@@ -7,27 +7,27 @@ export default function Home() {
   return (
     <div className='bg-brand-blue-50 w-screen h-screen relative overflow-hidden'>
       <div className='w-full h-full flex flex-col items-center justify-center'>
-        <div className='flex flex-col gap-2 items-center justify-center z-10 relative'>
-          <p className='text-typo-title text-brand-gray-200'>함께 떠나기 좋은 여행 플래너</p>
+        <div className='flex flex-col gap-2.5 items-center justify-center z-10 relative'>
+          <p className='text-typo-title text-brand-gray-200 font-normal text-[25px]'>함께 떠나기 좋은 여행 플래너</p>
           <Image
             src='/images/logo.svg'
-            width={290}
+            width={280}
             height={94}
-            alt='Logo'
+            alt='logo'
           />
           <Image
             src='/images/clip.svg'
             width={97.54}
             height={29.31}
             alt='clip'
-            className='absolute bottom-[-36%] right-[-32%]'
+            className='absolute bottom-[-36%] right-[-31.5%]'
           />
         </div>
         <div className='flex flex-col gap-2.5 z-10 mt-66'>
           <JoinPlanButton />
           <LoginButton />
         </div>
-        <p className='text-white text-typo-description mt-3 z-10'>
+        <p className='text-white text-typo-description mt-3 z-10 font-light'>
           처음 방문하셨나요?{' '}
           <Link
             href='/signup'
@@ -39,13 +39,22 @@ export default function Home() {
       </div>
 
       {/* 배경 아이템 */}
-      <Image
-        src='/images/bg_check_blue.svg'
-        width={1999}
-        height={1047}
-        alt='background check blue'
-        className='absolute w-screen h-auto top-[-18%] right-[-20%] rotate-[-6.36deg] z-1 blur-[2px]'
-      />
+      <div className='absolute w-screen h-auto top-[-16%] right-[-20%] rotate-[-6.36deg] z-1'>
+        <Image
+          src='/images/bg-check-blue.svg'
+          width={1728}
+          height={995}
+          alt='background check blue'
+          className='w-full h-auto'
+        />
+        <Image
+          src='/images/bg-blur.svg'
+          width={1728}
+          height={995}
+          alt='background blur'
+          className='absolute top-0 left-0 w-full h-full rounded-xl backdrop-blur-[1.5px]'
+        />
+      </div>
       <Image
         src='/images/clips.svg'
         width={269.68}
@@ -58,7 +67,7 @@ export default function Home() {
         width={507.15}
         height={769.01}
         alt='pen'
-        className='absolute w-[26vw] h-auto rotate-[154.98deg] top-[-28%] left-[54%] z-1'
+        className='absolute w-[26vw] h-auto rotate-[154.98deg] top-[-26%] left-[54%] z-1'
       />
       <Image
         src='/images/pencil.svg'
@@ -72,7 +81,7 @@ export default function Home() {
         width={735.32}
         height={588.83}
         alt='glasses'
-        className='absolute w-[40vw] h-auto right-[3%] bottom-0 z-1'
+        className='absolute w-[38vw] h-auto right-[2%] bottom-0 z-1'
       />
     </div>
   );
