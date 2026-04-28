@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* 공식 디폴트 테마 참조 : https://tailwindcss.com/docs/theme#default-theme-variable-reference
 // 정의해놓은거 외에는 공식에서 정의해 놓은 것들 그대로 사용가능합니다.
@@ -16,8 +16,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-pretendard), sans-serif;
   --font-pretendard: var(--font-pretendard), sans-serif;
 }
 
@@ -59,50 +58,50 @@
   --text-typo-caption--letter-spacing: -0.03em;
 
   /* Colors - brand-blue */
-  --color-brand-blue-50: #EDF3FF;
-  --color-brand-blue-100: #C9DCFF;
-  --color-brand-blue-200: #A6C3FF;
-  --color-brand-blue-300: #7AA3FD;
-  --color-brand-blue-400: #5187FC;
-  --color-brand-blue-500: #3676F5;
-  --color-brand-blue-600: #3465D7;
-  --color-brand-blue-700: #3A5EBB;
+  --color-brand-blue-50: #edf3ff;
+  --color-brand-blue-100: #c9dcff;
+  --color-brand-blue-200: #a6c3ff;
+  --color-brand-blue-300: #7aa3fd;
+  --color-brand-blue-400: #5187fc;
+  --color-brand-blue-500: #3676f5;
+  --color-brand-blue-600: #3465d7;
+  --color-brand-blue-700: #3a5ebb;
   --color-brand-blue-800: #264697;
-  --color-brand-blue-900: #1C3575;
+  --color-brand-blue-900: #1c3575;
 
   /* Colors - brand-gray */
   --color-brand-gray-0: #ffffff;
-  --color-brand-gray-50: #F9F9FB;
-  --color-brand-gray-100: #EFF1F5;
-  --color-brand-gray-200: #E4E7EC;
-  --color-brand-gray-300: #B9C0D4;
-  --color-brand-gray-400: #7D89AF;
-  --color-brand-gray-500: #5D6B98;
-  --color-brand-gray-600: #4A5578;
+  --color-brand-gray-50: #f9f9fb;
+  --color-brand-gray-100: #eff1f5;
+  --color-brand-gray-200: #e4e7ec;
+  --color-brand-gray-300: #b9c0d4;
+  --color-brand-gray-400: #7d89af;
+  --color-brand-gray-500: #5d6b98;
+  --color-brand-gray-600: #4a5578;
   --color-brand-gray-700: #404968;
-  --color-brand-gray-800: #30374F;
+  --color-brand-gray-800: #30374f;
   --color-brand-gray-900: #111322;
 
   /* Colors - single */
-  --color-bg-sub-blue: #466ABF;
-  --color-neon-green: #D0F65E;
+  --color-bg-sub-blue: #466abf;
+  --color-neon-green: #d0f65e;
 
   /* Colors - tag */
-  --color-tag-red-text: #E95C58;
-  --color-tag-red-stroke: #FED4D2;
-  --color-tag-red-fill: #FDF0F0;
-  --color-tag-green-text: #29991F;
-  --color-tag-green-stroke: #D7EFC2;
-  --color-tag-green-fill: #F6FFE2;
-  --color-tag-yellow-text: #FFAA0D;
-  --color-tag-yellow-stroke: #FFF2BF;
-  --color-tag-yellow-fill: #FFFFED;
-  --color-tag-purple-text: #7968E8;
-  --color-tag-purple-stroke: #D7C9FF;
-  --color-tag-purple-fill: #F4F0FF;
-  --color-tag-hotpink-text: #EF3DBA;
-  --color-tag-hotpink-stroke: #FDCEF3;
-  --color-tag-hotpink-fill: #FFEDFA;
+  --color-tag-red-text: #e95c58;
+  --color-tag-red-stroke: #fed4d2;
+  --color-tag-red-fill: #fdf0f0;
+  --color-tag-green-text: #29991f;
+  --color-tag-green-stroke: #d7efc2;
+  --color-tag-green-fill: #f6ffe2;
+  --color-tag-yellow-text: #ffaa0d;
+  --color-tag-yellow-stroke: #fff2bf;
+  --color-tag-yellow-fill: #ffffed;
+  --color-tag-purple-text: #7968e8;
+  --color-tag-purple-stroke: #d7c9ff;
+  --color-tag-purple-fill: #f4f0ff;
+  --color-tag-hotpink-text: #ef3dba;
+  --color-tag-hotpink-stroke: #fdcef3;
+  --color-tag-hotpink-fill: #ffedfa;
 
   /* Box Shadow */
   --shadow-medium: 0 4px 8px -2px rgba(16, 24, 40, 0.1), 0 2px 4px -2px rgba(16, 24, 40, 0.06);
@@ -124,5 +123,5 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-pretendard);
 }
