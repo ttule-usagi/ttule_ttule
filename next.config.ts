@@ -1,7 +1,41 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
+import path from 'path';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  webpack(config) {
+    // SVGR 로더 추가
+    config.module.rules.push({
+      test: /\.svg$/,
+      include: [path.resolve(__dirname, 'assets')],
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            icon: true,
+            typescript: true,
+          },
+        },
+      ],
+    });
+    return config;
+  },
+
+  turbopack: {
+    rules: {
+      './assets/**/*.svg': {
+        loaders: [
+          {
+            loader: require.resolve('@svgr/webpack'),
+            options: {
+              icon: true,
+              typescript: true,
+            },
+          },
+        ],
+        as: '*.js',
+      },
+    },
+  },
 };
 
 export default nextConfig;
