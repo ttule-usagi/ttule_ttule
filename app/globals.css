@@ -134,3 +134,8 @@ body {
     @apply w-32 h-10 rounded-sm text-typo-base box-border;
   }
 }
+
+@utility bg-dot-pattern {
+  background-image: radial-gradient(circle, #cddbfb 1.3px, transparent 2px);
+  background-size: 26px 26px;
+}
