@@ -125,3 +125,12 @@ body {
   color: var(--foreground);
   font-family: var(--font-pretendard);
 }
+
+@layer components {
+  .btn-small {
+    @apply w-32 h-12 rounded-sm text-typo-base box-border font-medium;
+  }
+  .btn-medium {
+    @apply w-32 h-10 rounded-sm text-typo-base box-border;
+  }
+}
