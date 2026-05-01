@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { Icon } from '../common/Icon';
 
 export default function ProfileImageUploader() {
   const [image, setImage] = useState<string | null>(null);
@@ -44,8 +45,11 @@ export default function ProfileImageUploader() {
         onChange={handleImageChange}
       />
 
-      <button className='absolute w-10 h-10 bg-brand-blue-700 -right-2.75 bottom-0.5 rounded-full cursor-pointer'>
-        c
+      <button className='absolute w-10 h-10 bg-brand-blue-700 -right-2.75 bottom-0.5 rounded-full cursor-pointer flex items-center justify-center'>
+        <Icon
+          name='Camera'
+          size={24}
+        />
       </button>
     </div>
   );
