@@ -1,65 +1,88 @@
-import Image from "next/image";
+import JoinPlanButton from '@/components/features/JoinPlanButton';
+import LoginButton from '@/components/features/LoginButton';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <div className='bg-brand-blue-50 w-screen h-screen relative overflow-hidden'>
+      <div className='w-full h-full flex flex-col items-center justify-center'>
+        <div className='flex flex-col gap-2.5 items-center justify-center z-10 relative'>
+          <p className='text-typo-title text-brand-gray-200 font-normal text-[25px]'>함께 떠나기 좋은 여행 플래너</p>
+          <Image
+            src='/images/logo.svg'
+            width={280}
+            height={94}
+            alt='logo'
+          />
+          <Image
+            src='/images/clip.svg'
+            width={97.54}
+            height={29.31}
+            alt='clip'
+            className='absolute bottom-[-36%] right-[-31.5%]'
+          />
+        </div>
+        <div className='flex flex-col gap-2.5 z-10 mt-66'>
+          <JoinPlanButton />
+          <LoginButton />
+        </div>
+        <p className='text-white text-typo-description mt-3 z-10 font-light'>
+          처음 방문하셨나요?{' '}
+          <Link
+            href='/signup'
+            className='text-neon-green underline'
+          >
+            회원가입
+          </Link>
+        </p>
+      </div>
+
+      {/* 배경 아이템 */}
+      <div className='absolute w-screen h-auto top-[-16%] right-[-20%] rotate-[-6.36deg] z-1'>
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+          src='/images/bg-check-blue.svg'
+          width={1728}
+          height={995}
+          alt='background check blue'
+          className='w-full h-auto'
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+        <Image
+          src='/images/bg-blur.svg'
+          width={1728}
+          height={995}
+          alt='background blur'
+          className='absolute top-0 left-0 w-full h-full rounded-xl backdrop-blur-[1.5px]'
+        />
+      </div>
+      <Image
+        src='/images/clips.svg'
+        width={269.68}
+        height={351.24}
+        alt='clips'
+        className='absolute w-[14vw] h-auto top-[5%] left-[2%] z-1'
+      />
+      <Image
+        src='/images/pen.svg'
+        width={507.15}
+        height={769.01}
+        alt='pen'
+        className='absolute w-[26vw] h-auto rotate-[154.98deg] top-[-26%] left-[54%] z-1'
+      />
+      <Image
+        src='/images/pencil.svg'
+        width={710.38}
+        height={291.75}
+        alt='pencil'
+        className='absolute w-[40vw] h-auto bottom-[5%] left-[-17%] rotate-[-25.02deg] z-1'
+      />
+      <Image
+        src='/images/glasses.svg'
+        width={735.32}
+        height={588.83}
+        alt='glasses'
+        className='absolute w-[38vw] h-auto right-[2%] bottom-0 z-1'
+      />
     </div>
   );
 }
