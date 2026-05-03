@@ -1,10 +1,12 @@
 import Luggage from '@/assets/icons/luggage.svg';
+import Bookmark from '@/assets/icons/bookmark.svg';
 
 console.log('Luggage:', Luggage); // 실제 값 확인
 console.log('Type:', typeof Luggage); // 타입 확인
 
 export const ICONS = {
   Luggage,
+  Bookmark,
 } as const;
 
 export type IconName = keyof typeof ICONS;
