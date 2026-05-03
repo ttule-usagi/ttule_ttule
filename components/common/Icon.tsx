@@ -1,10 +1,12 @@
 import Luggage from '@/assets/icons/luggage.svg';
+import Camera from '@/assets/icons/camera.svg';
 
 console.log('Luggage:', Luggage); // 실제 값 확인
 console.log('Type:', typeof Luggage); // 타입 확인
 
 export const ICONS = {
   Luggage,
+  Camera,
 } as const;
 
 export type IconName = keyof typeof ICONS;
