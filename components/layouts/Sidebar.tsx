@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
 const icons = [
-  { name: 'Luggage', href: '/main' },
+  { name: 'Luggage', href: '/lobby' },
   { name: 'Bookmark', href: '/places' },
 ];
 
