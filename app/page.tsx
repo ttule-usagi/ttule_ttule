@@ -24,7 +24,7 @@ export default function Home() {
           />
         </div>
         <div className='flex flex-col gap-2.5 z-10 mt-66'>
-          <JoinPlanButton />
+          <JoinPlanButton variant='primary' />
           <LoginButton />
         </div>
         <p className='text-white text-typo-description mt-3 z-10 font-light'>
