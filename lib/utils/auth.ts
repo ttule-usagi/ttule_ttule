@@ -1,14 +1,46 @@
 import NextAuth from 'next-auth';
 import { SupabaseAdapter } from '@auth/supabase-adapter';
 import Google from 'next-auth/providers/google';
-import { createClient } from '@supabase/supabase-js';
+import Credentials from 'next-auth/providers/credentials';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import { supabaseAdmin } from '@/lib/utils/supabase';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Google({
       clientId: process.env.AUTH_GOOGLE_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
+    }),
+    Credentials({
+      credentials: {
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) return null;
+
+        // profiles에서 유저 조회
+        const { data: profile } = await supabaseAdmin
+          .from('profiles')
+          .select('id, email, password, username, profile_image_url, role')
+          .eq('email', credentials.email)
+          .single();
+
+        if (!profile || !profile.password) return null;
+
+        // 비밀번호 검증
+        const isValid = await bcrypt.compare(credentials.password as string, profile.password);
+
+        if (!isValid) return null;
+
+        return {
+          id: profile.id,
+          email: profile.email,
+          name: profile.username,
+          image: profile.profile_image_url,
+        };
+      },
     }),
   ],
   adapter: SupabaseAdapter({
@@ -17,11 +49,84 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   }),
   session: {
     strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60,
+  },
+  pages: {
+    signIn: '/login',
+    newUser: '/signup',
   },
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
+    async signIn({ user, account }) {
+      if (!user.email) return false;
+
+      // 이메일 기준으로 기존 프로필이 있는지 먼저 확인(중복 가입 방지)
+      const { data: existingProfile } = await supabaseAdmin
+        .from('profiles')
+        .select('id')
+        .eq('email', user.email)
+        .maybeSingle();
+
+      // 신규 유저
+      if (!existingProfile) {
+        if (account?.provider === 'credentials') return true; // 회원가입 api에서 처리
+
+        // Google 신규 유저 -> profiles 생성 -> /signup/google
+        const randomNum = Math.floor(Math.random() * 9999)
+          .toString()
+          .padStart(4, '0');
+        const randomNickname = `여행자#${randomNum}`;
+
+        await supabaseAdmin.from('profiles').insert({
+          id: user.id,
+          email: user.email,
+          username: randomNickname,
+          profile_image_url: user.image,
+        });
+
+        return `/signup/google?nickname=${encodeURIComponent(randomNickname)}`;
+      }
+
+      // 기존 유저 + Credentials -> /lobby
+      if (account?.provider === 'credentials') return '/lobby';
+
+      // 기존 유저 + Google → accounts 확인
+      const { data: existingAccount } = await supabaseAdmin
+        .from('next_auth.accounts')
+        .select('id')
+        .eq('userId', existingProfile.id)
+        .eq('provider', account?.provider)
+        .single();
+
+      // 처음 Google로 로그인 -> 계정 생성
+      if (!existingAccount && account?.provider !== 'credentials') {
+        await supabaseAdmin.from('next_auth.accounts').insert({
+          userId: existingProfile.id,
+          provider: account?.provider,
+          providerAccountId: account?.providerAccountId,
+          type: account?.type,
+        });
+
+        // 연결 안내를 위해 쿼리스트링으로 전달
+        return `/login?linked=${account?.provider}`;
+      }
+
+      return '/lobby';
+    },
+
+    async jwt({ token, user, trigger }) {
+      // 최초 로그인 또는 update() 함수 호출 시에만 DB조회
+      if (user || trigger === 'update') {
+        const userId = user?.id || token.id;
+        const { data } = await supabaseAdmin
+          .from('profiles')
+          .select('role, username, profile_image_url')
+          .eq('id', userId)
+          .single();
+
+        token.id = userId;
+        token.role = data?.role;
+        token.username = data?.username;
+        token.picture = data?.profile_image_url;
       }
       return token;
     },
@@ -29,18 +134,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const signingSecret = process.env.SUPABASE_JWT_SECRET;
 
       if (signingSecret && token.sub) {
-        const payload = {
-          aud: 'authenticated',
-          exp: Math.floor(new Date(session.expires).getTime() / 1000),
-          sub: token.sub,
-          email: session.user.email,
-          role: 'authenticated',
-        };
-        // supabase RLS 통과를 위한 전용 JWT 생성
-        session.supabaseAccessToken = jwt.sign(payload, signingSecret);
+        session.supabaseAccessToken = jwt.sign(
+          {
+            aud: 'authenticated',
+            exp: Math.floor(new Date(session.expires).getTime() / 1000),
+            sub: token.sub,
+            email: session.user.email,
+            role: 'authenticated',
+          },
+          signingSecret,
+        );
       }
-      if (session.user && token.id) {
+      if (session.user) {
         session.user.id = token.id as string;
+        session.user.role = token.role as string;
+        session.user.username = token.username as string;
+        session.user.image = token.picture as string;
       }
       return session;
     },

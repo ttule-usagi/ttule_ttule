@@ -1,5 +1,5 @@
 import { auth } from '@/lib/utils/auth';
-import { createSupabaseServerClient } from './supabase/server';
+import { createSupabaseServerClient } from '@/lib/utils/supabase';
 
 export const supabaseProxy = async <T>(
   fetcher: (supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>) => Promise<T>,
