@@ -68,9 +68,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       // 신규 유저
       if (!existingProfile) {
-        if (account?.provider === 'credentials') return true; // 회원가입 api에서 처리
+        // 이메일 가입자는 가입 api에서 프로필을 만들고 올 것이므로 통과
+        if (account?.provider === 'credentials') return true;
 
-        // Google 신규 유저 -> profiles 생성 -> /signup/google
+        // Google 신규 유저 -> profiles 생성 -> /signup/google로 리디렉션
         const randomNum = Math.floor(Math.random() * 9999)
           .toString()
           .padStart(4, '0');
@@ -86,30 +87,28 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return `/signup/google?nickname=${encodeURIComponent(randomNickname)}`;
       }
 
-      // 기존 유저 + Credentials -> /lobby
-      if (account?.provider === 'credentials') return '/lobby';
+      // 기존 유저가 구글 로그인 시도 BUT accounts 테이블에 연결 정보가 없는 경우
+      // ex: 이메일로 가입했다가 동일한 이메일로 구글 로그인 시도
+      if (account?.provider === 'google') {
+        const { data: existingAccount } = await supabaseAdmin
+          .from('next_auth.accounts')
+          .select('id')
+          .eq('userId', existingProfile.id)
+          .eq('provider', 'google')
+          .maybeSingle();
 
-      // 기존 유저 + Google → accounts 확인
-      const { data: existingAccount } = await supabaseAdmin
-        .from('next_auth.accounts')
-        .select('id')
-        .eq('userId', existingProfile.id)
-        .eq('provider', account?.provider)
-        .single();
-
-      // 처음 Google로 로그인 -> 계정 생성
-      if (!existingAccount && account?.provider !== 'credentials') {
-        await supabaseAdmin.from('next_auth.accounts').insert({
-          userId: existingProfile.id,
-          provider: account?.provider,
-          providerAccountId: account?.providerAccountId,
-          type: account?.type,
-        });
-
-        // 연결 안내를 위해 쿼리스트링으로 전달
-        return `/login?linked=${account?.provider}`;
+        if (!existingAccount) {
+          // 서버에서 계정 연결 진행
+          await supabaseAdmin.from('next_auth.accounts').insert({
+            userId: existingProfile.id,
+            provider: account?.provider,
+            providerAccountId: account?.providerAccountId,
+            type: account?.type,
+          });
+        }
       }
 
+      // 그 외 모든 성공케이스(기존 유저, 이메일 가입 직후 등)은 로비로 이동
       return '/lobby';
     },
 
