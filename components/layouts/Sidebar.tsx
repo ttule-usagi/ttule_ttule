@@ -13,7 +13,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <div className='h-full max-w-16 bg-brand-blue-700 flex flex-col justify-center items-center gap-2 p-2'>
+    <div className='fixed h-full max-w-16 bg-brand-blue-700 flex flex-col justify-center items-center gap-2 p-2'>
       {icons.map((icon) => (
         <Link
           key={icon.name}
