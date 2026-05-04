@@ -20,3 +20,18 @@ export const mona12 = localFont({
   display: 'swap',
   variable: '--font-nona12',
 });
+
+// 3. 로비 목적지 폰트
+export const paperlogySemiBold = localFont({
+  src: './Paperlogy-6SemiBold.woff2',
+  display: 'swap',
+  weight: '600',
+  variable: '--font-paperlogy-semi-bold',
+});
+
+export const paperlogyRegular = localFont({
+  src: './Paperlogy-4Regular.woff2',
+  display: 'swap',
+  weight: '400',
+  variable: '--font-paperlogy-regular',
+});
