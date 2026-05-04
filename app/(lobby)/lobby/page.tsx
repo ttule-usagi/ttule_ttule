@@ -113,7 +113,7 @@ export default function Page() {
             <div className='w-2.5 h-2.5 bg-brand-blue-700'></div>
             다가오는 여행
           </div>
-          <div className='grid grid-cols-[repeat(auto-fill,276px)] gap-10.75'>
+          <div className='grid grid-cols-[repeat(auto-fill,275.76px)] gap-10.75'>
             {PlanItemList.map((plan, index) => (
               <div
                 key={plan.id}
@@ -125,9 +125,10 @@ export default function Page() {
             <Link href='/plan/create'>
               <Image
                 src='/images/lobby-create-plan.svg'
-                width={276}
-                height={397.69}
+                width={272}
+                height={392}
                 alt='create plan'
+                className='w-full h-auto'
               />
             </Link>
           </div>

@@ -22,7 +22,7 @@ export default function LobbyPlanItem({
   updatedAt,
 }: LobbyPlanItemProps) {
   return (
-    <div className="max-w-69 aspect-[276/397.69] bg-[url('/images/lobby-plan.svg')] bg-center bg-cover px-4 pt-19.25 pb-6 flex flex-col">
+    <div className="max-w-[275.76px] aspect-[275.76/397.69] bg-[url('/images/lobby-plan.svg')] bg-center bg-cover px-4 pt-19.25 pb-6 flex flex-col">
       <Icon
         name='DotsHorizontal'
         size={24}
