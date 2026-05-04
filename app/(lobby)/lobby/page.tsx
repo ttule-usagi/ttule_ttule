@@ -2,7 +2,6 @@ import JoinPlanButton from '@/components/features/JoinPlanButton';
 import LobbyLastPlanItem from '@/components/features/Plan/LobbyLastPlanItem';
 import LobbyPlanItem from '@/components/features/Plan/LobbyPlanItem';
 import NoticeHeader from '@/components/features/NoticeHeader';
-import { div } from 'framer-motion/client';
 import Image from 'next/image';
 import Link from 'next/link';
 
