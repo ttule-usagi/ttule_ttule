@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { pretendard } from '@/public/fonts/fonts';
+import { pretendard, paperlogySemiBold, paperlogyRegular } from '@/public/fonts/fonts';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html
       lang='ko'
-      className={`${pretendard.variable} font-pretendard`}
+      className={`${pretendard.variable} ${paperlogySemiBold.variable} ${paperlogyRegular.variable} font-pretendard`}
     >
       <body className='min-h-full flex flex-col'>{children}</body>
     </html>

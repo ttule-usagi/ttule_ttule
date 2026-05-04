@@ -1,12 +1,19 @@
 import Luggage from '@/assets/icons/luggage.svg';
+import Bookmark from '@/assets/icons/bookmark.svg';
 import Camera from '@/assets/icons/camera.svg';
-
-console.log('Luggage:', Luggage); // 실제 값 확인
-console.log('Type:', typeof Luggage); // 타입 확인
+import DotsHorizontal from '@/assets/icons/dots-horizontal.svg';
+import Calendar from '@/assets/icons/calendar.svg';
+import Clock from '@/assets/icons/clock.svg';
+import ArrowRight from '@/assets/icons/arrow-right.svg';
 
 export const ICONS = {
   Luggage,
+  Bookmark,
   Camera,
+  DotsHorizontal,
+  Calendar,
+  Clock,
+  ArrowRight,
 } as const;
 
 export type IconName = keyof typeof ICONS;
