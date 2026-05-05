@@ -1,6 +1,7 @@
 'use client';
 
 import { Icon } from '../../common/Icon';
+import LobbyPlanActionMenu from './LobbyPlanActionMenu';
 
 interface LobbyLastPlanItemProps {
   id: number;
@@ -27,11 +28,13 @@ export default function LobbyLastPlanItem({
       <div className='w-full flex gap-2.75 items-center justify-center mt-10.75'>
         <div className='w-1.5 h-1.5 rounded-full bg-brand-blue-800'></div>
         <span className='flex-1 text-typo-base font-light text-brand-gray-500'>{destination}</span>
-        <Icon
+
+        <LobbyPlanActionMenu />
+        {/* <Icon
           name='DotsHorizontal'
           size={24}
           className='self-end text-brand-gray-400'
-        />
+        /> */}
       </div>
 
       {/* 계획명 */}
