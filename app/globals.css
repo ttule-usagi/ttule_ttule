@@ -135,6 +135,11 @@ body {
   @apply w-32 h-10 rounded-sm text-typo-base box-border;
 }
 
+/* 토글메뉴 버튼 스타일 */
+.btn-toggle {
+  @apply w-full text-typo-base text-left text-brand-gray-700;
+}
+
 /* 배경 점 패턴 */
 @utility bg-dot-pattern {
   background-image: radial-gradient(circle, #cddbfb 1.3px, transparent 2px);
