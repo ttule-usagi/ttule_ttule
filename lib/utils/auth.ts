@@ -7,6 +7,7 @@ import bcrypt from 'bcrypt';
 import { supabaseAdmin } from '@/lib/utils/supabase';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  debug: true,
   providers: [
     Google({
       clientId: process.env.AUTH_GOOGLE_ID,
@@ -49,8 +50,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   adapter: SupabaseAdapter({
-    url: process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-    secret: process.env.SUPABASE_SERVICE_ROLE_KEY as string,
+    url: process.env.NEXT_PUBLIC_SUPABASE_URL! as string,
+    secret: process.env.SUPABASE_SERVICE_ROLE_KEY! as string,
   }),
   session: {
     strategy: 'jwt',
@@ -58,7 +59,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   pages: {
     signIn: '/login',
-    newUser: '/signup',
+    newUser: '/signup/google',
+  },
+  events: {
+    async createUser({ user }) {
+      // next_auth.users insert 완료 후 실행됨
+      // 여기서 profiles insert하면 FK 문제 없음
+      if (!user.email) return;
+
+      const randomNum = Math.floor(Math.random() * 9999)
+        .toString()
+        .padStart(4, '0');
+      const randomNickname = `여행자#${randomNum}`;
+
+      await supabaseAdmin.from('profiles').insert({
+        id: user.id,
+        email: user.email,
+        username: randomNickname,
+        profile_image_url: user.image,
+      });
+    },
   },
   callbacks: {
     async signIn({ user, account }) {
@@ -74,27 +94,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // Google 신규 유저
       // profiles 생성 -> /signup/google로 리디렉션
       // ***이메일 신규는 이미 signUpWithEmail()를 통해 회원가입을 마치고 로그인할때 이곳에 도달함
-      if (!existingProfile) {
-        const randomNum = Math.floor(Math.random() * 9999)
-          .toString()
-          .padStart(4, '0');
-        const randomNickname = `여행자#${randomNum}`;
-
-        await supabaseAdmin.from('profiles').insert({
-          id: user.id,
-          email: user.email,
-          username: randomNickname,
-          profile_image_url: user.image,
-        });
-
-        // 이미 회원가입은 진행됐지만 signup/google에서는 닉네임 변경으로 진행
-        return `/signup/google?nickname=${encodeURIComponent(randomNickname)}`;
+      if (!existingProfile && account?.provider === 'google') {
+        const { cookies } = await import('next/headers');
+        (await cookies()).set('is_new_google_user', 'true', { httpOnly: true });
+        return true;
       }
 
       // 기존 유저가 구글 로그인 시도 BUT accounts 테이블에 연결 정보가 없는 경우
       // ex: 이메일로 가입했다가 동일한 이메일로 구글 로그인 시도
-      if (account?.provider === 'google') {
+      if (existingProfile && account?.provider === 'google') {
         const { data: existingAccount } = await supabaseAdmin
+          .schema('next_auth')
           .from('next_auth.accounts')
           .select('id')
           .eq('userId', existingProfile.id)
@@ -103,17 +113,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (!existingAccount) {
           // 서버에서 계정 연결 진행
-          await supabaseAdmin.from('next_auth.accounts').insert({
+          await supabaseAdmin.schema('next_auth').from('next_auth.accounts').insert({
             userId: existingProfile.id,
             provider: account?.provider,
             providerAccountId: account?.providerAccountId,
             type: account?.type,
           });
+          return true;
         }
       }
 
       // 그 외 모든 성공케이스(기존 유저, 이메일 가입 직후 등)은 로비로 이동
-      return '/lobby';
+      return true;
     },
 
     async jwt({ token, user, trigger }) {

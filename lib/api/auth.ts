@@ -56,3 +56,21 @@ export const loginWithEmail = async ({ email, password }: { email: string; passw
 export const signInWithGoogle = async () => {
   await signIn('google');
 };
+
+// 유저 닉네임 업데이트
+export const updateNickname = async (nickname: string) => {
+  const response = await fetch('/api/user/update-nickname', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ nickname }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || '닉네임 업데이트에 실패했습니다.');
+  }
+
+  return response.json();
+};

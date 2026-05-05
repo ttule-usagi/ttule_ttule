@@ -1,4 +1,3 @@
-// app/api/auth/signup/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
 import { supabaseAdmin } from '@/lib/utils/supabase';
