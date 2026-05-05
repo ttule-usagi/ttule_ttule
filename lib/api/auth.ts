@@ -2,6 +2,8 @@
 import { signIn } from 'next-auth/react';
 
 // 이메일 회원가입
+// auth.js에서 회원가입을 지원하지 않는 관계로 next_auth.users에 직접 유저 insert요청
+
 export const signUpWithEmail = async ({
   email,
   password,
@@ -52,5 +54,5 @@ export const loginWithEmail = async ({ email, password }: { email: string; passw
 
 // Google 로그인
 export const signInWithGoogle = async () => {
-  await signIn('google', { redirectTo: '/lobby' });
+  await signIn('google');
 };

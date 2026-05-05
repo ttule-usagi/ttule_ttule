@@ -71,13 +71,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         .eq('email', user.email)
         .maybeSingle();
 
-      // 신규 유저
+      // Google 신규 유저
+      // profiles 생성 -> /signup/google로 리디렉션
+      // ***이메일 신규는 이미 signUpWithEmail()를 통해 회원가입을 마치고 로그인할때 이곳에 도달함
       if (!existingProfile) {
-        // 이메일 가입자는 가입 api에서 프로필을 만들고 올 것이므로 통과
-
-        if (account?.provider === 'credentials') return true;
-
-        // Google 신규 유저 -> profiles 생성 -> /signup/google로 리디렉션
         const randomNum = Math.floor(Math.random() * 9999)
           .toString()
           .padStart(4, '0');
@@ -90,6 +87,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           profile_image_url: user.image,
         });
 
+        // 이미 회원가입은 진행됐지만 signup/google에서는 닉네임 변경으로 진행
         return `/signup/google?nickname=${encodeURIComponent(randomNickname)}`;
       }
 
