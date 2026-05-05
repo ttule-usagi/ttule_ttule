@@ -1,2 +1,2 @@
-import { handlers } from '@/lib/utils/auth'; // 위에서 만든 auth.ts 임포트
+import { handlers } from '@/lib/utils/auth';
 export const { GET, POST } = handlers;

@@ -4,7 +4,7 @@ import NotePage from '@/components/common/NotePage';
 import ProfileImageUploader from '@/components/features/ProfileImageUploader';
 import { signUpWithEmail } from '@/lib/api/auth';
 
-export default function SignUpEmail() {
+export default function SignUpGoogle() {
   return (
     <NotePage title='뚤레뚤레 가입하기'>
       <ProfileImageUploader />

@@ -27,12 +27,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           .eq('email', credentials.email)
           .single();
 
-        if (!profile || !profile.password) return null;
+        if (!profile) return null;
+
+        // Google 가입 유저가 이메일 로그인 시도
+        if (!profile.password) {
+          throw new Error('GOOGLE_ACCOUNT');
+        }
 
         // 비밀번호 검증
         const isValid = await bcrypt.compare(credentials.password as string, profile.password);
 
-        if (!isValid) return null;
+        if (!isValid) throw new Error('INVALID_PASSWORD');
 
         return {
           id: profile.id,
@@ -69,6 +74,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // 신규 유저
       if (!existingProfile) {
         // 이메일 가입자는 가입 api에서 프로필을 만들고 올 것이므로 통과
+
         if (account?.provider === 'credentials') return true;
 
         // Google 신규 유저 -> profiles 생성 -> /signup/google로 리디렉션
