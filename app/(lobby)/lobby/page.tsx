@@ -103,9 +103,10 @@ export default function Page() {
           <p className='text-typo-big-title font-semibold text-brand-blue-700'>환영해요 닉네임님!</p>
           <p className='text-typo-sub-title font-medium text-brand-gray-400'>n개의 다가오는 여행이 있어요</p>
         </div>
-
-        <JoinPlanButton variant='secondary' />
-        <SignOutButton />
+        <div className='flex gap-3'>
+          <JoinPlanButton variant='secondary' />
+          <SignOutButton />
+        </div>
       </header>
 
       <main className='mt-22.75 flex flex-col gap-19.5'>
