@@ -7,7 +7,7 @@ import ProfileImageUploader from '@/components/features/ProfileImageUploader';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { setGoogleNickname } from '@/lib/api/auth';
+import { setGoogleNickname } from '@/lib/actions/auth';
 
 export default function SignUpGoogle() {
   const { data: session, status } = useSession();
@@ -40,6 +40,7 @@ export default function SignUpGoogle() {
       await setGoogleNickname(form.nickname);
 
       alert('가입 완료!');
+
       router.push('/lobby');
     } catch (error: any) {
       console.error(error);
