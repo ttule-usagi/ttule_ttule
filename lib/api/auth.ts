@@ -1,5 +1,8 @@
-// lib/api/auth.ts
 import { signIn } from 'next-auth/react';
+import { cookies } from 'next/headers';
+import { supabaseAdmin } from '@/lib/utils/supabase';
+import { auth } from '@/lib/utils/auth';
+import { revalidatePath } from 'next/cache';
 
 // 이메일 회원가입
 // auth.js에서 회원가입을 지원하지 않는 관계로 next_auth.users에 직접 유저 insert요청
@@ -58,19 +61,30 @@ export const signInWithGoogle = async () => {
 };
 
 // 유저 닉네임 업데이트
-export const updateNickname = async (nickname: string) => {
-  const response = await fetch('/api/user/update-nickname', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ nickname }),
-  });
+export const setGoogleNickname = async (nickname: string) => {
+  const session = await auth();
 
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || '닉네임 업데이트에 실패했습니다.');
+  if (!session?.user?.id) {
+    throw new Error('인증 정보가 없습니다.');
   }
 
-  return response.json();
+  if (!nickname || nickname.trim().length === 0) {
+    throw new Error('닉네임을 입력해주세요.');
+  }
+
+  // DB 업데이트
+  const { error } = await supabaseAdmin.from('profiles').update({ username: nickname }).eq('id', session.user.id);
+
+  if (error) {
+    console.error('DB Update Error:', error);
+    throw new Error('닉네임 저장 중 오류가 발생했습니다.');
+  }
+
+  // 신규 유저 쿠키 삭제
+  const cookieStore = await cookies();
+  cookieStore.delete('is_new_google_user');
+
+  revalidatePath('/');
+
+  return { success: true, message: '닉네임 설정 완료!' };
 };
