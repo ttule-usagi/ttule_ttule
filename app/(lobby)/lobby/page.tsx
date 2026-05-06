@@ -4,6 +4,7 @@ import LobbyPlanItem from '@/components/features/Plan/LobbyPlanItem';
 import NoticeHeader from '@/components/features/NoticeHeader';
 import Image from 'next/image';
 import Link from 'next/link';
+import SignOutButton from '@/components/features/SignOutButton';
 
 // 임시 데이터 - 추후 API 연동 시 제거 예정
 const PlanItemList = [
@@ -104,6 +105,7 @@ export default function Page() {
         </div>
 
         <JoinPlanButton variant='secondary' />
+        <SignOutButton />
       </header>
 
       <main className='mt-22.75 flex flex-col gap-19.5'>

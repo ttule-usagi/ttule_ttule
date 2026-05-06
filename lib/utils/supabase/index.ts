@@ -1,4 +1,3 @@
-// lib/utils/supabase/index.ts
 import { createClient } from '@supabase/supabase-js';
 import { auth } from '@/lib/utils/auth';
 
