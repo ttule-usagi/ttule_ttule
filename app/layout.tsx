@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { pretendard, paperlogySemiBold, paperlogyRegular } from '@/public/fonts/fonts';
 import './globals.css';
+import Providers from '@/components/features/provider/Provider';
 
 export const metadata: Metadata = {
   title: '뚤레뚤레',
@@ -17,7 +18,9 @@ export default function RootLayout({
       lang='ko'
       className={`${pretendard.variable} ${paperlogySemiBold.variable} ${paperlogyRegular.variable} font-pretendard`}
     >
-      <body className='min-h-full flex flex-col'>{children}</body>
+      <Providers>
+        <body className='min-h-full flex flex-col'>{children}</body>
+      </Providers>
     </html>
   );
 }
