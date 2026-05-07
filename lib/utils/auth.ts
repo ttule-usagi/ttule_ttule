@@ -60,6 +60,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
     signIn: '/login',
     newUser: '/signup/google',
+    signOut: '/',
   },
   events: {
     async createUser({ user }) {
@@ -127,7 +128,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // 그 외 모든 성공케이스(기존 유저, 이메일 가입 직후 등)은 로비로 이동
       return true;
     },
-
     async jwt({ token, user, trigger }) {
       // console.log('🔥 [JWT Callback] 실행됨!');
       // 최초 로그인 또는 update() 함수 호출 시에만 DB조회
