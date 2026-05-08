@@ -29,12 +29,7 @@ export default function LobbyLastPlanItem({
         <div className='w-1.5 h-1.5 rounded-full bg-brand-blue-800'></div>
         <span className='flex-1 text-typo-base font-light text-brand-gray-500'>{destination}</span>
 
-        <LobbyPlanActionMenu />
-        {/* <Icon
-          name='DotsHorizontal'
-          size={24}
-          className='self-end text-brand-gray-400'
-        /> */}
+        <LobbyPlanActionMenu id={id} />
       </div>
 
       {/* 계획명 */}
