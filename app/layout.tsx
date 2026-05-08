@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { pretendard, paperlogySemiBold, paperlogyRegular } from '@/public/fonts/fonts';
 import './globals.css';
 import Providers from '@/components/features/provider/Provider';
-import GlobalModal from '@/components/common/GlobalModal';
+import GlobalModal from '@/components/common/Modal/GlobalModal';
 
 export const metadata: Metadata = {
   title: '뚤레뚤레',
