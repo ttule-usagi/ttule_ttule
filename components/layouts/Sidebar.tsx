@@ -4,6 +4,8 @@ import { Icon } from '../common/Icon';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import ProfileImage from '../features/ProfileImage';
+import DropDown from '../common/Dropdown';
+import { signOut } from 'next-auth/react';
 
 const icons = [
   { name: 'Luggage', href: '/lobby' },
@@ -34,7 +36,15 @@ export default function Sidebar() {
       </div>
 
       <div className='absolute bottom-5.5'>
-        <ProfileImage />
+        <DropDown>
+          <DropDown.Trigger>
+            <ProfileImage />
+          </DropDown.Trigger>
+          <DropDown.Menu>
+            <DropDown.Item>내 정보 관리</DropDown.Item>
+            <DropDown.Item onClick={() => signOut({ callbackUrl: '/' })}>로그아웃</DropDown.Item>
+          </DropDown.Menu>
+        </DropDown>
       </div>
     </div>
   );
