@@ -146,11 +146,6 @@ body {
   @apply flex items-center justify-center bg-brand-blue-700 text-typo-base text-brand-gray-0 px-12.5 py-3 gap-2 rounded-sm cursor-pointer;
 }
 
-/* 토글메뉴 버튼 스타일 */
-.btn-toggle {
-  @apply w-full text-typo-base text-left text-brand-gray-700;
-}
-
 /* 배경 점 패턴 */
 @utility bg-dot-pattern {
   background-image: radial-gradient(circle, #cddbfb 1.3px, transparent 2px);

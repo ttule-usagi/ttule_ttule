@@ -1,34 +1,24 @@
 'use client';
 
+import DropDown from '@/components/common/Dropdown';
 import { Icon } from '@/components/common/Icon';
-import ToggleMenuModal from '@/components/common/ToggleMenuModal';
-import { useState } from 'react';
 
-export default function LobbyPlanActionMenu() {
-  const [isOpen, setIsOpen] = useState(false);
-
+export default function LobbyPlanActionMenu({ id }: { id?: number }) {
   return (
-    <div className='relative'>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className='cursor-pointer'
-      >
+    <DropDown>
+      <DropDown.Trigger>
         <Icon
           name='DotsHorizontal'
           size={24}
           className='self-end text-brand-blue-700'
         />
-      </button>
+      </DropDown.Trigger>
 
-      {isOpen && (
-        <div className='absolute left-9 top-1.25'>
-          <ToggleMenuModal>
-            <button className='btn-toggle'>계획 속성 관리</button>
-            <button className='btn-toggle'>계획 복제</button>
-            <button className='btn-toggle'>계획 삭제</button>
-          </ToggleMenuModal>
-        </div>
-      )}
-    </div>
+      <DropDown.Menu>
+        <DropDown.Item>계획 속성 관리</DropDown.Item>
+        <DropDown.Item>계획 복제</DropDown.Item>
+        <DropDown.Item onClick={() => console.log(`계획 ${id} 삭제`)}>계획 삭제</DropDown.Item>
+      </DropDown.Menu>
+    </DropDown>
   );
 }
