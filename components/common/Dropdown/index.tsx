@@ -16,7 +16,7 @@ export default function DropDown({ children, placement = 'right-start' }: DropDo
     open: isOpen,
     onOpenChange: setIsOpen,
     placement: placement,
-    middleware: [offset(24), flip(), shift()],
+    middleware: [offset(18), flip(), shift()],
   });
 
   const click = useClick(context);
