@@ -135,6 +135,17 @@ body {
   @apply w-32 h-10 rounded-sm text-typo-base box-border;
 }
 
+/* 공유 링크 모달 스타일 */
+.modal-overlay {
+  @apply fixed inset-0 h-full w-full bg-[rgba(38,38,38,0.5)] flex items-center justify-center z-1000;
+}
+.modal-input {
+  @apply flex flex-1 bg-brand-gray-100 py-3 px-4 gap-2.5 text-typo-description text-brand-gray-700 items-center rounded-sm border box-border border-gray-200 outline-none;
+}
+.modal-button {
+  @apply flex items-center justify-center bg-brand-blue-700 text-typo-base text-brand-gray-0 max-w-32 px-12.5 py-3 gap-2 rounded-sm cursor-pointer;
+}
+
 /* 배경 점 패턴 */
 @utility bg-dot-pattern {
   background-image: radial-gradient(circle, #cddbfb 1.3px, transparent 2px);

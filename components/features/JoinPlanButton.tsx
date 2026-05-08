@@ -1,3 +1,7 @@
+'use client';
+
+import { useModalStore } from '@/lib/store/modalStore';
+
 interface JoinPlanButtonProps {
   variant: 'primary' | 'secondary';
 }
@@ -8,9 +12,12 @@ const variantStyle = {
 };
 
 export default function JoinPlanButton({ variant = 'primary' }: JoinPlanButtonProps) {
+  const { open } = useModalStore();
+
   return (
     <button
       className={`font-normal rounded-lg bg-neon-green text-brand-blue-700 ${variantStyle[variant]} cursor-pointer`}
+      onClick={() => open('enterInviteLink')}
     >
       여행 계획에 참여하기
     </button>
