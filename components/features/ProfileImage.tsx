@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 export default function ProfileImage() {
   return (
     <div className='w-12 h-12 rounded-full bg-brand-blue-100 box-border border border-brand-blue-700'>
