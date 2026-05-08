@@ -169,6 +169,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.role = token.role as string;
         session.user.username = token.username as string;
         session.user.image = token.picture as string;
+        session.user.isSuperAdmin = token.role === 'super_admin';
       }
       return session;
     },

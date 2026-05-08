@@ -12,7 +12,7 @@ export default async function middleware(request: NextRequest) {
   console.log(`🚀 [PROXY CHECK] 경로: ${pathname}`);
   console.log(`세션 상태: ${session ? '✅ 로그인됨' : '❌ 미인증'}`);
   if (session?.user) {
-    console.log(`유저 정보: ${session.user.email} (${session.user.username || '닉네임 없음'})`);
+    console.log(`유저 정보: ${session.user.email} (${session.user.username || '닉네임 없음'}) ${session.user.role}`);
   }
   console.log('--------------------------------------------------');
 
