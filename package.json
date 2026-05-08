@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@auth/supabase-adapter": "^1.11.2",
+    "@floating-ui/react": "^0.27.19",
     "@svgr/webpack": "^8.1.0",
     "@tanstack/react-query": "^5.100.9",
     "bcrypt": "^6.0.0",
