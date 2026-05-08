@@ -143,7 +143,7 @@ body {
   @apply flex flex-1 bg-brand-gray-100 py-3 px-4 gap-2.5 text-typo-description text-brand-gray-700 items-center rounded-sm border box-border border-gray-200 outline-none;
 }
 .modal-button {
-  @apply flex items-center justify-center bg-brand-blue-700 text-typo-base text-brand-gray-0 px-12.5 py-3 gap-2 rounded-sm cursor-pointer;
+  @apply flex items-center justify-center bg-brand-blue-700 text-typo-base text-brand-gray-0 max-w-32 px-12.5 py-3 gap-2 rounded-sm cursor-pointer;
 }
 
 /* 배경 점 패턴 */
