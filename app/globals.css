@@ -88,6 +88,13 @@
   --color-bg-sub-blue: #466abf;
   --color-neon-green: #d0f65e;
 
+  /* Colors - login */
+  --color-login-title: #101828;
+  --color-login-label: #344054;
+  --color-login-caption: #475467;
+  --color-login-placeholder: #667085;
+  --color-login-description: #f2f4f7;
+
   /* Colors - tag */
   --color-tag-red-text: #e95c58;
   --color-tag-red-stroke: #fed4d2;
@@ -125,6 +132,14 @@
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+/* input autofill 설정 */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s; /* 색 전환 애니메이션 제거 */
 }
 
 @layer components {
