@@ -4,23 +4,11 @@ import CancelButton from '@/components/common/CancelButton';
 import ConfirmButton from '@/components/common/ConfirmButton';
 import NotePage from '@/components/common/NotePage';
 import ProfileImageUploader from '@/components/features/ProfileImageUploader';
-import { useReducer } from 'react';
 import { signUpWithEmail } from '@/lib/api/auth';
+import WithoutLineInput from '@/components/common/WithoutLineInput';
+import { useAuthForm } from '@/hooks/useAuthForm';
 
-type State = {
-  email: string;
-  password: string;
-  username: string;
-  error: string;
-  loading: boolean;
-};
-
-type Action =
-  | { type: 'SET_FIELD'; field: 'email' | 'password' | 'username'; value: string }
-  | { type: 'SET_ERROR'; error: string }
-  | { type: 'SET_LOADING'; loading: boolean };
-
-const initialState: State = {
+const initialState = {
   email: '',
   password: '',
   username: '',
@@ -28,21 +16,8 @@ const initialState: State = {
   loading: false,
 };
 
-const reducer = (state: State, action: Action): State => {
-  switch (action.type) {
-    case 'SET_FIELD':
-      return { ...state, [action.field]: action.value };
-    case 'SET_ERROR':
-      return { ...state, error: action.error };
-    case 'SET_LOADING':
-      return { ...state, loading: action.loading };
-    default:
-      return state;
-  }
-};
-
 export default function SignUpEmail() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const { state, dispatch, handleChange } = useAuthForm(initialState);
 
   const handleSubmit = async () => {
     dispatch({ type: 'SET_ERROR', error: '' });
@@ -53,8 +28,10 @@ export default function SignUpEmail() {
         password: state.password,
         username: state.username,
       });
-    } catch (e: any) {
-      dispatch({ type: 'SET_ERROR', error: e.message });
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        dispatch({ type: 'SET_ERROR', error: e.message });
+      }
     } finally {
       dispatch({ type: 'SET_LOADING', loading: false });
     }
@@ -65,42 +42,30 @@ export default function SignUpEmail() {
       <ProfileImageUploader />
 
       <div className='flex flex-col gap-5 font-light text-typo-base mt-7.75'>
-        <div className='flex gap-3'>
-          <span className='text-brand-blue-700'>이메일:</span>
-          <input
-            className='text-brand-gray-400'
-            placeholder='이메일을 입력해주세요'
-            value={state.email}
-            onChange={(e) => dispatch({ type: 'SET_FIELD', field: 'email', value: e.target.value })}
-          />
-        </div>
-        <div className='flex gap-3'>
-          <span className='text-brand-blue-700'>비밀번호:</span>
-          <input
-            className='text-brand-gray-400'
-            placeholder='비밀번호를 입력해주세요'
-            value={state.password}
-            onChange={(e) => dispatch({ type: 'SET_FIELD', field: 'password', value: e.target.value })}
-          />
-        </div>
-        <div className='flex gap-3'>
-          <label
-            className='text-brand-blue-700'
-            htmlFor='nickname'
-          >
-            뚤레 닉네임:
-          </label>
-          <input
-            type='text'
-            className='text-typo-base font-light focus:outline-none placeholder:text-brand-gray-300'
-            placeholder='랜덤닉네임'
-            id='nickname'
-            value={state.username}
-            onChange={(e) => dispatch({ type: 'SET_FIELD', field: 'username', value: e.target.value })}
-          />
-        </div>
+        <WithoutLineInput
+          id='email'
+          label='이메일'
+          placeholder='이메일을 입력해주세요'
+          value={state.email}
+          onChange={(e) => handleChange(e)}
+        />
+        <WithoutLineInput
+          id='password'
+          type='password'
+          label='비밀번호'
+          placeholder='비밀번호를 입력해주세요'
+          value={state.password}
+          onChange={(e) => handleChange(e)}
+        />
+        <WithoutLineInput
+          id='username'
+          label='닉네임'
+          placeholder='여행자#1522'
+          value={state.username}
+          onChange={(e) => handleChange(e)}
+        />
+        {state.error && <p className='text-left w-full mt-1 text-typo-description text-red-500'>{state.error}</p>}
       </div>
-      {state.error && <p>{state.error}</p>}
 
       <div className='flex gap-4 mt-18.25'>
         <CancelButton text='취소' />
