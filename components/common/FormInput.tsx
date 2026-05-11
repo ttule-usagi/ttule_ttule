@@ -1,11 +1,4 @@
-interface FormInputProps {
-  id?: string;
-  label: string;
-  type?: string;
-  placeholder: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
+import { FormInputProps } from '@/types/types';
 
 export default function FormInput({ id, label, type = 'text', placeholder, value, onChange }: FormInputProps) {
   return (
