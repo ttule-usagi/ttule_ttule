@@ -3,6 +3,16 @@ import { signIn } from 'next-auth/react';
 // 이메일 회원가입
 // auth.js에서 회원가입을 지원하지 않는 관계로 next_auth.users에 직접 유저 insert요청
 
+// 에러 핸들링을 위해 커스텀 에러 클래스 정의
+export class AuthError extends Error {
+  field?: string;
+  constructor(message: string, field?: string) {
+    super(message);
+    this.name = 'AuthError';
+    this.field = field;
+  }
+}
+
 export const signUpWithEmail = async ({
   email,
   password,
@@ -21,7 +31,7 @@ export const signUpWithEmail = async ({
   const data = await res.json();
 
   if (!res.ok) {
-    throw new Error(data.error);
+    throw new AuthError(data.error, data.field);
   }
 
   // 가입 성공 후 자동 로그인
