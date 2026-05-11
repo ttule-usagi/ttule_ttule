@@ -3,7 +3,7 @@ import { useReducer } from 'react';
 export interface AuthState {
   email: string;
   password: string;
-  username?: string;
+  username: string;
   error: string;
   loading: boolean;
 }

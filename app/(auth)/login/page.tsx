@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 const initialState: AuthState = {
   email: '',
   password: '',
+  username: '', // 로그인에서는 username이 필요 없지만, useAuthForm에서 관리하는 상태이므로 초기값을 빈 문자열로 설정
   error: '',
   loading: false,
 };
