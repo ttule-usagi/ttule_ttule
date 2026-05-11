@@ -5,20 +5,19 @@ import GoogleLoginButton from '@/components/features/GoogleLoginButton';
 import Image from 'next/image';
 import Link from 'next/link';
 import FormInput from '@/components/common/FormInput';
-import { AuthState, useAuthForm } from '@/hooks/useAuthForm';
+import { LoginState, useLoginForm } from '@/hooks/useLoginForm';
 import { useRouter } from 'next/navigation';
 
-const initialState: AuthState = {
+const initialState: LoginState = {
   email: '',
   password: '',
-  username: '', // 로그인에서는 username이 필요 없지만, useAuthForm에서 관리하는 상태이므로 초기값을 빈 문자열로 설정
   error: '',
   loading: false,
 };
 
 export default function Login() {
   const router = useRouter();
-  const { state, dispatch, handleChange } = useAuthForm(initialState);
+  const { state, dispatch, handleChange } = useLoginForm(initialState);
 
   const handleSubmit = async () => {
     dispatch({ type: 'SET_ERROR', error: '' });

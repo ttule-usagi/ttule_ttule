@@ -1,19 +1,18 @@
 import { useReducer } from 'react';
 
-export interface AuthState {
+export interface LoginState {
   email: string;
   password: string;
-  username: string;
   error: string;
   loading: boolean;
 }
 
-type AuthAction =
-  | { type: 'SET_FIELD'; field: keyof AuthState; value: string }
+type LoginAction =
+  | { type: 'SET_FIELD'; field: keyof LoginState; value: string }
   | { type: 'SET_ERROR'; error: string }
   | { type: 'SET_LOADING'; loading: boolean };
 
-const reducer = (state: AuthState, action: AuthAction): AuthState => {
+const reducer = (state: LoginState, action: LoginAction): LoginState => {
   switch (action.type) {
     case 'SET_FIELD':
       return { ...state, [action.field]: action.value };
@@ -26,12 +25,12 @@ const reducer = (state: AuthState, action: AuthAction): AuthState => {
   }
 };
 
-export const useAuthForm = (initialState: AuthState) => {
+export const useLoginForm = (initialState: LoginState) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    dispatch({ type: 'SET_FIELD', field: id as keyof AuthState, value });
+    dispatch({ type: 'SET_FIELD', field: id as keyof LoginState, value });
   };
 
   return {
