@@ -2,6 +2,7 @@
 
 import { useModalStore } from '@/lib/store/modalStore';
 import EnterInviteLinkModal from '../../features/Plan/EnterInviteLinkModal';
+import CancelSignupModal from '@/components/features/CancelSignupModal';
 
 /**
  * 전역 모달 컴포넌트
@@ -22,6 +23,7 @@ export default function GlobalModal() {
       onClick={close}
     >
       {modal === 'enterInviteLink' && <EnterInviteLinkModal />}
+      {modal === 'cancelSignup' && <CancelSignupModal />}
     </div>
   );
 }
