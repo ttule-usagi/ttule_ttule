@@ -8,6 +8,7 @@ import ArrowRight from '@/assets/icons/arrow-right.svg';
 import Copy from '@/assets/icons/copy.svg';
 import Link from '@/assets/icons/link.svg';
 import XClose from '@/assets/icons/x-close.svg';
+import Google from '@/assets/icons/google.svg';
 
 export const ICONS = {
   Luggage,
@@ -20,6 +21,7 @@ export const ICONS = {
   Copy,
   Link,
   XClose,
+  Google,
 } as const;
 
 export type IconName = keyof typeof ICONS;

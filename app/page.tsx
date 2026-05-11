@@ -39,20 +39,13 @@ export default function Home() {
       </div>
 
       {/* 배경 아이템 */}
-      <div className='absolute w-screen h-auto top-[-16%] right-[-20%] rotate-[-6.36deg] z-1'>
+      <div className='fixed top-0 right-0 z-1'>
         <Image
-          src='/images/bg-check-blue.svg'
-          width={1728}
-          height={995}
-          alt='background check blue'
-          className='w-full h-auto'
-        />
-        <Image
-          src='/images/bg-blur.svg'
-          width={1728}
-          height={995}
-          alt='background blur'
-          className='absolute top-0 left-0 w-full h-full rounded-xl backdrop-blur-[1.5px]'
+          src='/images/blue-checker-board.png'
+          width={1550}
+          height={922}
+          alt='background blue checker board'
+          className='max-w-none'
         />
       </div>
       <Image
