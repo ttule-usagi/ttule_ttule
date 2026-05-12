@@ -1,4 +1,5 @@
 import { signIn } from 'next-auth/react';
+import { signUpAction } from '../actions/auth';
 
 // 이메일 회원가입
 // auth.js에서 회원가입을 지원하지 않는 관계로 next_auth.users에 직접 유저 insert요청
@@ -12,16 +13,10 @@ export const signUpWithEmail = async ({
   password: string;
   username: string;
 }) => {
-  const res = await fetch('/api/auth/signup', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password, username }),
-  });
+  const result = await signUpAction({ email, password, username});
 
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw new Error(data.error);
+  if ('error' in result) {
+    throw new Error(result.error);
   }
 
   // 가입 성공 후 자동 로그인
