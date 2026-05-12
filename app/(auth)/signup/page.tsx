@@ -5,7 +5,7 @@ import ConfirmButton from '@/components/common/ConfirmButton';
 import NotePage from '@/components/common/NotePage';
 import ProfileImageUploader from '@/components/features/ProfileImageUploader';
 import { useReducer } from 'react';
-import { signUpWithEmail } from '@/lib/api/auth';
+import { signUpWithEmail } from '@/lib/actions/auth';
 
 type State = {
   email: string;

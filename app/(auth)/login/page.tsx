@@ -1,12 +1,13 @@
 'use client';
 
-import { loginWithEmail, signInWithGoogle } from '@/lib/api/auth';
+import { loginWithEmail } from '@/lib/actions/auth';
 import GoogleLoginButton from '@/components/features/GoogleLoginButton';
 import Image from 'next/image';
 import Link from 'next/link';
 import FormInput from '@/components/common/FormInput';
 import { AuthState, useAuthForm } from '@/hooks/useAuthForm';
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 
 const initialState: AuthState = {
   email: '',
@@ -113,7 +114,7 @@ export default function Login() {
 
           <GoogleLoginButton
             onClick={() => {
-              signInWithGoogle();
+              signIn('google');
             }}
           />
         </div>
