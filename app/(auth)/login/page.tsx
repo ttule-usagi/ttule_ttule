@@ -24,10 +24,16 @@ export default function Login() {
     dispatch({ type: 'SET_ERROR', error: '' });
     dispatch({ type: 'SET_LOADING', loading: true });
     try {
-      await loginWithEmail({
+      const result = await loginWithEmail({
         email: state.email,
         password: state.password,
       });
+
+      if (result?.error) {
+        dispatch({ type: 'SET_ERROR', error: result.error });
+        return;
+      }
+
       router.push('/lobby');
     } catch (e: unknown) {
       if (e instanceof Error) {
