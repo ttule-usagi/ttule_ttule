@@ -1,13 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
 import { supabaseAdmin } from '@/lib/utils/supabase';
-
-const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-const validatePassword = (password: string) =>
-  /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/.test(password);
-
-const validateUsername = (username: string) => /^[가-힣a-zA-Z0-9]{2,20}$/.test(username);
+import { validateEmail, validatePassword, validateUsername } from '@/lib/utils/validate';
 
 export async function POST(req: NextRequest) {
   try {

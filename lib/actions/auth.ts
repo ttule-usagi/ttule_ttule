@@ -3,9 +3,10 @@
 import { supabaseAdmin } from '@/lib/utils/supabase';
 import { auth } from '@/lib/utils/auth';
 import { cookies } from 'next/headers';
+import { validateUsername } from '@/lib/utils/validate';
 
 // 유저 닉네임 업데이트
-export const setGoogleNickname = async (nickname: string) => {
+export const setGoogleAccount = async (nickname: string, profileImage: string | null) => {
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -16,8 +17,15 @@ export const setGoogleNickname = async (nickname: string) => {
     throw new Error('닉네임을 입력해주세요.');
   }
 
+  if (!validateUsername(nickname)) {
+    throw new Error('닉네임은 2-20자의 한글, 영문, 숫자만 사용 가능합니다.');
+  }
+
   // DB 업데이트
-  const { error } = await supabaseAdmin.from('profiles').update({ username: nickname }).eq('id', session.user.id);
+  const { error } = await supabaseAdmin
+    .from('profiles')
+    .update({ username: nickname, profile_image_url: profileImage })
+    .eq('id', session.user.id);
 
   if (error) {
     console.error('DB Update Error:', error);
