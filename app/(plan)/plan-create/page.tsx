@@ -8,7 +8,7 @@ export default function PlanCreate() {
 
   const handleTest = async () => {
     const res = await createNewPlan({
-      title: '테스트 계획',
+      title: '테스트 계획1',
       destination: 'JPN',
       departure_date: '2025-08-01',
       arrival_date: '2025-08-05',

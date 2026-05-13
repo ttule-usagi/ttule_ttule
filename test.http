@@ -1,0 +1,22 @@
+@apiKey = -
+
+### Places API 검색 테스트
+POST https://places.googleapis.com/v1/places:searchText
+Content-Type: application/json
+X-Goog-Api-Key: apikey
+X-Goog-FieldMask:places.attributions,places.id,places.displayName,places.formattedAddress,places.googleMapsUri,places.location,places.primaryTypeDisplayName,places.viewport
+Referer: http://localhost:3000
+
+{
+  "textQuery": "로프트",
+  "languageCode": "ko-KR",
+  "locationBias": {
+    "circle": {
+      "center": {
+        "latitude": 34.7024,
+        "longitude": 135.4959
+      },
+      "radius": 10000.0
+    }
+  }
+}
