@@ -46,6 +46,10 @@ const nextConfig: NextConfig = {
         pathname: '/ttule-media/**',
         search: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      },
     ],
   },
 };
