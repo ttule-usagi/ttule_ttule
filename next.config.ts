@@ -36,6 +36,18 @@ const nextConfig: NextConfig = {
       },
     },
   },
+
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+        port: '',
+        pathname: '/ttule-media/**',
+        search: '',
+      },
+    ],
+  },
 };
 
 export default nextConfig;
