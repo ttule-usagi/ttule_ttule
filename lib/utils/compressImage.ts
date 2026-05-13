@@ -4,7 +4,7 @@ import imageCompression, { Options } from 'browser-image-compression';
 export const compressImage = async (file: File, customOptions?: Options) => {
   const options = customOptions || {
     maxSizeMB: 0.1, // 최대 100KB로 압축
-    maxWidthOrHeight: 140, // 최대 가로 또는 세로 크기
+    maxWidthOrHeight: 400, // 최대 가로 또는 세로 크기
     useWebWorker: true, // 브라우저 버벅거리지 않게 백그라운드 압축
   };
 
