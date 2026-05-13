@@ -3,34 +3,51 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { Icon } from '../common/Icon';
+import { compressImage } from '@/lib/utils/compressImage';
 
-export default function ProfileImageUploader() {
-  const [image, setImage] = useState<string | null>(null);
+interface ProfileImageUploaderProps {
+  onUploadImage: (file: File | null) => void;
+}
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+export default function ProfileImageUploader({ onUploadImage }: ProfileImageUploaderProps) {
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
-    if (file) {
-      const objectURL = URL.createObjectURL(file);
-      setImage(objectURL);
+    if (!file) {
+      setPreviewImage(null);
+      onUploadImage(null);
+      return;
+    }
+
+    try {
+      const compressedFile = await compressImage(file);
+      const objectURL = URL.createObjectURL(compressedFile);
+      setPreviewImage(objectURL);
+      onUploadImage(compressedFile);
+    } catch (error) {
+      console.error('이미지 처리 중 오류 발생:', error);
+      setPreviewImage(null);
+      onUploadImage(null);
     }
   };
 
   useEffect(() => {
     return () => {
-      if (image) URL.revokeObjectURL(image);
+      if (previewImage) URL.revokeObjectURL(previewImage);
     };
-  }, [image]);
+  }, [previewImage]);
 
   return (
     <div className='w-34 h-34 bg-brand-blue-100 border border-brand-blue-700 rounded-full box-border relative'>
       <label
-        htmlFor='image'
+        htmlFor='previewImage'
         className='cursor-pointer'
       >
-        {image && (
+        {previewImage && (
           <Image
-            src={image}
+            src={previewImage}
             alt='Profile'
             fill={true}
             className='w-full h-full rounded-full cursor-pointer object-cover'
@@ -41,7 +58,7 @@ export default function ProfileImageUploader() {
         type='file'
         accept='image/png, image/jpeg'
         className='absolute inset-0 opacity-0 cursor-pointer'
-        id='image'
+        id='previewImage'
         onChange={handleImageChange}
       />
 

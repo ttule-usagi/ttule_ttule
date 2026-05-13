@@ -8,6 +8,7 @@ import { AuthError, signUpWithEmail } from '@/lib/api/auth';
 import WithoutLineInput from '@/components/common/WithoutLineInput';
 import { useSignupForm } from '@/hooks/useSignupForm';
 import { useModalStore } from '@/lib/store/modalStore';
+import { useState } from 'react';
 
 const initialState = {
   email: '',
@@ -21,14 +22,32 @@ export default function SignUpEmail() {
   const { open } = useModalStore();
   const { state, dispatch, handleChange } = useSignupForm(initialState);
 
+  const [profileImage, setProfileImage] = useState<File | null>(null);
+
   const handleSubmit = async () => {
     dispatch({ type: 'SET_ERROR', error: { field: '', message: '' } });
     dispatch({ type: 'SET_LOADING', loading: true });
+
+    let finalImageUrl = '';
+
     try {
+      if (profileImage) {
+        const formData = new FormData();
+        formData.append('file', profileImage);
+
+        const uploadResponse = await fetch('/api/image/profile', {
+          method: 'POST',
+          body: formData,
+        });
+        const uploadedData = await uploadResponse.json();
+        finalImageUrl = uploadedData.url;
+      }
+
       await signUpWithEmail({
         email: state.email,
         password: state.password,
         username: state.username,
+        profile_image_url: finalImageUrl,
       });
     } catch (e: unknown) {
       if (e instanceof AuthError) {
@@ -41,7 +60,7 @@ export default function SignUpEmail() {
 
   return (
     <NotePage title='뚤레뚤레 가입하기'>
-      <ProfileImageUploader />
+      <ProfileImageUploader onUploadImage={setProfileImage} />
 
       <div className='flex flex-col gap-5 font-light text-typo-base mt-7.75'>
         <WithoutLineInput
