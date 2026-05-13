@@ -9,6 +9,7 @@ import WithoutLineInput from '@/components/common/WithoutLineInput';
 import { useSignupForm } from '@/hooks/useSignupForm';
 import { useModalStore } from '@/lib/store/modalStore';
 import { useState } from 'react';
+import { getProfileImageUrl } from '@/lib/api/getProfileImageUrl';
 
 const initialState = {
   email: '',
@@ -28,20 +29,8 @@ export default function SignUpEmail() {
     dispatch({ type: 'SET_ERROR', error: { field: '', message: '' } });
     dispatch({ type: 'SET_LOADING', loading: true });
 
-    let finalImageUrl = '';
-
     try {
-      if (profileImage) {
-        const formData = new FormData();
-        formData.append('file', profileImage);
-
-        const uploadResponse = await fetch('/api/image/profile', {
-          method: 'POST',
-          body: formData,
-        });
-        const uploadedData = await uploadResponse.json();
-        finalImageUrl = uploadedData.url;
-      }
+      const finalImageUrl = profileImage ? await getProfileImageUrl(profileImage) : '';
 
       await signUpWithEmail({
         email: state.email,
