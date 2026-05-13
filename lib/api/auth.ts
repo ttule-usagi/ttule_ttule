@@ -17,15 +17,17 @@ export const signUpWithEmail = async ({
   email,
   password,
   username,
+  profile_image_url,
 }: {
   email: string;
   password: string;
   username: string;
+  profile_image_url?: string;
 }) => {
   const res = await fetch('/api/auth/signup', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password, username }),
+    body: JSON.stringify({ email, password, username, profile_image_url }),
   });
 
   const data = await res.json();

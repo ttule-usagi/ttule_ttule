@@ -11,7 +11,7 @@ const validateUsername = (username: string) => /^[가-힣a-zA-Z0-9]{2,20}$/.test
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, password, username } = await req.json();
+    const { email, password, username, profile_image_url } = await req.json();
 
     // 유효성 검사
     if (!validateEmail(email)) {
@@ -51,6 +51,7 @@ export async function POST(req: NextRequest) {
       p_email: email,
       p_username: username,
       p_hashed_password: hashedPassword,
+      p_profile_image_url: profile_image_url || null, // 초기값은 null, 추후 업데이트 가능
     });
 
     if (error) {
