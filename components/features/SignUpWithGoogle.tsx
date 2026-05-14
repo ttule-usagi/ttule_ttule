@@ -1,6 +1,6 @@
 'use client';
 
-import { setGoogleAccount, withdraw } from '@/lib/actions/auth';
+import { setGoogleAccount } from '@/lib/actions/auth';
 import { getProfileImageUrl } from '@/lib/actions/getProfileImageUrl';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -11,7 +11,6 @@ import ConfirmButton from '../common/ConfirmButton';
 import { User } from 'next-auth';
 import WithoutLineInput from '../common/WithoutLineInput';
 import { useModalStore } from '@/lib/store/modalStore';
-import { signOut } from 'next-auth/react';
 
 export default function SignUpWithGoogle({ user }: { user: User }) {
   const router = useRouter();
@@ -47,20 +46,6 @@ export default function SignUpWithGoogle({ user }: { user: User }) {
     }
   };
 
-  const cancelGoogleSign = async () => {
-    try {
-      await withdraw();
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error(error);
-        setErrorText(error.message || '탈퇴 오류가 발생했습니다.');
-      } else {
-        console.error('탈퇴 오류:', error);
-        setErrorText('탈퇴 오류가 발생했습니다.');
-      }
-    }
-  };
-
   return (
     <NotePage title='뚤레뚤레 가입하기'>
       <ProfileImageUploader
@@ -87,7 +72,7 @@ export default function SignUpWithGoogle({ user }: { user: User }) {
       <div className='flex gap-4 mt-18.25'>
         <CancelButton
           text='취소'
-          onClick={cancelGoogleSign}
+          onClick={() => open('cancelSignup')}
         />
         <ConfirmButton
           text='확인'

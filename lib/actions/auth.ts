@@ -155,8 +155,6 @@ export const withdraw = async () => {
 
   const { error } = await supabaseAdmin.schema('next_auth').from('users').delete().eq('id', userId);
 
-  console.log('삭제 결과:', error); // 에러 확인
-
   if (error) return { error: '회원탈퇴 중 오류가 발생했습니다.' };
 
   const cookieStore = await cookies();
