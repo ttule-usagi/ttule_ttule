@@ -1,13 +1,24 @@
 'use client';
 
-import Link from 'next/link';
 import CancelButton from '../common/CancelButton';
 import ConfirmButton from '../common/ConfirmButton';
 import ModalBox from '../common/Modal/ModalBox';
 import { useModalStore } from '@/lib/store/modalStore';
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function CancelSignupModal() {
   const { close } = useModalStore();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleCancel = async () => {
+    if (pathname.includes('google')) {
+      // 구글 가입 중단 시, 회원탈퇴 후 홈으로 이동
+    } else {
+      router.push('/');
+    }
+    close();
+  };
 
   return (
     <ModalBox
@@ -22,12 +33,10 @@ export default function CancelSignupModal() {
       </ModalBox.ModalContent>
 
       <ModalBox.ModalBottomContent>
-        <Link href='/'>
-          <CancelButton
-            text='중단하기'
-            onClick={close}
-          />
-        </Link>
+        <CancelButton
+          text='중단하기'
+          onClick={handleCancel}
+        />
         <ConfirmButton
           text='계속 진행'
           onClick={close}
