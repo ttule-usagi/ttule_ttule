@@ -5,11 +5,11 @@ import GoogleLoginButton from '@/components/features/GoogleLoginButton';
 import Image from 'next/image';
 import Link from 'next/link';
 import FormInput from '@/components/common/FormInput';
-import { AuthState, useAuthForm } from '@/hooks/useAuthForm';
+import { LoginState, useLoginForm } from '@/hooks/useLoginForm';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 
-const initialState: AuthState = {
+const initialState: LoginState = {
   email: '',
   password: '',
   error: '',
@@ -18,7 +18,7 @@ const initialState: AuthState = {
 
 export default function Login() {
   const router = useRouter();
-  const { state, dispatch, handleChange } = useAuthForm(initialState);
+  const { state, dispatch, handleChange } = useLoginForm(initialState);
 
   const handleSubmit = async () => {
     dispatch({ type: 'SET_ERROR', error: '' });
