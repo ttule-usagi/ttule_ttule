@@ -4,12 +4,13 @@ import CancelButton from '@/components/common/CancelButton';
 import ConfirmButton from '@/components/common/ConfirmButton';
 import NotePage from '@/components/common/NotePage';
 import ProfileImageUploader from '@/components/features/ProfileImageUploader';
-import { AuthError, signUpWithEmail } from '@/lib/api/auth';
+import { signUpWithEmail } from '@/lib/actions/auth';
+import { AuthError } from '@/types/errors';
 import WithoutLineInput from '@/components/common/WithoutLineInput';
 import { useSignupForm } from '@/hooks/useSignupForm';
 import { useModalStore } from '@/lib/store/modalStore';
 import { useState } from 'react';
-import { getProfileImageUrl } from '@/lib/api/getProfileImageUrl';
+import { getProfileImageUrl } from '@/lib/actions/getProfileImageUrl';
 
 const initialState = {
   email: '',

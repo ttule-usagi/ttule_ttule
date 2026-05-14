@@ -2,10 +2,11 @@
 
 import { supabaseAdmin } from '@/lib/utils/supabase';
 import { auth } from '@/lib/utils/auth';
+import { AuthError as NextAuthError } from 'next-auth';
 import { cookies } from 'next/headers';
-import { validateUsername } from '@/lib/utils/validate';
-import { signIn } from '@/lib/utils/auth';
-import { AuthError } from 'next-auth';
+import { validateEmail, validatePassword, validateUsername } from '@/lib/utils/validate';
+import { signIn, signOut } from '@/lib/utils/auth';
+import { AuthError } from '@/types/errors';
 import bcrypt from 'bcrypt';
 
 // 유저 닉네임 업데이트
@@ -43,14 +44,6 @@ export const setGoogleAccount = async (nickname: string, profileImage: string | 
 };
 
 // 이메일 회원가입을 위한 서버액션
-
-const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-const validatePassword = (password: string) =>
-  /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/.test(password);
-
-const validateUsername = (username: string) => /^[가-힣a-zA-Z0-9]{2,20}$/.test(username);
-
 export async function signUpAction(formData: { email: string; password: string; username: string }) {
   const { email, password, username } = formData;
 
@@ -93,20 +86,27 @@ export async function signUpAction(formData: { email: string; password: string; 
 
 // 이메일 회원가입
 // auth.js에서 회원가입을 지원하지 않는 관계로 next_auth.users에 직접 유저 insert요청
-
 export const signUpWithEmail = async ({
   email,
   password,
   username,
+  profile_image_url,
 }: {
   email: string;
   password: string;
   username: string;
+  profile_image_url?: string;
 }) => {
-  const result = await signUpAction({ email, password, username });
+  const res = await fetch('/api/auth/signup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password, username, profile_image_url }),
+  });
 
-  if ('error' in result) {
-    throw new Error(result.error);
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new AuthError(data.error, data.field);
   }
 
   // 가입 성공 후 자동 로그인
@@ -132,7 +132,7 @@ export const loginWithEmail = async ({
       redirect: false,
     });
   } catch (error) {
-    if (error instanceof AuthError) {
+    if (error instanceof NextAuthError) {
       // authorize()에서 throw한 에러 타입에 따라 메시지 분기
       const message = error.cause?.err?.message;
 
@@ -144,4 +144,25 @@ export const loginWithEmail = async ({
 
     throw error;
   }
+};
+
+// 탈퇴 기능
+export const withdraw = async () => {
+  const session = await auth();
+  const userId = session?.user.id;
+
+  if (!userId) return { error: '인증 정보가 없습니다.' };
+
+  const { error } = await supabaseAdmin.schema('next_auth').from('users').delete().eq('id', userId);
+
+  console.log('삭제 결과:', error); // 에러 확인
+
+  if (error) return { error: '회원탈퇴 중 오류가 발생했습니다.' };
+
+  const cookieStore = await cookies();
+  cookieStore.delete('is_new_google_user');
+
+  await signOut({ redirectTo: '/' });
+
+  return { success: true };
 };
