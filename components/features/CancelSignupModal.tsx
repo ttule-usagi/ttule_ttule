@@ -5,6 +5,7 @@ import ConfirmButton from '../common/ConfirmButton';
 import ModalBox from '../common/Modal/ModalBox';
 import { useModalStore } from '@/lib/store/modalStore';
 import { usePathname, useRouter } from 'next/navigation';
+import { withdraw } from '@/lib/actions/auth';
 
 export default function CancelSignupModal() {
   const { close } = useModalStore();
@@ -13,7 +14,15 @@ export default function CancelSignupModal() {
 
   const handleCancel = async () => {
     if (pathname.includes('google')) {
-      // 구글 가입 중단 시, 회원탈퇴 후 홈으로 이동
+      try {
+        await withdraw();
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error(error);
+        } else {
+          console.error('탈퇴 오류:', error);
+        }
+      }
     } else {
       router.push('/');
     }

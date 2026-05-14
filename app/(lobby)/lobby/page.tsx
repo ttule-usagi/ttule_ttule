@@ -122,7 +122,7 @@ export default function Page() {
                 <LobbyPlanItem {...plan} />
               </div>
             ))}
-            <Link href='/plan/create'>
+            <Link href='/plan-create'>
               <Image
                 src='/images/lobby-create-plan.svg'
                 width={272}

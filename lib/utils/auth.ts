@@ -150,16 +150,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      const signingSecret = process.env.SUPABASE_JWT_SECRET;
+      const signingSecret = process.env.SUPABASE_LAGACY_JWT_SECRET;
 
       if (signingSecret && token.sub) {
         session.supabaseAccessToken = jwt.sign(
           {
             aud: 'authenticated',
-            exp: Math.floor(new Date(session.expires).getTime() / 1000),
             sub: token.sub,
-            email: session.user.email,
             role: 'authenticated',
+            exp: Math.floor(new Date(session.expires).getTime() / 1000),
+            email: session.user.email,
+            app_metadata: {
+              provider: 'external',
+              role: 'authenticated',
+            },
           },
           signingSecret,
         );

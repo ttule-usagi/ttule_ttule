@@ -1,7 +1,7 @@
 'use client';
 
 import { setGoogleAccount } from '@/lib/actions/auth';
-import { getProfileImageUrl } from '@/lib/api/getProfileImageUrl';
+import { getProfileImageUrl } from '@/lib/actions/getProfileImageUrl';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import NotePage from '../common/NotePage';

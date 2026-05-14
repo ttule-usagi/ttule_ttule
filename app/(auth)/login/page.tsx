@@ -1,12 +1,13 @@
 'use client';
 
-import { loginWithEmail, signInWithGoogle } from '@/lib/api/auth';
+import { loginWithEmail } from '@/lib/actions/auth';
 import GoogleLoginButton from '@/components/features/GoogleLoginButton';
 import Image from 'next/image';
 import Link from 'next/link';
 import FormInput from '@/components/common/FormInput';
 import { LoginState, useLoginForm } from '@/hooks/useLoginForm';
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 
 const initialState: LoginState = {
   email: '',
@@ -23,10 +24,16 @@ export default function Login() {
     dispatch({ type: 'SET_ERROR', error: '' });
     dispatch({ type: 'SET_LOADING', loading: true });
     try {
-      await loginWithEmail({
+      const result = await loginWithEmail({
         email: state.email,
         password: state.password,
       });
+
+      if (result?.error) {
+        dispatch({ type: 'SET_ERROR', error: result.error });
+        return;
+      }
+
       router.push('/lobby');
     } catch (e: unknown) {
       if (e instanceof Error) {
@@ -113,7 +120,7 @@ export default function Login() {
 
           <GoogleLoginButton
             onClick={() => {
-              signInWithGoogle();
+              signIn('google');
             }}
           />
         </div>

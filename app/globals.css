@@ -168,3 +168,16 @@ input:-webkit-autofill:active {
   background-image: radial-gradient(circle, #cddbfb 1.3px, transparent 2px);
   background-size: 26px 26px;
 }
+
+@utility bg-line-pattern {
+  /* background-color: #f4f4f5; */
+  /* opacity: 1; */
+  background-size: 18px 18px;
+  background-image: repeating-linear-gradient(
+    0deg,
+    #e4e7ec,
+    #e4e7ec 0.6000000000000001px,
+    #f4f4f5 0.6000000000000001px,
+    #f4f4f5
+  );
+}

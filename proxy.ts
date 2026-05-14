@@ -19,7 +19,7 @@ export default async function middleware(request: NextRequest) {
   const isNewGoogleUser = request.cookies.get('is_new_google_user');
 
   // 1. 신규 유저 쿠키 처리
-  if (isNewGoogleUser && !pathname.startsWith('/signup/google')) {
+  if (session && isNewGoogleUser && !pathname.startsWith('/signup/google')) {
     return NextResponse.redirect(new URL('/signup/google', request.url));
   }
 
