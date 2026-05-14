@@ -3,54 +3,76 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { Icon } from '../common/Icon';
+import { compressImage } from '@/lib/utils/compressImage';
 
-export default function ProfileImageUploader() {
-  const [image, setImage] = useState<string | null>(null);
+interface ProfileImageUploaderProps {
+  onUploadImage: (file: File | null) => void;
+  initialImageURL?: string;
+}
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+export default function ProfileImageUploader({ onUploadImage, initialImageURL }: ProfileImageUploaderProps) {
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const displayImage = previewImage || initialImageURL || null;
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
-    if (file) {
-      const objectURL = URL.createObjectURL(file);
-      setImage(objectURL);
+    if (!file) {
+      setPreviewImage(null);
+      onUploadImage(null);
+      return;
+    }
+
+    try {
+      const compressedFile = await compressImage(file);
+      const objectURL = URL.createObjectURL(compressedFile);
+      setPreviewImage(objectURL);
+      onUploadImage(compressedFile);
+    } catch (error) {
+      console.error('이미지 처리 중 오류 발생:', error);
+      setPreviewImage(initialImageURL || null);
+      onUploadImage(null);
     }
   };
 
   useEffect(() => {
     return () => {
-      if (image) URL.revokeObjectURL(image);
+      if (previewImage && previewImage.startsWith('blob:')) {
+        URL.revokeObjectURL(previewImage);
+      }
     };
-  }, [image]);
+  }, [previewImage]);
 
   return (
     <div className='w-34 h-34 bg-brand-blue-100 border border-brand-blue-700 rounded-full box-border relative'>
       <label
-        htmlFor='image'
-        className='cursor-pointer'
+        htmlFor='previewImage'
+        className='cursor-pointer block w-full h-full'
       >
-        {image && (
+        {displayImage && (
           <Image
-            src={image}
+            src={displayImage}
+            unoptimized={displayImage.startsWith('blob:')}
             alt='Profile'
             fill={true}
-            className='w-full h-full rounded-full cursor-pointer object-cover'
+            className='object-cover rounded-full'
           />
         )}
+
+        <div className='absolute w-10 h-10 bg-brand-blue-700 -right-2.75 bottom-0.5 rounded-full flex items-center justify-center pointer-events-none'>
+          <Icon
+            name='Camera'
+            size={24}
+          />
+        </div>
       </label>
       <input
         type='file'
         accept='image/png, image/jpeg'
         className='absolute inset-0 opacity-0 cursor-pointer'
-        id='image'
+        id='previewImage'
         onChange={handleImageChange}
       />
-
-      <button className='absolute w-10 h-10 bg-brand-blue-700 -right-2.75 bottom-0.5 rounded-full cursor-pointer flex items-center justify-center'>
-        <Icon
-          name='Camera'
-          size={24}
-        />
-      </button>
     </div>
   );
 }

@@ -3,5 +3,5 @@ interface ModalBottomContentProps {
 }
 
 export default function ModalBottomContent({ children }: ModalBottomContentProps) {
-  return <div className='flex justify-end gap-2.5'>{children}</div>;
+  return <div className='flex justify-center items-center gap-2.5'>{children}</div>;
 }

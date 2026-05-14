@@ -1,19 +1,22 @@
 import { useReducer } from 'react';
 
-export interface AuthState {
+export interface SignupState {
   email: string;
   password: string;
-  username?: string;
-  error: string;
+  username: string;
+  error: {
+    field?: string;
+    message: string;
+  };
   loading: boolean;
 }
 
-type AuthAction =
-  | { type: 'SET_FIELD'; field: keyof AuthState; value: string }
-  | { type: 'SET_ERROR'; error: string }
+type SignupAction =
+  | { type: 'SET_FIELD'; field: keyof SignupState; value: string }
+  | { type: 'SET_ERROR'; error: { field?: string; message: string } }
   | { type: 'SET_LOADING'; loading: boolean };
 
-const reducer = (state: AuthState, action: AuthAction): AuthState => {
+const reducer = (state: SignupState, action: SignupAction): SignupState => {
   switch (action.type) {
     case 'SET_FIELD':
       return { ...state, [action.field]: action.value };
@@ -26,12 +29,12 @@ const reducer = (state: AuthState, action: AuthAction): AuthState => {
   }
 };
 
-export const useAuthForm = (initialState: AuthState) => {
+export const useSignupForm = (initialState: SignupState) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    dispatch({ type: 'SET_FIELD', field: id as keyof AuthState, value });
+    dispatch({ type: 'SET_FIELD', field: id as keyof SignupState, value });
   };
 
   return {
