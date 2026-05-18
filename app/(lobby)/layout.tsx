@@ -8,7 +8,7 @@ export default function LobbyLayout({
   return (
     <div className='h-full w-full flex bg-brand-gray-50'>
       <Sidebar />
-      <main className='flex-1 pl-32 pr-16 pb-60'>{children}</main>
+      <main className='flex-1 pl-16'>{children}</main>
     </div>
   );
 }
