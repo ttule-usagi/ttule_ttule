@@ -18,7 +18,7 @@ export const mona12 = localFont({
     },
   ],
   display: 'swap',
-  variable: '--font-nona12',
+  variable: '--font-mona12',
 });
 
 // 3. 로비 목적지 폰트

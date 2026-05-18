@@ -20,6 +20,7 @@
   --font-pretendard: var(--font-pretendard), sans-serif;
   --font-paperlogy-semi-bold: var(--font-paperlogy-semi-bold), sans-serif;
   --font-paperlogy-regular: var(--font-paperlogy-regular), sans-serif;
+  --font-mona12: var(--font-mona12);
 }
 
 @theme {
