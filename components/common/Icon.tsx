@@ -9,6 +9,7 @@ import Copy from '@/assets/icons/copy.svg';
 import Link from '@/assets/icons/link.svg';
 import XClose from '@/assets/icons/x-close.svg';
 import Google from '@/assets/icons/google.svg';
+import Plus from '@/assets/icons/plus.svg';
 
 export const ICONS = {
   Luggage,
@@ -22,6 +23,7 @@ export const ICONS = {
   Link,
   XClose,
   Google,
+  Plus,
 } as const;
 
 export type IconName = keyof typeof ICONS;
