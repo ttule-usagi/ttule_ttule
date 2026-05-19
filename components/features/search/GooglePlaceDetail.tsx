@@ -23,12 +23,21 @@ export default function GooglePlaceDetail({ place, onClose }: Props) {
     }
   };
 
+  // 검색결과 중 'ㅣ'가 들어있는 에외처리
+  const getDisplayName = (placeName?: string) => {
+    if (!placeName) return '';
+    if (placeName.includes('ㅣ')) return placeName.split('ㅣ')[0].trim();
+    return placeName;
+  };
+
   return (
     <div className='absolute flex-col w-90 min-w-75 top-25 -right-95 flex py-5 px-4 bg-brand-gray-0 rounded-lg shadow-lg'>
       <div className='pb-4 border-b-1 border-b-brand-gray-300'>
         <div className='flex-col'>
-          <h3 className='text-typo-sub-title text-brand-gray-600 max-w-75'>{place.displayName.text}</h3>
-          <span className='text-typo-base text-brand-gray-500'>{place.additionalData?.displayName?.text}</span>
+          <h3 className='text-typo-sub-title text-brand-gray-600 max-w-75'>{getDisplayName(place.displayName.text)}</h3>
+          <span className='text-typo-base text-brand-gray-500'>
+            {getDisplayName(place.additionalData?.displayName?.text)}
+          </span>
         </div>
         <span className='text-typo-description text-brand-gray-500'>{place.primaryTypeDisplayName?.text}</span>
         <Icon
