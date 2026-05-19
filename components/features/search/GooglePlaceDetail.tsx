@@ -1,5 +1,5 @@
 import { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
-import { Icon } from '../common/Icon';
+import { Icon } from '../../common/Icon';
 import Link from 'next/link';
 
 interface Props {
@@ -9,6 +9,20 @@ interface Props {
 
 export default function GooglePlaceDetail({ place, onClose }: Props) {
   console.log(place);
+
+  const getBusinessStatus = (status?: string) => {
+    switch (status) {
+      case 'OPERATIONAL':
+        return '정상 영업 중';
+      case 'CLOSED_PERMANENTLY':
+        return '폐업';
+      case 'CLOSED_TEMPORARILY':
+        return '임시 휴무';
+      default:
+        return '영업 정보 없음';
+    }
+  };
+
   return (
     <div className='absolute flex-col w-90 min-w-75 top-25 -right-95 flex py-5 px-4 bg-brand-gray-0 rounded-lg shadow-lg'>
       <div className='pb-4 border-b-1 border-b-brand-gray-300'>
@@ -40,7 +54,7 @@ export default function GooglePlaceDetail({ place, onClose }: Props) {
             size={16}
           />
           <span className='text-typo-description text-brand-gray-500'>
-            {place.additionalData?.businessStatus === 'OPERATIONAL' ? '정상 영업 중' : '휴무'}
+            {getBusinessStatus(place.additionalData?.businessStatus)}
           </span>
         </div>
         <Link

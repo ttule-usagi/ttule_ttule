@@ -3,7 +3,7 @@ interface Props {
   onClick: (place: any) => void;
 }
 
-export default function SearchResultItem({ place, onClick }: Props) {
+export default function SearchResultListItem({ place, onClick }: Props) {
   return (
     <div
       key={place.id}
