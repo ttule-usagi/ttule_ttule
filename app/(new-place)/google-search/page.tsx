@@ -89,6 +89,7 @@ export default function SearchGoogle() {
                       setQuery('');
                       setResults([]);
                       setHasSearched(false);
+                      setIsModalOpen(false);
                     }}
                   >
                     <Icon
