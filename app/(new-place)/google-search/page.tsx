@@ -1,15 +1,23 @@
 'use client';
 
+import { Icon } from '@/components/common/Icon';
+import GooglePlaceDetail from '@/components/features/GooglePlaceDetail';
+import SearchInteraction from '@/components/features/search/SearchInteraction';
+import SearchResultItem from '@/components/features/search/SearchResultItem';
 import Sidebar from '@/components/layouts/Sidebar';
+import { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
 import React, { useState } from 'react';
 
-export default function SearchInput() {
+export default function SearchGoogle() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedPlace, setSelectedPlace] = useState<SelectedGooglePlace | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
 
   // 검색 버튼을 누르거나 엔터를 쳤을 때 딱 한 번 실행되는 함수
-  const handleSearch = async (e: React.FormEvent) => {
+  const handleSearch = async (e: React.SubmitEvent) => {
     e.preventDefault(); // 페이지 새로고침 방지
 
     if (!query.trim()) return;
@@ -21,10 +29,12 @@ export default function SearchInput() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: query.trim() }),
       });
+
       const data = await response.json();
 
       // 결과가 있을 때만 셋팅
       setResults(data.places || []);
+      setHasSearched(true);
     } catch (error) {
       console.error('검색 중 에러 발생:', error);
     } finally {
@@ -32,48 +42,84 @@ export default function SearchInput() {
     }
   };
 
+  const handlePlaceClick = async (place: any) => {
+    try {
+      const response = await fetch(`/api/google-search?placeId=${place.id}`);
+      const additionalData = await response.json();
+      console.log('추가정보 api요청');
+      setSelectedPlace({ ...place, additionalData });
+      setIsModalOpen(true);
+    } catch (error) {
+      console.log('구글 상세페이지용 정보 받아오기 중 에러 발생: ', error);
+    } finally {
+    }
+  };
+
+  // console.log('results: ', results);
+
   return (
-    <div className=''>
+    <div>
       <Sidebar />
-      <div className='h-screen bg-line-pattern bg-brand-blue-50 ml-[64px]  max-w-102 mx-auto p-4'>
+      <div className='relative h-screen bg-line-pattern bg-brand-blue-50 ml-[64px]  max-w-102 mx-auto p-4 flex flex-col'>
         {/* 검색 폼 */}
-        <form
-          onSubmit={handleSearch}
-          className='flex gap-2'
-        >
-          <input
-            type='text'
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder='장소를 검색하세요 (예: 하나다코)'
-            className='flex-1 px-4 py-2 border border-gray-300 rounded-lg outline-none focus:border-blue-500 bg-brand-gray-0'
+        <div className='relative flex-shrink-0 flex flex-row items-center gap-4'>
+          <Icon
+            className='shrink-0'
+            name='ArrowLeft'
+            size={32}
           />
-          <button
-            type='submit'
-            disabled={isLoading}
-            className='px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-colors'
+          <form
+            onSubmit={handleSearch}
+            className='flex gap-2 rounded-full w-full'
           >
-            {isLoading ? '검색 중...' : '검색'}
-          </button>
-        </form>
+            <input
+              type='text'
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder='구글 장소 검색'
+              className=' flex-1 px-4 py-2 border border-brand-blue-700 rounded-full outline-none focus:border-blue-500 bg-brand-gray-0 text-typo-base'
+            />
+            <button
+              type='submit'
+              disabled={isLoading}
+              className='absolute top-[5px] right-3 rounded-lg'
+            >
+              <Icon
+                className='text-brand-gray-300 hover:text-brand-blue-700 cursor-pointer'
+                name='Search'
+                size={32}
+              />
+            </button>
+          </form>
+        </div>
 
         {/* 결과 리스트 */}
-        <div className='mt-4 space-y-2'>
-          {results.length > 0
-            ? results.map((place: any) => (
-                <div
-                  key={place.id}
-                  className='p-3 border border-gray-100 rounded-lg shadow-sm bg-brand-gray-0 hover:bg-gray-50 cursor-pointer '
-                  onClick={() => console.log('선택됨:', place)}
-                >
-                  <div className='typo-sub-title text-brand-blue-700 '>{place.displayName?.text}</div>
-                  <div className='text-xs text-gray-500 '>
-                    {place.primaryTypeDisplayName?.text} · {place.shortFormattedAddress}
-                  </div>
-                </div>
-              ))
-            : !isLoading && query && <p className='text-sm text-gray-400 text-center'>검색 결과가 없습니다.</p>}
+        <div className='mt-6 flex-1 overflow-y-auto space-y-2'>
+          <div className='space-y-2'>
+            <SearchInteraction
+              isLoading={isLoading}
+              hasSearched={hasSearched}
+              query={query}
+              results={results}
+            />
+            {results?.map((place: any) => (
+              <SearchResultItem
+                key={place.id}
+                place={place}
+                onClick={handlePlaceClick}
+              />
+            ))}
+          </div>
         </div>
+        {isModalOpen && selectedPlace && (
+          <GooglePlaceDetail
+            place={selectedPlace}
+            onClose={() => {
+              setIsModalOpen(false);
+              setSelectedPlace(null);
+            }}
+          />
+        )}
       </div>
     </div>
   );
