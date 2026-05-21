@@ -2,22 +2,39 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const DUMMY_DB = {
   0: [
-    '35.6895,139.6917', // 더미 마커 1
-    '35.6586,139.7454', // 더미 마커 2
+    [
+      '50.93811410569264',
+      '6.954929367031603', // 쾰른
+    ],
   ],
   1: [
-    '35.7147,139.7966', // 더미 마커 3
-    '33.5902,130.4017', // 후쿠오카
+    [
+      '34.695073441117096',
+      '135.50148279051817', //오사카
+    ],
   ],
   2: [
-    '38.7147,139.7966', // 더미 마커 3
-    '33.5902,130.4017', // 후쿠오카
+    [
+      '37.555614',
+      '126.991577', // 서울
+    ],
+  ],
+  3: [
+    [
+      '25.045438642576872',
+      '121.56358769107352', // 타이베이
+    ],
+  ],
+  4: [
+    [
+      '48.16467916914933',
+      '108.64511519505224', // 울란바토르
+    ],
   ],
 };
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const listId = searchParams.get('listId');
+  const listId = request.nextUrl.searchParams.get('listId');
 
   if (!listId) {
     return NextResponse.json({ error: 'listId is required' }, { status: 400 });
@@ -29,9 +46,10 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'No places found' }, { status: 404 });
   }
 
-  const markerString = coords.map((coord: any) => `&markers=color:blue|label:P|${coord}`);
+  const markerString = coords.map((coord: string) => `&markers=color:blue|label:P|${coord[0]},${coord[1]}`).join('');
+  console.log('markerstring: ', markerString);
   const GOOGLE_API_KEY = process.env.GOOGLE_MAPS_API_KEY;
-  const requestUrl = `https://maps.googleapis.com/maps/api/staticmap?size=600x400${markerString}&key=${GOOGLE_API_KEY}`;
+  const requestUrl = `https://maps.googleapis.com/maps/api/staticmap?size=1000x800${markerString}&key=${GOOGLE_API_KEY}`;
 
   try {
     const response = await fetch(requestUrl);
