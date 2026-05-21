@@ -13,6 +13,8 @@ import Plus from '@/assets/icons/plus.svg';
 import Map from '@/assets/icons/map.svg';
 import ArrowLeft from '@/assets/icons/arrow-left.svg';
 import Search from '@/assets/icons/search.svg';
+import ChevronDown from '@/assets/icons/chevron-down.svg';
+import Check from '@/assets/icons/check.svg';
 
 export const ICONS = {
   Luggage,
@@ -30,6 +32,8 @@ export const ICONS = {
   Map,
   ArrowLeft,
   Search,
+  ChevronDown,
+  Check,
 } as const;
 
 export type IconName = keyof typeof ICONS;

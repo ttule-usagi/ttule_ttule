@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
-  const { query, center } = await req.json();
+  const { query, languageCode } = await req.json();
 
   const response = await fetch('https://places.googleapis.com/v1/places:searchText', {
     method: 'POST',
@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     },
     body: JSON.stringify({
       textQuery: query,
-      languageCode: 'ko-KR',
+      languageCode: languageCode || 'ko',
       // locationBias: {
       //   circle: {
       //     center: center || { latitude: 34.7024, longitude: 135.4959 }, // 기본값 오사카

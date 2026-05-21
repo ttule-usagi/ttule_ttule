@@ -3,12 +3,18 @@ export interface GooglePlaceDetail {
   googleMapsUri?: string;
   businessStatus?: string;
   formattedAddress?: string;
+  primaryTypeDisplayName?: { text: string };
+}
+
+export interface GooglePlaceLocation {
+  latitude: number;
+  longitude: number;
 }
 
 export interface SelectedGooglePlace {
   id: string;
   displayName: { text: string; languageCode: string };
-  primaryTypeDisplayName?: { text: string };
   shortFormattedAddress?: string;
+  location: GooglePlaceLocation;
   additionalData?: GooglePlaceDetail;
 }

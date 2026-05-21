@@ -39,7 +39,9 @@ export default function GooglePlaceDetail({ place, onClose }: Props) {
             {getDisplayName(place.additionalData?.displayName?.text)}
           </span>
         </div>
-        <span className='text-typo-description text-brand-gray-500'>{place.primaryTypeDisplayName?.text}</span>
+        <span className='text-typo-description text-brand-gray-500'>
+          {place.additionalData?.primaryTypeDisplayName?.text}
+        </span>
         <Icon
           className='absolute top-5 right-4 text-brand-gray-600 cursor-pointer'
           name='XClose'

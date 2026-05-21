@@ -1,6 +1,7 @@
 'use client';
 
 import { Icon } from '@/components/common/Icon';
+import CountrySelect from '@/components/features/CountrySelect';
 import GooglePlaceDetail from '@/components/features/search/GooglePlaceDetail';
 import SearchInteraction from '@/components/features/search/SearchInteraction';
 import SearchResultListItem from '@/components/features/search/SearchResultItem';
@@ -61,6 +62,7 @@ export default function SearchGoogle() {
     <div>
       <Sidebar />
       <div className='relative h-screen bg-line-pattern bg-brand-blue-50 ml-[64px]  max-w-102 mx-auto p-4 flex flex-col'>
+        <CountrySelect />
         {/* 검색 폼 */}
         <div className='relative flex-shrink-0 flex flex-row items-center gap-4'>
           <Icon
