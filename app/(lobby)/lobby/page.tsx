@@ -95,7 +95,7 @@ const LastPlanItemList = [
 
 export default function Page() {
   return (
-    <div className='h-full max-w-350 min-w-230 mx-auto mt-5.5'>
+    <div className='h-full max-w-350 min-w-230 mx-auto mt-5.5 pl-16 pr-16 pb-60'>
       <NoticeHeader />
       <header className='flex items-center justify-between mt-10'>
         <div className='flex flex-col gap-0'>
