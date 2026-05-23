@@ -8,7 +8,7 @@ export default function DBSearchInput() {
   const router = useRouter();
 
   return (
-    <div className='flex gap-4 items-center'>
+    <div className='flex gap-4 items-center mb-8'>
       {path !== '/places' && (
         <Icon
           name='ArrowLeft'
