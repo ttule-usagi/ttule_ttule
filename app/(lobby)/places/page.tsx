@@ -6,7 +6,6 @@ import Link from 'next/link';
 export default function Page() {
   return (
     <>
-      <div>검색창 자리</div>
       <div className='text-typo-big-title font-semibold text-brand-blue-700 pb-6 mt-8'>저장된 장소 리스트</div>
       <Link
         href='/places/create'
