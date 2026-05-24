@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
   const markerString = coords.map((coord: string) => `&markers=color:blue|label:P|${coord[0]},${coord[1]}`).join('');
   console.log('markerstring: ', markerString);
   const GOOGLE_API_KEY = process.env.GOOGLE_MAPS_API_KEY;
-  const requestUrl = `https://maps.googleapis.com/maps/api/staticmap?size=1000x800${markerString}&key=${GOOGLE_API_KEY}`;
+  const requestUrl = `https://maps.googleapis.com/maps/api/staticmap?size=1500x1000${markerString}&key=${GOOGLE_API_KEY}`;
 
   try {
     const response = await fetch(requestUrl);

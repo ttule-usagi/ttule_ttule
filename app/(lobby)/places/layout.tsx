@@ -11,9 +11,7 @@ export default function PlaceLayout({
       <section className='w-102 pt-5 px-4 pb-60 overflow-y-auto h-screen bg-line-pattern'>{children}</section>
 
       {/* 우측 지도 */}
-      <section className='flex-1 bg-brand-blue-50 h-full'>
-        <PlaceMap />
-      </section>
+      <section className='flex-1 bg-brand-blue-50 h-full'>{/* <PlaceMap /> */}</section>
     </div>
   );
 }
