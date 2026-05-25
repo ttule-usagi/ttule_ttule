@@ -49,20 +49,23 @@ export default async function CoreSearchPage({ searchParams }: CoreSearchPagePro
   // const data = await res.json();
 
   return (
-    <div>
+    <div className='w-full flex flex-col'>
       {data.length > 0 ? (
-        data.map((item) => (
-          <CorePlaceSearchResultItem
-            key={item.id}
-            result={item}
-          />
-        ))
+        <div className='flex flex-col gap-3'>
+          <p className='text-typo-base text-brand-gray-600'>장소 검색 결과</p>
+          {data.map((item) => (
+            <CorePlaceSearchResultItem
+              key={item.id}
+              result={item}
+            />
+          ))}
+        </div>
       ) : (
-        <div className='flex flex-col'>
-          <p>찾는 장소가 없나요?</p>
+        <div className='flex flex-col gap-2 items-center'>
+          <p className='text-typo-description text-brand-gray-600 font-light'>찾는 장소가 없나요?</p>
           <Link
             href={'/google-search'}
-            className='w-full py-3 flex gap-1'
+            className='w-full py-3 flex gap-1 items-center justify-center bg-brand-blue-700 text-white rounded-sm'
           >
             <Icon
               name='Plus'

@@ -50,7 +50,7 @@ export default function DBSearchInput() {
           onChange={(e) => setValue(e.target.value)}
         />
         <button
-          type='button'
+          type='submit'
           className='text-brand-blue-700 cursor-pointer'
         >
           <Icon
