@@ -10,7 +10,7 @@ interface Props {
 
 export default function CountrySelect() {
   // ✅ 타입 명시
-  const [selected, setSelected] = useState<(typeof COUNTRIES)[number]>(COUNTRIES[3]);
+  const [selected, setSelected] = useState<(typeof COUNTRIES)[number]>(COUNTRIES[0]);
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -36,7 +36,7 @@ export default function CountrySelect() {
       <button
         type='button'
         onClick={() => setIsOpen(!isOpen)}
-        className='grid w-full cursor-default grid-cols-1 rounded-md bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm'
+        className='grid w-full cursor-default grid-cols-1 rounded-full bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm'
       >
         <span className='col-start-1 row-start-1 flex items-center gap-3 pr-6'>
           <span className='block truncate'>{selected.label}</span>
@@ -58,7 +58,7 @@ export default function CountrySelect() {
                 setSelected(nation);
                 setIsOpen(false);
               }}
-              className={`relative cursor-default py-2 pr-9 pl-3 select-none hover:bg-indigo-600 hover:text-white ${
+              className={`relative cursor-default py-2 pr-9 pl-3 select-none hover:bg-brand-blue-50 hover:text-brand-blue-700 ${
                 selected.countryCode === nation.countryCode ? 'font-semibold' : 'font-normal'
               }`}
             >

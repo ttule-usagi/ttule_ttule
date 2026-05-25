@@ -1,4 +1,12 @@
 export const COUNTRIES = [
+  {
+    label: '한국',
+    languageCode: 'ko',
+    countryCode: 'KOR',
+    latitude: 37.5556,
+    longitude: 126.9915,
+    currencyCode: 'WON',
+  },
   { label: '가나', languageCode: 'en', countryCode: 'GHA', latitude: 7.9465, longitude: -1.0232, currencyCode: 'GHS' },
   { label: '가봉', languageCode: 'fr', countryCode: 'GAB', latitude: -0.8037, longitude: 11.6094, currencyCode: 'XAF' },
   {

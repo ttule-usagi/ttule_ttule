@@ -14,9 +14,15 @@ export default function SearchInteraction({ isLoading, hasSearched, query, resul
         <p className='text-sm text-gray-400 text-center'>검색 결과가 없습니다.</p>
       )}
       {!isLoading && !query && (
-        <p className='text-sm text-gray-500 text-center'>영어로 입력시 더 정확한 결과를 얻을 수 있어요. </p>
+        <p className='text-sm text-gray-500 text-center'>국가 설정시 더 정확한 결과를 얻을 수 있어요. </p>
       )}
-      {hasSearched ? <h4 className='text-typo-base-bold text-brand-gray-600'>구글 검색결과</h4> : ''}
+      {hasSearched ? (
+        <div className='pt-4 border-t-1 border-t-brand-gray-300'>
+          <h4 className='text-typo-base-bold text-brand-gray-600'>구글 검색결과</h4>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 }
