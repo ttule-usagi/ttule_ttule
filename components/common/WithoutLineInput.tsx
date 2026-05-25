@@ -1,4 +1,4 @@
-import { FormInputProps } from '@/types/types';
+import { FormInputProps } from '@/types/input';
 
 interface WithoutLineInputProps extends FormInputProps {
   errorText: string;

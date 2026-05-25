@@ -1,4 +1,4 @@
-import { FormInputProps } from '@/types/types';
+import { FormInputProps } from '@/types/input';
 
 export default function FormInput({ id, label, type = 'text', placeholder, value, onChange }: FormInputProps) {
   return (
