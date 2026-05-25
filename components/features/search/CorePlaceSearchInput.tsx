@@ -18,14 +18,15 @@ export default function DBSearchInput() {
   useEffect(() => {
     if (debounced.trim() === '') return;
 
-    // 검색 api 호출
+    // 자동완성 api 호출
   }, [debounced]);
 
+  // 검색 결과 api 호출하는 검색 결과 페이지로 이동
   const handleSubmitValue = (e: React.SubmitEvent) => {
     e.preventDefault();
 
     if (value.trim() === '') return;
-    router.push('/places/search');
+    router.push(`/places/search?query=${encodeURIComponent(value)}`);
   };
 
   return (
