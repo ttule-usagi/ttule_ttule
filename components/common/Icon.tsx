@@ -14,6 +14,7 @@ import Map from '@/assets/icons/map.svg';
 import ArrowLeft from '@/assets/icons/arrow-left.svg';
 import Search from '@/assets/icons/search.svg';
 import Share from '@/assets/icons/share.svg';
+import Edit from '@/assets/icons/edit.svg';
 
 export const ICONS = {
   Luggage,
@@ -32,6 +33,7 @@ export const ICONS = {
   ArrowLeft,
   Search,
   Share,
+  Edit,
 } as const;
 
 export type IconName = keyof typeof ICONS;
