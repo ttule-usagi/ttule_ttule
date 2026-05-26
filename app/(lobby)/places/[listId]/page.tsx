@@ -2,6 +2,7 @@
 import { Place } from '@/types/placeList';
 import { Icon } from '@/components/common/Icon';
 import PlaceItem from '@/components/features/Place/PlaceItem';
+import PlaceListDropdownMenu from '@/components/features/Place/PlaceListDropdwonMenu';
 
 const placesData: Place[] = [
   {
@@ -50,11 +51,7 @@ export default async function PlaceListDetail({ params }: { params: Promise<{ li
               size={32}
               className='cursor-pointer'
             />
-            <Icon
-              name='DotsHorizontal'
-              size={32}
-              className='cursor-pointer'
-            />
+            <PlaceListDropdownMenu />
           </div>
         </div>
 

@@ -44,7 +44,7 @@ export default function PlaceItem({ place }: { place: Place }) {
             <Icon
               name='XClose'
               size={26}
-              className='text-brand-gray-300 cursor-pointer'
+              className='text-brand-gray-400 cursor-pointer'
               onClick={() => setIsEdit(!isEdit)}
             />
           )}
