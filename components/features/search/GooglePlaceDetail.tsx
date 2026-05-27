@@ -4,10 +4,11 @@ import Link from 'next/link';
 
 interface Props {
   place: SelectedGooglePlace;
+  addNewPlace: () => void;
   onClose: () => void;
 }
 
-export default function GooglePlaceDetail({ place, onClose }: Props) {
+export default function GooglePlaceDetail({ place, addNewPlace, onClose }: Props) {
   console.log(place);
 
   const getBusinessStatus = (status?: string) => {
@@ -82,7 +83,10 @@ export default function GooglePlaceDetail({ place, onClose }: Props) {
             구글에서 확인하기
           </div>
         </Link>
-        <div className='flex flex-row gap-[6px] items-center justify-center m-auto h-10 r-2 text-typo-description font-medium text-white bg-brand-blue-700 rounded-lg size-full'>
+        <div
+          className='flex flex-row gap-[6px] items-center justify-center m-auto h-10 r-2 text-typo-description font-medium text-white bg-brand-blue-700 rounded-lg size-full'
+          onClick={addNewPlace}
+        >
           이 장소로 등록하기
         </div>
       </div>
