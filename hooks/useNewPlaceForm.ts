@@ -97,7 +97,7 @@ export function useNewPlaceForm(place: SelectedGooglePlace, options?: UseNewPlac
         google_place_id: place.id,
         latitude: place.location.latitude,
         longitude: place.location.longitude,
-        address: place.FormattedAddress ?? '',
+        address: place.formattedAddress ?? '',
         business_status: sanitizeBusinessStatus(place.additionalData?.businessStatus),
         korean_name: state.korean_name || null,
         english_name: state.english_name || null,

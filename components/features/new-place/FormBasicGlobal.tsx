@@ -53,7 +53,7 @@ export default function FormBasicGlobal({ state, dispatch, place }: Props) {
         id='address'
         label='주소'
         placeholder='주소 정보 없음'
-        value={place.FormattedAddress ?? ''}
+        value={place.formattedAddress ?? ''}
         onChange={() => {}}
         readOnly
       />

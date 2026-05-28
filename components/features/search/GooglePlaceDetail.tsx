@@ -57,7 +57,7 @@ export default function GooglePlaceDetail({ place, addNewPlace, onClose }: Props
             name='Map'
             size={16}
           />
-          <span className='text-typo-description text-brand-gray-500'>{place.additionalData?.formattedAddress}</span>
+          <span className='text-typo-description text-brand-gray-500'>{place.formattedAddress}</span>
         </div>
         <div className='flex items-center flex-row gap-4'>
           <Icon
@@ -84,7 +84,7 @@ export default function GooglePlaceDetail({ place, addNewPlace, onClose }: Props
           </div>
         </Link>
         <div
-          className='flex flex-row gap-[6px] items-center justify-center m-auto h-10 r-2 text-typo-description font-medium text-white bg-brand-blue-700 rounded-lg size-full'
+          className='flex flex-row gap-[6px] items-center justify-center m-auto h-10 r-2 text-typo-description font-medium text-white bg-brand-blue-700 rounded-lg size-full hover:bg-brand-blue-800 cursor-pointer'
           onClick={addNewPlace}
         >
           이 장소로 등록하기

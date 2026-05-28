@@ -35,7 +35,7 @@ export default function FormBasicKorean({ state, dispatch, place }: Props) {
       <FormTypeText
         id='address'
         label='주소'
-        value={place.FormattedAddress ?? ''}
+        value={place.formattedAddress ?? ''}
         onChange={() => {}}
         readOnly
       />

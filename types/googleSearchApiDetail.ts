@@ -13,7 +13,7 @@ export interface GooglePlaceLocation {
 export interface SelectedGooglePlace {
   id: string;
   displayName: { text: string; languageCode: string };
-  FormattedAddress: string;
+  formattedAddress: string;
   location: GooglePlaceLocation;
   additionalData?: GooglePlaceDetail;
 }
