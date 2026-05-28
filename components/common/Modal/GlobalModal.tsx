@@ -1,8 +1,9 @@
 'use client';
 
-import { useModalStore } from '@/lib/store/modalStore';
+import { ModalPropMap, ModalProps, useModalStore } from '@/lib/store/modalStore';
 import EnterInviteLinkModal from '../../features/Plan/EnterInviteLinkModal';
 import CancelSignupModal from '@/components/features/CancelSignupModal';
+import ShareLinkModal from '../ShareLinkModal';
 
 /**
  * 전역 모달 컴포넌트
@@ -13,7 +14,7 @@ import CancelSignupModal from '@/components/features/CancelSignupModal';
  */
 
 export default function GlobalModal() {
-  const { modal, close } = useModalStore();
+  const { modal, props, close } = useModalStore();
 
   if (!modal) return null;
 
@@ -24,6 +25,18 @@ export default function GlobalModal() {
     >
       {modal === 'enterInviteLink' && <EnterInviteLinkModal />}
       {modal === 'cancelSignup' && <CancelSignupModal />}
+      {modal === 'editLink' && (
+        <ShareLinkModal
+          type='EDIT'
+          link={(props as ModalPropMap['editLink']).link}
+        />
+      )}
+      {modal === 'viewLink' && (
+        <ShareLinkModal
+          type='VIEW'
+          link={(props as ModalPropMap['viewLink']).link}
+        />
+      )}
     </div>
   );
 }

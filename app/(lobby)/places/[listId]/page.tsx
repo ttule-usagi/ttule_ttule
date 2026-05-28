@@ -51,7 +51,10 @@ export default async function PlaceListDetail({ params }: { params: Promise<{ li
               size={32}
               className='cursor-pointer'
             />
-            <PlaceListDropdownMenu />
+            <PlaceListDropdownMenu
+              viewLink={'공유 링크'}
+              editLink={'초대 링크'}
+            />
           </div>
         </div>
 
