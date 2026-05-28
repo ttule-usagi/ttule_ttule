@@ -5,9 +5,8 @@ import ConfirmButton from '@/components/common/ConfirmButton';
 import ModalBox from '@/components/common/Modal/ModalBox';
 import { useModalStore } from '@/lib/store/modalStore';
 
-export default function CancelNewPlaceModal() {
-  const { close, props } = useModalStore();
-  const onCancel = props?.onCancel as () => void;
+export default function CancelNewPlaceModal({ onCancel }: { onCancel: () => void }) {
+  const { close } = useModalStore();
 
   const handleCancel = async () => {
     onCancel?.();
