@@ -14,11 +14,11 @@ interface Props {
 
 export default function FormBasicGlobal({ state, dispatch, place }: Props) {
   return (
-    <div className='mt-6 flex flex-col gap-4 mb-25 max-h-[44vh] overflow-auto'>
+    <div className='mt-6 flex flex-col gap-4 mb-25 overflow-auto'>
       <FormTypeText
         id='english_name'
         label='영문 이름'
-        placeholder='예: Eiffel Tower'
+        placeholder='Hana Building'
         value={state.english_name}
         onChange={(value) => dispatch({ type: 'SET_FIELD', field: 'english_name', value })}
         required
@@ -27,7 +27,7 @@ export default function FormBasicGlobal({ state, dispatch, place }: Props) {
       <FormTypeText
         id='korean_name'
         label='한국어 이름'
-        placeholder='예: 에펠탑'
+        placeholder='하나빌딩'
         value={state.korean_name}
         onChange={(value) => dispatch({ type: 'SET_FIELD', field: 'korean_name', value })}
       />
@@ -35,7 +35,7 @@ export default function FormBasicGlobal({ state, dispatch, place }: Props) {
       <FormTypeText
         id='original_name'
         label='현지어 이름'
-        placeholder='예: Tour Eiffel'
+        placeholder='花のビル'
         value={state.original_name}
         onChange={(value) => dispatch({ type: 'SET_FIELD', field: 'original_name', value })}
       />

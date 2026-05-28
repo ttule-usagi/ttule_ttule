@@ -12,6 +12,7 @@ import React, { useState } from 'react';
 import { useGoogleSearch } from '@/hooks/google-search/useGoogleSearch';
 import { useGooglePlaceDetail } from '@/hooks/google-search/useGooglePlaceDetail';
 import { COUNTRIES, type Country } from '@/lib/utils/countries';
+import { useModalStore } from '@/lib/store/modalStore';
 
 export default function SearchGoogle() {
   const [query, setQuery] = useState('');
@@ -20,6 +21,8 @@ export default function SearchGoogle() {
   const [selectedPlace, setSelectedPlace] = useState<SelectedGooglePlace | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [isNewPlaceModalOpen, setIsNewPlaceModalOpen] = useState(false);
+
+  const { open } = useModalStore();
 
   // 검색 mutation
   const {
@@ -58,15 +61,6 @@ export default function SearchGoogle() {
 
   // selectedPlace에 additionalData 합치기
   const enrichedPlace = selectedPlace && additionalData ? { ...selectedPlace, additionalData } : null;
-
-  // console.log('isloading: ', isSearching);
-
-  console.log({
-    submittedQuery,
-    isSearching,
-    status, // 'pending' | 'error' | 'success'
-    fetchStatus, // 'fetching' | 'paused' | 'idle'
-  });
 
   return (
     <div className='relative'>
@@ -165,7 +159,9 @@ export default function SearchGoogle() {
           <NewPlaceFormContainer
             place={enrichedPlace}
             onClose={() => {
-              setIsNewPlaceModalOpen(false);
+              open('cancelNewPlace', {
+                onCancel: () => setIsNewPlaceModalOpen(false),
+              });
             }}
           />
         )}

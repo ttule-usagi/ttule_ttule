@@ -10,16 +10,18 @@ import { create } from 'zustand';
  * ModalType은 현재 'editLink', 'viewLink', 'enterInviteLink', 'confirm', 'cancelSignup' 다섯 가지 타입이 정의되어 있으며, 필요에 따라 새로운 모달 타입을 추가할 수 있음
  */
 
-type ModalType = 'editLink' | 'viewLink' | 'enterInviteLink' | 'confirm' | 'cancelSignup';
+type ModalType = 'editLink' | 'viewLink' | 'enterInviteLink' | 'confirm' | 'cancelSignup' | 'cancelNewPlace';
 
 interface ModalState {
   modal: ModalType | null;
-  open: (type: ModalType) => void;
+  props: Record<string, any> | null | undefined;
+  open: (type: ModalType, props?: Record<string, any>) => void;
   close: () => void;
 }
 
 export const useModalStore = create<ModalState>((set) => ({
   modal: null,
-  open: (type) => set({ modal: type }),
-  close: () => set({ modal: null }),
+  props: undefined,
+  open: (type, props) => set({ modal: type, props }),
+  close: () => set({ modal: null, props: null }),
 }));

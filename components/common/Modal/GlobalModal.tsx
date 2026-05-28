@@ -3,6 +3,7 @@
 import { useModalStore } from '@/lib/store/modalStore';
 import EnterInviteLinkModal from '../../features/Plan/EnterInviteLinkModal';
 import CancelSignupModal from '@/components/features/CancelSignupModal';
+import CancelNewPlaceModal from '@/components/features/new-place/CancelNewPlaceModal';
 
 /**
  * 전역 모달 컴포넌트
@@ -24,6 +25,7 @@ export default function GlobalModal() {
     >
       {modal === 'enterInviteLink' && <EnterInviteLinkModal />}
       {modal === 'cancelSignup' && <CancelSignupModal />}
+      {modal === 'cancelNewPlace' && <CancelNewPlaceModal />}
     </div>
   );
 }
