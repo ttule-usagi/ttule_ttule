@@ -1,5 +1,6 @@
 import { bucket } from '@/lib/gcp';
 import { NextRequest } from 'next/server';
+import sharp from 'sharp';
 
 // 프로필 이미지 업로드 API 라우트
 export async function POST(request: NextRequest) {
@@ -11,15 +12,17 @@ export async function POST(request: NextRequest) {
     return new Response(JSON.stringify({ error: 'No file uploaded' }), { status: 400 });
   }
 
-  const buffer = Buffer.from(await file.arrayBuffer());
-
   try {
     // GCP Storage에 파일 업로드
+    const buffer = await file.arrayBuffer();
+    const nodeBuffer = Buffer.from(buffer);
+    const webpBuffer = await sharp(nodeBuffer).webp({ quality: 80 }).toBuffer();
+
     const baseName = `${crypto.randomUUID()}-${Date.now()}`;
     const fileName = `${baseName}.webp`;
     const filePath = `profiles/${fileName}`;
 
-    await bucket.file(filePath).save(buffer, {
+    await bucket.file(filePath).save(webpBuffer, {
       contentType: 'image/webp',
       metadata: {
         cacheControl: 'public, max-age=31536000', // 1년 캐싱

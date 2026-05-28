@@ -17,9 +17,7 @@ export default function SearchResultListItem({ place, onClick }: Props) {
       onClick={() => onClick(place)}
     >
       <div className='text-typo-sub-title text-brand-blue-700 '>{getDisplayName(place.displayName?.text)}</div>
-      <div className='text-typo-description text-gray-400 '>
-        {place.primaryTypeDisplayName?.text} · {place.shortFormattedAddress}
-      </div>
+      <div className='text-typo-description text-gray-400 '>{place.formattedAddress}</div>
     </div>
   );
 }

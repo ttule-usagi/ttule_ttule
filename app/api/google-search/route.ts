@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server';
+import { auth } from '@/lib/utils/auth';
 
 export async function POST(req: Request) {
-  const { query, center } = await req.json();
+  const session = await auth();
+  if (!session?.user.id) {
+    return NextResponse.json({ error: '로그인이 필요합니다.' }, { status: 401 });
+  }
+  const { query, languageCode } = await req.json();
 
   const response = await fetch('https://places.googleapis.com/v1/places:searchText', {
     method: 'POST',
@@ -9,12 +14,12 @@ export async function POST(req: Request) {
       'Content-Type': 'application/json',
       'X-Goog-Api-Key': process.env.GOOGLE_MAPS_API_KEY!,
       'X-Goog-FieldMask':
-        'places.id,places.displayName,places.shortFormattedAddress,places.primaryTypeDisplayName,places.location',
+        'places.id,places.displayName,places.formattedAddress,places.primaryTypeDisplayName,places.location',
       Referer: `${process.env.NEXT_PUBLIC_BASE_URL}`,
     },
     body: JSON.stringify({
       textQuery: query,
-      languageCode: 'ko-KR',
+      languageCode: languageCode || 'ko',
       // locationBias: {
       //   circle: {
       //     center: center || { latitude: 34.7024, longitude: 135.4959 }, // 기본값 오사카
@@ -25,7 +30,7 @@ export async function POST(req: Request) {
   });
 
   const data = await response.json();
-  return NextResponse.json(data);
+  return NextResponse.json(data, { status: response.status });
 }
 
 export async function GET(request: Request) {
@@ -40,7 +45,7 @@ export async function GET(request: Request) {
     headers: {
       'Content-Type': 'application/json',
       'X-Goog-Api-Key': process.env.GOOGLE_MAPS_API_KEY!,
-      'X-Goog-FieldMask': 'displayName,googleMapsUri,businessStatus,formattedAddress',
+      'X-Goog-FieldMask': 'displayName,googleMapsUri,businessStatus',
       Referer: `${process.env.NEXT_PUBLIC_BASE_URL}`,
     },
   });
