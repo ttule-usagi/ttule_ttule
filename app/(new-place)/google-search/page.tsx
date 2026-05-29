@@ -159,6 +159,9 @@ export default function SearchGoogle() {
           <NewPlaceFormContainer
             place={enrichedPlace}
             onClose={() => {
+              setIsNewPlaceModalOpen(false);
+            }}
+            onCancelClose={() => {
               open({
                 type: 'cancelNewPlace',
                 props: {

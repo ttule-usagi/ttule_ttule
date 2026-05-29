@@ -13,9 +13,10 @@ import { deleteImage } from '@/lib/actions/storage';
 interface Props {
   place: SelectedGooglePlace;
   onClose: () => void;
+  onCancelClose: () => void; // 모달 닫기 요청 콜백 (예: 취소 버튼 클릭 시)
 }
 
-export default function NewPlaceFormContainer({ place, onClose }: Props) {
+export default function NewPlaceFormContainer({ place, onClose, onCancelClose }: Props) {
   const router = useRouter();
   const [tab, setTab] = useState('basic');
 
@@ -30,17 +31,17 @@ export default function NewPlaceFormContainer({ place, onClose }: Props) {
     if (state.imageUrl) {
       deleteImage(state.imageUrl);
     }
-    onClose();
+    onCancelClose();
   };
 
   return (
     <>
-      <div className='fixed flex justify-center top-0 left-0 bg-[#424a602b] w-full h-full pt-[76px] px-4 z-[100]'>
+      <div className='fixed flex items-center justify-center top-0 left-0 bg-[#424a602b] w-full h-full px-4 z-[100]'>
         <div
-          className='relative max-h-184 rounded-lg bg-white z-40 w-[clamp(340px,52vw,560px)] px-6 py-7 top-0
+          className='relative flex flex-col h-[80vh] max-h-175 rounded-lg bg-white z-40 w-[clamp(340px,52vw,560px)] px-6 py-7 top-0
       '
         >
-          <div className='flex justify-between '>
+          <div className='flex justify-between flex-shrink-0 '>
             <h3 className='text-typo-title text-brand-blue-800'>장소 추가</h3>
             <button
               type='button'
@@ -55,7 +56,7 @@ export default function NewPlaceFormContainer({ place, onClose }: Props) {
             </button>
           </div>
 
-          <div className='mt-6 flex gap-4 items-start text-typo-base text-brand-gray-500'>
+          <div className='mt-6 flex flex-shrink-0 gap-4 items-start text-typo-base text-brand-gray-500'>
             <button
               onClick={() => setTab('basic')}
               className={tab === 'basic' ? 'text-brand-blue-700 border-b-2 border-brand-blue-700 pb-2' : ''}
@@ -69,55 +70,60 @@ export default function NewPlaceFormContainer({ place, onClose }: Props) {
               세부 정보
             </button>
           </div>
-          <form onSubmit={handleSubmit}>
-            {' '}
-            <div className={tab === 'basic' ? '' : 'hidden'}>
-              {isKorean ? (
-                <FormBasicKorean
+          <div className='relative flex flex-col flex-1 overflow-y-auto pb-22'>
+            <form
+              id='newPlaceForm'
+              onSubmit={handleSubmit}
+            >
+              <div className={tab === 'basic' ? '' : 'hidden'}>
+                {isKorean ? (
+                  <FormBasicKorean
+                    state={state}
+                    dispatch={dispatch}
+                    place={place}
+                  />
+                ) : (
+                  <FormBasicGlobal
+                    state={state}
+                    dispatch={dispatch}
+                    place={place}
+                  />
+                )}
+              </div>
+              <div className={tab === 'detail' ? '' : 'hidden'}>
+                <FormDetail
                   state={state}
                   dispatch={dispatch}
-                  place={place}
                 />
-              ) : (
-                <FormBasicGlobal
-                  state={state}
-                  dispatch={dispatch}
-                  place={place}
-                />
-              )}
-            </div>
-            <div className={tab === 'detail' ? '' : 'hidden'}>
-              <FormDetail
-                state={state}
-                dispatch={dispatch}
-              />
-            </div>
-            <div className='absolute w-full rounded-b-lg bottom-0 right-0 px-6 py-5 bg-brand-gray-200'>
-              {error && (
-                <p
-                  role='alert'
-                  className='text-red-500 text-typo-description'
-                >
-                  {error}
-                </p>
-              )}
+              </div>
+            </form>
+          </div>
+          <div className='flex-shrink-0 absolute w-full rounded-b-lg bottom-0 right-0 px-6 py-5 bg-brand-gray-200'>
+            {error && (
+              <p
+                role='alert'
+                className='text-red-500 text-typo-description'
+              >
+                {error}
+              </p>
+            )}
 
-              <button
-                className='float-right py-3 px-9 typo-text-base-bold text-white bg-brand-blue-700 rounded-sm hover:bg-brand-blue-800 cursor-pointer'
-                type='submit'
-                disabled={isPending}
-              >
-                {isPending ? '등록 중...' : '등록하기'}
-              </button>
-              <button
-                className=' float-right py-3 px-11 mr-4 text-typo-base-bold text-brand-gray-500 rounded-sm cursor-pointer hover:bg-gray-300'
-                type='button'
-                onClick={handleClose}
-              >
-                취소
-              </button>
-            </div>
-          </form>
+            <button
+              className='float-right py-3 px-9 typo-text-base-bold text-white bg-brand-blue-700 rounded-sm hover:bg-brand-blue-800 cursor-pointer'
+              form='newPlaceForm'
+              type='submit'
+              disabled={isPending}
+            >
+              {isPending ? '등록 중...' : '등록하기'}
+            </button>
+            <button
+              className=' float-right py-3 px-11 mr-4 text-typo-base-bold text-brand-gray-500 rounded-sm cursor-pointer hover:bg-gray-300'
+              type='button'
+              onClick={handleClose}
+            >
+              취소
+            </button>
+          </div>
         </div>
       </div>
     </>

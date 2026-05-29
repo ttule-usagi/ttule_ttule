@@ -14,7 +14,15 @@ interface Props {
 
 export default function FormBasicKorean({ state, dispatch, place }: Props) {
   return (
-    <div className='mt-6 flex flex-col gap-6  overflow-auto pb-65'>
+    <div className='mt-6 flex flex-col gap-6  overflow-auto flex-1 overflow-y-auto'>
+      <FormTypeSelect
+        id='category'
+        label='카테고리'
+        value={state.category}
+        onChange={(value) => dispatch({ type: 'SET_CATEGORY', value: value as PlaceCategory })}
+        options={PLACE_CATEGORIES}
+        required
+      />
       <FormTypeText
         id='korean_name'
         label='한국어 이름'
@@ -38,14 +46,6 @@ export default function FormBasicKorean({ state, dispatch, place }: Props) {
         value={place.formattedAddress ?? ''}
         onChange={() => {}}
         readOnly
-      />
-      <FormTypeSelect
-        id='category'
-        label='카테고리'
-        value={state.category}
-        onChange={(value) => dispatch({ type: 'SET_CATEGORY', value: value as PlaceCategory })}
-        options={PLACE_CATEGORIES}
-        required
       />
     </div>
   );
