@@ -72,7 +72,7 @@ export default function SignUpWithGoogle({ user }: { user: User }) {
       <div className='flex gap-4 mt-18.25'>
         <CancelButton
           text='취소'
-          onClick={() => open('cancelSignup')}
+          onClick={() => open({ type: 'cancelSignup' })}
         />
         <ConfirmButton
           text='확인'

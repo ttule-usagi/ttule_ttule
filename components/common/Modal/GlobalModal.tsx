@@ -14,18 +14,18 @@ import CancelNewPlaceModal from '@/components/features/new-place/CancelNewPlaceM
  */
 
 export default function GlobalModal() {
-  const { modal, close } = useModalStore();
+  const { activeModal, close } = useModalStore();
 
-  if (!modal) return null;
+  if (!activeModal) return null;
 
   return (
     <div
       className='modal-overlay'
       onClick={close}
     >
-      {modal === 'enterInviteLink' && <EnterInviteLinkModal />}
-      {modal === 'cancelSignup' && <CancelSignupModal />}
-      {modal === 'cancelNewPlace' && <CancelNewPlaceModal />}
+      {activeModal.type === 'enterInviteLink' && <EnterInviteLinkModal />}
+      {activeModal.type === 'cancelSignup' && <CancelSignupModal />}
+      {activeModal.type === 'cancelNewPlace' && <CancelNewPlaceModal onCancel={activeModal.props.onCancel} />}
     </div>
   );
 }
