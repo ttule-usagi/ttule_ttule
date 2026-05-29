@@ -164,8 +164,11 @@ export default function SearchGoogle() {
               setIsNewPlaceModalOpen(false);
             }}
             onCancelClose={() => {
-              open('cancelNewPlace', {
-                onCancel: () => setIsNewPlaceModalOpen(false),
+              open({
+                type: 'cancelNewPlace',
+                props: {
+                  onCancel: () => setIsNewPlaceModalOpen(false),
+                },
               });
             }}
           />
