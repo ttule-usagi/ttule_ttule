@@ -1,5 +1,6 @@
 import { FormInputProps } from '@/types/input';
 
+// 로그인에 사용되는 FormInput 컴포넌트
 export default function FormInput({ id, label, type = 'text', placeholder, value, onChange }: FormInputProps) {
   return (
     <div className='flex flex-col gap-1.5 w-full max-w-90'>

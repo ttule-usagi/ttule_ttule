@@ -1,9 +1,9 @@
 'use client';
 
-import { ModalPropMap, ModalProps, useModalStore } from '@/lib/store/modalStore';
+import { useModalStore } from '@/lib/store/modalStore';
 import EnterInviteLinkModal from '../../features/Plan/EnterInviteLinkModal';
 import CancelSignupModal from '@/components/features/CancelSignupModal';
-import ShareLinkModal from '../ShareLinkModal';
+import CancelNewPlaceModal from '@/components/features/new-place/CancelNewPlaceModal';
 
 /**
  * 전역 모달 컴포넌트
@@ -14,29 +14,18 @@ import ShareLinkModal from '../ShareLinkModal';
  */
 
 export default function GlobalModal() {
-  const { modal, props, close } = useModalStore();
+  const { activeModal, close } = useModalStore();
 
-  if (!modal) return null;
+  if (!activeModal) return null;
 
   return (
     <div
       className='modal-overlay'
       onClick={close}
     >
-      {modal === 'enterInviteLink' && <EnterInviteLinkModal />}
-      {modal === 'cancelSignup' && <CancelSignupModal />}
-      {modal === 'editLink' && (
-        <ShareLinkModal
-          type='EDIT'
-          link={(props as ModalPropMap['editLink']).link}
-        />
-      )}
-      {modal === 'viewLink' && (
-        <ShareLinkModal
-          type='VIEW'
-          link={(props as ModalPropMap['viewLink']).link}
-        />
-      )}
+      {activeModal.type === 'enterInviteLink' && <EnterInviteLinkModal />}
+      {activeModal.type === 'cancelSignup' && <CancelSignupModal />}
+      {activeModal.type === 'cancelNewPlace' && <CancelNewPlaceModal onCancel={activeModal.props.onCancel} />}
     </div>
   );
 }
