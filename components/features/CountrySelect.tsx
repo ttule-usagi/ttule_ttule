@@ -54,6 +54,7 @@ export default function CountrySelect({ value, onChange }: Props) {
       e.preventDefault();
       setHighlightIndex((i) => Math.max(i - 1, 0));
     } else if (e.key === 'Enter') {
+      if (e.nativeEvent.isComposing) return;
       e.preventDefault();
       if (filteredOptions.length === 0) return;
       const selected = filteredOptions[highlightIndex] ?? filteredOptions[0];

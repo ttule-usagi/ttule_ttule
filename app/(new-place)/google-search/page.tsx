@@ -62,8 +62,6 @@ export default function SearchGoogle() {
   // selectedPlace에 additionalData 합치기
   const enrichedPlace = selectedPlace && additionalData ? { ...selectedPlace, additionalData } : null;
 
-  console.log('country: ', country);
-
   return (
     <div className='relative'>
       <Sidebar />
