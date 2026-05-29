@@ -33,31 +33,33 @@ export default function CountrySelect({ value, onChange }: Props) {
     ? COUNTRIES.filter((country) => country.label.toLowerCase().includes(searchText.toLowerCase()))
     : COUNTRIES;
 
-  // 검색 결과가 바뀌면 하이라이트 첫 번째로
-  useEffect(() => {
-    setHighlightIndex(0);
-  }, [searchText]);
-
   // 옵션 선택
   const handleSelect = (country: Country) => {
     onChange(country);
     setIsOpen(false);
     setSearchText('');
+    setHighlightIndex(0);
   };
 
   // 키보드 네비게이션
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();
+      if (!isOpen) {
+        setIsOpen(true);
+        return;
+      }
       setHighlightIndex((i) => Math.min(i + 1, filteredOptions.length - 1));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setHighlightIndex((i) => Math.max(i - 1, 0));
     } else if (e.key === 'Enter') {
       e.preventDefault();
-      const safeIndex = highlightIndex < filteredOptions.length ? highlightIndex : 0;
-      const selected = filteredOptions[safeIndex];
-      if (selected) handleSelect(selected);
+      if (filteredOptions.length === 0) return;
+      const selected = filteredOptions[highlightIndex] ?? filteredOptions[0];
+      if (selected) {
+        handleSelect(selected);
+      }
     } else if (e.key === 'Escape') {
       setIsOpen(false);
       setSearchText('');
@@ -84,6 +86,7 @@ export default function CountrySelect({ value, onChange }: Props) {
           value={isOpen ? searchText : value.label}
           onChange={(e) => {
             setSearchText(e.target.value);
+            setHighlightIndex(0);
             if (!isOpen) setIsOpen(true);
           }}
           onFocus={() => setIsOpen(true)}
