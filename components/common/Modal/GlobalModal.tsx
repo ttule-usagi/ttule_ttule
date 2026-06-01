@@ -4,6 +4,7 @@ import { useModalStore } from '@/lib/store/modalStore';
 import EnterInviteLinkModal from '../../features/Plan/EnterInviteLinkModal';
 import CancelSignupModal from '@/components/features/CancelSignupModal';
 import CancelNewPlaceModal from '@/components/features/new-place/CancelNewPlaceModal';
+import ShareLinkModal from '../ShareLinkModal';
 
 /**
  * 전역 모달 컴포넌트
@@ -26,6 +27,12 @@ export default function GlobalModal() {
       {activeModal.type === 'enterInviteLink' && <EnterInviteLinkModal />}
       {activeModal.type === 'cancelSignup' && <CancelSignupModal />}
       {activeModal.type === 'cancelNewPlace' && <CancelNewPlaceModal onCancel={activeModal.props.onCancel} />}
+      {activeModal.type === 'shareLink' && (
+        <ShareLinkModal
+          type={activeModal.props.type}
+          link={activeModal.props.link}
+        />
+      )}
     </div>
   );
 }
