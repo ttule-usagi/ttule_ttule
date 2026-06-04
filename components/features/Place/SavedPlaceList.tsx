@@ -1,39 +1,32 @@
+import { PlaceListOverview } from '@/types/placeList';
 import PlaceListItem from './PlaceListItem';
-
-export interface PlaceItemProps {
-  id: number;
-  name: string;
-  isShared: boolean;
-  placeCount: number;
-  icon: string;
-}
 
 const SavedPlaces = [
   {
     id: 1,
-    name: '교토 나들이',
-    isShared: true,
+    title: '교토 나들이',
+    isPublic: true,
     placeCount: 32,
     icon: '⭐️',
   },
   {
     id: 2,
-    name: '교토 나들이',
-    isShared: true,
+    title: '교토 나들이',
+    isPublic: true,
     placeCount: 32,
     icon: '🌸',
   },
   {
     id: 3,
-    name: '교토 나들이',
-    isShared: false,
+    title: '교토 나들이',
+    isPublic: false,
     placeCount: 32,
     icon: '👩‍❤️‍👩',
   },
   {
     id: 4,
-    name: '교토 나들이',
-    isShared: false,
+    title: '교토 나들이',
+    isPublic: false,
     placeCount: 32,
     icon: '🎧',
   },
@@ -42,7 +35,7 @@ const SavedPlaces = [
 export default function SavedPlaceList() {
   return (
     <div className='flex flex-col gap-3'>
-      {SavedPlaces.map((item: PlaceItemProps) => (
+      {SavedPlaces.map((item: PlaceListOverview) => (
         <PlaceListItem
           key={item.id}
           place={item}
