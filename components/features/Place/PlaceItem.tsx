@@ -4,6 +4,7 @@ import { Icon } from '@/components/common/Icon';
 import { Place } from '@/types/placeList';
 import Image from 'next/image';
 import React, { useState } from 'react';
+import PlaceTag from './PlaceTag';
 
 export default function PlaceItem({ place }: { place: Place }) {
   const [isEdit, setIsEdit] = useState(false);
@@ -52,7 +53,19 @@ export default function PlaceItem({ place }: { place: Place }) {
 
         {!isEdit && <p className='text-brand-gray-400 text-typo-description'>{place.category}</p>}
         {!isEdit ? (
-          <p className='text-brand-gray-600 text-typo-description'>{place.memoContent}</p>
+          <>
+            <p className='text-brand-gray-600 text-typo-description mb-1'>{place.memoContent}</p>
+
+            <div className='flex gap-1 items-center'>
+              {place.tags.map((item) => (
+                <PlaceTag
+                  key={item.id}
+                  tag={item}
+                  isRounded={true}
+                />
+              ))}
+            </div>
+          </>
         ) : (
           <form>
             <textarea
