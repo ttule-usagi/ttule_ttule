@@ -1,14 +1,26 @@
+// 장소 태그
+export interface Tag {
+  id: number;
+  name: string;
+  color: 'RED' | 'HOTPINK' | 'YELLOW' | 'GREEN' | 'BLUE' | 'PURPLE' | 'GRAY';
+}
+
 // 장소 리스트
-export interface PlaceList {
+export interface PlaceListOverview {
   id: number;
   title: string;
-  description: string;
   isPublic: boolean;
+  placeCount: number;
+  icon: string;
+}
+
+export interface PlaceListDetail extends PlaceListOverview {
+  description: string;
+  tags: Tag[];
   viewToken: number;
   viewExpiresAt: Date;
   editToken: number;
   editExpiresAt: Date;
-  icon: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -34,6 +46,7 @@ export interface Place {
   category: string | null; // place_category
   thumbnail: string | null;
   memoContent: string | null;
+  tags: Tag[];
   createdAt: Date;
   updatedAt: Date;
 }
