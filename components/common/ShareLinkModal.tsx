@@ -21,7 +21,7 @@ const MODAL_CONTENT = {
 export default function ShareLinkModal({ type, link }: { type: ShareType; link: string }) {
   const modalText = MODAL_CONTENT[type];
   return (
-    <ModalBox>
+    <ModalBox width={560}>
       <ModalBox.ModalTitle
         title={modalText.title}
         description={modalText.description}
@@ -31,11 +31,11 @@ export default function ShareLinkModal({ type, link }: { type: ShareType; link: 
 
         <ModalBox.ModalBottomContent>
           <input
-            className='modal-input'
+            className='modal-input min-w-0'
             value={link}
             disabled
           />
-          <button className='modal-button px-5'>
+          <button className='modal-button px-5 shrink-0'>
             <Icon
               name='Copy'
               size={16}
