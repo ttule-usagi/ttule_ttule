@@ -17,7 +17,10 @@ const listData = {
       category: '카페',
       thumbnail: null,
       memoContent: '타코야끼먹고싶다',
-      tags: [{ id: 1, name: '간식먹방', color: 'RED' }],
+      tags: [
+        { id: 1, name: '간식먹방', color: 'RED' },
+        { id: 4, name: '문화생활~', color: 'PURPLE' },
+      ],
       createdAt: new Date('2026-05-10T10:00:00Z'),
       updatedAt: new Date('2026-05-10T10:00:00Z'),
     },
@@ -34,6 +37,10 @@ const listData = {
       tags: [
         { id: 2, name: '카페', color: 'YELLOW' },
         { id: 3, name: '잼컨', color: 'GREEN' },
+        { id: 4, name: '문화생활~', color: 'PURPLE' },
+        { id: 5, name: '문화유산', color: 'GRAY' },
+        { id: 6, name: '음식점', color: 'HOTPINK' },
+        { id: 7, name: '숙소', color: 'BLUE' },
       ],
       createdAt: new Date('2026-05-11T15:30:00Z'),
       updatedAt: new Date('2026-05-11T15:30:00Z'),
@@ -47,6 +54,10 @@ const listData = {
     },
     { id: 2, name: '카페', color: 'YELLOW' },
     { id: 3, name: '잼컨', color: 'GREEN' },
+    { id: 4, name: '문화생활~', color: 'PURPLE' },
+    { id: 5, name: '문화유산', color: 'GRAY' },
+    { id: 6, name: '음식점', color: 'HOTPINK' },
+    { id: 7, name: '숙소', color: 'BLUE' },
   ] as Tag[],
 };
 
