@@ -56,7 +56,7 @@ export default function PlaceItem({ place }: { place: Place }) {
           <>
             <p className='text-brand-gray-600 text-typo-description mb-1'>{place.memoContent}</p>
 
-            <div className='flex gap-1 items-center'>
+            <div className='flex gap-1 items-center overflow flex-wrap'>
               {place.tags.map((item) => (
                 <PlaceTag
                   key={item.id}
