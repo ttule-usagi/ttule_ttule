@@ -48,15 +48,15 @@ export default function CreatePlace() {
 
   return (
     <div className='flex flex-col gap-6'>
-      <div className='flex items-center'>
+      <header className='flex items-center'>
         <p className='flex-1 text-typo-big-title text-brand-blue-700'>장소 리스트 생성</p>
         <button
           onClick={handleSubmit}
-          className='rounded-lg box-border font-light px-3 py-2 text-brand-gray-0 bg-brand-blue-700 flex items-center justify-center'
+          className='rounded-lg box-border font-light px-3 py-2 text-brand-gray-0 bg-brand-blue-700 flex items-center justify-center cursor-pointer'
         >
           저장하기
         </button>
-      </div>
+      </header>
 
       <form className='flex flex-col gap-4'>
         <div className='flex flex-col gap-3'>
@@ -74,7 +74,7 @@ export default function CreatePlace() {
             className='create-place-input'
           />
           {error && error.type === 'FIELD' && (
-            <p className='text-typo-description text-tag-red-text'>{error.message}</p>
+            <p className='text-typo-description text-tag-red-text -mt-1'>{error.message}</p>
           )}
         </div>
 
@@ -86,23 +86,45 @@ export default function CreatePlace() {
             아이콘
           </label>
 
-          <div className='relative'>
-            <button
-              type='button'
-              onClick={() => setIsOpenIconMenu(!isOpenIconMenu)}
-              className='create-place-input'
-            >
-              <span className='font-mona12'>{selectIcon ? selectIcon.emoji : '+'}</span>
-              <span className='flex-1 text-ellipsis'>{selectIcon ? selectIcon.name : '아이콘 선택'}</span>
-              <Icon
-                name='ChevronDown'
-                size={24}
-              />
-            </button>
+          <div className='flex flex-col gap-2'>
+            <div className='flex gap-1.5 w-full'>
+              <button
+                type='button'
+                onClick={() => setIsOpenIconMenu(!isOpenIconMenu)}
+                className={`flex-1 min-w-0 create-place-input gap-2.5 cursor-pointer ${selectIcon ? 'text-brand-gray-700' : 'text-brand-gray-400'}`}
+              >
+                <span className='font-mona12 text-typo-base'>
+                  {selectIcon ? (
+                    selectIcon.emoji
+                  ) : (
+                    <Icon
+                      name='Plus'
+                      size={20}
+                    />
+                  )}
+                </span>
+                <span className='flex-1 min-w-0 text-start text-ellipsis overflow-hidden whitespace-nowrap'>
+                  {selectIcon ? selectIcon.name : '아이콘 선택'}
+                </span>
+                <Icon
+                  name='ChevronDown'
+                  size={24}
+                />
+              </button>
+              {selectIcon && (
+                <button
+                  type='button'
+                  onClick={() => setSelectedIcon(null)}
+                  className='bg-tag-red-text text-brand-gray-0 rounded-sm px-2 w-14 cursor-pointer font-light'
+                >
+                  제거
+                </button>
+              )}
+            </div>
 
             {isOpenIconMenu && (
-              <div className='absolute z-10'>
-                <Suspense fallback={<div>로딩중...</div>}>
+              <div className='w-full'>
+                <Suspense fallback={<div className='w-full text-brand-gray-400 text-center'>Loading...</div>}>
                   <EmojiPicker onClick={(icon) => handleSelectIcon(icon)} />
                 </Suspense>
               </div>
@@ -126,6 +148,9 @@ export default function CreatePlace() {
           />
         </div>
       </form>
+      {error && error.type === 'UPLOAD' && (
+        <p className='text-typo-description text-tag-red-text -mt-1'>{error.message}</p>
+      )}
     </div>
   );
 }
