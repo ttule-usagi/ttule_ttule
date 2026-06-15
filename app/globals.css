@@ -167,6 +167,11 @@ input:-webkit-autofill:active {
     @apply flex items-center justify-center bg-brand-blue-700 text-typo-base text-brand-gray-0 max-w-32 px-12.5 py-3 gap-2 rounded-sm cursor-pointer;
   }
 
+  /* 장소 리스트 생성 input 스타일*/
+  .create-place-input {
+    @apply flex items-center box-border w-full rounded-sm px-3 py-2 bg-brand-gray-100 border border-brand-gray-200 text-brand-gray-700 outline-none placeholder-brand-gray-400;
+  }
+
   .wobbly-box {
     /* 내용만큼 가로가 늘어남 */
     display: inline-block;

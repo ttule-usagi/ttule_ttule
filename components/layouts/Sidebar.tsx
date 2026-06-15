@@ -24,7 +24,7 @@ export default function Sidebar() {
             href={icon.href}
           >
             <button
-              className={`flex items-center justify-center p-2.5 rounded-lg ${pathname === icon.href ? 'bg-brand-blue-500 text-white' : 'text-brand-blue-300'}`}
+              className={`flex items-center justify-center p-2.5 rounded-lg ${pathname.startsWith(icon.href) ? 'bg-brand-blue-500 text-white' : 'text-brand-blue-300'}`}
             >
               <Icon
                 name={icon.name as 'Luggage' | 'Bookmark'}
