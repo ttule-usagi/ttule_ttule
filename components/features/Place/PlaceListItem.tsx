@@ -13,7 +13,7 @@ export default function PlaceListItem({ place }: { place: PlaceListOverview }) {
     >
       <div className='w-full flex flex-col gap-1'>
         <div className='flex items-center h-full text-brand-blue-700'>
-          <span className='font-mona12 text-emoji-title mr-2'>{place.icon}</span>
+          {place.icon && <span className='font-mona12 text-emoji-title mr-2'>{place.icon}</span>}
           <span className='text-typo-sub-title font-medium flex-1'>{place.title}</span>
         </div>
 

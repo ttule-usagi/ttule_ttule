@@ -1,3 +1,6 @@
+//장소 리스트 유형 - 공유된, 저장된 리스트로 구분해서 볼 때 사용
+export type ListType = 'all' | 'owned' | 'shared';
+
 // 장소 태그
 export interface Tag {
   id: number;
@@ -9,20 +12,27 @@ export interface Tag {
 export interface PlaceListOverview {
   id: number;
   title: string;
+  editToken: string;
+  editTokenExpiresAt: string;
+  viewToken: string;
+  viewTokenExpiresAt: string;
   isPublic: boolean;
   placeCount: number;
-  icon: string;
+  icon: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
+// 장소 리스트 목록 조회
+export interface AllPlaceLists {
+  items: PlaceListOverview[];
+  totalCount: number;
+}
+
+// 장소 리스트 상세페이지
 export interface PlaceListDetail extends PlaceListOverview {
   description: string;
   tags: Tag[];
-  viewToken: number;
-  viewExpiresAt: Date;
-  editToken: number;
-  editExpiresAt: Date;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 // 장소 리스트 멤버

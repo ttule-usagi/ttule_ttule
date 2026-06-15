@@ -10,7 +10,9 @@ export default function PlaceLayout({
       {children}
 
       {/* 우측 지도 */}
-      <section className='flex-1 bg-brand-blue-50 h-full'>{/* <PlaceMap /> */}</section>
+      <section className='flex-1 bg-brand-blue-50 h-full'>
+        <PlaceMap />
+      </section>
     </div>
   );
 }

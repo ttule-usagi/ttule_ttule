@@ -39,7 +39,7 @@ export default function CreatePlace() {
         icon: (selectIcon && selectIcon.emoji) || undefined,
         description: description.trim() || undefined,
       });
-      if (listId) router.push(`/places/${listId}`);
+      if (listId) router.replace(`/places/${listId}`);
     } catch (error) {
       console.error('장소 리스트 생성 실패', error);
       setError({ type: 'UPLOAD', message: '장소 리스트 생성에 실패했습니다. 잠시 후 다시 시도해주세요.' });

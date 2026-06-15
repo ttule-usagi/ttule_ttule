@@ -1,6 +1,5 @@
 import { Icon } from '@/components/common/Icon';
-import SavedPlaceList from '@/components/features/Place/SavedPlaceList';
-import SharedPlaceList from '@/components/features/Place/SharedPlaceList';
+import PlaceList from '@/components/features/Place/PlaceList';
 import Link from 'next/link';
 
 export default function Page() {
@@ -17,10 +16,16 @@ export default function Page() {
         />
         장소 리스트 만들기
       </Link>
-      <SavedPlaceList />
+      <PlaceList
+        listType='owned'
+        emptyText='장소 리스트가 아직 없습니다.'
+      />
 
-      <div className='mt-17.5 text-typo-big-title font-semibold text-brand-blue-700 pb-6'>공유된 장소 리스트</div>
-      <SharedPlaceList />
+      <div className='mt-17.5 text-typo-title font-semibold text-brand-blue-700 pb-6'>공유된 장소 리스트</div>
+      <PlaceList
+        listType='shared'
+        emptyText='초대된 장소 리스트가 아직 없습니다.'
+      />
     </>
   );
 }
