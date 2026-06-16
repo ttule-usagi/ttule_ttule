@@ -4,6 +4,7 @@ import { Icon } from '@/components/common/Icon';
 import { useDebounce } from '@/hooks/useDebounce';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import AutoComplete, { type AutoCompleteItem } from './AutoComplete';
 
 export default function DBSearchInput() {
   const path = usePathname();
@@ -13,20 +14,54 @@ export default function DBSearchInput() {
   // 엔터키 누르기 전, 자동완성 항목 클릭 전까지는 자동완성 항목 노출
   // 엔터키 누른 후에는 결과 리스트
   const [value, setValue] = useState('');
-  const debounced = useDebounce(value, 500);
+  const [autoCompleteItems, setAutoCompleteItems] = useState<AutoCompleteItem[]>([]);
+  const [isAutoCompleteOpen, setIsAutoCompleteOpen] = useState(false);
+  const debounced = useDebounce(value, 300);
 
   useEffect(() => {
-    if (debounced.trim() === '') return;
+    if (debounced.trim() === '') {
+      setAutoCompleteItems([]);
+      return;
+    }
 
     // 자동완성 api 호출
+    // 응답 결과를 setAutoCompleteItems로 반영하고 setIsAutoCompleteOpen(true) 처리 필요
   }, [debounced]);
 
-  // 검색 결과 api 호출하는 검색 결과 페이지로 이동
-  const handleSubmitValue = (e: React.SubmitEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = () => {
     if (value.trim() === '') return;
+    setIsAutoCompleteOpen(false);
     router.push(`/places/search?query=${encodeURIComponent(value)}`);
+  };
+
+  // 검색 결과 api 호출하는 검색 결과 페이지로 이동
+  const handleSubmitValue = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleSubmit();
+  };
+
+  // 한글 등 조합 중인 입력에서 엔터를 누르면 isComposing이 true이므로 무시
+  // (조합 완료 후 발생하는 별도의 키 입력과 중복 제출되는 것을 방지)
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Enter') return;
+    if (e.nativeEvent.isComposing) return;
+
+    // 자동완성이 열려 있는 동안의 엔터는 AutoComplete 내부 키보드 핸들러가 항목 선택을 처리하므로
+    // 여기서는 자동완성이 닫혀 있을 때만 폼 제출로 처리
+    if (isAutoCompleteOpen) return;
+
+    e.preventDefault();
+    handleSubmit();
+  };
+
+  const handleSelectItem = (item: AutoCompleteItem) => {
+    setValue(item.name);
+    setIsAutoCompleteOpen(false);
+    router.push(`/places/detail/${item.id}`);
+  };
+
+  const handleCloseAutoComplete = () => {
+    setIsAutoCompleteOpen(false);
   };
 
   return (
@@ -48,6 +83,7 @@ export default function DBSearchInput() {
           className='text-brand-gray-600 w-full outline-none'
           value={value}
           onChange={(e) => setValue(e.target.value)}
+          onKeyDown={handleInputKeyDown}
         />
         <button
           type='submit'
@@ -59,6 +95,13 @@ export default function DBSearchInput() {
           />
         </button>
       </form>
+      {isAutoCompleteOpen && (
+        <AutoComplete
+          items={autoCompleteItems}
+          onSelect={handleSelectItem}
+          onClose={handleCloseAutoComplete}
+        />
+      )}
     </div>
   );
 }
