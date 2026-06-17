@@ -5,7 +5,7 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import AutoComplete, { type AutoCompleteItem } from './AutoComplete';
-import { useAutoCompleteSearch } from '@/hooks/place-search/UseAutoCompleteSearch';
+import { useAutoCompleteSearch } from '@/hooks/place-search/useAutoCompleteSearch';
 
 export default function DBSearchInput() {
   const path = usePathname();
@@ -69,7 +69,7 @@ export default function DBSearchInput() {
   };
 
   return (
-    <div className='flex gap-4 items-center mb-8'>
+    <div className='relative flex gap-4 items-center mb-8'>
       {path !== '/places' && (
         <Icon
           name='ArrowLeft'
@@ -79,7 +79,7 @@ export default function DBSearchInput() {
         />
       )}
       <form
-        className='relative w-full flex text-typo-base border-brand-blue-700 pl-6 pr-4 py-1.25 bg-brand-gray-0 rounded-[30px] border-2 items-center flex-1 gap-2'
+        className=' w-full flex text-typo-base border-brand-blue-700 pl-6 pr-4 py-1.25 bg-brand-gray-0 rounded-[30px] border-2 items-center flex-1 gap-2'
         onSubmit={handleSubmitValue}
       >
         <input

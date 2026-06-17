@@ -1,34 +1,3 @@
-export interface CorePlaceSearchResult {
-  id: number;
-  englishName: string;
-  originalName?: string;
-  koreanName: string;
-  address?: string;
-  category?: string; // place_category
-  savedCount: number;
-}
-
-export interface CorePlaceDetail {
-  id: number;
-  googlePlaceId: string;
-  latitude?: number;
-  longitude?: number;
-  koreanName: string;
-  address?: string;
-  category?: string; // place_category
-  status?: string; // approval_status
-  businessStatus?: string; // business_status
-  savedCount: number;
-  createdAt?: string;
-  averageRating?: number;
-  reviewCount?: number;
-  englishName: string;
-  originalName?: string;
-  // uploaded_by
-  // updated_at
-  // deleted_at
-}
-
 // 장소 카테고리
 export const PLACE_CATEGORIES = [
   { value: 'restaurant', label: '음식점' },
@@ -85,4 +54,53 @@ export interface AutoCompleteResult {
 // 자동완성 리스트 조회
 export interface AutoCompleteResults {
   items: AutoCompleteResult[];
+}
+
+export interface PlaceSearchResult {
+  id: string;
+  googlePlaceId: string;
+  latitude: number;
+  longitude: number;
+  name: string;
+  koreanName: string;
+  englishName: string;
+  originalName: string | null;
+  address: string;
+  category: string;
+  businessStatus: string;
+  savedCount: number;
+  uploadedBy: string;
+  createdAt: string;
+  updatedAt: string;
+  averageRating: number;
+  reviewCount: number;
+  websiteUri: string | null;
+  phoneNumber: string | null;
+}
+
+export interface PlaceSearchResults {
+  items: PlaceSearchResult[];
+  totalCount: number;
+}
+
+export interface CorePlaceSearchResult {
+  id: string;
+  googlePlaceId: string;
+  latitude: number | null;
+  longitude: number | null;
+  name: string;
+  koreanName: string;
+  englishName: string;
+  originalName: string | null;
+  address: string | null;
+  category: string | null;
+  businessStatus: string | null;
+  savedCount: number;
+  uploadedBy: string;
+  createdAt: string;
+  updatedAt: string;
+  averageRating: number | null;
+  reviewCount: number | null;
+  websiteUri: string | null;
+  phoneNumber: string | null;
 }
