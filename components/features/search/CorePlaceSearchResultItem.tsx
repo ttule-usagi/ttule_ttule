@@ -14,25 +14,28 @@ export default function CorePlaceSearchResultItem({ result }: CorePlaceSearchRes
   const categoryLabel = getCategoryLabel(result.category);
 
   return (
-    <div className='flex flex-col gap-1.5 p-3 border border-brand-gray-300 rounded-sm bg-brand-gray-0 hover:bg-brand-gray-50 transition-colors'>
+    <div className='flex flex-col gap-1 p-3 border border-brand-gray-300 rounded-sm bg-brand-gray-0 hover:bg-brand-gray-50 transition-colors'>
       <div className='flex items-center justify-between'>
         <p className='text-typo-sub-title text-brand-gray-600 font-medium'>{result.name}</p>
       </div>
       <div className='flex gap-0.5 flex-col'>
-        <div className='flex gap-2 items-center'>
+        <div className='flex gap-1 items-center'>
           {categoryLabel && <p className='text-typo-description text-brand-gray-500'>{categoryLabel}</p>}
           {result.averageRating !== 0 && (
-            <div>
-              {' '}
+            <div className='flex gap-0.5 items-center'>
+              <span className='text-typo-description text-brand-gray-500'>·</span>
               <Icon
                 name='RatingStar'
                 size={16}
               />
-              <span className='text-typo-description text-brand-gray-400'>{result.averageRating}</span>
+              <span className='text-typo-description text-brand-gray-500'>{result.averageRating}</span>
             </div>
           )}
           {result.savedCount !== 0 && (
-            <span className='text-typo-description text-brand-gray-400'>저장 {result.savedCount}</span>
+            <div>
+              <span className='text-typo-description text-brand-gray-500'>·</span>
+              <span className='text-typo-description text-brand-gray-500'>저장 {result.savedCount}</span>
+            </div>
           )}
         </div>
         <p className='text-typo-description text-brand-gray-400'>{result.address}</p>
