@@ -5,6 +5,7 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import AutoComplete, { type AutoCompleteItem } from './AutoComplete';
+import { useAutoCompleteSearch } from '@/hooks/place-search/UseAutoCompleteSearch';
 
 export default function DBSearchInput() {
   const path = usePathname();
@@ -14,19 +15,22 @@ export default function DBSearchInput() {
   // 엔터키 누르기 전, 자동완성 항목 클릭 전까지는 자동완성 항목 노출
   // 엔터키 누른 후에는 결과 리스트
   const [value, setValue] = useState('');
-  const [autoCompleteItems, setAutoCompleteItems] = useState<AutoCompleteItem[]>([]);
   const [isAutoCompleteOpen, setIsAutoCompleteOpen] = useState(false);
   const debounced = useDebounce(value, 300);
 
+  const { data } = useAutoCompleteSearch(debounced);
+  const autoCompleteItems: AutoCompleteItem[] = data?.items ?? [];
+
+  // 자동완성 결과가 도착하면 노출 여부를 결정
+  // (검색어가 비어있거나 결과가 없으면 닫고, 결과가 있으면 연다)
   useEffect(() => {
-    if (debounced.trim() === '') {
-      setAutoCompleteItems([]);
+    if (debounced.trim() === '' || autoCompleteItems.length === 0) {
+      setIsAutoCompleteOpen(false);
       return;
     }
 
-    // 자동완성 api 호출
-    // 응답 결과를 setAutoCompleteItems로 반영하고 setIsAutoCompleteOpen(true) 처리 필요
-  }, [debounced]);
+    setIsAutoCompleteOpen(true);
+  }, [debounced, autoCompleteItems]);
 
   const handleSubmit = () => {
     if (value.trim() === '') return;
@@ -75,7 +79,7 @@ export default function DBSearchInput() {
         />
       )}
       <form
-        className='w-full flex text-typo-base border-brand-blue-700 pl-6 pr-4 py-1.25 bg-brand-gray-0 rounded-[30px] border-2 items-center flex-1 gap-2'
+        className='relative w-full flex text-typo-base border-brand-blue-700 pl-6 pr-4 py-1.25 bg-brand-gray-0 rounded-[30px] border-2 items-center flex-1 gap-2'
         onSubmit={handleSubmitValue}
       >
         <input

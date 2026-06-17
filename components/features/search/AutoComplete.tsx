@@ -78,7 +78,7 @@ const AutoComplete = ({ items, onSelect, onClose }: AutoCompleteProps) => {
     <div
       ref={containerRef}
       role='listbox'
-      className='absolute top-[calc(100%+8px)] left-0 right-0 bg-white border border-slate-200 rounded-xl shadow-2xl max-h-60 overflow-y-auto z-50 p-0 m-0'
+      className='absolute top-13 left-0 right-0 bg-white border border-brand-gray-300 w-full rounded-lg shadow-2xl max-h-60 overflow-y-auto z-50 py-1 m-0'
     >
       {items.map((item, index) => (
         <button
@@ -89,8 +89,8 @@ const AutoComplete = ({ items, onSelect, onClose }: AutoCompleteProps) => {
           onClick={() => onSelect(item)}
           role='option'
           aria-selected={index === activeIndex}
-          className={`w-full text-left px-4 py-3 bg-transparent text-sm text-slate-900 cursor-pointer focus:outline-none ${
-            index === activeIndex ? 'bg-slate-100' : ''
+          className={`w-full text-left px-4 py-2 text-sm cursor-pointer hover:text-brand-blue-600 hover:bg-brand-blue-50 focus:outline-none ${
+            index === activeIndex ? 'bg-brand-blue-50 text-brand-blue-600' : 'text-brand-gray-500'
           }`}
         >
           {item.name}

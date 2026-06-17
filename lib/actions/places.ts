@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { supabaseAdmin } from '@/lib/utils/supabase/index';
 import { auth } from '@/lib/utils/auth';
-import type { AutoCompleteResult, CreatePlacePayload } from '@/types/CorePlace';
+import type { AutoCompleteResult, AutoCompleteResults, CreatePlacePayload } from '@/types/CorePlace';
 import { toCamelKey } from '../utils/toCamelCase';
 
 // 이미 등록한 장소인지 체크
@@ -75,7 +75,7 @@ interface GetAutoCompletePlacesProps {
 export const getAutoCompletePlaces = async ({
   query,
   limit = 5,
-}: GetAutoCompletePlacesProps): Promise<AutoCompleteResult[]> => {
+}: GetAutoCompletePlacesProps): Promise<AutoCompleteResults> => {
   // 인증 확인
   const session = await auth();
   if (!session?.user?.id) {
@@ -83,7 +83,7 @@ export const getAutoCompletePlaces = async ({
   }
 
   const trimmedQuery = query.trim();
-  if (trimmedQuery === '') return [];
+  if (trimmedQuery === '') return { items: [] };
 
   const supabase = await supabaseAdmin;
   const { data, error } = await supabase.rpc('search_places_autocomplete', {
@@ -93,5 +93,5 @@ export const getAutoCompletePlaces = async ({
 
   if (error) throw error;
   if (!data) throw new Error('자동완성 결과를 가져오는 데 실패했습니다.');
-  return toCamelKey<AutoCompleteResult[]>(data);
+  return toCamelKey<AutoCompleteResults>(data);
 };

@@ -78,12 +78,11 @@ export const sanitizeBusinessStatus = (raw?: string): BusinessStatus | null => {
 };
 
 export interface AutoCompleteResult {
-  id: number;
+  id: string;
   name: string;
 }
 
 // 자동완성 리스트 조회
 export interface AutoCompleteResults {
   items: AutoCompleteResult[];
-  totalCount: number;
 }
