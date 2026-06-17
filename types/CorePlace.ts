@@ -76,3 +76,14 @@ export const sanitizeBusinessStatus = (raw?: string): BusinessStatus | null => {
   if (!raw) return null;
   return BUSINESS_STATUS.includes(raw as BusinessStatus) ? (raw as BusinessStatus) : null;
 };
+
+export interface AutoCompleteResult {
+  id: number;
+  name: string;
+}
+
+// 자동완성 리스트 조회
+export interface AutoCompleteResults {
+  items: AutoCompleteResult[];
+  totalCount: number;
+}
