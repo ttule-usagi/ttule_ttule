@@ -58,24 +58,14 @@ export interface AutoCompleteResults {
 
 export interface PlaceSearchResult {
   id: string;
-  googlePlaceId: string;
   latitude: number;
   longitude: number;
   name: string;
-  koreanName: string;
-  englishName: string;
-  originalName: string | null;
   address: string;
   category: string;
-  businessStatus: string;
   savedCount: number;
-  uploadedBy: string;
-  createdAt: string;
-  updatedAt: string;
   averageRating: number;
   reviewCount: number;
-  websiteUri: string | null;
-  phoneNumber: string | null;
 }
 
 export interface PlaceSearchResults {
@@ -85,22 +75,12 @@ export interface PlaceSearchResults {
 
 export interface CorePlaceSearchResult {
   id: string;
-  googlePlaceId: string;
   latitude: number | null;
   longitude: number | null;
   name: string;
-  koreanName: string;
-  englishName: string;
-  originalName: string | null;
   address: string | null;
   category: string | null;
-  businessStatus: string | null;
   savedCount: number;
-  uploadedBy: string;
-  createdAt: string;
-  updatedAt: string;
   averageRating: number | null;
   reviewCount: number | null;
-  websiteUri: string | null;
-  phoneNumber: string | null;
 }
