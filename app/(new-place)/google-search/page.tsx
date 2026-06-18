@@ -3,18 +3,22 @@
 import NewPlaceFormContainer from '@/components/features/new-place/NewPlaceFormContainer';
 import GooglePlaceDetail from '@/components/features/search/GooglePlaceDetail';
 import SearchInteraction from '@/components/features/search/SearchInteraction';
-import SearchResultListItem from '@/components/features/search/SearchResultItem';
+import GoogleSearchResultListItem from '@/components/features/search/GoogleSearchResultItem';
 import Sidebar from '@/components/layouts/Sidebar';
 import { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
 import React, { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useGoogleSearch } from '@/hooks/google-search/useGoogleSearch';
 import { useGooglePlaceDetail } from '@/hooks/google-search/useGooglePlaceDetail';
 import { COUNTRIES, type Country } from '@/lib/utils/countries';
 import { useModalStore } from '@/lib/store/modalStore';
-import SearchForm from '@/components/features/search/SearchForm';
+import SearchForm from '@/components/features/search/GoogleSearchForm';
 
 export default function SearchGoogle() {
-  const [query, setQuery] = useState('');
+  const searchParams = useSearchParams();
+  // 검색 결과 페이지에서 "신규 장소 등록" 버튼을 통해 넘어온 검색어를 입력창 초기값으로 채움
+  // (자동으로 검색을 시작하지는 않음 — URL 직접 진입 시 의도치 않은 외부 API 호출을 막기 위함)
+  const [query, setQuery] = useState(() => searchParams.get('query') ?? '');
   const [submittedQuery, setSubmittedQuery] = useState('');
   const [country, setCountry] = useState<Country>(COUNTRIES[0]);
   const [selectedPlace, setSelectedPlace] = useState<SelectedGooglePlace | null>(null);
@@ -85,7 +89,7 @@ export default function SearchGoogle() {
               results={results}
             />
             {results?.map((place: any) => (
-              <SearchResultListItem
+              <GoogleSearchResultListItem
                 key={place.id}
                 place={place}
                 onClick={handlePlaceClick}

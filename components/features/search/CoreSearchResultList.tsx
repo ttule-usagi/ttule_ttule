@@ -9,7 +9,7 @@ interface SearchResultListProps {
   keyword: string;
 }
 
-export default function SearchResultList({ keyword }: SearchResultListProps) {
+export default function CoreSearchResultList({ keyword }: SearchResultListProps) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useSearchPlaces(keyword);
   const observerTargetRef = useRef<HTMLDivElement>(null);
 
@@ -53,7 +53,7 @@ export default function SearchResultList({ keyword }: SearchResultListProps) {
           <div ref={observerTargetRef} />
         </>
       )}
-      <RegisterNewPlaceBanner />
+      <RegisterNewPlaceBanner keyword={keyword} />
     </div>
   );
 }

@@ -9,7 +9,7 @@ import AutoComplete, { type AutoCompleteItem } from './AutoComplete';
 
 const SEARCH_RESULT_PATH = '/places/search';
 
-export default function DBSearchInput() {
+export default function CorePlaceSearchInput() {
   const path = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();

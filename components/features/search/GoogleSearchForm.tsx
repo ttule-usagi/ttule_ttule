@@ -3,8 +3,9 @@
 import { Icon } from '@/components/common/Icon';
 import CountrySelect from '@/components/features/CountrySelect';
 import { type Country } from '@/lib/utils/countries';
+import { useRouter } from 'next/navigation';
 
-interface SearchFormProps {
+interface GoogleSearchFormProps {
   query: string;
   onQueryChange: (value: string) => void;
   onSubmit: (e: React.SubmitEvent<HTMLFormElement>) => void;
@@ -14,7 +15,7 @@ interface SearchFormProps {
   onCountryChange: (country: Country) => void;
 }
 
-export default function SearchForm({
+export default function GoogleSearchForm({
   query,
   onQueryChange,
   onSubmit,
@@ -22,14 +23,16 @@ export default function SearchForm({
   isSearching,
   country,
   onCountryChange,
-}: SearchFormProps) {
+}: GoogleSearchFormProps) {
+  const router = useRouter();
   return (
     <>
       <div className='relative flex-shrink-0 flex flex-row items-center gap-4'>
         <Icon
-          className='shrink-0'
+          className='shrink-0 text-brand-blue-700 cursor-pointer'
           name='ArrowLeft'
           size={32}
+          onClick={() => router.back()}
         />
         <form
           onSubmit={onSubmit}

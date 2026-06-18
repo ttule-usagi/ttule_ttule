@@ -1,4 +1,4 @@
-import SearchResultList from '@/components/features/search/SearchResultList';
+import CoreSearchResultList from '@/components/features/search/CoreSearchResultList';
 
 interface CoreSearchPageProps {
   searchParams: Promise<{ query: string }>;
@@ -15,7 +15,7 @@ export default async function CoreSearchPage({ searchParams }: CoreSearchPagePro
 
   return (
     <div className='w-full flex flex-col'>
-      <SearchResultList keyword={keyword} />
+      <CoreSearchResultList keyword={keyword} />
     </div>
   );
 }

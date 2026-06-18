@@ -3,7 +3,7 @@ interface Props {
   onClick: (place: any) => void;
 }
 
-export default function SearchResultListItem({ place, onClick }: Props) {
+export default function GoogleSearchResultListItem({ place, onClick }: Props) {
   // 검색결과 중 'ㅣ'가 들어있는 에외처리
   const getDisplayName = (placeName?: string) => {
     if (!placeName) return '';
