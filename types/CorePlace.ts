@@ -1,34 +1,3 @@
-export interface CorePlaceSearchResult {
-  id: number;
-  englishName: string;
-  originalName?: string;
-  koreanName: string;
-  address?: string;
-  category?: string; // place_category
-  savedCount: number;
-}
-
-export interface CorePlaceDetail {
-  id: number;
-  googlePlaceId: string;
-  latitude?: number;
-  longitude?: number;
-  koreanName: string;
-  address?: string;
-  category?: string; // place_category
-  status?: string; // approval_status
-  businessStatus?: string; // business_status
-  savedCount: number;
-  createdAt?: string;
-  averageRating?: number;
-  reviewCount?: number;
-  englishName: string;
-  originalName?: string;
-  // uploaded_by
-  // updated_at
-  // deleted_at
-}
-
 // 장소 카테고리
 export const PLACE_CATEGORIES = [
   { value: 'restaurant', label: '음식점' },
@@ -76,3 +45,42 @@ export const sanitizeBusinessStatus = (raw?: string): BusinessStatus | null => {
   if (!raw) return null;
   return BUSINESS_STATUS.includes(raw as BusinessStatus) ? (raw as BusinessStatus) : null;
 };
+
+export interface AutoCompleteResult {
+  id: string;
+  name: string;
+}
+
+// 자동완성 리스트 조회
+export interface AutoCompleteResults {
+  items: AutoCompleteResult[];
+}
+
+export interface PlaceSearchResult {
+  id: string;
+  latitude: number;
+  longitude: number;
+  name: string;
+  address: string;
+  category: string;
+  savedCount: number;
+  averageRating: number;
+  reviewCount: number;
+}
+
+export interface PlaceSearchResults {
+  items: PlaceSearchResult[];
+  totalCount: number;
+}
+
+export interface CorePlaceSearchResult {
+  id: string;
+  latitude: number | null;
+  longitude: number | null;
+  name: string;
+  address: string | null;
+  category: string | null;
+  savedCount: number;
+  averageRating: number | null;
+  reviewCount: number | null;
+}

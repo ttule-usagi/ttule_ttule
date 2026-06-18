@@ -1,21 +1,24 @@
 'use client';
 
-import { Icon } from '@/components/common/Icon';
-import CountrySelect from '@/components/features/CountrySelect';
 import NewPlaceFormContainer from '@/components/features/new-place/NewPlaceFormContainer';
 import GooglePlaceDetail from '@/components/features/search/GooglePlaceDetail';
 import SearchInteraction from '@/components/features/search/SearchInteraction';
-import SearchResultListItem from '@/components/features/search/SearchResultItem';
+import GoogleSearchResultListItem from '@/components/features/search/GoogleSearchResultItem';
 import Sidebar from '@/components/layouts/Sidebar';
 import { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
 import React, { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useGoogleSearch } from '@/hooks/google-search/useGoogleSearch';
 import { useGooglePlaceDetail } from '@/hooks/google-search/useGooglePlaceDetail';
 import { COUNTRIES, type Country } from '@/lib/utils/countries';
 import { useModalStore } from '@/lib/store/modalStore';
+import SearchForm from '@/components/features/search/GoogleSearchForm';
 
 export default function SearchGoogle() {
-  const [query, setQuery] = useState('');
+  const searchParams = useSearchParams();
+  // 검색 결과 페이지에서 "신규 장소 등록" 버튼을 통해 넘어온 검색어를 입력창 초기값으로 채움
+  // (자동으로 검색을 시작하지는 않음 — URL 직접 진입 시 의도치 않은 외부 API 호출을 막기 위함)
+  const [query, setQuery] = useState(() => searchParams.get('query') ?? '');
   const [submittedQuery, setSubmittedQuery] = useState('');
   const [country, setCountry] = useState<Country>(COUNTRIES[0]);
   const [selectedPlace, setSelectedPlace] = useState<SelectedGooglePlace | null>(null);
@@ -67,64 +70,15 @@ export default function SearchGoogle() {
       <Sidebar />
       <div className='relative h-screen bg-line-pattern bg-brand-blue-50 ml-[64px]  max-w-102 mx-auto p-4 flex flex-col'>
         {/* 검색 폼 */}
-        <div className='relative flex-shrink-0 flex flex-row items-center gap-4'>
-          <Icon
-            className='shrink-0'
-            name='ArrowLeft'
-            size={32}
-          />
-          <form
-            onSubmit={handleSearch}
-            className='flex gap-2 rounded-full w-full'
-          >
-            <input
-              type='text'
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder='구글 장소 검색'
-              className=' flex-1 px-4 py-2 border-2 border-brand-blue-700 rounded-full outline-none focus:border-blue-500 bg-brand-gray-0 text-typo-base'
-            />
-            <div className='absolute top-[5px] right-3 rounded-lg flex items-center'>
-              {query !== '' && (
-                <>
-                  <button
-                    type='button'
-                    disabled={isSearching}
-                    onClick={() => {
-                      handleClearQuery();
-                    }}
-                  >
-                    <Icon
-                      className='text-brand-gray-300 hover:text-brand-blue-700 cursor-pointer'
-                      name='XClose'
-                      size={28}
-                    />
-                  </button>
-                  <div className='w-px h-5 bg-brand-gray-100 mx-1' />
-                </>
-              )}
-
-              <button
-                type='submit'
-                disabled={isSearching}
-                className='pl-1'
-              >
-                <Icon
-                  className='text-brand-gray-300 hover:text-brand-blue-700 cursor-pointer'
-                  name='Search'
-                  size={32}
-                />
-              </button>
-            </div>
-          </form>
-        </div>
-        <div className='flex flex-row mt-3 items-center gap-2'>
-          <span className='text-typo-description font-semibold text-brand-gray-600 shrink-0'>검색 국가</span>
-          <CountrySelect
-            value={country}
-            onChange={setCountry}
-          />
-        </div>
+        <SearchForm
+          query={query}
+          onQueryChange={setQuery}
+          onSubmit={handleSearch}
+          onClear={handleClearQuery}
+          isSearching={isSearching}
+          country={country}
+          onCountryChange={setCountry}
+        />
 
         {/* 결과 리스트 */}
         <div className='mt-4 flex-1 overflow-y-auto space-y-2 '>
@@ -135,7 +89,7 @@ export default function SearchGoogle() {
               results={results}
             />
             {results?.map((place: any) => (
-              <SearchResultListItem
+              <GoogleSearchResultListItem
                 key={place.id}
                 place={place}
                 onClick={handlePlaceClick}

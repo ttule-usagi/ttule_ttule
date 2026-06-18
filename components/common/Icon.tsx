@@ -18,6 +18,7 @@ import Edit from '@/assets/icons/edit.svg';
 import ChevronDown from '@/assets/icons/chevron-down.svg';
 import Check from '@/assets/icons/check.svg';
 import Image from '@/assets/icons/image.svg';
+import RatingStar from '@/assets/icons/rating-star.svg';
 
 export const ICONS = {
   Luggage,
@@ -40,6 +41,7 @@ export const ICONS = {
   ChevronDown,
   Check,
   Image,
+  RatingStar,
 } as const;
 
 export type IconName = keyof typeof ICONS;
