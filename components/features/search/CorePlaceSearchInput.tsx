@@ -2,35 +2,50 @@
 
 import { Icon } from '@/components/common/Icon';
 import { useDebounce } from '@/hooks/useDebounce';
-import { usePathname, useRouter } from 'next/navigation';
+import { useAutoCompleteSearch } from '@/hooks/place-search/useAutoCompleteSearch';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import AutoComplete, { type AutoCompleteItem } from './AutoComplete';
-import { useAutoCompleteSearch } from '@/hooks/place-search/useAutoCompleteSearch';
+
+const SEARCH_RESULT_PATH = '/places/search';
 
 export default function DBSearchInput() {
   const path = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   // 자동완성 api, 검색 결과 api 필요
   // 엔터키 누르기 전, 자동완성 항목 클릭 전까지는 자동완성 항목 노출
   // 엔터키 누른 후에는 결과 리스트
   const [value, setValue] = useState('');
   const [isAutoCompleteOpen, setIsAutoCompleteOpen] = useState(false);
-  const debounced = useDebounce(value, 300);
+  const debounced = useDebounce(value, 500);
+  const isSearchResultPage = path === SEARCH_RESULT_PATH;
+
+  // 검색 결과 페이지에 URL로 직접 진입(또는 새로고침)했을 때 query 파라미터로 입력값을 채우고,
+  // 검색 결과 페이지를 벗어나면 입력값을 리셋
+  useEffect(() => {
+    if (isSearchResultPage) {
+      setValue(searchParams.get('query') ?? '');
+      return;
+    }
+
+    setValue('');
+  }, [isSearchResultPage, searchParams]);
 
   const { data } = useAutoCompleteSearch(debounced);
   const autoCompleteItems: AutoCompleteItem[] = data?.items ?? [];
 
   // 자동완성 결과가 도착하면 노출 여부를 결정
-  // (검색어가 비어있거나 결과가 없으면 닫고, 결과가 있으면 연다)
+  // (검색 결과 페이지에서는 자동완성을 띄우지 않고, 그 외에는 검색어/결과 유무로 판단)
   useEffect(() => {
-    if (debounced.trim() === '' || autoCompleteItems.length === 0) {
+    if (isSearchResultPage || debounced.trim() === '' || autoCompleteItems.length === 0) {
       setIsAutoCompleteOpen(false);
       return;
     }
 
     setIsAutoCompleteOpen(true);
-  }, [debounced, autoCompleteItems]);
+  }, [isSearchResultPage, debounced, autoCompleteItems]);
 
   const handleSubmit = () => {
     if (value.trim() === '') return;
@@ -68,6 +83,11 @@ export default function DBSearchInput() {
     setIsAutoCompleteOpen(false);
   };
 
+  const handleClearQuery = () => {
+    setValue('');
+    setIsAutoCompleteOpen(false);
+  };
+
   return (
     <div className='relative flex gap-4 items-center mb-8'>
       {path !== '/places' && (
@@ -79,7 +99,7 @@ export default function DBSearchInput() {
         />
       )}
       <form
-        className=' w-full flex text-typo-base border-brand-blue-700 pl-6 pr-4 py-1.25 bg-brand-gray-0 rounded-[30px] border-2 items-center flex-1 gap-2'
+        className='w-full flex text-typo-base border-brand-blue-700 pl-6 pr-4 py-1.25 bg-brand-gray-0 rounded-[30px] border-2 items-center flex-1 gap-2'
         onSubmit={handleSubmitValue}
       >
         <input
@@ -89,15 +109,32 @@ export default function DBSearchInput() {
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={handleInputKeyDown}
         />
-        <button
-          type='submit'
-          className='text-brand-blue-700 cursor-pointer'
-        >
-          <Icon
-            name='Search'
-            size={32}
-          />
-        </button>
+        <div className='flex items-center'>
+          {value !== '' && (
+            <>
+              <button
+                type='button'
+                onClick={handleClearQuery}
+              >
+                <Icon
+                  className='text-brand-gray-300 hover:text-brand-blue-700 cursor-pointer'
+                  name='XClose'
+                  size={28}
+                />
+              </button>
+              <div className='w-px h-5 bg-brand-gray-100 mx-1' />
+            </>
+          )}
+          <button
+            type='submit'
+            className='text-brand-blue-700 cursor-pointer'
+          >
+            <Icon
+              name='Search'
+              size={32}
+            />
+          </button>
+        </div>
       </form>
       {isAutoCompleteOpen && (
         <AutoComplete

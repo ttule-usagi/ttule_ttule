@@ -26,7 +26,7 @@ export default function FormBasicKorean({ state, dispatch, place }: Props) {
       <FormTypeText
         id='korean_name'
         label='한국어 이름'
-        placeholder='두리빌딩'
+        placeholder='한국어 이름을 입력해주세요'
         value={state.korean_name}
         onChange={(value) => dispatch({ type: 'SET_FIELD', field: 'korean_name', value })}
         required
@@ -35,7 +35,7 @@ export default function FormBasicKorean({ state, dispatch, place }: Props) {
       <FormTypeText
         id='english_name'
         label='영문 이름'
-        placeholder='Duri Building'
+        placeholder='영문 이름을 입력해주세요'
         value={state.english_name}
         onChange={(value) => dispatch({ type: 'SET_FIELD', field: 'english_name', value })}
       />

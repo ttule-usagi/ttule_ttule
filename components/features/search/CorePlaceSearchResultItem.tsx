@@ -1,6 +1,5 @@
 import { Icon } from '@/components/common/Icon';
 import { CorePlaceSearchResult, PLACE_CATEGORIES } from '@/types/CorePlace';
-import Link from 'next/link';
 
 interface CorePlaceSearchResultItemProps {
   result: CorePlaceSearchResult;
