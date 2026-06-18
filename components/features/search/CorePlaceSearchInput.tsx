@@ -19,7 +19,7 @@ export default function DBSearchInput() {
   // 엔터키 누른 후에는 결과 리스트
   const [value, setValue] = useState('');
   const [isAutoCompleteOpen, setIsAutoCompleteOpen] = useState(false);
-  const debounced = useDebounce(value, 500);
+  const debounced = useDebounce(value, 300);
   const isSearchResultPage = path === SEARCH_RESULT_PATH;
 
   // URL 동기화로 인한 value 변경인지, 사용자가 직접 입력한 변경인지 구분하기 위한 플래그
