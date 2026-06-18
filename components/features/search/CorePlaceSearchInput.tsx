@@ -4,7 +4,7 @@ import { Icon } from '@/components/common/Icon';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useAutoCompleteSearch } from '@/hooks/place-search/useAutoCompleteSearch';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import AutoComplete, { type AutoCompleteItem } from './AutoComplete';
 
 const SEARCH_RESULT_PATH = '/places/search';
@@ -22,9 +22,14 @@ export default function DBSearchInput() {
   const debounced = useDebounce(value, 500);
   const isSearchResultPage = path === SEARCH_RESULT_PATH;
 
+  // URL 동기화로 인한 value 변경인지, 사용자가 직접 입력한 변경인지 구분하기 위한 플래그
+  const isUserTypingRef = useRef(false);
+
   // 검색 결과 페이지에 URL로 직접 진입(또는 새로고침)했을 때 query 파라미터로 입력값을 채우고,
   // 검색 결과 페이지를 벗어나면 입력값을 리셋
   useEffect(() => {
+    isUserTypingRef.current = false;
+
     if (isSearchResultPage) {
       setValue(searchParams.get('query') ?? '');
       return;
@@ -37,15 +42,16 @@ export default function DBSearchInput() {
   const autoCompleteItems: AutoCompleteItem[] = data?.items ?? [];
 
   // 자동완성 결과가 도착하면 노출 여부를 결정
-  // (검색 결과 페이지에서는 자동완성을 띄우지 않고, 그 외에는 검색어/결과 유무로 판단)
+  // URL 동기화로 채워진 값(사용자가 직접 입력하지 않은 경우)은 자동완성을 열지 않고,
+  // 그 이후 사용자가 입력을 이어가면 정상적으로 자동완성이 동작함
   useEffect(() => {
-    if (isSearchResultPage || debounced.trim() === '' || autoCompleteItems.length === 0) {
+    if (!isUserTypingRef.current || debounced.trim() === '' || autoCompleteItems.length === 0) {
       setIsAutoCompleteOpen(false);
       return;
     }
 
     setIsAutoCompleteOpen(true);
-  }, [isSearchResultPage, debounced, autoCompleteItems]);
+  }, [debounced, autoCompleteItems]);
 
   const handleSubmit = () => {
     if (value.trim() === '') return;
@@ -73,7 +79,13 @@ export default function DBSearchInput() {
     handleSubmit();
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    isUserTypingRef.current = true;
+    setValue(e.target.value);
+  };
+
   const handleSelectItem = (item: AutoCompleteItem) => {
+    isUserTypingRef.current = false;
     setValue(item.name);
     setIsAutoCompleteOpen(false);
     router.push(`/places/detail/${item.id}`);
@@ -84,6 +96,7 @@ export default function DBSearchInput() {
   };
 
   const handleClearQuery = () => {
+    isUserTypingRef.current = false;
     setValue('');
     setIsAutoCompleteOpen(false);
   };
@@ -106,7 +119,7 @@ export default function DBSearchInput() {
           placeholder='장소 검색'
           className='text-brand-gray-600 w-full outline-none'
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={handleChange}
           onKeyDown={handleInputKeyDown}
         />
         <div className='flex items-center'>
