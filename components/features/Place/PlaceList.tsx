@@ -2,7 +2,6 @@
 
 import { ListType } from '@/types/placeList';
 import EmptyState from './EmptyState';
-import ErrorState from './ErrorState';
 import MoreButton from './MoreButton';
 import PlaceListItem from './PlaceListItem';
 import { useGetAllPlaceLists } from '@/hooks/place-list/useGetAllPlaceLists';
@@ -13,10 +12,8 @@ interface PlaceListProps {
 }
 
 export default function PlaceList({ listType, emptyText }: PlaceListProps) {
-  const { data, fetchNextPage, hasNextPage, isLoading, isError } = useGetAllPlaceLists(listType);
+  const { data, fetchNextPage, hasNextPage } = useGetAllPlaceLists(listType);
 
-  if (isLoading) return <div>로딩중...</div>;
-  if (isError || !data) return <ErrorState message='장소 리스트를 불러오지 못했습니다.' />;
   if (data?.items.length === 0) return <EmptyState message={emptyText} />;
 
   return (

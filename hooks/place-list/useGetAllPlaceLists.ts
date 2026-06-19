@@ -1,9 +1,9 @@
 import { getAllPlaceLists } from '@/lib/actions/placeList';
 import { AllPlaceLists, ListType } from '@/types/placeList';
-import { useInfiniteQuery, UseInfiniteQueryResult } from '@tanstack/react-query';
+import { useSuspenseInfiniteQuery, UseSuspenseInfiniteQueryResult } from '@tanstack/react-query';
 
-export const useGetAllPlaceLists = (listType: ListType): UseInfiniteQueryResult<AllPlaceLists, Error> => {
-  return useInfiniteQuery({
+export const useGetAllPlaceLists = (listType: ListType): UseSuspenseInfiniteQueryResult<AllPlaceLists, Error> => {
+  return useSuspenseInfiniteQuery({
     queryKey: ['place-list', listType],
     queryFn: ({ pageParam = 0 }) => getAllPlaceLists({ listType, offset: pageParam }),
     // 더보기 버튼 클릭 시 다음 호출의 pageParam(offset) 계산
