@@ -3,7 +3,7 @@ import { AllPlaceLists, ListType } from '@/types/placeList';
 import { useSuspenseInfiniteQuery, UseSuspenseInfiniteQueryResult } from '@tanstack/react-query';
 
 export const useGetAllPlaceLists = (listType: ListType): UseSuspenseInfiniteQueryResult<AllPlaceLists, Error> => {
-  return useSuspenseInfiniteQuery({
+  const query = useSuspenseInfiniteQuery({
     queryKey: ['place-list', listType],
     queryFn: ({ pageParam = 0 }) => getAllPlaceLists({ listType, offset: pageParam }),
     // 더보기 버튼 클릭 시 다음 호출의 pageParam(offset) 계산
@@ -17,4 +17,12 @@ export const useGetAllPlaceLists = (listType: ListType): UseSuspenseInfiniteQuer
       totalCount: data.pages[0]?.totalCount ?? 0,
     }),
   });
+
+  // 자동 refetch 에러는 수동으로 ErrorBoundary에 전파
+  // fetchNextPage 에러(isFetchNextPageError)는 기존 리스트 데이터를 유지한 채 에러 메시지만 표시하기 위해 컴포넌트 내부에서 처리
+  if (query.error && !query.isFetching && !query.isFetchNextPageError) {
+    throw query.error;
+  }
+
+  return query;
 };

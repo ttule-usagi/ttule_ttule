@@ -12,7 +12,7 @@ interface PlaceListProps {
 }
 
 export default function PlaceList({ listType, emptyText }: PlaceListProps) {
-  const { data, fetchNextPage, hasNextPage } = useGetAllPlaceLists(listType);
+  const { data, fetchNextPage, hasNextPage, isFetchNextPageError } = useGetAllPlaceLists(listType);
 
   if (data?.items.length === 0) return <EmptyState message={emptyText} />;
 
@@ -26,6 +26,12 @@ export default function PlaceList({ listType, emptyText }: PlaceListProps) {
           />
         ))}
       </div>
+      {isFetchNextPageError && (
+        <div className='w-full text-center py-7 text-tag-red-text text-typo-base'>
+          추가 로딩 중 에러가 발생했습니다. <br />
+          잠시 후 다시 시도해주세요.
+        </div>
+      )}
       {hasNextPage && <MoreButton onClick={fetchNextPage} />}
     </div>
   );
