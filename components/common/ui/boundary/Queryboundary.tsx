@@ -6,11 +6,10 @@ import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 
 interface QueryBoundaryProps {
   children: React.ReactNode;
-  loadingFallback?: React.ReactNode;
   errorFallback?: (props: FallbackProps) => React.ReactNode;
 }
 
-export function QueryBoundary({ children, loadingFallback = <div>로딩중...</div>, errorFallback }: QueryBoundaryProps) {
+export function QueryBoundary({ children, errorFallback }: QueryBoundaryProps) {
   return (
     <QueryErrorResetBoundary>
       {({ reset }) => (
@@ -18,7 +17,7 @@ export function QueryBoundary({ children, loadingFallback = <div>로딩중...</d
           onReset={reset}
           fallbackRender={errorFallback ?? defaultErrorFallback}
         >
-          <Suspense fallback={loadingFallback}>{children}</Suspense>
+          <Suspense>{children}</Suspense>
         </ErrorBoundary>
       )}
     </QueryErrorResetBoundary>
