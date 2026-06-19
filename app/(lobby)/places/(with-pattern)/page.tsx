@@ -1,12 +1,16 @@
 import { Icon } from '@/components/common/Icon';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
-import { PlaceListItemSkeleton } from '@/components/common/ui/boundary/skeleton/PlaceListItemSkeleton';
 import PlaceList from '@/components/features/Place/PlaceList';
+import { prefetchPlaceList } from '@/lib/actions/prefetchPlaceList';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 
-export default function Page() {
+export default async function Page() {
+  const queryClient = new QueryClient();
+  await prefetchPlaceList(queryClient);
+
   return (
-    <>
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <div className='text-typo-big-title font-semibold text-brand-blue-700 pb-6'>저장된 장소 리스트</div>
       <Link
         href='/places/create'
@@ -18,7 +22,7 @@ export default function Page() {
         />
         장소 리스트 만들기
       </Link>
-      <QueryBoundary loadingFallback={<PlaceListItemSkeleton />}>
+      <QueryBoundary>
         <PlaceList
           listType='owned'
           emptyText='장소 리스트가 아직 없습니다.'
@@ -26,12 +30,12 @@ export default function Page() {
       </QueryBoundary>
 
       <div className='mt-17.5 text-typo-title font-semibold text-brand-blue-700 pb-6'>공유된 장소 리스트</div>
-      <QueryBoundary loadingFallback={<PlaceListItemSkeleton count={5} />}>
+      <QueryBoundary>
         <PlaceList
           listType='shared'
           emptyText='초대된 장소 리스트가 아직 없습니다.'
         />
       </QueryBoundary>
-    </>
+    </HydrationBoundary>
   );
 }
