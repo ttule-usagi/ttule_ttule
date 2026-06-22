@@ -101,7 +101,6 @@ export const DESTINATIONS: Destination[] = [
   { countryCode: 'SWE', region: '스톡홀름', city: '스톡홀름', latitude: 59.3275, longitude: 18.0547 },
   { countryCode: 'SWE', region: '베스트라예탈란드', city: '예테보리', latitude: 57.7075, longitude: 11.9675 },
   { countryCode: 'SWE', region: '스코네', city: '말뫼', latitude: 55.5833, longitude: 13.0 },
-  { countryCode: 'SWE', region: '웁살라', city: '웁살라', latitude: 59.85, longitude: 17.6333 },
   { countryCode: 'SWE', region: '웁살라', city: '웁살라', latitude: 59.8498, longitude: 17.6389 },
   { countryCode: 'CHE', region: '취리히', city: '취리히', latitude: 47.3744, longitude: 8.5411 },
   { countryCode: 'CHE', region: '제네바', city: '제네바', latitude: 46.2, longitude: 6.15 },
