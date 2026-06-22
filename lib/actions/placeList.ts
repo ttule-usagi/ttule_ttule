@@ -81,8 +81,6 @@ export const getPlaceListDetail = async (listId: string): Promise<PlaceListDetai
     })
     .single();
 
-  console.log('data: ', data);
-
   if (error) throw error;
   if (!data) throw new Error('장소 리스트 상세정보를 가져오는 데 실패했습니다.');
   return toCamelKey<PlaceListDetail>(data);
