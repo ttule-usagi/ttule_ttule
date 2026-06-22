@@ -10,7 +10,7 @@ export interface Tag {
 
 // 장소 리스트
 export interface PlaceListOverview {
-  id: number;
+  id: string;
   title: string;
   editToken: string;
   editTokenExpiresAt: string;
@@ -32,17 +32,17 @@ export interface AllPlaceLists {
 // 장소 리스트 상세페이지
 export interface PlaceListDetail extends PlaceListOverview {
   description: string;
-  tags: Tag[];
+  master: PlaceListMember;
+  participants: PlaceListMember[];
+  participantCount: number;
+  tags?: Tag[]; // 태그 구현 시 분리
 }
 
 // 장소 리스트 멤버
 export interface PlaceListMember {
   id: number;
-  placeListId: number;
-  userId: number;
-  role: string; // access_role
-  createdAt: Date;
-  updatedAt: Date;
+  username?: string | null;
+  profileImage?: string | null;
 }
 
 // 단일 장소 아이템
