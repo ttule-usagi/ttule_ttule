@@ -4,6 +4,10 @@ import { Icon } from '@/components/common/Icon';
 import PlaceItem from '@/components/features/Place/PlaceItem';
 import PlaceListDropdownMenu from '@/components/features/Place/PlaceListDropdwonMenu';
 import TagList from '@/components/features/Place/TagList';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { placeListDetailQueryOptions } from '@/hooks/place-list/useGetPlaceListDetail';
+import PlaceListHeader from '@/components/features/Place/PlaceListHeader';
+import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 
 const listData = {
   placesData: [
@@ -63,49 +67,26 @@ const listData = {
 
 export default async function PlaceListDetail({ params }: { params: Promise<{ listId: string }> }) {
   const { listId } = await params;
-  // const res = await fetch('데이터 요청')
-  // const places = await res.json()
+  const queryClient = new QueryClient();
+  await Promise.all([queryClient.prefetchQuery(placeListDetailQueryOptions(listId))]);
 
   return (
-    <div className='flex flex-col text-typo-big-title text-brand-blue-700 gap-5.5'>
-      <header className='flex flex-col gap-4'>
-        <div className='flex items-center gap-3'>
-          <span className='font-mona12'>🐠</span>
-          <p className='font-semibold flex-1'>교토나들이</p>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <div className='flex flex-col gap-5.5'>
+        <QueryBoundary>
+          <PlaceListHeader listId={listId} />
+        </QueryBoundary>
 
-          <div className='flex gap-3'>
-            <Icon
-              name='Share'
-              size={32}
-              className='cursor-pointer'
+        <div className='flex flex-col gap-3'>
+          <TagList tags={listData.listTag} />
+          {listData.placesData.map((item) => (
+            <PlaceItem
+              key={item.id}
+              place={item}
             />
-            <PlaceListDropdownMenu
-              viewLink={'공유 링크'}
-              editLink={'초대 링크'}
-            />
-          </div>
+          ))}
         </div>
-
-        <div className='flex flex-col gap-1 text-typo-base font-light'>
-          <div className='flex gap-3 text-brand-gray-400'>
-            <span>마스터닉네임</span>
-            <span>이미지</span>
-            <span>장소 32개</span>
-            <span>공유됨</span>
-          </div>
-          <p className='text-brand-gray-600'>따뜻한 봄에 즐거운 여행을</p>
-        </div>
-      </header>
-
-      <div className='flex flex-col gap-3'>
-        <TagList tags={listData.listTag} />
-        {listData.placesData.map((item) => (
-          <PlaceItem
-            key={item.id}
-            place={item}
-          />
-        ))}
       </div>
-    </div>
+    </HydrationBoundary>
   );
 }
