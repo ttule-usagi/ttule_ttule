@@ -58,7 +58,6 @@ export const createNewPlan = async (formData: {
     if (error) throw error;
     if (!data) throw new Error('계획 생성 후 ID를 반환받지 못했습니다.');
     const result = (data as { new_plan_id: string; new_edit_token: string }[])[0];
-    console.log('RPC 호출 결과:', result);
 
     return {
       data: {

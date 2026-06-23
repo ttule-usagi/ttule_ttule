@@ -7,12 +7,12 @@ interface AnswerBubbleProps {
 function AnswerBubble({ children }: AnswerBubbleProps) {
   return (
     <div className='relative self-end w-full max-w-[286px]'>
-      <div className='bg-gradient-to-b from-brand-blue-500 to-brand-blue-400 rounded-lg p-4 flex flex-col gap-[10px]'>
+      <div className='bg-gradient-to-b from-brand-blue-500 to-brand-blue-400 rounded-lg p-4 flex flex-col gap-[10px] text-typo-description text-brand-gray-400'>
         {children}
       </div>
       {/* 오른쪽 하단 꼬리 */}
       <div
-        className='absolute right-4 w-0 h-0'
+        className='absolute right-3 w-0 h-0'
         style={{
           bottom: '-9px',
           borderRight: '14px solid #5187FC',

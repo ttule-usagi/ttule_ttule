@@ -110,7 +110,7 @@ export default function FormTypeSelect({
       {label && (
         <label
           htmlFor={id}
-          className='text-typo-base text-brand-gray-600'
+          className='text-typo-base text-brand-gray-400'
         >
           {label}
           {required && <span className='text-orange-500 ml-0.5'>*</span>}
@@ -126,7 +126,7 @@ export default function FormTypeSelect({
             handleOpenChange(true);
             inputRef.current?.focus();
           }}
-          className='grid w-full cursor-text grid-cols-1 rounded-full bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600 sm:text-sm'
+          className='grid w-full cursor-text grid-cols-1 rounded-lg bg-white py-2 px-3 text-left text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600 sm:text-sm'
         >
           <input
             ref={inputRef}
@@ -157,7 +157,9 @@ export default function FormTypeSelect({
             ) : (
               filteredGroups.map((group) => (
                 <li key={group.groupLabel}>
-                  <p className='px-3 pt-2 pb-1 text-typo-caption font-medium text-brand-gray-400'>{group.groupLabel}</p>
+                  <p className='px-3 pt-2 pb-1 text-typo-caption font-semibold text-brand-gray-700 bg-gray-100'>
+                    {group.groupLabel}
+                  </p>
                   <ul>
                     {group.options.map((option) => {
                       const flatIndex = filteredFlatOptions.findIndex((o) => o.value === option.value);
@@ -167,9 +169,11 @@ export default function FormTypeSelect({
                           onMouseDown={(e) => e.preventDefault()}
                           onClick={() => handleSelect(option)}
                           onMouseEnter={() => setHighlightIndex(flatIndex)}
-                          className={`relative cursor-default py-2 pr-9 pl-3 select-none ${
-                            flatIndex === highlightIndex ? 'bg-brand-blue-50 text-brand-blue-700' : ''
-                          } ${option.value === value ? 'font-semibold' : 'font-normal'}`}
+                          className={`relative cursor-default py-2 pr-9 pl-3 text-typo-description select-none  ${
+                            flatIndex === highlightIndex
+                              ? 'bg-brand-blue-50 text-brand-blue-600'
+                              : 'text-brand-gray-500'
+                          } ${option.value === value ? 'font-bold' : 'font-normal'}`}
                         >
                           {option.label}
                           {option.value === value && (

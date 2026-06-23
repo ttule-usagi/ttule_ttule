@@ -33,15 +33,15 @@ export default function ScheduleAnswer({
   const isValid = mode === 'date' ? Boolean(startDate && endDate) : totalDays > 0;
 
   return (
-    <div className='flex flex-col gap-2'>
+    <div className='flex flex-col gap-2 w-full max-w-[286px] self-end'>
       <div className='flex gap-2'>
         <button
           type='button'
           onClick={() => onModeChange('date')}
-          className={`rounded-full px-4 py-1.5 text-typo-sm border ${
+          className={`rounded-lg px-2 py-2 text-typo-description border ${
             mode === 'date'
-              ? 'bg-brand-blue-500 text-white border-brand-blue-500'
-              : 'bg-white text-brand-gray-600 border-brand-gray-200'
+              ? 'bg-brand-gray-0 text-brand-blue-500 border-brand-blue-500'
+              : 'bg-brand-gray-50 text-brand-gray-400 border-brand-gray-300'
           }`}
         >
           날짜선택
@@ -49,10 +49,10 @@ export default function ScheduleAnswer({
         <button
           type='button'
           onClick={() => onModeChange('undecided')}
-          className={`rounded-full px-4 py-1.5 text-typo-sm border ${
+          className={`rounded-lg px-2 py-2 text-typo-description border ${
             mode === 'undecided'
-              ? 'bg-brand-blue-500 text-white border-brand-blue-500'
-              : 'bg-white text-brand-gray-600 border-brand-gray-200'
+              ? 'bg-brand-gray-0 text-brand-blue-500 border-brand-blue-500'
+              : 'bg-brand-gray-100 text-brand-gray-400 border-brand-gray-300'
           }`}
         >
           일정미정

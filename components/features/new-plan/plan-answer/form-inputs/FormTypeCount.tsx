@@ -1,5 +1,7 @@
 'use client';
 
+import { Icon } from '@/components/common/Icon';
+
 interface Props {
   id: string;
   label?: string;
@@ -34,32 +36,40 @@ export default function FormTypeCount({ id, label, value, onChange, min = 1, max
           {label}
         </label>
       )}
-      <div className='flex items-center gap-3'>
+      <div className='flex items-center gap-2'>
         <button
           type='button'
           onClick={handleDecrease}
           disabled={min !== undefined && value <= min}
-          className='w-9 h-9 flex items-center justify-center rounded-lg border border-brand-gray-200
-          bg-brand-gray-100 text-brand-gray-700 disabled:opacity-40 disabled:cursor-not-allowed'
+          className='w-9 h-9 flex flex-1 items-center justify-center rounded-lg 
+          bg-brand-blue-100 text-brand-gray-700 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:bg-brand-blue-50'
         >
-          −
+          <Icon
+            name='Minus'
+            size={20}
+          />
         </button>
-        <span
-          id={id}
-          className='w-10 text-center text-typo-base text-brand-gray-700'
-        >
-          {value}
-        </span>
+        <div className='flex flex-1 items-center justify-center bg-brand-blue-50 text-brand-gray-600 rounded-lg h-9'>
+          <span
+            id={id}
+            className='text-center text-typo-description'
+          >
+            {value}
+          </span>
+        </div>
         <button
           type='button'
           onClick={handleIncrease}
           disabled={max !== undefined && value >= max}
-          className='w-9 h-9 flex items-center justify-center rounded-lg border border-brand-gray-200
-          bg-brand-gray-100 text-brand-gray-700 disabled:opacity-40 disabled:cursor-not-allowed'
+          className='w-9 h-9 flex flex-1 items-center justify-center rounded-lg 
+          bg-brand-blue-100 text-brand-gray-700 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:bg-brand-blue-50'
         >
-          +
+          <Icon
+            name='Plus'
+            size={20}
+          />
         </button>
-        {suffix && <span className='text-typo-base text-brand-gray-600'>{suffix}</span>}
+        {suffix && <span className='text-typo-base text-brand-blue-50'>{suffix}</span>}
       </div>
     </div>
   );

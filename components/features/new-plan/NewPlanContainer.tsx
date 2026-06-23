@@ -73,7 +73,6 @@ export default function NewPlanContainer() {
       total_days: scheduleMode === 'undecided' ? totalDays : null,
     });
 
-    console.log('res전체:', res);
     setIsPending(false);
     if (res.error) return;
     if (res?.data) {
@@ -120,7 +119,7 @@ export default function NewPlanContainer() {
 
         {/* 채팅 영역 */}
         <div className='pt-[88px] pb-16 px-5 flex flex-col gap-6 overflow-y-auto h-full'>
-          {step >= 1 && <PlanQuestion>{'여행 계획을 시작해볼까요?\n여행하실 지역을 알려주세요.'}</PlanQuestion>}
+          {step >= 1 && <PlanQuestion>{`여행 계획을 시작해볼까요? \n여행하실 지역을 알려주세요.`}</PlanQuestion>}
 
           {step >= 1 && (
             <DestinationAnswer
@@ -132,7 +131,7 @@ export default function NewPlanContainer() {
             />
           )}
 
-          {step >= 2 && <PlanQuestion>{'언제 출발하실 예정인가요?\n여행 날짜를 선택해주세요.'}</PlanQuestion>}
+          {step >= 2 && <PlanQuestion>{`언제 출발하실 예정인가요? \n여행 날짜를 선택해주세요.`}</PlanQuestion>}
 
           {step >= 2 && (
             <ScheduleAnswer
@@ -165,20 +164,20 @@ export default function NewPlanContainer() {
           {step >= 4 && (
             <>
               <PlanQuestion>
-                <p>좋아요! 이 링크로 다른 사람을 초대할 수 있어요.</p>
-                <div className='mt-2 flex items-center gap-2 bg-white rounded-lg px-3 py-2'>
+                <p>{'좋아요! \n 이 링크로 다른 사람을 초대할 수 있어요.'}</p>
+                <button
+                  type='button'
+                  onClick={handleCopy}
+                  className='mt-2 flex items-center gap-2 bg-white rounded-lg px-3 py-2 max-w-[stretch] hover:bg-brand-gray-50 cursor-pointer'
+                >
                   <span className='flex-1 text-typo-sm text-brand-gray-700 truncate'>{inviteToken}</span>
-                  <button
-                    type='button'
-                    onClick={handleCopy}
-                  >
-                    <Icon
-                      name={copied ? 'Check' : 'Copy'}
-                      size={16}
-                      className={copied ? 'text-brand-blue-500' : 'text-brand-gray-400'}
-                    />
-                  </button>
-                </div>
+
+                  <Icon
+                    name={copied ? 'Check' : 'Copy'}
+                    size={16}
+                    className={`cursor-pointer hover:text-brand-gray-700 ${copied ? 'text-brand-blue-500' : 'text-brand-gray-400'}`}
+                  />
+                </button>
               </PlanQuestion>
 
               <PlanQuestion>{'입력한 내용은 언제든 수정할 수 있어요.\n이제 구체적인 일정을 잡아볼까요?'}</PlanQuestion>

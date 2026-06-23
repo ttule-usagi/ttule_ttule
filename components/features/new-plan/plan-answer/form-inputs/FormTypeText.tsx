@@ -42,9 +42,9 @@ export default function FormTypeText({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         readOnly={readOnly}
-        className='w-full max-h-11 rounded-lg border border-brand-gray-200 
+        className='w-full max-h-11 rounded-lg 
         px-3 py-2 text-typo-base text-brand-gray-700 font-light bg-brand-gray-100 
-        focus:outline-none focus:bg-brand-gray-0 focus:border-brand-blue-400 shadow-xs placeholder:text-login-placeholder'
+       focus:bg-brand-gray-0 focus:border-brand-blue-400 shadow-xs placeholder:text-login-placeholder'
       />
     </div>
   );
