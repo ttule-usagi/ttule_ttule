@@ -1,4 +1,4 @@
-import { getPlaceListDetail, getPlaceListPlaces } from '@/lib/actions/placeList';
+import { getPlaceListDetail, getPlaceListPlaces, getPlaceListTags } from '@/lib/actions/placeList';
 import { PageParam } from '@/types/placeList';
 import { infiniteQueryOptions, queryOptions, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
 
@@ -22,6 +22,14 @@ export const placeListPlacesQueryOptions = (listId: string) => {
   });
 };
 
+// 리스트에 저장된 태그
+export const placeListTagsQueryOptions = (listId: string) => {
+  return queryOptions({
+    queryKey: ['place-list', listId, 'tags'],
+    queryFn: () => getPlaceListTags(listId),
+  });
+};
+
 export const useGetPlaceListDetail = (listId: string) => {
   return useSuspenseQuery(placeListDetailQueryOptions(listId));
 };
@@ -29,4 +37,8 @@ export const useGetPlaceListDetail = (listId: string) => {
 export const useGetPlaceListPlaces = (listId: string) => {
   const { data, ...rest } = useSuspenseInfiniteQuery(placeListPlacesQueryOptions(listId));
   return { data: data.pages.flat(), ...rest };
+};
+
+export const useGetPlaceListTags = (listId: string) => {
+  return useSuspenseQuery(placeListTagsQueryOptions(listId));
 };
