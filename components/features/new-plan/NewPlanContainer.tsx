@@ -10,6 +10,7 @@ import DestinationAnswer from './plan-answer/DestinationAnswer';
 import ScheduleAnswer from './plan-answer/ScheduleAnswer';
 import PlanNameAnswer from './plan-answer/PlanNameAnswer';
 import SkipButton from './plan-answer/SkipButton';
+import FadeUp from '@/components/common/FadeUp';
 
 type ScheduleMode = 'date' | 'undecided';
 
@@ -119,38 +120,61 @@ export default function NewPlanContainer() {
 
         {/* 채팅 영역 */}
         <div className='pt-[88px] pb-16 px-5 flex flex-col gap-6 overflow-y-auto h-full'>
-          {step >= 1 && <PlanQuestion>{`여행 계획을 시작해볼까요? \n여행하실 지역을 알려주세요.`}</PlanQuestion>}
+          <FadeUp>
+            {step >= 1 && <PlanQuestion>{`여행 계획을 시작해볼까요? \n여행하실 지역을 알려주세요.`}</PlanQuestion>}
+          </FadeUp>
 
           {step >= 1 && (
-            <DestinationAnswer
-              value={destination}
-              onChange={setDestination}
-              groups={groups}
-              onOpenChange={setSelectOpen}
-              onNext={nextStep}
-            />
+            <FadeUp
+              delay={0.4}
+              className='self-end'
+            >
+              <DestinationAnswer
+                value={destination}
+                onChange={setDestination}
+                groups={groups}
+                onOpenChange={setSelectOpen}
+                onNext={nextStep}
+              />
+            </FadeUp>
           )}
-
-          {step >= 2 && <PlanQuestion>{`언제 출발하실 예정인가요? \n여행 날짜를 선택해주세요.`}</PlanQuestion>}
 
           {step >= 2 && (
-            <ScheduleAnswer
-              mode={scheduleMode}
-              onModeChange={setScheduleMode}
-              startDate={startDate}
-              endDate={endDate}
-              onStartDateChange={setStartDate}
-              onEndDateChange={setEndDate}
-              totalDays={totalDays}
-              onTotalDaysChange={setTotalDays}
-              onNext={nextStep}
-            />
+            <FadeUp>
+              <PlanQuestion>{`언제 출발하실 예정인가요? \n여행 날짜를 선택해주세요.`}</PlanQuestion>
+            </FadeUp>
           )}
 
-          {step >= 3 && <PlanQuestion>{'딱 여행하기 좋은 시기네요.\n계획의 이름을 정해볼까요?'}</PlanQuestion>}
+          {step >= 2 && (
+            <FadeUp
+              delay={0.4}
+              className='self-end max-w-[286px] w-full'
+            >
+              <ScheduleAnswer
+                mode={scheduleMode}
+                onModeChange={setScheduleMode}
+                startDate={startDate}
+                endDate={endDate}
+                onStartDateChange={setStartDate}
+                onEndDateChange={setEndDate}
+                totalDays={totalDays}
+                onTotalDaysChange={setTotalDays}
+                onNext={nextStep}
+              />
+            </FadeUp>
+          )}
 
           {step >= 3 && (
-            <div className='flex flex-col gap-3'>
+            <FadeUp>
+              <PlanQuestion>{'딱 여행하기 좋은 시기네요.\n계획의 이름을 정해볼까요?'}</PlanQuestion>
+            </FadeUp>
+          )}
+
+          {step >= 3 && (
+            <FadeUp
+              delay={0.4}
+              className='self-end max-w-[286px] w-full flex flex-col gap-4'
+            >
               <PlanNameAnswer
                 value={planName}
                 onChange={setPlanName}
@@ -158,34 +182,42 @@ export default function NewPlanContainer() {
                 isPending={isPending}
               />
               <SkipButton onClick={handleSkip} />
-            </div>
+            </FadeUp>
           )}
 
           {step >= 4 && (
             <>
-              <PlanQuestion>
-                <p>{'좋아요! \n 이 링크로 다른 사람을 초대할 수 있어요.'}</p>
-                <button
-                  type='button'
-                  onClick={handleCopy}
-                  className='mt-2 flex items-center gap-2 bg-white rounded-lg px-3 py-2 max-w-[stretch] hover:bg-brand-gray-50 cursor-pointer'
-                >
-                  <span className='flex-1 text-typo-sm text-brand-gray-700 truncate'>{inviteToken}</span>
+              <FadeUp>
+                <PlanQuestion>
+                  <p>{'좋아요! \n 이 링크로 다른 사람을 초대할 수 있어요.'}</p>
+                  <button
+                    type='button'
+                    onClick={handleCopy}
+                    className='mt-2 flex items-center gap-2 bg-white rounded-lg px-3 py-2 max-w-[stretch] hover:bg-brand-gray-50 cursor-pointer'
+                  >
+                    <span className='flex-1 text-typo-sm text-brand-gray-700 truncate'>{inviteToken}</span>
 
-                  <Icon
-                    name={copied ? 'Check' : 'Copy'}
-                    size={16}
-                    className={`cursor-pointer hover:text-brand-gray-700 ${copied ? 'text-brand-blue-500' : 'text-brand-gray-400'}`}
-                  />
-                </button>
-              </PlanQuestion>
+                    <Icon
+                      name={copied ? 'Check' : 'Copy'}
+                      size={16}
+                      className={`cursor-pointer hover:text-brand-gray-700 ${copied ? 'text-brand-blue-500' : 'text-brand-gray-400'}`}
+                    />
+                  </button>
+                </PlanQuestion>
+              </FadeUp>
 
-              <PlanQuestion>{'입력한 내용은 언제든 수정할 수 있어요.\n이제 구체적인 일정을 잡아볼까요?'}</PlanQuestion>
+              <FadeUp delay={0.4}>
+                <PlanQuestion>
+                  {'입력한 내용은 언제든 수정할 수 있어요.\n이제 구체적인 일정을 잡아볼까요?'}
+                </PlanQuestion>
+              </FadeUp>
 
-              <SkipButton
-                label='좋아요!'
-                onClick={handleConfirm}
-              />
+              <FadeUp delay={0.2}>
+                <SkipButton
+                  label='좋아요!'
+                  onClick={handleConfirm}
+                />
+              </FadeUp>
             </>
           )}
 
