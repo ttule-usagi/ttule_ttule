@@ -1,6 +1,6 @@
 'use server';
 
-import { AllPlaceLists, ListType, PageParam, Place, PlaceListDetail } from '@/types/placeList';
+import { AllPlaceLists, ListType, PageParam, Place, PlaceListDetail, Tag } from '@/types/placeList';
 import { auth } from '../utils/auth';
 import { supabaseAdmin } from '../utils/supabase';
 import { toCamelKey } from '../utils/toCamelCase';
@@ -105,4 +105,22 @@ export const getPlaceListPlaces = async (listId: string, cursor: PageParam = nul
   if (error) throw error;
   if (!data) throw new Error('저장된 장소를 가져오는 데 실패했습니다.');
   return toCamelKey<Place[]>(data);
+};
+
+// 장소 리스트에 저장된(생성된) 태그
+export const getPlaceListTags = async (listId: string): Promise<Tag[]> => {
+  // 인증 확인
+  const session = await auth();
+  if (!session?.user?.id) {
+    throw new Error('인증 정보가 없습니다.');
+  }
+
+  const supabase = await supabaseAdmin;
+  const { data, error } = await supabase.rpc('get_place_list_tags', {
+    p_list_id: listId,
+  });
+
+  if (error) throw error;
+  if (!data) throw new Error('저장된 태그를 가져오는 데 실패했습니다.');
+  return toCamelKey<Tag[]>(data);
 };
