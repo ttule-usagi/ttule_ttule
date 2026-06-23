@@ -5,6 +5,7 @@ import { Place } from '@/types/placeList';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import PlaceTag from './PlaceTag';
+import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
 
 export default function PlaceItem({ place }: { place: Place }) {
   const [isEdit, setIsEdit] = useState(false);
@@ -33,7 +34,7 @@ export default function PlaceItem({ place }: { place: Place }) {
 
       <div className='flex flex-col gap-1 flex-1'>
         <div className='flex justify-between items-center'>
-          <p className='flex-1 text-typo-sub-title'>{place.customName}</p>
+          <p className='flex-1 text-typo-sub-title text-brand-blue-700'>{place.customName}</p>
           {!isEdit ? (
             <Icon
               name='Edit'
@@ -51,7 +52,9 @@ export default function PlaceItem({ place }: { place: Place }) {
           )}
         </div>
 
-        {!isEdit && <p className='text-brand-gray-400 text-typo-description'>{place.category}</p>}
+        {!isEdit && place.category && (
+          <p className='text-brand-gray-400 text-typo-description'>{getPlaceCategoryLabel(place.category)}</p>
+        )}
         {!isEdit ? (
           <>
             <p className='text-brand-gray-600 text-typo-description mb-1'>{place.memoContent}</p>
