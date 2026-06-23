@@ -2,6 +2,7 @@ import { PlaceCategory } from './CorePlace';
 
 //장소 리스트 유형 - 공유된, 저장된 리스트로 구분해서 볼 때 사용
 export type ListType = 'all' | 'owned' | 'shared';
+export type TagColor = 'red' | 'hotpink' | 'yellow' | 'green' | 'blue' | 'purple' | 'grey';
 
 // 커서 기반 무한스크롤
 export type PageParam = {
@@ -11,9 +12,9 @@ export type PageParam = {
 
 // 장소 태그
 export interface Tag {
-  id: number;
+  id: string;
   name: string;
-  color: 'red' | 'hotpink' | 'yellow' | 'green' | 'blue' | 'purple' | 'grey';
+  color: TagColor;
 }
 
 // 장소 리스트
