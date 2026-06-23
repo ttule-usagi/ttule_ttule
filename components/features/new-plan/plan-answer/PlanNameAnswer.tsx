@@ -14,14 +14,14 @@ interface Props {
 export default function PlanNameAnswer({ value, onChange, onNext, isPending }: Props) {
   return (
     <AnswerBubble>
-      <AnswerBubble.Text>계획의 이름으로는</AnswerBubble.Text>
+      <AnswerBubble.Text>계획의 이름은</AnswerBubble.Text>
       <FormTypeText
         id='plan_name'
         placeholder='문자열 2-9자리로 입력'
         value={value}
         onChange={onChange}
       />
-      <AnswerBubble.Text>이 좋겠어요.</AnswerBubble.Text>
+      <AnswerBubble.Text>로 할게요.</AnswerBubble.Text>
       <AnswerBubble.Action>
         <NextStepButton
           onClick={onNext}

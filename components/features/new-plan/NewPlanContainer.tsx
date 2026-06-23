@@ -101,7 +101,7 @@ export default function NewPlanContainer() {
 
   return (
     <div className='relative min-h-screen w-full bg-gradient-to-t from-[#fff1eb] to-[#ace0f9] flex justify-center py-10'>
-      <div className='relative w-[560px] min-h-[1000px] rounded-lg border border-white bg-gradient-to-b from-[rgba(249,250,251,0.8)] to-[rgba(237,240,243,0.8)] overflow-hidden'>
+      <div className='relative w-[560px] min-h-[700px] rounded-lg border border-white bg-gradient-to-b from-[rgba(249,250,251,0.8)] to-[rgba(237,240,243,0.8)] overflow-hidden'>
         {/* 헤더 */}
         <div className='absolute top-0 left-0 w-full h-[72px] bg-white rounded-t-lg z-10' />
         <div className='absolute top-[19px] left-[19px] flex items-center gap-4 z-10'>
