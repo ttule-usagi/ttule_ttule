@@ -1,13 +1,11 @@
 // 임시: 장소 리스트에 저장되지 않은 Place 데이터
 import { Place, Tag } from '@/types/placeList';
-import { Icon } from '@/components/common/Icon';
-import PlaceItem from '@/components/features/Place/PlaceItem';
-import PlaceListDropdownMenu from '@/components/features/Place/PlaceListDropdwonMenu';
 import TagList from '@/components/features/Place/TagList';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-import { placeListDetailQueryOptions } from '@/hooks/place-list/useGetPlaceListDetail';
+import { placeListDetailQueryOptions, placeListPlacesQueryOptions } from '@/hooks/place-list/useGetPlaceListDetail';
 import PlaceListHeader from '@/components/features/Place/PlaceListHeader';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
+import PlaceListPlaces from '@/components/features/Place/PlaceListPlaces';
 
 const listData = {
   placesData: [
@@ -68,7 +66,10 @@ const listData = {
 export default async function PlaceListDetail({ params }: { params: Promise<{ listId: string }> }) {
   const { listId } = await params;
   const queryClient = new QueryClient();
-  await Promise.all([queryClient.prefetchQuery(placeListDetailQueryOptions(listId))]);
+  await Promise.all([
+    queryClient.prefetchQuery(placeListDetailQueryOptions(listId)),
+    queryClient.prefetchInfiniteQuery(placeListPlacesQueryOptions(listId)),
+  ]);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
@@ -79,12 +80,9 @@ export default async function PlaceListDetail({ params }: { params: Promise<{ li
 
         <div className='flex flex-col gap-3'>
           <TagList tags={listData.listTag} />
-          {listData.placesData.map((item) => (
-            <PlaceItem
-              key={item.id}
-              place={item}
-            />
-          ))}
+          <QueryBoundary>
+            <PlaceListPlaces listId={listId} />
+          </QueryBoundary>
         </div>
       </div>
     </HydrationBoundary>
