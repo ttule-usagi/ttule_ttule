@@ -1,11 +1,19 @@
+import { PlaceCategory } from './CorePlace';
+
 //장소 리스트 유형 - 공유된, 저장된 리스트로 구분해서 볼 때 사용
 export type ListType = 'all' | 'owned' | 'shared';
+
+// 커서 기반 무한스크롤
+export type PageParam = {
+  id: string;
+  createdAt: string;
+} | null;
 
 // 장소 태그
 export interface Tag {
   id: number;
   name: string;
-  color: 'RED' | 'HOTPINK' | 'YELLOW' | 'GREEN' | 'BLUE' | 'PURPLE' | 'GRAY';
+  color: 'red' | 'hotpink' | 'yellow' | 'green' | 'blue' | 'purple' | 'grey';
 }
 
 // 장소 리스트
@@ -47,16 +55,16 @@ export interface PlaceListMember {
 
 // 단일 장소 아이템
 export interface Place {
-  id: number;
+  id: string;
   placeListId: number;
   corePlaceId: number;
   latitude: number | null;
   longitude: number | null;
   customName: string;
-  category: string | null; // place_category
+  category: PlaceCategory | null; // place_category
   thumbnail: string | null;
   memoContent: string | null;
   tags: Tag[];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
