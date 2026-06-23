@@ -127,7 +127,7 @@ export default function NewPlanContainer() {
           {step >= 1 && (
             <FadeUp
               delay={0.4}
-              className='self-end'
+              className='self-end max-w-[286px] w-full'
             >
               <DestinationAnswer
                 value={destination}
