@@ -2,7 +2,7 @@
 
 import { useReducer } from 'react';
 
-type ScheduleMode = 'date' | 'undecided';
+export type ScheduleMode = 'date' | 'undecided';
 
 interface NewPlanState {
   step: number;
@@ -28,7 +28,8 @@ type NewPlanAction =
   | { type: 'NEXT_STEP' }
   | { type: 'SUBMIT_START' }
   | { type: 'SUBMIT_SUCCESS'; planId: string; inviteToken: string }
-  | { type: 'SUBMIT_ERROR'; error: string };
+  | { type: 'SUBMIT_ERROR'; error: string }
+  | { type: 'RESET' };
 
 const initialState: NewPlanState = {
   step: 1,
@@ -72,6 +73,8 @@ function reducer(state: NewPlanState, action: NewPlanAction): NewPlanState {
       };
     case 'SUBMIT_ERROR':
       return { ...state, isPending: false, submitError: action.error };
+    case 'RESET':
+      return initialState;
     default:
       return state;
   }

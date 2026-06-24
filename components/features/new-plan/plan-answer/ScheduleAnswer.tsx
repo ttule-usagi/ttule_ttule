@@ -4,8 +4,7 @@ import AnswerBubble from './AnswerBubble';
 import FormTypeCalendar from '@/components/features/new-plan/plan-answer/form-inputs/FormTypeCalendar';
 import FormTypeCount from '@/components/features/new-plan/plan-answer/form-inputs/FormTypeCount';
 import NextStepButton from './NextStepButton';
-
-type ScheduleMode = 'date' | 'undecided';
+import { ScheduleMode } from '@/hooks/new-plan/useNewPlanForm';
 
 interface Props {
   mode: ScheduleMode;

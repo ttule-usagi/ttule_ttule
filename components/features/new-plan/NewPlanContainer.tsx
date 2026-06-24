@@ -13,21 +13,12 @@ import SkipButton from './plan-answer/SkipButton';
 import FadeUp from '@/components/common/FadeUp';
 import { useNewPlanForm } from '@/hooks/new-plan/useNewPlanForm';
 
-type ScheduleMode = 'date' | 'undecided';
-
 export default function NewPlanContainer() {
   const { state, dispatch } = useNewPlanForm();
 
   const router = useRouter();
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  const [step, setStep] = useState(0);
-  const [destination, setDestination] = useState(''); // 'JPN:오사카' 형태
-  const [scheduleMode, setScheduleMode] = useState<ScheduleMode>('date');
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [totalDays, setTotalDays] = useState(1);
-  const [planName, setPlanName] = useState('');
   const [copied, setCopied] = useState(false);
   const [selectOpen, setSelectOpen] = useState(false);
 
@@ -51,16 +42,16 @@ export default function NewPlanContainer() {
     return Array.from(grouped.values());
   }, [countries, destinations]);
 
-  const nextStep = () => setStep((prev) => prev + 1);
+  const nextStep = () => dispatch({ type: 'NEXT_STEP' });
 
-  useEffect(() => {
-    // 화면 진입하자마자 첫 답변창 노출
-    setStep(1);
-  }, []);
+  // useEffect(() => {
+  //   // 화면 진입하자마자 첫 답변창 노출
+  //   dispatch({ type: 'NEXT_STEP' });
+  // }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-  }, [step]);
+  }, [state.step]);
 
   const submitPlan = async (title: string) => {
     if (state.planId || state.isPending) return;
@@ -91,7 +82,9 @@ export default function NewPlanContainer() {
     });
   };
 
-  const handleSubmit = () => submitPlan(planName);
+  console.log('Current State-scheduleMode', state.step);
+
+  const handleSubmit = () => submitPlan(state.planName);
   const handleSkip = () => submitPlan('');
 
   const handleCopy = async () => {
@@ -107,6 +100,11 @@ export default function NewPlanContainer() {
   };
   console.log('Invite Token:', state.inviteToken);
 
+  const handleBack = () => {
+    dispatch({ type: 'RESET' });
+    router.back();
+  };
+
   return (
     <div className='relative min-h-screen w-full bg-gradient-to-t from-[#fff1eb] to-[#ace0f9] flex justify-center py-10'>
       <div className='relative w-[560px] min-h-[700px] rounded-lg border border-white bg-gradient-to-b from-[rgba(249,250,251,0.8)] to-[rgba(237,240,243,0.8)] overflow-hidden'>
@@ -115,7 +113,7 @@ export default function NewPlanContainer() {
         <div className='absolute top-[19px] left-[19px] flex items-center gap-4 z-10'>
           <button
             type='button'
-            onClick={() => router.back()}
+            onClick={() => handleBack()}
           >
             <Icon
               name='ArrowLeft'
@@ -129,17 +127,19 @@ export default function NewPlanContainer() {
         {/* 채팅 영역 */}
         <div className='pt-[88px] pb-16 px-5 flex flex-col gap-6 overflow-y-auto h-full'>
           <FadeUp>
-            {step >= 1 && <PlanQuestion>{`여행 계획을 시작해볼까요? \n여행하실 지역을 알려주세요.`}</PlanQuestion>}
+            {state.step >= 1 && (
+              <PlanQuestion>{`여행 계획을 시작해볼까요? \n여행하실 지역을 알려주세요.`}</PlanQuestion>
+            )}
           </FadeUp>
 
-          {step >= 1 && (
+          {state.step >= 1 && (
             <FadeUp
               delay={0.4}
               className='self-end max-w-[286px] w-full'
             >
               <DestinationAnswer
-                value={destination}
-                onChange={setDestination}
+                value={state.destination}
+                onChange={(value) => dispatch({ type: 'SET_DESTINATION', value })} // setDestination 대신
                 groups={groups}
                 onOpenChange={setSelectOpen}
                 onNext={nextStep}
@@ -147,45 +147,45 @@ export default function NewPlanContainer() {
             </FadeUp>
           )}
 
-          {step >= 2 && (
+          {state.step >= 2 && (
             <FadeUp>
               <PlanQuestion>{`언제 출발하실 예정인가요? \n여행 날짜를 선택해주세요.`}</PlanQuestion>
             </FadeUp>
           )}
 
-          {step >= 2 && (
+          {state.step >= 2 && (
             <FadeUp
               delay={0.4}
               className='self-end max-w-[286px] w-full'
             >
               <ScheduleAnswer
-                mode={scheduleMode}
-                onModeChange={setScheduleMode}
-                startDate={startDate}
-                endDate={endDate}
-                onStartDateChange={setStartDate}
-                onEndDateChange={setEndDate}
-                totalDays={totalDays}
-                onTotalDaysChange={setTotalDays}
+                mode={state.scheduleMode}
+                onModeChange={(value) => dispatch({ type: 'SET_SCHEDULE_MODE', value })}
+                startDate={state.startDate}
+                endDate={state.endDate}
+                onStartDateChange={(value) => dispatch({ type: 'SET_START_DATE', value })}
+                onEndDateChange={(value) => dispatch({ type: 'SET_END_DATE', value })}
+                totalDays={state.totalDays}
+                onTotalDaysChange={(value) => dispatch({ type: 'SET_TOTAL_DAYS', value })}
                 onNext={nextStep}
               />
             </FadeUp>
           )}
 
-          {step >= 3 && (
+          {state.step >= 3 && (
             <FadeUp>
               <PlanQuestion>{'딱 여행하기 좋은 시기네요.\n계획의 이름을 정해볼까요?'}</PlanQuestion>
             </FadeUp>
           )}
 
-          {step >= 3 && (
+          {state.step >= 3 && (
             <FadeUp
               delay={0.4}
               className='self-end max-w-[286px] w-full flex flex-col gap-4'
             >
               <PlanNameAnswer
-                value={planName}
-                onChange={setPlanName}
+                value={state.planName}
+                onChange={(value) => dispatch({ type: 'SET_PLAN_NAME', value })}
                 onNext={handleSubmit}
                 isPending={state.isPending}
               />
@@ -193,13 +193,13 @@ export default function NewPlanContainer() {
             </FadeUp>
           )}
 
-          {state.submitError && step === 3 && (
+          {state.submitError && state.step === 3 && (
             <PlanQuestion>
               <span className='text-red-400'>{state.submitError}</span>
             </PlanQuestion>
           )}
 
-          {step >= 4 && (
+          {state.step >= 4 && (
             <>
               <FadeUp>
                 <PlanQuestion>
