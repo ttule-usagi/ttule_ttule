@@ -33,6 +33,11 @@ export default function CreatePlace() {
       return;
     }
 
+    if (title.length > 20) {
+      setError({ type: 'FIELD', message: '리스트 제목은 20자 이내여야 합니다.' });
+      return;
+    }
+
     try {
       const listId = await createPlaceList({
         title: title,
@@ -72,6 +77,7 @@ export default function CreatePlace() {
             onChange={(e) => setTitle(e.target.value)}
             id='title'
             className='create-place-input'
+            maxLength={20}
           />
           {error && error.type === 'FIELD' && (
             <p className='text-typo-description text-tag-red-text -mt-1'>{error.message}</p>
