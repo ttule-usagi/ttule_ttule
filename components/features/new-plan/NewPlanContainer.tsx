@@ -207,7 +207,7 @@ export default function NewPlanContainer() {
                     onClick={handleCopy}
                     className='mt-2 flex items-center gap-2 bg-white rounded-lg px-3 py-2 max-w-[stretch] hover:bg-brand-gray-50 cursor-pointer'
                   >
-                    <span className='flex-1 text-typo-sm text-brand-gray-700 truncate'>{state.inviteToken}</span>
+                    <span className='flex-1 text-typo-sm text-brand-gray-700 truncate'>{`${state.planId}/${state.inviteToken}`}</span>
 
                     <Icon
                       name={copied ? 'Check' : 'Copy'}
