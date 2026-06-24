@@ -11,7 +11,15 @@ import PlaceListPlaces from '@/components/features/Place/PlaceListPlaces';
 
 export default async function PlaceListDetail({ params }: { params: Promise<{ listId: string }> }) {
   const { listId } = await params;
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        // prefetch한 데이터를 클라이언트에서 즉시 다시 fetch하는 걸 방지
+        staleTime: 60 * 1000, // 1분
+      },
+    },
+  });
+
   await Promise.all([
     queryClient.prefetchQuery(placeListDetailQueryOptions(listId)),
     queryClient.prefetchInfiniteQuery(placeListPlacesQueryOptions(listId)),
