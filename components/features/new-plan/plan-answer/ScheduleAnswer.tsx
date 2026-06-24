@@ -19,6 +19,10 @@ interface Props {
   onNext: () => void;
 }
 
+function getToday() {
+  return new Date().toISOString().split('T')[0];
+}
+
 export default function ScheduleAnswer({
   mode,
   onModeChange,
@@ -67,13 +71,14 @@ export default function ScheduleAnswer({
               label='출발날짜'
               value={startDate}
               onChange={onStartDateChange}
+              min={getToday()}
             />
             <FormTypeCalendar
               id='end_date'
               label='도착날짜'
               value={endDate}
               onChange={onEndDateChange}
-              min={startDate}
+              min={startDate || getToday()}
             />
           </>
         ) : (

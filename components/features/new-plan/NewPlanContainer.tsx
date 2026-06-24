@@ -11,8 +11,10 @@ import ScheduleAnswer from './plan-answer/ScheduleAnswer';
 import PlanNameAnswer from './plan-answer/PlanNameAnswer';
 import SkipButton from './plan-answer/SkipButton';
 import FadeUp from '@/components/common/FadeUp';
+import { useNewPlanForm } from '@/hooks/new-plan/useNewPlanForm';
 
 type ScheduleMode = 'date' | 'undecided';
+const { state, dispatch } = useNewPlanForm();
 
 export default function NewPlanContainer() {
   const router = useRouter();
@@ -25,12 +27,9 @@ export default function NewPlanContainer() {
   const [endDate, setEndDate] = useState('');
   const [totalDays, setTotalDays] = useState(1);
   const [planName, setPlanName] = useState('');
-  const [isPending, setIsPending] = useState(false);
-  const [planId, setPlanId] = useState<string | null>(null);
-  const [inviteToken, setInviteToken] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
-
   const [selectOpen, setSelectOpen] = useState(false);
+
   const { data: countries } = useCountries(selectOpen);
   const { data: destinations } = useDestinations(selectOpen);
 
@@ -63,41 +62,49 @@ export default function NewPlanContainer() {
   }, [step]);
 
   const submitPlan = async (title: string) => {
-    const [countryCode, city] = destination.split(':');
-    setIsPending(true);
+    if (state.planId || state.isPending) return;
+
+    const [countryCode, city] = state.destination.split(':');
+    dispatch({ type: 'SUBMIT_START' });
+
     const res = await createNewPlan({
       title: title || city || '제목 없음',
       destination: countryCode,
-      departure_date: scheduleMode === 'date' ? startDate : null,
-      arrival_date: scheduleMode === 'date' ? endDate : null,
-      is_date_undecided: scheduleMode === 'undecided',
-      total_days: scheduleMode === 'undecided' ? totalDays : null,
+      departure_date: state.scheduleMode === 'date' ? state.startDate : null,
+      arrival_date: state.scheduleMode === 'date' ? state.endDate : null,
+      is_date_undecided: state.scheduleMode === 'undecided',
+      total_days: state.scheduleMode === 'undecided' ? state.totalDays : null,
     });
 
-    setIsPending(false);
-    if (res.error) return;
-    if (res?.data) {
-      setPlanId(res.data.planId);
-      setInviteToken(`${res.data.planId}/${res.data.token}`);
+    if (res.error) {
+      dispatch({ type: 'SUBMIT_ERROR', error: res.error });
+      return;
     }
-    nextStep();
+
+    if (!res.data) return;
+
+    dispatch({
+      type: 'SUBMIT_SUCCESS',
+      planId: res.data.planId,
+      inviteToken: `${res.data.planId}/${res.data.token}`,
+    });
   };
 
   const handleSubmit = () => submitPlan(planName);
   const handleSkip = () => submitPlan('');
 
   const handleCopy = async () => {
-    if (!inviteToken) return;
-    await navigator.clipboard.writeText(inviteToken);
+    if (!state.inviteToken) return;
+    await navigator.clipboard.writeText(state.inviteToken);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   const handleConfirm = () => {
-    if (!planId) return;
-    router.push(`/plan/${planId}`);
+    if (!state.planId) return;
+    router.push(`/plan/${state.planId}`);
   };
-  console.log('Invite Token:', inviteToken);
+  console.log('Invite Token:', state.inviteToken);
 
   return (
     <div className='relative min-h-screen w-full bg-gradient-to-t from-[#fff1eb] to-[#ace0f9] flex justify-center py-10'>
@@ -179,10 +186,16 @@ export default function NewPlanContainer() {
                 value={planName}
                 onChange={setPlanName}
                 onNext={handleSubmit}
-                isPending={isPending}
+                isPending={state.isPending}
               />
               <SkipButton onClick={handleSkip} />
             </FadeUp>
+          )}
+
+          {state.submitError && step === 3 && (
+            <PlanQuestion>
+              <span className='text-red-400'>{state.submitError}</span>
+            </PlanQuestion>
           )}
 
           {step >= 4 && (
@@ -195,7 +208,7 @@ export default function NewPlanContainer() {
                     onClick={handleCopy}
                     className='mt-2 flex items-center gap-2 bg-white rounded-lg px-3 py-2 max-w-[stretch] hover:bg-brand-gray-50 cursor-pointer'
                   >
-                    <span className='flex-1 text-typo-sm text-brand-gray-700 truncate'>{inviteToken}</span>
+                    <span className='flex-1 text-typo-sm text-brand-gray-700 truncate'>{state.inviteToken}</span>
 
                     <Icon
                       name={copied ? 'Check' : 'Copy'}

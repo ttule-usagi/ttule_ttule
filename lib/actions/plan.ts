@@ -3,14 +3,16 @@
 import { auth } from '@/lib/utils/auth';
 import { supabaseAdmin, supabaseUser } from '@/lib/utils/supabase';
 
-export const createNewPlan = async (formData: {
+type CreatePlanResult = { data: { planId: string; token: string }; error?: never } | { error: string; data?: never };
+
+export async function createNewPlan(formData: {
   title: string;
   destination: string;
   departure_date: string | null;
   arrival_date: string | null;
   is_date_undecided: boolean;
   total_days: number | null;
-}) => {
+}): Promise<CreatePlanResult> {
   // 인증 확인
   const session = await auth();
   if (!session?.user?.id) {
@@ -39,7 +41,6 @@ export const createNewPlan = async (formData: {
 
   // 2. 최소 1일 보장
   totalDays = Math.max(1, totalDays);
-  let newId: string | null = null;
 
   try {
     const supabase = await supabaseAdmin;
@@ -69,4 +70,4 @@ export const createNewPlan = async (formData: {
     console.error('Plan 생성 실패:', error);
     return { error: error.message || '계획을 생성하는 중 오류가 발생했습니다.' };
   }
-};
+}
