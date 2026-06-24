@@ -21,7 +21,7 @@ interface PlaceTagProps {
 export default function PlaceTag({ tag, onClick, isRounded = false }: PlaceTagProps) {
   return (
     <div
-      className={`block shrink-0 text-typo-caption ${isRounded ? 'rounded-[28px]' : 'rounded-sm'} border px-2 py-1 ${colorVariant[tag.color]}`}
+      className={`block shrink-0 text-typo-caption box-border ${isRounded ? 'rounded-[28px]' : 'rounded-sm'} border px-2 py-1 ${colorVariant[tag.color]}`}
       onClick={onClick}
     >
       {onClick && (
