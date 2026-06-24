@@ -9,11 +9,11 @@ export default function PlaceListHeader({ listId }: { listId: string }) {
 
   return (
     <header className='flex flex-col gap-4'>
-      <div className='flex items-center gap-3'>
+      <div className='flex items-start gap-3'>
         <span className='font-mona12 text-typo-big-title'>{data.icon}</span>
         <p className='font-semibold flex-1 text-typo-big-title text-brand-blue-700'>{data.title}</p>
 
-        <div className='flex gap-3'>
+        <div className='flex gap-3 mt-0.5'>
           <Icon
             name='Share'
             size={32}
