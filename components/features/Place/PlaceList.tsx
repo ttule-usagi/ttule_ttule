@@ -2,7 +2,6 @@
 
 import { ListType } from '@/types/placeList';
 import EmptyState from './EmptyState';
-import ErrorState from './ErrorState';
 import MoreButton from './MoreButton';
 import PlaceListItem from './PlaceListItem';
 import { useGetAllPlaceLists } from '@/hooks/place-list/useGetAllPlaceLists';
@@ -13,10 +12,8 @@ interface PlaceListProps {
 }
 
 export default function PlaceList({ listType, emptyText }: PlaceListProps) {
-  const { data, fetchNextPage, hasNextPage, isLoading, isError } = useGetAllPlaceLists(listType);
+  const { data, fetchNextPage, hasNextPage, isFetchNextPageError } = useGetAllPlaceLists(listType);
 
-  if (isLoading) return <div>로딩중...</div>;
-  if (isError || !data) return <ErrorState message='장소 리스트를 불러오지 못했습니다.' />;
   if (data?.items.length === 0) return <EmptyState message={emptyText} />;
 
   return (
@@ -29,6 +26,12 @@ export default function PlaceList({ listType, emptyText }: PlaceListProps) {
           />
         ))}
       </div>
+      {isFetchNextPageError && (
+        <div className='w-full text-center py-7 text-tag-red-text text-typo-base'>
+          추가 로딩 중 에러가 발생했습니다. <br />
+          잠시 후 다시 시도해주세요.
+        </div>
+      )}
       {hasNextPage && <MoreButton onClick={fetchNextPage} />}
     </div>
   );
