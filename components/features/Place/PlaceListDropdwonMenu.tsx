@@ -13,7 +13,7 @@ export default function PlaceListDropdownMenu({ viewLink, editLink }: { viewLink
         <Icon
           name='DotsHorizontal'
           size={32}
-          className='cursor-pointer'
+          className='cursor-pointer text-brand-blue-700'
         />
       </DropDown.Trigger>
 
