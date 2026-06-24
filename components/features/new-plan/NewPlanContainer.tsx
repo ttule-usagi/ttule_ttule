@@ -14,9 +14,10 @@ import FadeUp from '@/components/common/FadeUp';
 import { useNewPlanForm } from '@/hooks/new-plan/useNewPlanForm';
 
 type ScheduleMode = 'date' | 'undecided';
-const { state, dispatch } = useNewPlanForm();
 
 export default function NewPlanContainer() {
+  const { state, dispatch } = useNewPlanForm();
+
   const router = useRouter();
   const bottomRef = useRef<HTMLDivElement>(null);
 
