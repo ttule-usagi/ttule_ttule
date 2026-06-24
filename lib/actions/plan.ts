@@ -2,17 +2,17 @@
 
 import { auth } from '@/lib/utils/auth';
 import { supabaseAdmin, supabaseUser } from '@/lib/utils/supabase';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 
-export const createNewPlan = async (formData: {
+type CreatePlanResult = { data: { planId: string; token: string }; error?: never } | { error: string; data?: never };
+
+export async function createNewPlan(formData: {
   title: string;
   destination: string;
   departure_date: string | null;
   arrival_date: string | null;
   is_date_undecided: boolean;
   total_days: number | null;
-}) => {
+}): Promise<CreatePlanResult> {
   // 인증 확인
   const session = await auth();
   if (!session?.user?.id) {
@@ -41,7 +41,6 @@ export const createNewPlan = async (formData: {
 
   // 2. 최소 1일 보장
   totalDays = Math.max(1, totalDays);
-  let newId: string | null = null;
 
   try {
     const supabase = await supabaseAdmin;
@@ -59,18 +58,16 @@ export const createNewPlan = async (formData: {
 
     if (error) throw error;
     if (!data) throw new Error('계획 생성 후 ID를 반환받지 못했습니다.');
+    const result = (data as { new_plan_id: string; new_edit_token: string }[])[0];
 
-    newId = data;
-    revalidatePath('/lobby');
-
-    console.log('✅ 생성 성공, 리다이렉트 준비 ID:', newId);
-    // return { success: true, id: data };
+    return {
+      data: {
+        planId: result.new_plan_id,
+        token: result.new_edit_token,
+      },
+    };
   } catch (error: any) {
     console.error('Plan 생성 실패:', error);
     return { error: error.message || '계획을 생성하는 중 오류가 발생했습니다.' };
   }
-
-  if (newId) {
-    redirect(`/plan/${newId}`);
-  }
-};
+}
