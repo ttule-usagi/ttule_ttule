@@ -1,5 +1,6 @@
 'use client';
 
+import { div } from 'framer-motion/client';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 
@@ -21,12 +22,13 @@ export default function PlaceMap() {
           </div>
         </>
       ) : (
-        <Image
-          src={`/api/map/place-list?listId=${listId}`}
-          alt='장소 리스트 지도'
-          fill
-          className='object-cover'
-        />
+        <div>다른 브랜치에서 작업</div>
+        // <Image
+        //   src={`/api/map/place-list?listId=${listId}`}
+        //   alt='장소 리스트 지도'
+        //   fill
+        //   className='object-cover'
+        // />
       )}
     </div>
   );

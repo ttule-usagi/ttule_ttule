@@ -1,15 +1,16 @@
 'use client';
 
 import { Icon } from '@/components/common/Icon';
-import { Tag } from '@/types/placeList';
 import TagListItem from './TagListItem';
 import { useState } from 'react';
+import { useGetPlaceListTags } from '@/hooks/place-list/useGetPlaceListDetail';
 
 // 장소 리스트에 포함된 태그를 보여주는 태그 리스트 컴포넌트(상단에 위치)
-export default function TagList({ tags }: { tags: Tag[] }) {
-  const [activeIds, setActiveIds] = useState<number[]>([]);
+export default function TagList({ listId }: { listId: string }) {
+  const { data } = useGetPlaceListTags(listId);
+  const [activeIds, setActiveIds] = useState<string[]>([]);
 
-  const handleToggleTag = (id: number) => {
+  const handleToggleTag = (id: string) => {
     setActiveIds((prev) => (prev.includes(id) ? prev.filter((v) => v !== id) : [...prev, id]));
   };
 
@@ -23,7 +24,7 @@ export default function TagList({ tags }: { tags: Tag[] }) {
         />
       </button>
       <div className='flex gap-2 overflow-x-scroll flex-1 items-center'>
-        {tags.map((item) => (
+        {data.map((item) => (
           <TagListItem
             key={item.id}
             tag={item}
