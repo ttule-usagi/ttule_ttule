@@ -91,7 +91,6 @@ export default function NewPlanContainer() {
     if (!state.planId) return;
     router.push(`/plan/${state.planId}`);
   };
-  console.log('Invite Token:', state.inviteToken);
 
   const handleBack = () => {
     dispatch({ type: 'RESET' });
