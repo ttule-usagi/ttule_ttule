@@ -42,7 +42,10 @@ export default function NewPlanContainer() {
     return Array.from(grouped.values());
   }, [countries, destinations]);
 
-  const nextStep = () => dispatch({ type: 'NEXT_STEP' });
+  const nextStep = (currentStep: number) => {
+    if (state.step !== currentStep) return;
+    dispatch({ type: 'NEXT_STEP' });
+  };
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -69,6 +72,7 @@ export default function NewPlanContainer() {
     }
 
     if (!res.data) return;
+    () => nextStep(3);
 
     dispatch({
       type: 'SUBMIT_SUCCESS',
@@ -77,7 +81,9 @@ export default function NewPlanContainer() {
     });
   };
 
-  const handleSubmit = () => submitPlan(state.planName);
+  const handleSubmit = () => {
+    submitPlan(state.planName);
+  };
   const handleSkip = () => submitPlan('');
 
   const handleCopy = async () => {
@@ -131,10 +137,10 @@ export default function NewPlanContainer() {
             >
               <DestinationAnswer
                 value={state.destination}
-                onChange={(value) => dispatch({ type: 'SET_DESTINATION', value })} // setDestination 대신
+                onChange={(value) => dispatch({ type: 'SET_DESTINATION', value })}
                 groups={groups}
                 onOpenChange={setSelectOpen}
-                onNext={nextStep}
+                onNext={() => nextStep(1)}
               />
             </FadeUp>
           )}
@@ -159,7 +165,7 @@ export default function NewPlanContainer() {
                 onEndDateChange={(value) => dispatch({ type: 'SET_END_DATE', value })}
                 totalDays={state.totalDays}
                 onTotalDaysChange={(value) => dispatch({ type: 'SET_TOTAL_DAYS', value })}
-                onNext={nextStep}
+                onNext={() => nextStep(2)}
               />
             </FadeUp>
           )}
