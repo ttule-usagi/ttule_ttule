@@ -6,7 +6,7 @@ interface Props {
 
 export default function PlanQuestion({ children }: Props) {
   return (
-    <div className='relative self-start max-w-[292px] mt-1'>
+    <div className='relative self-start max-w-71.5 mt-1'>
       <div className='bg-[#d9d9d9] rounded-lg px-4 py-3 '>
         <div className='text-typo-base text-black leading-relaxed whitespace-pre-line mr-5'>{children}</div>
       </div>

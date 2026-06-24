@@ -6,8 +6,8 @@ interface AnswerBubbleProps {
 
 function AnswerBubble({ children }: AnswerBubbleProps) {
   return (
-    <div className='relative self-end w-full max-w-[286px]'>
-      <div className='bg-gradient-to-b from-brand-blue-500 to-brand-blue-400 rounded-lg p-4 flex flex-col gap-[10px] text-typo-description text-brand-gray-400'>
+    <div className='relative self-end w-full max-w-71.5'>
+      <div className='bg-gradient-to-b from-brand-blue-500 to-brand-blue-400 rounded-lg p-4 flex flex-col gap-2 text-typo-description text-brand-gray-400'>
         {children}
       </div>
       {/* 오른쪽 하단 꼬리 */}

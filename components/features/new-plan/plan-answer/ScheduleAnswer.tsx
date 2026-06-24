@@ -36,7 +36,7 @@ export default function ScheduleAnswer({
   const isValid = mode === 'date' ? Boolean(startDate && endDate) : totalDays > 0;
 
   return (
-    <div className='flex flex-col gap-2  self-end'>
+    <div className='flex flex-col gap-2 self-end'>
       <div className='flex gap-2'>
         <button
           type='button'

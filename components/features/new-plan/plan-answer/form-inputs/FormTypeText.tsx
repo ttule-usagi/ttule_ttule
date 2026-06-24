@@ -1,7 +1,5 @@
 'use client';
 
-import { NewPlaceFormInputProps } from '@/types/input';
-
 // onChange는 값만 받아서 사용
 interface Props {
   id: string;

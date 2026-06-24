@@ -105,10 +105,10 @@ export default function NewPlanContainer() {
 
   return (
     <div className='relative min-h-screen w-full bg-gradient-to-t from-[#fff1eb] to-[#ace0f9] flex justify-center py-10'>
-      <div className='relative w-[560px] min-h-[700px] rounded-lg border border-white bg-gradient-to-b from-[rgba(249,250,251,0.8)] to-[rgba(237,240,243,0.8)] overflow-hidden'>
+      <div className='relative w-140 min-h-175 rounded-lg border border-white bg-gradient-to-b from-[rgba(249,250,251,0.8)] to-[rgba(237,240,243,0.8)] overflow-hidden'>
         {/* 헤더 */}
-        <div className='absolute top-0 left-0 w-full h-[72px] bg-white rounded-t-lg z-10' />
-        <div className='absolute top-[19px] left-[19px] flex items-center gap-4 z-10'>
+        <div className='absolute top-0 left-0 w-full h-18 bg-white rounded-t-lg z-10' />
+        <div className='absolute top-5 left-5 flex items-center gap-4 z-10'>
           <button
             type='button'
             onClick={() => handleBack()}
@@ -119,11 +119,11 @@ export default function NewPlanContainer() {
               className='text-brand-gray-700'
             />
           </button>
-          <p className='text-[20px] font-semibold text-brand-blue-800 tracking-[-0.6px]'>새로운 계획 생성하기</p>
+          <p className='text-typo-sub-title text-brand-blue-800 tracking-[-0.6px]'>새로운 계획 생성하기</p>
         </div>
 
         {/* 채팅 영역 */}
-        <div className='pt-[88px] pb-16 px-5 flex flex-col gap-6 overflow-y-auto h-full'>
+        <div className='pt-22 pb-16 px-5 flex flex-col gap-6 overflow-y-auto h-full'>
           <FadeUp>
             {state.step >= 1 && (
               <PlanQuestion>{`여행 계획을 시작해볼까요? \n여행하실 지역을 알려주세요.`}</PlanQuestion>
@@ -154,7 +154,7 @@ export default function NewPlanContainer() {
           {state.step >= 2 && (
             <FadeUp
               delay={0.4}
-              className='self-end max-w-[286px] w-full'
+              className='self-end max-w-71.5 w-full'
             >
               <ScheduleAnswer
                 mode={state.scheduleMode}
@@ -179,7 +179,7 @@ export default function NewPlanContainer() {
           {state.step >= 3 && (
             <FadeUp
               delay={0.4}
-              className='self-end max-w-[286px] w-full flex flex-col gap-4'
+              className='self-end max-w-71.5 w-full flex flex-col gap-4'
             >
               <PlanNameAnswer
                 value={state.planName}
