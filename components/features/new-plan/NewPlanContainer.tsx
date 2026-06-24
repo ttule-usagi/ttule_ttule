@@ -44,11 +44,6 @@ export default function NewPlanContainer() {
 
   const nextStep = () => dispatch({ type: 'NEXT_STEP' });
 
-  // useEffect(() => {
-  //   // 화면 진입하자마자 첫 답변창 노출
-  //   dispatch({ type: 'NEXT_STEP' });
-  // }, []);
-
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
   }, [state.step]);
@@ -81,8 +76,6 @@ export default function NewPlanContainer() {
       inviteToken: `${res.data.planId}/${res.data.token}`,
     });
   };
-
-  console.log('Current State-scheduleMode', state.step);
 
   const handleSubmit = () => submitPlan(state.planName);
   const handleSkip = () => submitPlan('');
