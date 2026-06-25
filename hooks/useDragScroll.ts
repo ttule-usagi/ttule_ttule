@@ -40,11 +40,23 @@ export const useDragScroll = <T extends HTMLElement>() => {
       // 이동 거리를 계속 업데이트
       const dist = x - startX.current;
       moveX.current = dist; // 임계값에 현재 위치 저장(클릭 방지)
-      el.scrollLeft = scrollLeft.current - (x - startX.current);
+      el.scrollLeft = scrollLeft.current - dist;
+    };
+
+    // 마우스 휠 이벤트 추가
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      // 휠 세로 이동량 계산 - 휠 내리면 오른쪽 스크롤, 휠 올리면 왼쪽 스크롤
+      el.scrollLeft += e.deltaY;
     };
 
     el.addEventListener('mousemove', handleMouseMove, { passive: false });
-    return () => el.removeEventListener('mousemove', handleMouseMove);
+    el.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      el.removeEventListener('mousemove', handleMouseMove);
+      el.removeEventListener('wheel', handleWheel);
+    };
   }, []);
 
   const onClick = useCallback((e: React.MouseEvent) => {
