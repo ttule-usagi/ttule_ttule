@@ -216,3 +216,15 @@ input:-webkit-autofill:active {
     #f4f4f5
   );
 }
+
+@layer utilities {
+  .no-scrollbar {
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
+  }
+
+  /* 크롬, 사파리, 엣지 */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
