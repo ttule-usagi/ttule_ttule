@@ -25,6 +25,7 @@ export const createNewPlaceList = async ({ title, icon, description }: CreatePla
     throw new Error('인증 정보가 없습니다.');
   }
   if (!title.trim()) throw new Error('리스트 제목을 입력해주세요.');
+  if (title.length > 20) throw new Error('리스트 제목은 20자 이내여야 합니다.');
 
   const supabase = await supabaseAdmin;
 
