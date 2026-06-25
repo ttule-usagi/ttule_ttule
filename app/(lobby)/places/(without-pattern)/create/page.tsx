@@ -63,7 +63,7 @@ export default function CreatePlace() {
         </button>
       </header>
 
-      <form className='flex flex-col gap-4'>
+      <div className='flex flex-col gap-4'>
         <div className='flex flex-col gap-3'>
           <label
             htmlFor='title'
@@ -153,7 +153,7 @@ export default function CreatePlace() {
             className='resize-none create-place-input'
           />
         </div>
-      </form>
+      </div>
       {error && error.type === 'UPLOAD' && (
         <p className='text-typo-description text-tag-red-text -mt-1'>{error.message}</p>
       )}
