@@ -160,10 +160,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             role: 'authenticated',
             exp: Math.floor(new Date(session.expires).getTime() / 1000),
             email: session.user.email,
-            app_metadata: {
-              provider: 'external',
-              role: 'authenticated',
-            },
           },
           signingSecret,
         );
