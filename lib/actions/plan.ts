@@ -43,7 +43,7 @@ export async function createNewPlan(formData: {
   totalDays = Math.max(1, totalDays);
 
   try {
-    const supabase = await supabaseAdmin;
+    const supabase = await supabaseUser();
 
     // 3. RPC 호출
     const { data, error } = await supabase.rpc('create_plan', {
@@ -53,7 +53,6 @@ export async function createNewPlan(formData: {
       p_arrival_date: formData.arrival_date,
       p_is_date_undecided: formData.is_date_undecided,
       p_total_days: totalDays,
-      p_user_id: session.user.id,
     });
 
     if (error) throw error;
