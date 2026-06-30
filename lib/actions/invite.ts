@@ -9,7 +9,7 @@ export type ResourceType = 'plan' | 'place_list';
 export const verifyEditToken = async (id: string, type: ResourceType) => {
   const session = await auth();
   if (!session?.user?.id) {
-    throw new Error('인증 정보가 없습니다.');
+    throw new Error('로그인이 필요합니다.');
   }
 
   const supabase = await supabaseUser();
@@ -27,7 +27,7 @@ export const verifyEditToken = async (id: string, type: ResourceType) => {
 export const addEditMember = async (token: string, type: ResourceType) => {
   const session = await auth();
   if (!session?.user?.id) {
-    throw new Error('인증 정보가 없습니다.');
+    throw new Error('로그인이 필요합니다.');
   }
 
   const supabase = await supabaseUser();
