@@ -8,7 +8,7 @@ import {
 import PlaceListHeader from '@/components/features/Place/PlaceListHeader';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import PlaceListPlaces from '@/components/features/Place/PlaceListPlaces';
-import InviteEditorHandler from '@/components/features/invite/inviteEditorHandler';
+import InviteEditorHandler from '@/components/features/invite/InviteEditorHandler';
 
 export default async function PlaceListDetail({ params }: { params: Promise<{ listId: string }> }) {
   const { listId } = await params;
