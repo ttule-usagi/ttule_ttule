@@ -2,10 +2,12 @@
 
 import DropDown from '@/components/common/Dropdown';
 import { Icon } from '@/components/common/Icon';
+import { useGetOrRefreshEditToken } from '@/hooks/invite-member/useGetOrRefreshEditToken';
 import { useModalStore } from '@/lib/store/modalStore';
 
-export default function PlaceListDropdownMenu({ viewLink, editLink }: { viewLink: string; editLink: string }) {
+export default function PlaceListDropdownMenu({ id }: { id: string }) {
   const { open } = useModalStore();
+  const { mutate: refreshToken } = useGetOrRefreshEditToken();
 
   return (
     <DropDown>
@@ -18,10 +20,26 @@ export default function PlaceListDropdownMenu({ viewLink, editLink }: { viewLink
       </DropDown.Trigger>
 
       <DropDown.Menu>
-        <DropDown.Item onClick={() => open({ type: 'shareLink', props: { type: 'VIEW', link: viewLink } })}>
+        <DropDown.Item
+          onClick={() => {
+            open({ type: 'shareLink', props: { type: 'VIEW', link: 'viewLink' } });
+          }}
+        >
           리스트를 보기 위한 링크 보내기
         </DropDown.Item>
-        <DropDown.Item onClick={() => open({ type: 'shareLink', props: { type: 'EDIT', link: editLink } })}>
+        <DropDown.Item
+          onClick={() => {
+            refreshToken(
+              { id, type: 'place_list' },
+              {
+                onSuccess: (token) => {
+                  const editLink = `${process.env.NEXT_PUBLIC_BASE_URL}/places/${id}?invite_token=${token}`;
+                  open({ type: 'shareLink', props: { type: 'EDIT', link: editLink } });
+                },
+              },
+            );
+          }}
+        >
           수정할 수 있도록 초대
         </DropDown.Item>
         <DropDown.Item>공유 옵션 관리</DropDown.Item>
