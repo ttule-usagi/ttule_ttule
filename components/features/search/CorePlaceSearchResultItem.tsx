@@ -12,8 +12,6 @@ const getCategoryLabel = (category: CorePlaceSearchResult['category']) => {
 export default function CorePlaceSearchResultItem({ result }: CorePlaceSearchResultItemProps) {
   const categoryLabel = getCategoryLabel(result.category);
 
-  console.log('result', result);
-
   return (
     <div className='flex flex-col gap-1 p-3 border border-brand-gray-300 rounded-sm bg-brand-gray-0 hover:bg-brand-gray-50 transition-colors'>
       <div className='flex items-center justify-between'>

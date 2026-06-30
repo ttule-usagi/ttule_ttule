@@ -1,4 +1,4 @@
-import { useInfiniteQuery, type UseInfiniteQueryResult } from '@tanstack/react-query';
+import { useSuspenseInfiniteQuery, type UseSuspenseInfiniteQueryResult } from '@tanstack/react-query';
 import type { PlaceSearchResults } from '@/types/CorePlace';
 
 interface FetchPlaceSearchProps {
@@ -19,15 +19,12 @@ const fetchPlaceSearch = async ({
   return res.json();
 };
 
-export const useSearchPlaces = (query: string): UseInfiniteQueryResult<PlaceSearchResults, Error> => {
+export const useSearchPlaces = (query: string): UseSuspenseInfiniteQueryResult<PlaceSearchResults, Error> => {
   const trimmedQuery = query.trim();
 
-  return useInfiniteQuery({
+  const result = useSuspenseInfiniteQuery({
     queryKey: ['place-search', trimmedQuery],
     queryFn: ({ pageParam = 0 }) => fetchPlaceSearch({ query: trimmedQuery, offset: pageParam }),
-    // 검색어가 비어있으면 요청 자체를 보내지 않음
-    enabled: trimmedQuery.length > 0,
-    // 더보기(바닥 도달) 시 다음 호출의 pageParam(offset) 계산
     getNextPageParam: (lastPage, allPages) => {
       const loaded = allPages.reduce((sum, p) => sum + p.items.length, 0);
       return loaded < lastPage.totalCount ? loaded : undefined;
@@ -38,4 +35,11 @@ export const useSearchPlaces = (query: string): UseInfiniteQueryResult<PlaceSear
       totalCount: data.pages[0]?.totalCount ?? 0,
     }),
   });
+
+  // 더보기(자동 스크롤) 에러는 컴포넌트 내부에서 처리, 그 외는 ErrorBoundary로 전파
+  if (result.error && !result.isFetching && !result.isFetchNextPageError) {
+    throw result.error;
+  }
+
+  return result;
 };

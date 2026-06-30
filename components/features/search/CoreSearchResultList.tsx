@@ -3,6 +3,8 @@
 import CorePlaceSearchResultItem from '@/components/features/search/CorePlaceSearchResultItem';
 import RegisterNewPlaceBanner from '@/components/features/search/RegisterNewPlaceBanner';
 import { useSearchPlaces } from '@/hooks/place-search/useSearchPlaces';
+import { toCamelKey } from '@/lib/utils/toCamelCase';
+import { PlaceSearchResults } from '@/types/CorePlace';
 import { useEffect, useRef } from 'react';
 
 interface SearchResultListProps {
@@ -10,7 +12,7 @@ interface SearchResultListProps {
 }
 
 export default function CoreSearchResultList({ keyword }: SearchResultListProps) {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useSearchPlaces(keyword);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetchNextPageError } = useSearchPlaces(keyword);
   const observerTargetRef = useRef<HTMLDivElement>(null);
 
   // 리스트 바닥 근처에 도달하면 다음 페이지(offset)를 불러옴
@@ -31,13 +33,8 @@ export default function CoreSearchResultList({ keyword }: SearchResultListProps)
     return () => observer.disconnect();
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  const items = data?.items ?? [];
-
-  // 첫 결과를 기다리는 중에는 결과/배너 UI를 보여주지 않음
-  // TODO: 추후 스피너로 교체
-  if (isLoading) {
-    return <div className='text-typo-description text-brand-gray-400'>Loading...</div>;
-  }
+  const camelCaseItems = toCamelKey<PlaceSearchResults>(data);
+  const items = camelCaseItems.items;
 
   return (
     <div className='flex flex-col gap-3'>
@@ -50,6 +47,11 @@ export default function CoreSearchResultList({ keyword }: SearchResultListProps)
               result={item}
             />
           ))}
+          {isFetchNextPageError && (
+            <div className='text-typo-description text-tag-red-text text-center py-3'>
+              추가 결과를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.
+            </div>
+          )}
           <div ref={observerTargetRef} />
         </>
       )}
