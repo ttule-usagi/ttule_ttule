@@ -1,18 +1,17 @@
 import { ResourceType } from '@/lib/actions/invite';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/router';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useAddEditMember } from './useAddEditMember';
 import { useEffect } from 'react';
 
 // 라우터를 감지하고 참여 유저(editor)로 추가하는 훅
 export const useInviteEditorHandler = (type: ResourceType) => {
-  const searchParmas = useSearchParams();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
   const { mutate: addEditMember } = useAddEditMember();
 
   useEffect(() => {
-    const token = searchParmas.get('invite_token');
+    const token = searchParams.get('invite_token');
     if (!token) return;
 
     addEditMember(
@@ -29,5 +28,5 @@ export const useInviteEditorHandler = (type: ResourceType) => {
         },
       },
     );
-  });
+  }, []);
 };
