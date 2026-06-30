@@ -16,7 +16,13 @@ export default async function CoreSearchPage({ searchParams }: CoreSearchPagePro
     return <div>검색어를 입력해주세요.</div>;
   }
 
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 30 * 1000,
+      },
+    },
+  });
   await prefetchPlaceSearch(queryClient, keyword);
 
   return (

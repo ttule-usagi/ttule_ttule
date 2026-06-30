@@ -22,7 +22,7 @@ export default function CoreSearchResultList({ keyword }: SearchResultListProps)
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage && !isFetchNextPageError) {
           fetchNextPage();
         }
       },
@@ -31,7 +31,7 @@ export default function CoreSearchResultList({ keyword }: SearchResultListProps)
 
     observer.observe(target);
     return () => observer.disconnect();
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+  }, [hasNextPage, isFetchingNextPage, isFetchNextPageError, fetchNextPage]);
 
   const camelCaseItems = toCamelKey<PlaceSearchResults>(data);
   const items = camelCaseItems.items;
@@ -48,11 +48,17 @@ export default function CoreSearchResultList({ keyword }: SearchResultListProps)
             />
           ))}
           {isFetchNextPageError && (
-            <div className='text-typo-description text-tag-red-text text-center py-3'>
-              추가 결과를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.
+            <div className='flex flex-col items-center gap-2 py-3'>
+              <p className='text-typo-description text-tag-red-text'>추가 결과를 불러오지 못했습니다.</p>
+              <button
+                onClick={() => fetchNextPage()}
+                className='text-typo-description text-brand-blue-600 underline'
+              >
+                다시 시도하기
+              </button>
             </div>
           )}
-          <div ref={observerTargetRef} />
+          {!isFetchNextPageError && <div ref={observerTargetRef} />}
         </>
       )}
       <RegisterNewPlaceBanner keyword={keyword} />
