@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { useGetOrRefreshEditToken } from './useGetOrRefreshEditToken';
-import { ResourceType } from '@/lib/actions/invite';
 import { useModalStore } from '@/lib/store/modalStore';
 import { RESOURCE_ROUTE } from '@/lib/constants/inviteResourceType';
+import { ResourceType } from '@/types/invite';
 
 export const useShareEditLink = () => {
   const { mutate: refreshToken } = useGetOrRefreshEditToken();

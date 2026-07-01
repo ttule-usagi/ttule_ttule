@@ -1,8 +1,9 @@
-import { ResourceType, verifyEditToken } from '@/lib/actions/invite';
+import { verifyEditToken } from '@/lib/actions/invite';
+import { TokenVerifyParams } from '@/types/invite';
 import { useMutation } from '@tanstack/react-query';
 
 export const useGetOrRefreshEditToken = () => {
   return useMutation({
-    mutationFn: ({ id, type }: { id: string; type: ResourceType }) => verifyEditToken(id, type),
+    mutationFn: (params: TokenVerifyParams) => verifyEditToken(params),
   });
 };

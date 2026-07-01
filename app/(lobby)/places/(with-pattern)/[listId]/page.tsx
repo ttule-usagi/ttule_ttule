@@ -5,6 +5,7 @@ import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import PlaceListPlaces from '@/components/features/Place/PlaceListPlaces';
 import InviteEditorHandler from '@/components/features/invite/InviteEditorHandler';
 import { prefetchPlaceListDetail } from '@/lib/actions/prefetch/prefetchPlaceListDetail';
+import { Suspense } from 'react';
 
 export default async function PlaceListDetail({ params }: { params: Promise<{ listId: string }> }) {
   const { listId } = await params;
@@ -21,7 +22,12 @@ export default async function PlaceListDetail({ params }: { params: Promise<{ li
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <InviteEditorHandler type='place_list' />
+      <Suspense fallback={null}>
+        <InviteEditorHandler
+          id={listId}
+          type='place_list'
+        />
+      </Suspense>
       <div className='flex flex-col gap-5.5'>
         <QueryBoundary>
           <PlaceListHeader listId={listId} />

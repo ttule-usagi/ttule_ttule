@@ -2,11 +2,10 @@
 
 import { auth } from '@/lib/utils/auth';
 import { supabaseUser } from '@/lib/utils/supabase';
-
-export type ResourceType = 'plan' | 'place_list';
+import { AddEditMemberParams, TokenVerifyParams } from '@/types/invite';
 
 // edit 토큰 유효성 검증
-export const verifyEditToken = async (id: string, type: ResourceType) => {
+export const verifyEditToken = async ({ id, type }: TokenVerifyParams) => {
   const session = await auth();
   if (!session?.user?.id) {
     throw new Error('로그인이 필요합니다.');
@@ -24,7 +23,7 @@ export const verifyEditToken = async (id: string, type: ResourceType) => {
 };
 
 // edit 유저 추가
-export const addEditMember = async (token: string, type: ResourceType) => {
+export const addEditMember = async ({ token, id, type }: AddEditMemberParams) => {
   const session = await auth();
   if (!session?.user?.id) {
     throw new Error('로그인이 필요합니다.');
@@ -33,6 +32,7 @@ export const addEditMember = async (token: string, type: ResourceType) => {
   const supabase = await supabaseUser();
   const { data, error } = await supabase.rpc('add_edit_member', {
     p_token: token,
+    p_resource_id: id,
     p_resource_type: type,
   });
 
