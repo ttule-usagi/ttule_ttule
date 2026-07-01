@@ -1,5 +1,5 @@
-import { getPlaceListDetail, getPlaceListPlaces, getPlaceListTags } from '@/lib/actions/placeList';
-import { PageParam } from '@/types/placeList';
+import { getPlaceListDetail, getPlaceListTags } from '@/lib/actions/placeList';
+import { PageParam, Place } from '@/types/placeList';
 import { infiniteQueryOptions, queryOptions, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
 
 // queryOptions 정의 - 서버/클라이언트 캐시 동기화를 위해
@@ -11,11 +11,22 @@ export const placeListDetailQueryOptions = (listId: string) => {
   });
 };
 
+const fetchPlaceListPlaces = async (listId: string, cursor: PageParam): Promise<Place[]> => {
+  const params = new URLSearchParams();
+  if (cursor) {
+    params.set('createdAt', cursor.createdAt);
+    params.set('id', cursor.id);
+  }
+  const res = await fetch(`/api/view/place-list/${listId}/places?${params.toString()}`);
+  if (!res.ok) throw new Error('저장된 장소를 가져오는 데 실패했습니다.');
+  return res.json();
+};
+
 // 리스트에 저장된 장소 queryOptions
 export const placeListPlacesQueryOptions = (listId: string) => {
   return infiniteQueryOptions({
     queryKey: ['place-list', listId, 'places'],
-    queryFn: ({ pageParam }) => getPlaceListPlaces(listId, pageParam),
+    queryFn: ({ pageParam }) => fetchPlaceListPlaces(listId, pageParam),
     initialPageParam: null as PageParam,
     getNextPageParam: (lastPage) =>
       lastPage.length < 20 ? undefined : { createdAt: lastPage.at(-1)!.createdAt, id: lastPage.at(-1)!.id },
