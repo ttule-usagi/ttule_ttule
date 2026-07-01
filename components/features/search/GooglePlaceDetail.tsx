@@ -9,8 +9,6 @@ interface Props {
 }
 
 export default function GooglePlaceDetail({ place, addNewPlace, onClose }: Props) {
-  console.log(place);
-
   const getBusinessStatus = (status?: string) => {
     switch (status) {
       case 'OPERATIONAL':

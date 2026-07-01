@@ -1,12 +1,19 @@
 import { Icon } from '@/components/common/Icon';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import PlaceList from '@/components/features/Place/PlaceList';
-import { prefetchPlaceList } from '@/lib/actions/prefetchPlaceList';
+import { prefetchPlaceList } from '@/lib/actions/prefetch/prefetchPlaceList';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 
 export default async function Page() {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        // prefetch한 데이터를 클라이언트에서 즉시 다시 fetch하는 걸 방지
+        staleTime: 60 * 1000, // 1분
+      },
+    },
+  });
   await prefetchPlaceList(queryClient);
 
   return (
