@@ -10,12 +10,17 @@ interface ErrorModalProps {
 export default function ErrorModal({ title, description, buttonText = '확인' }: ErrorModalProps) {
   const { close } = useModalStore();
   return (
-    <ModalBox width={320}>
+    <ModalBox
+      width={320}
+      isCloseIcon={false}
+    >
       <ModalBox.ModalTitle
         title={title}
-        description={description}
         error={true}
       />
+      <ModalBox.ModalContent>
+        <div className='-mt-1 mb-1'>{description}</div>
+      </ModalBox.ModalContent>
       <ModalBox.ModalBottomContent>
         <button
           className='modal-button bg-tag-red-text text-brand-gray-0'

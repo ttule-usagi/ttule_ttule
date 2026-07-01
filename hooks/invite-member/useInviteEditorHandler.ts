@@ -31,7 +31,7 @@ export const useInviteEditorHandler = (id: string, type: ResourceType) => {
             type: 'error',
             props: {
               title: `${type === 'place_list' ? '장소 리스트' : '계획'} 참여 실패`,
-              description: '초대 링크를 다시 확인해주세요.',
+              description: '초대 링크가 유효하지 않습니다.\n링크를 다시 확인해주세요.',
             },
           });
         },
