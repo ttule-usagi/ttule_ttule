@@ -5,7 +5,12 @@ import { Icon } from '@/components/common/Icon';
 import { useShareEditLink } from '@/hooks/invite-member/useShareEditLink';
 import { useModalStore } from '@/lib/store/modalStore';
 
-export default function PlaceListDropdownMenu({ id }: { id: string }) {
+interface PlaceListDropdownMenuProps {
+  id: string;
+  type?: 'overview' | 'detail';
+}
+
+export default function PlaceListDropdownMenu({ id, type = 'overview' }: PlaceListDropdownMenuProps) {
   const { open } = useModalStore();
   const { createShareLink, isPending } = useShareEditLink();
 
@@ -34,7 +39,9 @@ export default function PlaceListDropdownMenu({ id }: { id: string }) {
           수정할 수 있도록 초대
         </DropDown.Item>
         <DropDown.Item>공유 옵션 관리</DropDown.Item>
-        <DropDown.Item onClick={() => console.log('전체 리스트 편집 페이지로 이동')}>리스트 편집</DropDown.Item>
+        {type === 'detail' && (
+          <DropDown.Item onClick={() => console.log('전체 리스트 편집 페이지로 이동')}>리스트 편집</DropDown.Item>
+        )}
         <DropDown.Item>리스트 삭제</DropDown.Item>
       </DropDown.Menu>
     </DropDown>

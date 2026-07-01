@@ -19,7 +19,10 @@ export default function PlaceListHeader({ listId }: { listId: string }) {
             size={32}
             className='cursor-pointer'
           />
-          <PlaceListDropdownMenu id={listId} />
+          <PlaceListDropdownMenu
+            id={listId}
+            type='detail'
+          />
         </div>
       </div>
 
