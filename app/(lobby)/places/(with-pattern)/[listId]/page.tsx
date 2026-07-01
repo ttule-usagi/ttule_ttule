@@ -1,10 +1,5 @@
 import TagList from '@/components/features/Place/TagList';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-import {
-  placeListDetailQueryOptions,
-  placeListPlacesQueryOptions,
-  placeListTagsQueryOptions,
-} from '@/hooks/place-list/useGetPlaceListDetail';
 import PlaceListHeader from '@/components/features/Place/PlaceListHeader';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import PlaceListPlaces from '@/components/features/Place/PlaceListPlaces';
