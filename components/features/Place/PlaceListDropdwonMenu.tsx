@@ -2,12 +2,12 @@
 
 import DropDown from '@/components/common/Dropdown';
 import { Icon } from '@/components/common/Icon';
-import { useGetOrRefreshEditToken } from '@/hooks/invite-member/useGetOrRefreshEditToken';
+import { useShareEditLink } from '@/hooks/invite-member/useShareEditLink';
 import { useModalStore } from '@/lib/store/modalStore';
 
 export default function PlaceListDropdownMenu({ id }: { id: string }) {
   const { open } = useModalStore();
-  const { mutate: refreshToken } = useGetOrRefreshEditToken();
+  const { createShareLink } = useShareEditLink();
 
   return (
     <DropDown>
@@ -27,21 +27,7 @@ export default function PlaceListDropdownMenu({ id }: { id: string }) {
         >
           리스트를 보기 위한 링크 보내기
         </DropDown.Item>
-        <DropDown.Item
-          onClick={() => {
-            refreshToken(
-              { id, type: 'place_list' },
-              {
-                onSuccess: (token) => {
-                  const editLink = `${process.env.NEXT_PUBLIC_BASE_URL}/places/${id}?invite_token=${token}`;
-                  open({ type: 'shareLink', props: { type: 'EDIT', link: editLink } });
-                },
-              },
-            );
-          }}
-        >
-          수정할 수 있도록 초대
-        </DropDown.Item>
+        <DropDown.Item onClick={() => createShareLink(id, 'place_list')}>수정할 수 있도록 초대</DropDown.Item>
         <DropDown.Item>공유 옵션 관리</DropDown.Item>
         <DropDown.Item onClick={() => console.log('전체 리스트 편집 페이지로 이동')}>리스트 편집</DropDown.Item>
         <DropDown.Item>리스트 삭제</DropDown.Item>
