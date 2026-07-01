@@ -1,4 +1,4 @@
-import { getPlaceListDetail, getPlaceListPlaces, getPlaceListTags } from '@/lib/actions/placeList';
+import { getPlaceListDetail, getPlaceListTags } from '@/lib/actions/placeList';
 import { PageParam, Place } from '@/types/placeList';
 import { infiniteQueryOptions, queryOptions, useSuspenseInfiniteQuery, useSuspenseQuery } from '@tanstack/react-query';
 

@@ -1,7 +1,7 @@
     
 import { QueryClient } from '@tanstack/react-query';
 import { supabaseUser } from '@/lib/utils/supabase';
-import { getPlaceListPlaces } from '@/lib/api/placeList'; // 이전에 분리한 순수 함수
+import { getPlaceListPlaces } from '@/lib/api/placeList';
 import type { PageParam } from '@/types/placeList';
 import { placeListDetailQueryOptions, placeListTagsQueryOptions } from '@/hooks/place-list/useGetPlaceListDetail';
 

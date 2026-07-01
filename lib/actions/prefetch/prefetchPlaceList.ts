@@ -18,5 +18,3 @@ export async function prefetchPlaceList(queryClient: QueryClient) {
     }),
   ]);
 }
-
-

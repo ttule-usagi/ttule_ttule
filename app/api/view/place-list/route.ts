@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseUser } from '@/lib/utils/supabase';
-import { getAllPlaceLists } from '@/lib/api/placeList'; // 순수 함수로 분리한 버전
+import { getAllPlaceLists } from '@/lib/api/placeList'; 
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
