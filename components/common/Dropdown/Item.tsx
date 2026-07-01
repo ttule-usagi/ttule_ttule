@@ -3,12 +3,14 @@ import { useDropdown } from './DropdownContext';
 interface DropDownItemProps {
   children: React.ReactNode;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
-export default function DropDownItem({ children, onClick }: DropDownItemProps) {
+export default function DropDownItem({ children, onClick, disabled = false }: DropDownItemProps) {
   const { close } = useDropdown();
 
   const handleClick = () => {
+    if (disabled) return;
     close();
     onClick?.();
   };

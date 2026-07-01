@@ -2,6 +2,7 @@
 
 import { Icon } from '@/components/common/Icon';
 import ModalBox from '@/components/common/Modal/ModalBox';
+import { useState } from 'react';
 
 type ShareType = 'VIEW' | 'EDIT';
 
@@ -20,6 +21,21 @@ const MODAL_CONTENT = {
 
 export default function ShareLinkModal({ type, link }: { type: ShareType; link: string }) {
   const modalText = MODAL_CONTENT[type];
+  const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [errorText, setErrorText] = useState<string | null>(null);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(link);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
+    } catch (error) {
+      console.error('복사 실패', error);
+      setErrorText('복사에 실패했습니다. 잠시 후 다시 시도해주세요.');
+      setTimeout(() => setErrorText(null), 2000);
+    }
+  };
+
   return (
     <ModalBox width={560}>
       <ModalBox.ModalTitle
@@ -35,13 +51,23 @@ export default function ShareLinkModal({ type, link }: { type: ShareType; link: 
             value={link}
             disabled
           />
-          <button className='modal-button px-5 shrink-0'>
-            <Icon
-              name='Copy'
-              size={16}
-            />{' '}
-            링크 복사
+          <button
+            className='modal-button px-5 shrink-0 min-w-30.25'
+            onClick={handleCopy}
+          >
+            {!isCopied ? (
+              <>
+                <Icon
+                  name='Copy'
+                  size={16}
+                />{' '}
+                링크 복사
+              </>
+            ) : (
+              '복사 성공 !'
+            )}
           </button>
+          {errorText && <div>{errorText}</div>}
         </ModalBox.ModalBottomContent>
       </div>
     </ModalBox>
