@@ -1,11 +1,24 @@
-import { getAllPlaceLists } from '@/lib/actions/placeList';
+
 import { AllPlaceLists, ListType } from '@/types/placeList';
 import { useSuspenseInfiniteQuery, UseSuspenseInfiniteQueryResult } from '@tanstack/react-query';
+
+const fetchAllPlaceLists = async ({
+  listType,
+  offset = 0,
+}: {
+  listType: ListType;
+  offset?: number;
+}): Promise<AllPlaceLists> => {
+  const params = new URLSearchParams({ listType, offset: String(offset) });
+  const res = await fetch(`/api/view/place-list?${params.toString()}`);
+  if (!res.ok) throw new Error('장소 리스트를 가져오는 데 실패했습니다.');
+  return res.json();
+};
 
 export const useGetAllPlaceLists = (listType: ListType): UseSuspenseInfiniteQueryResult<AllPlaceLists, Error> => {
   const query = useSuspenseInfiniteQuery({
     queryKey: ['place-list', listType],
-    queryFn: ({ pageParam = 0 }) => getAllPlaceLists({ listType, offset: pageParam }),
+    queryFn: ({ pageParam = 0 }) => fetchAllPlaceLists({ listType, offset: pageParam }),
     // 더보기 버튼 클릭 시 다음 호출의 pageParam(offset) 계산
     getNextPageParam: (lastPage, allPages) => {
       const loaded = allPages.reduce((sum, p) => sum + p.items.length, 0);

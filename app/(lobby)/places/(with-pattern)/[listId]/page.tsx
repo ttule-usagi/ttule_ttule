@@ -8,6 +8,7 @@ import {
 import PlaceListHeader from '@/components/features/Place/PlaceListHeader';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import PlaceListPlaces from '@/components/features/Place/PlaceListPlaces';
+import { prefetchPlaceListDetail } from '@/lib/actions/prefetch/prefetchPlaceListDetail';
 
 export default async function PlaceListDetail({ params }: { params: Promise<{ listId: string }> }) {
   const { listId } = await params;
@@ -20,11 +21,7 @@ export default async function PlaceListDetail({ params }: { params: Promise<{ li
     },
   });
 
-  await Promise.all([
-    queryClient.prefetchQuery(placeListDetailQueryOptions(listId)),
-    queryClient.prefetchInfiniteQuery(placeListPlacesQueryOptions(listId)),
-    queryClient.prefetchQuery(placeListTagsQueryOptions(listId)),
-  ]);
+  await prefetchPlaceListDetail(queryClient, listId);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

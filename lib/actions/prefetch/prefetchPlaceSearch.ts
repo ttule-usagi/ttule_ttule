@@ -1,6 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
 import { supabaseUser } from '@/lib/utils/supabase';
-import { getPlaceSearchResults } from '../api/placeSearch';
+import { getPlaceSearchResults } from '../../api/placeSearch';
 
 export async function prefetchPlaceSearch(queryClient: QueryClient, query: string) {
   const supabase = await supabaseUser();
