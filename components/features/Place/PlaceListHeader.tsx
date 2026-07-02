@@ -20,8 +20,8 @@ export default function PlaceListHeader({ listId }: { listId: string }) {
             className='cursor-pointer'
           />
           <PlaceListDropdownMenu
-            viewLink={'공유 링크'}
-            editLink={'초대 링크'}
+            id={listId}
+            type='detail'
           />
         </div>
       </div>

@@ -13,7 +13,8 @@ import { create } from 'zustand';
 type ModalPayload =
   | { type: 'enterInviteLink' | 'cancelSignup' } // props가 필요 없는 모달
   | { type: 'shareLink'; props: { type: 'VIEW' | 'EDIT'; link: string } }
-  | { type: 'cancelNewPlace'; props: { onCancel: () => void } };
+  | { type: 'cancelNewPlace'; props: { onCancel: () => void } }
+  | { type: 'error'; props: { title: string; description: string } };
 
 interface ModalState {
   activeModal: ModalPayload | null;
