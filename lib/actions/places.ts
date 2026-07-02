@@ -94,6 +94,7 @@ export const addPlaceToList = async ({ placeListId, placeDetail }: AddPlaceToLis
 
   if (error) {
     if (error.code === '23505') return { error: 'ALREADY_SAVED' };
+    console.error('addPlaceToList error:', error);
     return { error: error.message };
   }
 

@@ -24,10 +24,12 @@ import Announcement from '@/assets/icons/announcement.svg';
 import Globe from '@/assets/icons/globe.svg';
 import CalendarPlus from '@/assets/icons/calendar-plus.svg';
 import ChevronUp from '@/assets/icons/chevron-up.svg';
+import BookmarkFilled from '@/assets/icons/bookmarked.svg';
 
 export const ICONS = {
   Luggage,
   Bookmark,
+  BookmarkFilled,
   Camera,
   DotsHorizontal,
   Calendar,

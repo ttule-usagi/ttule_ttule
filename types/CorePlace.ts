@@ -83,6 +83,7 @@ export interface CorePlaceSearchResult {
   savedCount: number;
   averageRating: number | null;
   reviewCount: number | null;
+  isSaved: boolean;
 }
 
 export interface CorePlace {

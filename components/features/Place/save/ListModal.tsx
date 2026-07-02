@@ -71,12 +71,12 @@ export default function SaveToListModal({ placeDetail, onClose, onCreateNewList 
       onClick={onClose}
     >
       <div
-        className='bg-white rounded-lg w-60 flex flex-col gap-4 px-5 py-4 h-[50vh] overflow-y-auto relative'
+        className='bg-white rounded-lg w-70 flex flex-col gap-4 px-5 py-4 h-[50vh] overflow-y-auto relative'
         onClick={(e) => e.stopPropagation()}
       >
         {/* 헤더 */}
         <div className='flex items-center justify-between'>
-          <p className='text-typo-base-bold text-brand-gray-700'>리스트에 저장</p>
+          <p className='text-typo-base-bold text-brand-gray-700'>리스트 저장</p>
           <button
             onClick={onClose}
             aria-label='닫기'

@@ -92,7 +92,7 @@ export default function CorePlaceDetail({
               name='CalendarPlus'
               size={18}
             />
-            <span className='text-typo-description font-medium text-brand-blue-700 whitespace-nowrap'>일정에 추가</span>
+            <span className='text-typo-description font-medium text-brand-blue-700 whitespace-nowrap'>일정추가</span>
           </button>
 
           {/* 저장 */}
@@ -107,7 +107,7 @@ export default function CorePlaceDetail({
               size={18}
             />
             <span className='text-typo-description font-medium text-brand-blue-700 whitespace-nowrap'>
-              {isSaved ? `저장됨(${savedLists.length})` : '저장하기'}
+              {isSaved ? `저장됨(${savedLists.length})` : '리스트 저장'}
             </span>
           </button>
 
