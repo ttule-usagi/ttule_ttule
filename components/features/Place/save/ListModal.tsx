@@ -71,7 +71,7 @@ export default function SaveToListModal({ placeDetail, onClose, onCreateNewList 
       onClick={onClose}
     >
       <div
-        className='bg-white rounded-lg w-60 flex flex-col gap-4 px-5 py-4'
+        className='bg-white rounded-lg w-60 flex flex-col gap-4 px-5 py-4 h-[50vh] overflow-y-auto relative'
         onClick={(e) => e.stopPropagation()}
       >
         {/* 헤더 */}
@@ -145,7 +145,7 @@ export default function SaveToListModal({ placeDetail, onClose, onCreateNewList 
         <button
           onClick={handleComplete}
           disabled={!selectedId || isLoading}
-          className={`w-full py-2 rounded-lg text-typo-base-bold text-center transition-colors ${
+          className={`absolute bottom-0 left-0 right-0 mx-5 mb-4 py-2 rounded-lg text-typo-base-bold text-center transition-colors ${
             selectedId && !isLoading
               ? 'bg-brand-blue-700 text-white'
               : 'bg-brand-gray-200 text-brand-gray-400 cursor-not-allowed'
