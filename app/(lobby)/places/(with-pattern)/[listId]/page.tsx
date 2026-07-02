@@ -1,22 +1,16 @@
 import TagList from '@/components/features/Place/TagList';
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import PlaceListHeader from '@/components/features/Place/PlaceListHeader';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import PlaceListPlaces from '@/components/features/Place/PlaceListPlaces';
 import InviteEditorHandler from '@/components/features/invite/InviteEditorHandler';
 import { prefetchPlaceListDetail } from '@/lib/actions/prefetch/prefetchPlaceListDetail';
 import { Suspense } from 'react';
+import { getQueryClient } from '@/lib/utils/getQueryClient';
 
 export default async function PlaceListDetail({ params }: { params: Promise<{ listId: string }> }) {
   const { listId } = await params;
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        // prefetch한 데이터를 클라이언트에서 즉시 다시 fetch하는 걸 방지
-        staleTime: 60 * 1000, // 1분
-      },
-    },
-  });
+  const queryClient = getQueryClient();
 
   await prefetchPlaceListDetail(queryClient, listId);
 
