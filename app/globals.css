@@ -117,6 +117,10 @@
   --color-tag-hotpink-stroke: #fdcef3;
   --color-tag-hotpink-fill: #ffedfa;
 
+  /* Colors - error */
+  --color-error-bg: #ffe8ec;
+  --color-error-solid: #d92042;
+
   /* Box Shadow */
   --shadow-medium: 0 4px 8px -2px rgba(16, 24, 40, 0.1), 0 2px 4px -2px rgba(16, 24, 40, 0.06);
   --shadow-large: 0 12px 16px -4px #10182814, 0 4px 6px -2px rgba(16, 24, 40, 0.03);
