@@ -49,7 +49,5 @@ export const getPlaceSearchResults = async ({
 
   if (error) throw error;
   if (!data) throw new Error('검색 결과를 가져오는 데 실패했습니다.');
-
-  console.log('getPlaceSearchResults data:', data); // 디버깅용 로그 추가
   return data as PlaceSearchResults;
 };
