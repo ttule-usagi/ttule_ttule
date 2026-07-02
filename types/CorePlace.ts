@@ -79,12 +79,11 @@ export interface CorePlaceSearchResult {
   longitude: number | null;
   name: string;
   address: string | null;
-  category: string | null;
+  category: string;
   savedCount: number;
   averageRating: number | null;
   reviewCount: number | null;
 }
-
 
 export interface CorePlace {
   id: string;

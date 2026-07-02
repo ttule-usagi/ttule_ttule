@@ -1,9 +1,10 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { supabaseAdmin } from '@/lib/utils/supabase/index';
+import { supabaseAdmin, supabaseUser } from '@/lib/utils/supabase/index';
 import { auth } from '@/lib/utils/auth';
 import type { CreatePlacePayload } from '@/types/CorePlace';
+import { CorePlaceDetail } from '@/types/CorePlace';
 
 // 이미 등록한 장소인지 체크
 export async function checkPlaceExists(googlePlaceId: string) {
@@ -65,3 +66,36 @@ export async function createNewPlace(payload: CreatePlacePayload): Promise<Creat
 
   return { success: true, placeId };
 }
+
+interface AddPlaceToListProps {
+  placeListId: string;
+  placeDetail: CorePlaceDetail;
+}
+
+export const addPlaceToList = async ({ placeListId, placeDetail }: AddPlaceToListProps) => {
+  if (!placeListId) return { error: 'INVALID_LIST_ID' };
+  if (!placeDetail.place.id) return { error: 'INVALID_PLACE_ID' };
+
+  const { place, images } = placeDetail;
+  const mainImage = images.find((img) => img.isMain) ?? images[0];
+  const customName = place.koreanName ?? place.originalName ?? place.englishName;
+
+  const supabase = await supabaseUser();
+
+  const { error } = await supabase.from('place').insert({
+    place_list_id: placeListId,
+    core_place_id: place.id,
+    latitude: place.latitude,
+    longitude: place.longitude,
+    custom_name: customName,
+    category: place.category,
+    thumbnail: mainImage?.imgUrl ?? null,
+  });
+
+  if (error) {
+    if (error.code === '23505') return { error: 'ALREADY_SAVED' };
+    return { error: error.message };
+  }
+
+  return { data: true };
+};

@@ -22,6 +22,7 @@ import RatingStar from '@/assets/icons/rating-star.svg';
 import Minus from '@/assets/icons/minus.svg';
 import Announcement from '@/assets/icons/announcement.svg';
 import Globe from '@/assets/icons/globe.svg';
+import CalendarPlus from '@/assets/icons/calendar-plus.svg';
 
 export const ICONS = {
   Luggage,
@@ -47,7 +48,8 @@ export const ICONS = {
   RatingStar,
   Minus,
   Announcement,
-  Globe
+  Globe,
+  CalendarPlus,
 } as const;
 
 export type IconName = keyof typeof ICONS;
