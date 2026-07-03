@@ -16,6 +16,15 @@ export default function CorePlaceSearchResultItem({ result }: CorePlaceSearchRes
     <div className='flex flex-col gap-1 p-3 border border-brand-gray-300 rounded-sm bg-brand-gray-0 hover:bg-brand-gray-50 transition-colors'>
       <div className='flex items-center justify-between'>
         <p className='text-typo-sub-title text-brand-gray-600 font-medium'>{result.name}</p>
+        {result.isSaved && (
+          <div className='flex items-center gap-1'>
+            <Icon
+              name='BookmarkFilled'
+              size={26}
+              className='text-brand-blue-500'
+            />
+          </div>
+        )}
       </div>
       <div className='flex gap-0.5 flex-col'>
         <div className='flex gap-1 items-center'>

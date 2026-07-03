@@ -22,6 +22,7 @@ export default function CoreSearchResultList({ keyword }: SearchResultListProps)
 
     const observer = new IntersectionObserver(
       (entries) => {
+        // 에러 상태에서는 자동 재시도를 막고, "다시 시도" 버튼으로만 재요청
         if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage && !isFetchNextPageError) {
           fetchNextPage();
         }

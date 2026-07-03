@@ -83,7 +83,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     async signIn({ user, account }) {
-      // console.log('✅ [SignIn Callback] 진입:', user.email);
       if (!user.email) return false;
 
       // 이메일 기준으로 기존 프로필이 있는지 먼저 확인(중복 가입 방지)
@@ -129,11 +128,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
     async jwt({ token, user, trigger }) {
-      // console.log('🔥 [JWT Callback] 실행됨!');
       // 최초 로그인 또는 update() 함수 호출 시에만 DB조회
       if (user || trigger === 'update') {
         const userId = user?.id || token.id;
-        // console.log('🔍 [JWT] DB 조회 시작 - ID:', userId);
         const { data, error } = await supabaseAdmin
           .from('profiles')
           .select('role, username, profile_image_url')
