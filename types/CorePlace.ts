@@ -79,8 +79,56 @@ export interface CorePlaceSearchResult {
   longitude: number | null;
   name: string;
   address: string | null;
-  category: string | null;
+  category: string;
   savedCount: number;
   averageRating: number | null;
   reviewCount: number | null;
+  isSaved: boolean;
+}
+
+export interface CorePlace {
+  id: string;
+  koreanName: string;
+  englishName: string | null;
+  originalName: string | null;
+  address: string;
+  latitude: number;
+  longitude: number;
+  category: string;
+  businessStatus: string;
+  averageRating: number;
+  reviewCount: number;
+  savedCount: number;
+  websiteUri: string | null;
+  phoneNumber: string | null;
+  googlePlaceId: string;
+}
+
+export interface CorePlaceImage {
+  id: string;
+  imgUrl: string;
+  isMain: boolean;
+  sortOrder: number;
+}
+
+export interface CorePlaceReview {
+  id: string;
+  userId: string;
+  username: string;
+  content: string;
+  rating: number;
+  createdAt: string;
+}
+
+export interface CorePlaceSavedList {
+  id: string;
+  title: string;
+  icon: string;
+}
+
+export interface CorePlaceDetail {
+  place: CorePlace;
+  images: CorePlaceImage[];
+  reviews: CorePlaceReview[];
+  savedLists: CorePlaceSavedList[];
 }

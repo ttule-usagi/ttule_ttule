@@ -20,10 +20,16 @@ import Check from '@/assets/icons/check.svg';
 import Image from '@/assets/icons/image.svg';
 import RatingStar from '@/assets/icons/rating-star.svg';
 import Minus from '@/assets/icons/minus.svg';
+import Announcement from '@/assets/icons/announcement.svg';
+import Globe from '@/assets/icons/globe.svg';
+import CalendarPlus from '@/assets/icons/calendar-plus.svg';
+import ChevronUp from '@/assets/icons/chevron-up.svg';
+import BookmarkFilled from '@/assets/icons/bookmarked.svg';
 
 export const ICONS = {
   Luggage,
   Bookmark,
+  BookmarkFilled,
   Camera,
   DotsHorizontal,
   Calendar,
@@ -39,11 +45,15 @@ export const ICONS = {
   Search,
   Share,
   Edit,
+  ChevronUp,
   ChevronDown,
   Check,
   Image,
   RatingStar,
   Minus,
+  Announcement,
+  Globe,
+  CalendarPlus,
 } as const;
 
 export type IconName = keyof typeof ICONS;
