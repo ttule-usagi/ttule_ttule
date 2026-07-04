@@ -5,9 +5,11 @@ import { useModalStore } from '@/lib/store/modalStore';
 import { InviteHookParams } from '@/types/invite';
 import { useSession } from 'next-auth/react';
 import { DEFAULT_INVITE_ERROR_PROPS, INVITE_ERROR_MESSAGES, InviteErrorCode } from '@/lib/constants/inviteErrorMessage';
+import { useQueryClient } from '@tanstack/react-query';
 
 // 라우터를 감지하고 참여 유저(editor)로 추가하는 훅
 export const useInviteEditorHandler = ({ id, resourceType }: InviteHookParams) => {
+  const queryclient = useQueryClient();
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -41,6 +43,12 @@ export const useInviteEditorHandler = ({ id, resourceType }: InviteHookParams) =
             router.replace(pathname);
             return;
           }
+
+          queryclient.invalidateQueries({
+            // TODO: plan 전체조회 쿼리키 확인 필요
+            queryKey: resourceType === 'plan' ? ['plan', 'list'] : ['place-list'],
+          });
+
           router.replace(pathname);
         },
         onError: (error) => {
