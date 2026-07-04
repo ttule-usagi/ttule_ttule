@@ -40,7 +40,7 @@ export default function NotFound() {
           </button>
 
           <Link
-            href='/'
+            href='/lobby'
             className='flex items-center justify-center rounded-lg border-2 border-white/12 bg-brand-blue-700 px-4.5 py-3, 0_-2px_0_0_rgba(10,13,18,0.05)_inset shadow-[0px_1px_2px_0px_rgba(10,13,18,0.05)]'
           >
             <span className='px-0.5 text-typo-base-bold font-semibold text-white'>홈으로 이동</span>
