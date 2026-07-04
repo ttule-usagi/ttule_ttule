@@ -63,5 +63,5 @@ export const addEditMember = async ({ token, id, type }: AddEditMemberParams) =>
     return { error: '참여 요청 처리 중 오류가 발생했습니다.' };
   }
 
-  return data; // resource_id
+  return { data }; // resource_id
 };
