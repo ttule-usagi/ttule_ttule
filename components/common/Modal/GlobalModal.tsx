@@ -25,7 +25,7 @@ export default function GlobalModal() {
       className='modal-overlay'
       onClick={close}
     >
-      {activeModal.type === 'enterInviteLink' && <EnterInviteLinkModal />}
+      {activeModal.type === 'enterInviteLink' && <EnterInviteLinkModal type={activeModal.props.type} />}
       {activeModal.type === 'cancelSignup' && <CancelSignupModal />}
       {activeModal.type === 'cancelNewPlace' && <CancelNewPlaceModal onCancel={activeModal.props.onCancel} />}
       {activeModal.type === 'shareLink' && (
