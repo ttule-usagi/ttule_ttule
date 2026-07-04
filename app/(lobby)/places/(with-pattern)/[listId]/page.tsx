@@ -8,7 +8,7 @@ import { prefetchPlaceListDetail } from '@/lib/actions/prefetch/prefetchPlaceLis
 import { Suspense } from 'react';
 import { getQueryClient } from '@/lib/utils/getQueryClient';
 import { verifyInviteToken } from '@/lib/actions/invite';
-import { notFound } from 'next/navigation';
+import { redirect } from 'next/navigation';
 
 export default async function PlaceListDetail(props: PageProps<'/places/[listId]'>) {
   const { listId } = await props.params;
@@ -20,7 +20,8 @@ export default async function PlaceListDetail(props: PageProps<'/places/[listId]
     const tokenStatus = await verifyInviteToken({ token, id: listId, type: 'place_list' });
 
     if (tokenStatus === 'INVALID' || tokenStatus === 'EXPIRED') {
-      notFound();
+      // notFound();
+      redirect('/404');
     }
   }
 
