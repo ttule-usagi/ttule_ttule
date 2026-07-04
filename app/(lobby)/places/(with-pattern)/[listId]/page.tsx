@@ -7,26 +7,22 @@ import InviteEditorHandler from '@/components/features/invite/InviteEditorHandle
 import { prefetchPlaceListDetail } from '@/lib/actions/prefetch/prefetchPlaceListDetail';
 import { Suspense } from 'react';
 import { getQueryClient } from '@/lib/utils/getQueryClient';
-import { verifyInviteToken } from '@/lib/actions/invite';
-import { redirect } from 'next/navigation';
+import { checkInviteToken } from '@/lib/utils/invite/checkInviteToken';
 
-export default async function PlaceListDetail(props: PageProps<'/places/[listId]'>) {
-  const { listId } = await props.params;
-  const { invite_token, from } = await props.searchParams;
+export default async function PlaceListDetail({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ listId: string }>;
+  searchParams: Promise<{ invite_token?: string | string[]; from?: string }>;
+}) {
+  const { listId } = await params;
+  const { invite_token, from } = await searchParams;
 
-  // 브라우저 URL 로 접속한 경우, 서버 컴포넌트에서 not-found 페이지 호출
-  if (invite_token && from !== 'modal') {
-    const token = Array.isArray(invite_token) ? invite_token[0] : invite_token;
-    const tokenStatus = await verifyInviteToken({ token, id: listId, type: 'place_list' });
-
-    if (tokenStatus === 'INVALID' || tokenStatus === 'EXPIRED') {
-      // notFound();
-      redirect('/404');
-    }
-  }
+  // 브라우저 url로 장소 리스트 진입 시 토큰 검증
+  await checkInviteToken({ inviteToken: invite_token, from: from, resourceId: listId, resourceType: 'place_list' });
 
   const queryClient = getQueryClient();
-
   await prefetchPlaceListDetail(queryClient, listId);
 
   return (
