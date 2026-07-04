@@ -58,8 +58,8 @@ export const addEditMember = async ({ token, id, type }: AddEditMemberParams) =>
   if (error) {
     console.error(error);
     if (error.code === 'AUTH1') return { error: 'UNAUTHORIZED' };
-    if (error.code === 'INV01') return { error: 'INVALID_TOKEN' };
-    if (error.code === 'INV02') return { error: 'EXPIRED_TOKEN' };
+    if (error.code === 'INV01') return { error: 'INVALID' };
+    if (error.code === 'INV02') return { error: 'EXPIRED' };
     return { error: '참여 요청 처리 중 오류가 발생했습니다.' };
   }
 
