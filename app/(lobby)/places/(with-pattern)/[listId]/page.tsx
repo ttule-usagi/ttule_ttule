@@ -7,9 +7,23 @@ import InviteEditorHandler from '@/components/features/invite/InviteEditorHandle
 import { prefetchPlaceListDetail } from '@/lib/actions/prefetch/prefetchPlaceListDetail';
 import { Suspense } from 'react';
 import { getQueryClient } from '@/lib/utils/getQueryClient';
+import { verifyInviteToken } from '@/lib/actions/invite';
+import { notFound } from 'next/navigation';
 
-export default async function PlaceListDetail({ params }: { params: Promise<{ listId: string }> }) {
-  const { listId } = await params;
+export default async function PlaceListDetail(props: PageProps<'/places/[listId]'>) {
+  const { listId } = await props.params;
+  const { invite_token, from } = await props.searchParams;
+
+  // 브라우저 URL 로 접속한 경우, 서버 컴포넌트에서 not-found 페이지 호출
+  if (invite_token && from !== 'modal') {
+    const token = Array.isArray(invite_token) ? invite_token[0] : invite_token;
+    const tokenStatus = await verifyInviteToken({ token, id: listId, type: 'place_list' });
+
+    if (tokenStatus === 'INVALID' || tokenStatus === 'EXPIRED') {
+      notFound();
+    }
+  }
+
   const queryClient = getQueryClient();
 
   await prefetchPlaceListDetail(queryClient, listId);
@@ -19,7 +33,7 @@ export default async function PlaceListDetail({ params }: { params: Promise<{ li
       <Suspense fallback={null}>
         <InviteEditorHandler
           id={listId}
-          type='place_list'
+          resourceType='place_list'
         />
       </Suspense>
       <div className='flex flex-col gap-5.5'>
