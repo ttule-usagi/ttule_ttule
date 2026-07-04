@@ -1,5 +1,6 @@
 import { Icon } from '@/components/common/Icon';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
+import JoinPlaceListButton from '@/components/features/Place/JoinPlaceListButton';
 import PlaceList from '@/components/features/Place/PlaceList';
 import { prefetchPlaceList } from '@/lib/actions/prefetch/prefetchPlaceList';
 import { getQueryClient } from '@/lib/utils/getQueryClient';
@@ -30,7 +31,10 @@ export default async function Page() {
         />
       </QueryBoundary>
 
-      <div className='mt-17.5 text-typo-title font-semibold text-brand-blue-700 pb-6'>공유된 장소 리스트</div>
+      <div className='mt-17.5 flex justify-between items-center h-8 w-full mb-3'>
+        <p className='text-typo-title font-semibold text-brand-blue-700'>공유된 장소 리스트</p>
+        <JoinPlaceListButton />
+      </div>
       <QueryBoundary>
         <PlaceList
           listType='shared'
