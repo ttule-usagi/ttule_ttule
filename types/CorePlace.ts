@@ -58,6 +58,7 @@ export interface AutoCompleteResults {
 
 export interface PlaceSearchResult {
   id: string;
+  googlePlaceId: string;
   latitude: number;
   longitude: number;
   name: string;
@@ -66,6 +67,7 @@ export interface PlaceSearchResult {
   savedCount: number;
   averageRating: number;
   reviewCount: number;
+  isSaved: boolean;
 }
 
 export interface PlaceSearchResults {
