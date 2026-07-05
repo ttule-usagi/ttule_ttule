@@ -7,11 +7,22 @@ import InviteEditorHandler from '@/components/features/invite/InviteEditorHandle
 import { prefetchPlaceListDetail } from '@/lib/actions/prefetch/prefetchPlaceListDetail';
 import { Suspense } from 'react';
 import { getQueryClient } from '@/lib/utils/getQueryClient';
+import { checkInviteToken } from '@/lib/utils/invite/checkInviteToken';
 
-export default async function PlaceListDetail({ params }: { params: Promise<{ listId: string }> }) {
+export default async function PlaceListDetail({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ listId: string }>;
+  searchParams: Promise<{ invite_token?: string | string[]; from?: string }>;
+}) {
   const { listId } = await params;
-  const queryClient = getQueryClient();
+  const { invite_token, from } = await searchParams;
 
+  // 브라우저 url로 장소 리스트 진입 시 토큰 검증
+  await checkInviteToken({ inviteToken: invite_token, from: from, resourceId: listId, resourceType: 'place_list' });
+
+  const queryClient = getQueryClient();
   await prefetchPlaceListDetail(queryClient, listId);
 
   return (
@@ -19,7 +30,7 @@ export default async function PlaceListDetail({ params }: { params: Promise<{ li
       <Suspense fallback={null}>
         <InviteEditorHandler
           id={listId}
-          type='place_list'
+          resourceType='place_list'
         />
       </Suspense>
       <div className='flex flex-col gap-5.5'>

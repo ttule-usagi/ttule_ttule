@@ -5,7 +5,7 @@ import EnterInviteLinkModal from '../../features/Plan/EnterInviteLinkModal';
 import CancelSignupModal from '@/components/features/CancelSignupModal';
 import CancelNewPlaceModal from '@/components/features/new-place/CancelNewPlaceModal';
 import ShareLinkModal from '../ShareLinkModal';
-import ErrorModal from '../ErrorModal';
+import InviteErrorModal from '../../features/invite/InviteErrorModal';
 
 /**
  * 전역 모달 컴포넌트
@@ -25,7 +25,7 @@ export default function GlobalModal() {
       className='modal-overlay'
       onClick={close}
     >
-      {activeModal.type === 'enterInviteLink' && <EnterInviteLinkModal />}
+      {activeModal.type === 'enterInviteLink' && <EnterInviteLinkModal type={activeModal.props.type} />}
       {activeModal.type === 'cancelSignup' && <CancelSignupModal />}
       {activeModal.type === 'cancelNewPlace' && <CancelNewPlaceModal onCancel={activeModal.props.onCancel} />}
       {activeModal.type === 'shareLink' && (
@@ -34,8 +34,8 @@ export default function GlobalModal() {
           link={activeModal.props.link}
         />
       )}
-      {activeModal.type === 'error' && (
-        <ErrorModal
+      {activeModal.type === 'inviteError' && (
+        <InviteErrorModal
           title={activeModal.props.title}
           description={activeModal.props.description}
         />
