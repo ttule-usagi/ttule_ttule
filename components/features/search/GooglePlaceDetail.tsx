@@ -30,7 +30,7 @@ export default function GooglePlaceDetail({ place, addNewPlace, onClose }: Props
   };
 
   return (
-    <div className='absolute flex-col w-90 min-w-75 top-25 -right-95 flex py-5 px-4 bg-brand-gray-0 rounded-lg shadow-lg'>
+    <div className='absolute flex-col w-90 min-w-75 top-30 -right-92 flex py-5 px-4 bg-brand-gray-0 rounded-lg shadow-lg'>
       <div className='pb-4 border-b-1 border-b-brand-gray-300'>
         <div className='flex-col'>
           <h3 className='text-typo-sub-title text-brand-gray-600 max-w-75'>{getDisplayName(place.displayName.text)}</h3>
