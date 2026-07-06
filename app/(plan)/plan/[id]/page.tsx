@@ -1,8 +1,10 @@
-import InviteEditorHandler from '@/components/features/invite/InviteEditorHandler';
 import { checkInviteToken } from '@/lib/utils/invite/checkInviteToken';
+import InviteEditorHandler from '@/components/features/invite/InviteEditorHandler';
+import PlanDetailContainer from '@/components/features/plan/PlanDetailContainer';
+import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import { Suspense } from 'react';
 
-export default async function PlanDetail({
+export default async function PlanDetailPage({
   params,
   searchParams,
 }: {
@@ -12,8 +14,13 @@ export default async function PlanDetail({
   const { id } = await params;
   const { invite_token, from } = await searchParams;
 
-  // 브라우저 url로 장소 리스트 진입 시 토큰 검증
-  await checkInviteToken({ inviteToken: invite_token, from: from, resourceId: id, resourceType: 'plan' });
+  await checkInviteToken({
+    inviteToken: invite_token,
+    from,
+    resourceId: id,
+    resourceType: 'plan',
+  });
+
   return (
     <>
       <Suspense fallback={null}>
@@ -22,7 +29,9 @@ export default async function PlanDetail({
           resourceType='plan'
         />
       </Suspense>
-      <span>계획 디테일</span>
+      <QueryBoundary>
+        <PlanDetailContainer planId={id} />
+      </QueryBoundary>
     </>
   );
 }

@@ -26,6 +26,13 @@ import Globe from '@/assets/icons/globe.svg';
 import CalendarPlus from '@/assets/icons/calendar-plus.svg';
 import ChevronUp from '@/assets/icons/chevron-up.svg';
 import BookmarkFilled from '@/assets/icons/bookmarked.svg';
+import Hamburger from '@/assets/icons/hamburger.svg';
+import MessageDots from '@/assets/icons/message-dots.svg';
+import PageLeft from '@/assets/icons/page-left.svg';
+import PageRight from '@/assets/icons/page-right.svg';
+import Columns from '@/assets/icons/columns.svg';
+import CheckboxChecked from '@/assets/icons/check-square.svg';
+import Setting from '@/assets/icons/settings.svg';
 
 export const ICONS = {
   Luggage,
@@ -56,6 +63,13 @@ export const ICONS = {
   Announcement,
   Globe,
   CalendarPlus,
+  Hamburger,
+  MessageDots,
+  PageLeft,
+  PageRight,
+  Columns,
+  CheckboxChecked,
+  Setting,
 } as const;
 
 export type IconName = keyof typeof ICONS;
