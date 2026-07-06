@@ -9,9 +9,10 @@ import { useEffect, useRef } from 'react';
 
 interface SearchResultListProps {
   keyword: string;
+  onPlaceSelect?: (googlePlaceId: string) => void;
 }
 
-export default function CoreSearchResultList({ keyword }: SearchResultListProps) {
+export default function CoreSearchResultList({ keyword, onPlaceSelect }: SearchResultListProps) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetchNextPageError } = useSearchPlaces(keyword);
   const observerTargetRef = useRef<HTMLDivElement>(null);
 
@@ -46,6 +47,7 @@ export default function CoreSearchResultList({ keyword }: SearchResultListProps)
             <CorePlaceSearchResultItem
               key={item.id}
               result={item}
+              onClick={() => onPlaceSelect?.(item.googlePlaceId)}
             />
           ))}
           {isFetchNextPageError && (

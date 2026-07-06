@@ -3,17 +3,21 @@ import { CorePlaceSearchResult, PLACE_CATEGORIES } from '@/types/CorePlace';
 
 interface CorePlaceSearchResultItemProps {
   result: CorePlaceSearchResult;
+  onClick?: () => void;
 }
 
 const getCategoryLabel = (category: CorePlaceSearchResult['category']) => {
   return PLACE_CATEGORIES.find((item) => item.value === category)?.label ?? null;
 };
 
-export default function CorePlaceSearchResultItem({ result }: CorePlaceSearchResultItemProps) {
+export default function CorePlaceSearchResultItem({ result, onClick }: CorePlaceSearchResultItemProps) {
   const categoryLabel = getCategoryLabel(result.category);
 
   return (
-    <div className='flex flex-col gap-1 p-3 border border-brand-gray-300 rounded-sm bg-brand-gray-0 hover:bg-brand-gray-50 transition-colors'>
+    <div
+      className='flex flex-col gap-1 p-3 border border-brand-gray-300 rounded-sm bg-brand-gray-0 hover:bg-brand-gray-50 transition-colors'
+      onClick={onClick}
+    >
       <div className='flex items-center justify-between'>
         <p className='text-typo-sub-title text-brand-gray-600 font-medium'>{result.name}</p>
         {result.isSaved && (

@@ -2,6 +2,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import CoreSearchResultList from '@/components/features/search/CoreSearchResultList';
 import { prefetchPlaceSearch } from '@/lib/actions/prefetch/prefetchPlaceSearch';
+import CoreSearchContainer from '@/components/features/search/CoreSearchContainer';
 
 interface CoreSearchPageProps {
   searchParams: Promise<{ query: string }>;
@@ -26,12 +27,8 @@ export default async function CoreSearchPage({ searchParams }: CoreSearchPagePro
   await prefetchPlaceSearch(queryClient, keyword);
 
   return (
-    <div className='w-full flex flex-col'>
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <QueryBoundary>
-          <CoreSearchResultList keyword={keyword} />
-        </QueryBoundary>
-      </HydrationBoundary>
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <CoreSearchContainer keyword={keyword} />
+    </HydrationBoundary>
   );
 }

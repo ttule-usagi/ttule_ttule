@@ -13,6 +13,7 @@ import { useGooglePlaceDetail } from '@/hooks/google-search/useGooglePlaceDetail
 import { COUNTRIES, type Country } from '@/lib/utils/countries';
 import { useModalStore } from '@/lib/store/modalStore';
 import SearchForm from '@/components/features/search/GoogleSearchForm';
+import GoogleMapEmbed from '@/components/features/map/GoogleMapEmbed';
 
 export default function SearchGoogle() {
   const searchParams = useSearchParams();
@@ -68,7 +69,7 @@ export default function SearchGoogle() {
   return (
     <div className='relative'>
       <Sidebar />
-      <div className='relative h-screen bg-line-pattern bg-brand-blue-50 ml-[64px]  max-w-102 mx-auto p-4 flex flex-col'>
+      <div className='relative h-screen bg-line-pattern bg-brand-blue-50 ml-[64px]  max-w-102 mx-auto p-4 flex flex-col z-10'>
         {/* 검색 폼 */}
         <SearchForm
           query={query}
@@ -125,6 +126,14 @@ export default function SearchGoogle() {
             }}
           />
         )}
+      </div>
+      {/* 구글 embed 영역 */}
+      <div className='absolute inset-0 ml-118'>
+        <GoogleMapEmbed
+          mode={selectedPlace ? 'place' : 'search'}
+          googlePlaceId={selectedPlace?.id}
+          query={submittedQuery}
+        />
       </div>
     </div>
   );
