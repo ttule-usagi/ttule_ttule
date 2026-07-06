@@ -16,17 +16,22 @@ export default function GoogleMapEmbed({ mode, googlePlaceId, query }: GoogleMap
     if (googlePlaceId) params.set('googlePlaceId', googlePlaceId);
     if (query) params.set('query', query);
 
-    fetch(`/api/map/google-search?${params.toString()}`)
+    fetch(`/api/map/google-embed?${params.toString()}`)
       .then((res) => res.json())
       .then((data) => setSrc(data.src));
   }, [mode, googlePlaceId, query]);
 
-  if (!src) return <div className='w-full h-full bg-brand-gray-100' />;
+  if (!src)
+    return (
+      <div className='w-full h-full bg-brand-gray-100 flex items-center justify-center'>
+        <p className='text-typo-description text-brand-gray-400'>지도를 불러오는 중...</p>
+      </div>
+    );
 
   return (
     <iframe
       src={src}
-      className='w-full h-full border-0 z-index-[-1]'
+      className='w-full h-full border-0'
       loading='lazy'
       allowFullScreen
       referrerPolicy='no-referrer-when-downgrade'

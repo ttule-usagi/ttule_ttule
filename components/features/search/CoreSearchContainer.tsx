@@ -1,11 +1,10 @@
 // components/features/search/CoreSearchContainer.tsx
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CoreSearchResultList from './CoreSearchResultList';
 import GoogleMapEmbed from '@/components/features/map/GoogleMapEmbed';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
-import type { PlaceSearchResult } from '@/types/CorePlace';
 
 interface CoreSearchContainerProps {
   keyword: string;
@@ -13,6 +12,10 @@ interface CoreSearchContainerProps {
 
 export default function CoreSearchContainer({ keyword }: CoreSearchContainerProps) {
   const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setSelectedPlaceId(null);
+  }, [keyword]);
 
   return (
     <div className=' h-screen'>

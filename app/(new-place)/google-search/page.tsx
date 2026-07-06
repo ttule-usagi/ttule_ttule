@@ -127,6 +127,7 @@ export default function SearchGoogle() {
           />
         )}
       </div>
+      {/* 구글 embed 영역 */}
       <div className='absolute inset-0 ml-118'>
         <GoogleMapEmbed
           mode={selectedPlace ? 'place' : 'search'}

@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   let src = '';
 
   if (mode === 'place' && googlePlaceId) {
-    src = `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=place_id:${googlePlaceId}&language=ko&zoom=16&maptype=roadmap`;
+    src = `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=place_id:${googlePlaceId}&language=ko&zoom=17&maptype=roadmap`;
   } else if (mode === 'search' && query) {
     src = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=${encodeURIComponent(query)}&language=ko&maptype=roadmap`;
   } else {
