@@ -8,6 +8,8 @@ import { Icon } from '@/components/common/Icon';
 import PlanItemCard from './PlanItemCard';
 import PlanItemEditCard from './PlanItemEditCard';
 import TransitInfo from './TransitInfo';
+import Image from 'next/image';
+import lobbyPlan from '@/images/lobby-plan.svg';
 
 interface PlanDayPanelProps {
   planId: string;
@@ -54,17 +56,17 @@ export default function PlanDayPanel({
 };
 
   return (
-    <div className='relative h-full w-full'>
+    <div className='relative h-full w-full max-w-[472px]'>
       {/* 이전 화살표 */}
       {currentIndex > 0 && (
         <button
           onClick={onPrev}
-          className='absolute left-0 top-1/2 -translate-y-1/2 z-10 size-[32px] flex items-center justify-center'
+          className='absolute left-[-20px] top-1/2 -translate-y-1/2 z-10 size-[32px] flex items-center justify-center'
           aria-label='이전 일차'
         >
           <Icon
             name='PageLeft'
-            size={20}
+            size={42}
             className='text-brand-gray-600'
           />
         </button>
@@ -76,23 +78,26 @@ export default function PlanDayPanel({
           onClick={onNext}
           onMouseEnter={handlePrefetchNext}
           onFocus={handlePrefetchNext}
-          className='absolute right-0 top-1/2 -translate-y-1/2 z-10 size-[32px] flex items-center justify-center'
+          className='absolute right-[-20px] top-1/2 -translate-y-1/2 z-10 size-[32px] flex items-center justify-center'
           aria-label='다음 일차'
         >
           <Icon
             name='PageRight'
-            size={20}
+            size={42}
             className='text-brand-gray-600'
           />
         </button>
       )}
 
       {/* 안쪽 파란 패널 — 화살표 너비만큼 좌우 여백 */}
-      <div className='absolute top-0 left-8 right-8 bottom-0 bg-brand-blue-700 rounded-lg shadow-xl overflow-hidden'>
-        <div className='relative h-full w-full bg-brand-blue-700 rounded-tl-2 shadow-lg overflow-hidden'>
+      <div className='absolute top-0 left-8 right-8 bottom-0 bg-line-pattern-blue rounded-lg shadow-xl overflow-hidden'>
+        <div className='relative h-full w-full bg-line-pattern-blue rounded-tl-2 shadow-lg overflow-hidden'>
+          <div className='absolute top-[-11px] right-7'>
+          <Image src='/images/poststamp.svg' alt='우표장식' width={190} height={100} />
+          </div>
           {/* 패널 헤더 */}
           <div className='absolute top-6 left-5 flex flex-col items-start'>
-            <p className='text-white font-semibold text-6 leading-8 tracking-[-0.72px]'>
+            <p className='text-white font-semibold text-typo-title leading-8 tracking-[-0.72px]'>
               {schedule.dayNumber}일차
             </p>
             {dateStr && <p className='text-white text-typo-base'>{dateStr}</p>}
@@ -151,12 +156,9 @@ export default function PlanDayPanel({
 
       {/* 장소 추가 버튼 */}
       <div className='flex items-center justify-center h-22'>
-        <button
-          className='flex items-center justify-center size-9 rounded-full bg-brand-blue-50/20 border border-white/30'
-          aria-label='장소 추가'
-        >
-          <Icon name='Plus' size={24} className='text-white' />
-        </button>
+<button className='flex items-center justify-center cursor-pointer hover:bg-brand-blue-900/20 hover:backdrop-blur-sm  transition-colors duration-200 ease-in-out'>
+ <Image src='/images/new-plan-item.svg' alt='장소 추가' width={375} height={87} />
+</button>
       </div>
     </>
   )}

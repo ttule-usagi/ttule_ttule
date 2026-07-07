@@ -37,22 +37,20 @@ export default function PlanDetailContainer({ planId }: PlanDetailContainerProps
       <div className='absolute inset-0 bg-brand-blue-50' />
 
       {/* 오른쪽 일정 패널 */}
-      <div className='absolute top-[90px] right-20 w-[408px] bottom-6'>
-        <QueryBoundary>
-          <div className='absolute top-0 right-[-32px] w-[472px] bottom-0'>
-            <PlanDayPanel
-              planId={planId}
-              schedule={currentSchedule}
-              schedules={schedules}       
-              currentIndex={currentIndex}
-              initialItems={currentIndex === 0 ? firstScheduleItems : undefined}
-              totalDays={schedules.length}
-              onPrev={handlePrev}
-              onNext={handleNext}
-            />
-          </div>
-        </QueryBoundary>
-      </div>
+<QueryBoundary>
+  <div className='absolute top-[90px] right-[42px] w-[472px] bottom-6'>
+    <PlanDayPanel
+      planId={planId}
+      schedule={currentSchedule}
+      schedules={schedules}
+      currentIndex={currentIndex}
+      initialItems={currentIndex === 0 ? firstScheduleItems : undefined}
+      totalDays={schedules.length}
+      onPrev={handlePrev}
+      onNext={handleNext}
+    />
+  </div>
+</QueryBoundary>
     </div>
   );
 }

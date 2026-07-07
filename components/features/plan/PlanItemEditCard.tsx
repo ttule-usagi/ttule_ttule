@@ -24,7 +24,7 @@ export default function PlanItemEditCard({ item, onClose, onSave }: PlanItemEdit
   };
 
   return (
-    <div className='relative bg-white/10 rounded-[8px] shadow-[0px_12px_16px_-4px_rgba(16,24,40,0.08),0px_4px_6px_-2px_rgba(16,24,40,0.03)] overflow-hidden'>
+    <div className='relative bg-white rounded-[8px] shadow-[0px_12px_16px_-4px_rgba(16,24,40,0.08),0px_4px_6px_-2px_rgba(16,24,40,0.03)] overflow-hidden'>
       <div className='pl-[16px] pr-[16px] py-[17px] flex gap-[8px] items-start'>
         {/* 닫기 버튼 */}
         <div className='flex flex-col items-center w-[26px] shrink-0 mt-[4px]'>

@@ -2,6 +2,7 @@
 'use client';
 
 import { PlanOverview } from '@/hooks/plan/useGetUserPlans';
+import { formatRelativeDate } from '@/lib/utils/date';
 import LobbyPlanActionMenu from './LobbyPlanActionMenu';
 import Link from 'next/link';
 
@@ -16,6 +17,11 @@ export default function LobbyPlanItem({
   memberCount,
   updatedAt,
 }: PlanOverview) {
+
+
+
+const formattedUpdatedAt = formatRelativeDate(updatedAt);
+
   return (
     <Link
       className="max-w-[275.76px] aspect-[275.76/397.69] bg-[url('/images/lobby-plan.svg')] bg-center bg-cover px-4 pt-19.25 pb-6 flex flex-col drop-shadow-lg"
@@ -54,7 +60,7 @@ export default function LobbyPlanItem({
         </p>
         <p className='flex justify-between'>
           <span>updated</span>
-          {updatedAt}
+          {formattedUpdatedAt}
         </p>
       </div>
     </Link>
