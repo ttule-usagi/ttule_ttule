@@ -3,7 +3,7 @@
 import DropDown from '@/components/common/Dropdown';
 import { Icon } from '@/components/common/Icon';
 
-export default function LobbyPlanActionMenu({ id }: { id?: number }) {
+export default function LobbyPlanActionMenu({ id }: { id: string }) {
   return (
     <DropDown>
       <DropDown.Trigger>

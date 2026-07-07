@@ -8,6 +8,8 @@ export interface PlanOverview {
   arrivalDate: string | null;
   isDateUndecided: boolean;
   totalDays: number;
+  memberCount: number;
+  updatedAt: string;
 }
 
 const fetchUserPlans = async (): Promise<PlanOverview[]> => {

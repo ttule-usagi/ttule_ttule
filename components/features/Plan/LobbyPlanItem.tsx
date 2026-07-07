@@ -1,29 +1,33 @@
+// 마찬가지로 자세한 항목은 추후 수정
 'use client';
 
+import { PlanOverview } from '@/hooks/plan/useGetUserPlans';
 import LobbyPlanActionMenu from './LobbyPlanActionMenu';
-
-interface LobbyPlanItemProps {
-  id: number;
-  destination: string;
-  departure: string;
-  arrival: string;
-  planName: string;
-  party: string;
-  updatedAt: string;
-}
+import Link from 'next/link';
 
 export default function LobbyPlanItem({
   id,
   destination,
-  departure,
-  arrival,
-  planName,
-  party,
+  departureDate,
+  arrivalDate,
+  isDateUndecided,
+  totalDays,
+  title,
+  memberCount,
   updatedAt,
-}: LobbyPlanItemProps) {
+}: PlanOverview) {
   return (
-    <div className="max-w-[275.76px] aspect-[275.76/397.69] bg-[url('/images/lobby-plan.svg')] bg-center bg-cover px-4 pt-19.25 pb-6 flex flex-col drop-shadow-lg">
-      <div className='flex justify-end'>
+    <Link
+      className="max-w-[275.76px] aspect-[275.76/397.69] bg-[url('/images/lobby-plan.svg')] bg-center bg-cover px-4 pt-19.25 pb-6 flex flex-col drop-shadow-lg"
+      href={`/plan/${id}`}
+    >
+      <div
+        className='flex justify-end'
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+      >
         <LobbyPlanActionMenu id={id} />
       </div>
 
@@ -34,25 +38,25 @@ export default function LobbyPlanItem({
 
       {/* 여행 기간 */}
       <div className='flex gap-14.5 font-paperlogy-regular text-[15px] text-brand-gray-500 leading-none tracking-[-1.1%] justify-between items-center mt-14.5 w-full'>
-        <span>{departure}</span>
-        <span>{arrival}</span>
+        <span>{isDateUndecided ? 'start' : departureDate}</span>
+        <span>{isDateUndecided ? 'end' : arrivalDate}</span>
       </div>
 
       {/* 이외의 정보 */}
       <div className='mt-6 text-[12px] font-extralight text-brand-gray-800 w-full'>
         <p className='flex justify-between'>
           <span>plan name</span>
-          {planName}
+          {title ? title : 'Untitled'}
         </p>
         <p className='flex justify-between'>
           <span>party</span>
-          {party}
+          {memberCount > 1 ? 'group' : 'single'}
         </p>
         <p className='flex justify-between'>
           <span>updated</span>
           {updatedAt}
         </p>
       </div>
-    </div>
+    </Link>
   );
 }
