@@ -230,3 +230,16 @@ input:-webkit-autofill:active {
     display: none;
   }
 }
+
+@layer utilities {
+  .animate-skeleton {
+    animation: loading-grey 3s infinite;
+    background: linear-gradient(90deg, #497ACD 25%, #5E8CD7 50%, #497ACD 70%);
+    background-size: 200% 100%;
+  }
+}
+
+@keyframes loading-grey {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

@@ -1,4 +1,4 @@
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
 import type { PlanItem } from '@/types/plan';
 
 const fetchScheduleItems = async (planId: string, scheduleId: string): Promise<PlanItem[]> => {
@@ -15,7 +15,7 @@ export const scheduleItemsQueryOptions = (planId: string, scheduleId: string) =>
   });
 
 export const useGetScheduleItems = (planId: string, scheduleId: string, initialData?: PlanItem[]) => {
-  return useSuspenseQuery({
+  return useQuery({
     ...scheduleItemsQueryOptions(planId, scheduleId),
     initialData,
   });

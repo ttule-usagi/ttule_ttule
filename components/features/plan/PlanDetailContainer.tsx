@@ -43,9 +43,10 @@ export default function PlanDetailContainer({ planId }: PlanDetailContainerProps
             <PlanDayPanel
               planId={planId}
               schedule={currentSchedule}
+              schedules={schedules}       
+              currentIndex={currentIndex}
               initialItems={currentIndex === 0 ? firstScheduleItems : undefined}
               totalDays={schedules.length}
-              currentIndex={currentIndex}
               onPrev={handlePrev}
               onNext={handleNext}
             />
