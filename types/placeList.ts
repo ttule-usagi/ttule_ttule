@@ -23,8 +23,6 @@ export interface PlaceListOverview {
   title: string;
   editToken: string;
   editTokenExpiresAt: string;
-  viewToken: string;
-  viewTokenExpiresAt: string;
   isPublic: boolean;
   placeCount: number;
   icon: string | null;
