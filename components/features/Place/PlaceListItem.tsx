@@ -1,7 +1,5 @@
 'use client';
 
-import DropDown from '@/components/common/Dropdown';
-import { Icon } from '@/components/common/Icon';
 import { PlaceListOverview } from '@/types/placeList';
 import Link from 'next/link';
 import PlaceListDropdownMenu from './PlaceListDropdwonMenu';

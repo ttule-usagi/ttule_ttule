@@ -1,11 +1,12 @@
 import { auth } from '@/lib/utils/auth';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { verifyInviteToken } from './lib/actions/invite';
 
 export { middleware as proxy };
 
 export default async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, searchParams } = request.nextUrl;
   const session = await auth();
 
   console.log('--------------------------------------------------');
@@ -26,6 +27,26 @@ export default async function middleware(request: NextRequest) {
   // 2. 세션이 있는데 /login 접근 시 로비로
   if (session && pathname === '/login') {
     return NextResponse.redirect(new URL('/lobby', request.url));
+  }
+
+  // 3. 초대 토큰이 있는 /places, /plan 접근: 세션 여부와 무관하게 토큰 검증으로 먼저 분기
+  const inviteToken = searchParams.get('invite_token');
+  const isPlaceList = pathname.startsWith('/places/');
+  const isPlan = pathname.startsWith('/plan/');
+
+  if ((isPlaceList || isPlan) && inviteToken) {
+    const resourceId = pathname.split('/')[2];
+    const resourceType = isPlaceList ? 'place_list' : 'plan';
+
+    const status = await verifyInviteToken({
+      token: inviteToken,
+      id: resourceId,
+      type: resourceType,
+    });
+
+    if (status === 'INVALID' || status === 'EXPIRED') {
+      return NextResponse.rewrite(new URL('/invite-invalid', request.url));
+    }
   }
 
   // 3. 보호된 경로 세션 체크
