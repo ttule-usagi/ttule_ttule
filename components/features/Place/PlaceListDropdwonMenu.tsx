@@ -4,6 +4,7 @@ import DropDown from '@/components/common/Dropdown';
 import { Icon } from '@/components/common/Icon';
 import { useShareEditLink } from '@/hooks/invite-member/useShareEditLink';
 import { useModalStore } from '@/lib/store/modalStore';
+import { createViewLink } from '@/lib/utils/invite/createViewLink';
 
 interface PlaceListDropdownMenuProps {
   id: string;
@@ -27,7 +28,7 @@ export default function PlaceListDropdownMenu({ id, type = 'overview' }: PlaceLi
       <DropDown.Menu>
         <DropDown.Item
           onClick={() => {
-            open({ type: 'shareLink', props: { type: 'VIEW', link: 'viewLink' } });
+            open({ type: 'shareLink', props: { type: 'VIEW', link: createViewLink(id, 'place_list') } });
           }}
         >
           리스트를 보기 위한 링크 보내기
