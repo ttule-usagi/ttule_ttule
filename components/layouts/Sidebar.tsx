@@ -22,15 +22,14 @@ export default function Sidebar() {
           <Link
             key={icon.name}
             href={icon.href}
+            className={`flex items-center justify-center p-2.5 rounded-lg ${
+              pathname.startsWith(icon.href) ? 'bg-brand-blue-500 text-white' : 'text-brand-blue-300'
+            }`}
           >
-            <button
-              className={`flex items-center justify-center p-2.5 rounded-lg ${pathname.startsWith(icon.href) ? 'bg-brand-blue-500 text-white' : 'text-brand-blue-300'}`}
-            >
-              <Icon
-                name={icon.name as 'Luggage' | 'Bookmark'}
-                size={28}
-              />
-            </button>
+            <Icon
+              name={icon.name as 'Luggage' | 'Bookmark'}
+              size={28}
+            />
           </Link>
         ))}
       </div>

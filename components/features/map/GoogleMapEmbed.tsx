@@ -6,6 +6,8 @@ interface GoogleMapEmbedProps {
   mode: 'place' | 'search' | 'view';
   googlePlaceId?: string;
   query?: string;
+  center?: string;
+  zoom?: string;
 }
 
 export default function GoogleMapEmbed({ mode, googlePlaceId, query }: GoogleMapEmbedProps) {

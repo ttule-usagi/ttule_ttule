@@ -2,6 +2,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query
 import { prefetchPlanDetail } from '@/lib/actions/prefetch/prefetchPlanDetail';
 import PlanHeader from '@/components/features/plan/PlanHeader';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
+import Script from 'next/script';
 
 export default async function PlanLayout({
   children,
@@ -23,13 +24,19 @@ export default async function PlanLayout({
   await prefetchPlanDetail(queryClient, id);
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      {/* 공통 헤더 - 계획 정보 표시 */}
-      <QueryBoundary>
-        <PlanHeader planId={id} />
-      </QueryBoundary>
-      {/* 모드별 컨텐츠 */}
-      {children}
-    </HydrationBoundary>
+    <>
+      <Script
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&loading=async`}
+        strategy='afterInteractive'
+      />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        {/* 공통 헤더 - 계획 정보 표시 */}
+        <QueryBoundary>
+          <PlanHeader planId={id} />
+        </QueryBoundary>
+        {/* 모드별 컨텐츠 */}
+        {children}
+      </HydrationBoundary>
+    </>
   );
 }

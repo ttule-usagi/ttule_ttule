@@ -1,0 +1,43 @@
+import type { PlaceCategory } from '@/types/CorePlace';
+
+export const CATEGORY_COLORS: Record<PlaceCategory, string> = {
+  restaurant: '#FF8A65',
+  cafe: '#A5D6A7',
+  hotel: '#90CAF9',
+  shopping: '#F48FB1',
+  culture: '#CE93D8',
+  leisure: '#FFD54F',
+  nature: '#81C784',
+  sports: '#4FC3F7',
+  medical: '#EF9A9A',
+  education: '#FFCC80',
+  airport: '#B0BEC5',
+  terminal: '#B0BEC5',
+  traffic: '#A5BAFF',
+  gas_station: '#FFAB40',
+  parking: '#90A4AE',
+  convenience: '#80DEEA',
+  atm: '#FFF176',
+  etc: '#C0C8E0',
+};
+
+export const CATEGORY_EMOJI: Record<PlaceCategory, string> = {
+  restaurant: '🍽',
+  cafe: '☕',
+  hotel: '🏨',
+  shopping: '🛍',
+  culture: '🎭',
+  leisure: '🎡',
+  nature: '🌿',
+  sports: '⚽',
+  medical: '🏥',
+  education: '📚',
+  airport: '✈',
+  terminal: '🚌',
+  traffic: '🚇',
+  gas_station: '⛽',
+  parking: '🅿',
+  convenience: '🏪',
+  atm: '💳',
+  etc: '📍',
+};
