@@ -16,6 +16,8 @@ import Search from '@/assets/icons/search.svg';
 import Share from '@/assets/icons/share.svg';
 import Edit from '@/assets/icons/edit.svg';
 import ChevronDown from '@/assets/icons/chevron-down.svg';
+import ChevronRight from '@/assets/icons/chevron-right.svg';
+import ChevronLeft from '@/assets/icons/chevron-left.svg';
 import Check from '@/assets/icons/check.svg';
 import Image from '@/assets/icons/image.svg';
 import RatingStar from '@/assets/icons/rating-star.svg';
@@ -55,6 +57,8 @@ export const ICONS = {
   Edit,
   ChevronUp,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Check,
   Image,
   RatingStar,

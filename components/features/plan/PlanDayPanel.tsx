@@ -10,6 +10,7 @@ import PlanItemEditCard from './PlanItemEditCard';
 import TransitInfo from './TransitInfo';
 import Image from 'next/image';
 import lobbyPlan from '@/images/lobby-plan.svg';
+import DropDown from '@/components/common/Dropdown';
 
 interface PlanDayPanelProps {
   planId: string;
@@ -162,18 +163,31 @@ export default function PlanDayPanel({
                 ))}
 
                 {/* 장소 추가 버튼 */}
-                <div className='flex items-center justify-center h-22'>
-                  <button className='flex items-center justify-center cursor-pointer hover:bg-brand-blue-900/20 hover:backdrop-blur-sm  transition-colors duration-200 ease-in-out'>
-                    <Image
-                      src='/images/new-plan-item.svg'
-                      alt='장소 추가'
-                      width={375}
-                      height={87}
-                      style={{ width: 'auto' }}
-                      loading='eager'
-                    />
-                  </button>
-                </div>
+                <DropDown>
+                  {/* 트리거는 드롭다운 메뉴를 열고 닫을 버튼이 되는 것 */}
+                  <DropDown.Trigger>
+                    <div className='flex items-center justify-center h-22'>
+                      <div className='flex items-center justify-center cursor-pointer hover:bg-brand-blue-900/20 hover:backdrop-blur-sm  transition-colors duration-200 ease-in-out'>
+                        <Image
+                          src='/images/new-plan-item.svg'
+                          alt='장소 추가'
+                          width={375}
+                          height={87}
+                          style={{ width: 'auto' }}
+                          loading='eager'
+                        />
+                      </div>
+                    </div>
+                  </DropDown.Trigger>
+
+                  {/* 실제로 열릴 드롭다운 메뉴 */}
+                  <DropDown.Menu>
+                    {/* 아이템 하나가 버튼 하나고, 여기 이벤트를 연결해주면 된다 */}
+                    <DropDown.Item>리스트에서 장소 가져오기</DropDown.Item>
+                    <DropDown.Item>검색에서 장소 가져오기</DropDown.Item>
+                    <DropDown.Item>장소 없는 일정 만들기</DropDown.Item>
+                  </DropDown.Menu>
+                </DropDown>
               </>
             )}
           </div>

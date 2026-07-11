@@ -1,11 +1,11 @@
 import type { PlaceCategory } from '@/types/CorePlace';
 
 export const CATEGORY_COLORS: Record<PlaceCategory, string> = {
-  restaurant: '#FF8A65',
+  restaurant: '#FFBA3B',
   cafe: '#A5D6A7',
   hotel: '#90CAF9',
   shopping: '#F48FB1',
-  culture: '#CE93D8',
+  culture: '#6000ce',
   leisure: '#FFD54F',
   nature: '#81C784',
   sports: '#4FC3F7',

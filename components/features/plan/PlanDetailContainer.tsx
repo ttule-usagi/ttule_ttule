@@ -10,6 +10,7 @@ import GoogleMapJS from '../map/GoogleMapJS';
 import GoogleMapEmbed from '../map/GoogleMapEmbed';
 import { PlaceCategory } from '@/types/CorePlace';
 import { COUNTRIES } from '@/lib/utils/countries';
+import PlanPlaceListContainer from './PlaceList/PlanPlaceListContainer';
 
 interface PlanDetailContainerProps {
   planId: string;
@@ -83,6 +84,11 @@ export default function PlanDetailContainer({ planId }: PlanDetailContainerProps
           />
         </div>
       </QueryBoundary>
+
+      <PlanPlaceListContainer
+        planId={planId}
+        scheduleId={currentSchedule.id}
+      />
     </div>
   );
 }

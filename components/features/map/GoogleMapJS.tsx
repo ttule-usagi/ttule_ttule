@@ -82,26 +82,72 @@ export default function GoogleMapJS({
         const bgColor = category ? CATEGORY_COLORS[category] : '#C0C8E0';
         const emoji = category ? CATEGORY_EMOJI[category] : '📍';
 
-        const glyphSpan = document.createElement('span');
-        glyphSpan.textContent = emoji;
-        glyphSpan.style.cssText = `
-        font-family: 'Mona12', 'Mona', sans-serif;
-        font-size: 14px;
-        line-height: 1;
-      `;
+        // 마커 외부 div
+        const markerDiv = document.createElement('div');
+        markerDiv.style.cssText = `
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        `;
 
-        const pinElement = new PinElement({
-          background: bgColor,
-          borderColor: '#ffffff',
-          glyphColor: '#ffffff',
-          glyphText: emoji,
-          scale: 1.2,
-        });
+        // 원형 배경
+        const circle = document.createElement('div');
+        circle.style.cssText = `
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          background: ${bgColor};
+          border: 2px solid white;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+        `;
+
+        // 이모지 span → circle 안에
+        const emojiSpan = document.createElement('span');
+        emojiSpan.className = 'font-mona12 text-emoji-title';
+        emojiSpan.textContent = emoji;
+        circle.appendChild(emojiSpan); // ← circle에 append
+
+        // 장소 이름 라벨
+        const label = document.createElement('div');
+        label.style.cssText = `
+          position: absolute;
+          left: calc(100% + 6px);
+          top: 50%;
+          transform: translateY(-50%);
+          background: white;
+          border-radius: 4px;
+          padding: 2px 6px;
+          font-size: 11px;
+          color: #374151;
+          white-space: nowrap;
+         
+        `;
+        label.textContent = coord.placeName;
+        circle.appendChild(label);
+
+        // 아래 꼭지
+        const pin = document.createElement('div');
+        pin.style.cssText = `
+          width: 0;
+          height: 0;
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-top: 8px solid #ffffff;
+        `;
+
+        // markerDiv에 순서대로 append
+        markerDiv.appendChild(circle); // 1. 원
+        markerDiv.appendChild(pin); // 2. 꼭지
 
         const marker = new AdvancedMarkerElement({
           map: mapInstanceRef.current!,
           position: { lat: coord.lat, lng: coord.lng },
-          content: pinElement,
+          content: markerDiv,
           title: coord.placeName,
         });
 
