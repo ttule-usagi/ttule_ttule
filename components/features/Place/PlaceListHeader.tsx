@@ -4,7 +4,7 @@ import { Icon } from '@/components/common/Icon';
 import PlaceListDropdownMenu from './PlaceListDropdwonMenu';
 import { useGetPlaceListDetail } from '@/hooks/place-list/useGetPlaceListDetail';
 
-export default function PlaceListHeader({ listId }: { listId: string }) {
+export default function PlaceListHeader({ listId, hasSession }: { listId: string; hasSession: boolean }) {
   const { data } = useGetPlaceListDetail(listId);
 
   return (
@@ -19,10 +19,12 @@ export default function PlaceListHeader({ listId }: { listId: string }) {
             size={32}
             className='cursor-pointer'
           />
-          <PlaceListDropdownMenu
-            id={listId}
-            type='detail'
-          />
+          {hasSession && (
+            <PlaceListDropdownMenu
+              id={listId}
+              type='detail'
+            />
+          )}
         </div>
       </div>
 

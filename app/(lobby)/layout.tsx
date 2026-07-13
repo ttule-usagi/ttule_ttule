@@ -1,6 +1,6 @@
-import Sidebar from '@/components/layouts/Sidebar';
+import Sidebar from '@/components/layouts/sidebar/Sidebar';
 
-export default function LobbyLayout({
+export default async function LobbyLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

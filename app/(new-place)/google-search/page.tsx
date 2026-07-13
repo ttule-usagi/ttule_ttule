@@ -4,7 +4,7 @@ import NewPlaceFormContainer from '@/components/features/new-place/NewPlaceFormC
 import GooglePlaceDetail from '@/components/features/search/GooglePlaceDetail';
 import SearchInteraction from '@/components/features/search/SearchInteraction';
 import GoogleSearchResultListItem from '@/components/features/search/GoogleSearchResultItem';
-import Sidebar from '@/components/layouts/Sidebar';
+import Sidebar from '@/components/layouts/sidebar/Sidebar';
 import { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
 import React, { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
