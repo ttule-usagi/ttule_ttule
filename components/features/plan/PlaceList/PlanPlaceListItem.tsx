@@ -5,7 +5,7 @@ export function PlanPlaceListItem({ place, onClick }: { place: PlaceListOverview
   return (
     <button
       onClick={onClick}
-      className='w-full flex justify-between items-center wobbly-box px-3 py-4'
+      className='w-full flex justify-between items-center wobbly-box'
     >
       <div className='flex flex-col gap-1 items-start'>
         <div className='flex items-center gap-2 text-brand-blue-700'>

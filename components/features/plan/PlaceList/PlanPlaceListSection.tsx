@@ -25,10 +25,10 @@ export function PlanPlaceListSection({ planId, scheduleId }: { planId: string; s
     );
   }
   return (
-    <div className='flex flex-col gap-5.5'>
+    <div className='flex flex-col gap-11'>
       {/* 내 장소 리스트 */}
       <div className='flex flex-col gap-3'>
-        <p className='text-typo-big-title font-semibold text-brand-blue-700'>저장된 장소 리스트</p>
+        <p className='text-typo-big-title font-semibold text-brand-blue-700 mb-3'>저장된 장소 리스트</p>
         {ownedLists.items.length === 0 ? (
           <p className='text-typo-description text-brand-gray-400'>장소 리스트가 아직 없습니다.</p>
         ) : (
