@@ -7,7 +7,13 @@ import { infiniteQueryOptions, queryOptions, useSuspenseInfiniteQuery, useSuspen
 export const placeListDetailQueryOptions = (listId: string) => {
   return queryOptions({
     queryKey: ['place-list', listId, 'detail'],
-    queryFn: () => getPlaceListDetail(listId),
+    queryFn: async () => {
+      const result = await getPlaceListDetail(listId);
+      if ('error' in result) {
+        throw new Error(result.code ?? result.error);
+      }
+      return result;
+    },
   });
 };
 

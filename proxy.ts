@@ -50,7 +50,10 @@ export default async function middleware(request: NextRequest) {
   }
 
   // 3. 보호된 경로 세션 체크
-  const isProtectedRoute = pathname.startsWith('/lobby') || pathname.startsWith('/places');
+  const isProtectedRoute =
+    pathname.startsWith('/lobby') ||
+    (pathname.startsWith('/places') && !pathname.match(/^\/places\/[^/]+$/)) ||
+    (pathname.startsWith('/plan') && !pathname.match(/^\/plan\/[^/]+$/));
   if (isProtectedRoute && !session) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
