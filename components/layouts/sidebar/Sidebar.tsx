@@ -1,0 +1,14 @@
+import { auth } from '@/lib/utils/auth';
+import SidebarNav from './SidebarNav';
+import SidebarProfile from './SidebarProfile';
+
+export default async function Sidebar() {
+  const session = await auth();
+
+  return (
+    <div className='fixed h-full max-w-16 bg-brand-blue-700 flex flex-col justify-center items-center'>
+      <SidebarNav />
+      {session && <SidebarProfile />}
+    </div>
+  );
+}
