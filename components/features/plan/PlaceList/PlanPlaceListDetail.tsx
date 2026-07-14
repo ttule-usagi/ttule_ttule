@@ -21,7 +21,7 @@ function PlanPlaceItem({ place, planId }: PlanPlaceItemProps) {
   return (
     <>
       <div className='w-full flex gap-3.25 bg-brand-gray-0 p-3 rounded-sm border border-brand-blue-700 items-start'>
-        <div className='w-20 h-20 shrink-0 border border-brand-blue-700 rounded-xs bg-brand-blue-50'>
+        <div className='w-20 h-20 shrink-0 border border-brand-gray-200 rounded-xs bg-brand-blue-50'>
           {place.thumbnail ? (
             <Image
               src={place.thumbnail}
@@ -42,7 +42,7 @@ function PlanPlaceItem({ place, planId }: PlanPlaceItemProps) {
         </div>
 
         <div className='flex flex-col gap-1 flex-1 min-w-0'>
-          <p className='text-typo-sub-title text-brand-blue-700 truncate'>{place.customName}</p>
+          <p className='text-typo-sub-title text-brand-gray-600 truncate'>{place.customName}</p>
           {place.category && (
             <p className='text-brand-gray-400 text-typo-description'>{getPlaceCategoryLabel(place.category)}</p>
           )}
@@ -82,19 +82,20 @@ export default function PlanPlaceListDetail({ listId, title, planId, onBack }: P
 
   return (
     <div className='flex flex-col gap-3'>
-      <button
-        onClick={onBack}
-        className='flex items-center gap-1 text-brand-blue-700 text-typo-description'
-      >
-        <Icon
-          name='ChevronLeft'
-          size={20}
-          className='text-brand-blue-700'
-        />
-        목록으로
-      </button>
-
-      <p className='text-typo-big-title font-semibold text-brand-blue-700'>{title}</p>
+      <div className='flex flex-row justify-between'>
+        <button
+          onClick={onBack}
+          className='flex items-center gap-1 text-brand-blue-700 text-typo-description'
+        >
+          <Icon
+            name='ChevronLeft'
+            size={20}
+            className='text-brand-blue-700'
+          />
+          목록으로
+        </button>
+        <p className='text-typo-sub-title font-semibold text-brand-gray-700'>{title}</p>
+      </div>
 
       {places.length === 0 ? (
         <p className='text-typo-description text-brand-gray-400'>저장된 장소가 아직 없습니다.</p>
