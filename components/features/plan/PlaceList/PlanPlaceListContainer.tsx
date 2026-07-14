@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Icon } from '@/components/common/Icon';
 import { PlanPlaceListSection } from './PlanPlaceListSection';
+import dynamic from 'next/dynamic';
 
 interface PlanPlaceListContainerProps {
   planId: string;
@@ -11,6 +12,11 @@ interface PlanPlaceListContainerProps {
 
 export default function PlanPlaceListContainer({ planId, scheduleId }: PlanPlaceListContainerProps) {
   const [isOpen, setIsOpen] = useState(false);
+
+  const PlanPlaceListSection = dynamic(
+    () => import('./PlanPlaceListSection').then((mod) => ({ default: mod.PlanPlaceListSection })),
+    { ssr: false },
+  );
 
   return (
     <>

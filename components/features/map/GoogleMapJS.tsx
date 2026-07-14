@@ -32,6 +32,8 @@ export default function GoogleMapJS({
   const [isMapReady, setIsMapReady] = useState(false);
 
   useEffect(() => {
+    console.log('지도 초기화 시점 coordinates:', coordinates);
+    console.log('defaultCenter:', defaultCenter);
     if (!mapRef.current) return;
     if (mapInstanceRef.current) return;
 
