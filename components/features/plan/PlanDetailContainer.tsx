@@ -68,9 +68,6 @@ export default function PlanDetailContainer({ planId }: PlanDetailContainerProps
 
   return (
     <div className='relative h-screen w-full overflow-hidden'>
-      {/* 지도 배경 영역 — 추후 GoogleMapJS or GoogleMapEmbed로 교체 */}
-      {/* <div className='absolute inset-0 bg-brand-blue-50' /> */}
-
       {stableCoordinates.length > 0 ? (
         <GoogleMapJS
           coordinates={stableCoordinates}

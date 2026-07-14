@@ -22,7 +22,7 @@ export default function PlanPlaceListContainer({ planId, scheduleId }: PlanPlace
     <>
       {/* 슬라이드 패널 */}
       <section
-        className={`fixed top-0 h-screen w-102 pt-23.5 px-4 pb-7 overflow-y-auto bg-line-pattern z-10 transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 h-screen w-102 pt-23.5 px-4 pb-7 overflow-y-auto bg-line-pattern z-10 transition-transform duration-300 ease-in-out border-r border-brand-blue-700 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -35,13 +35,13 @@ export default function PlanPlaceListContainer({ planId, scheduleId }: PlanPlace
       {/* 토글 버튼 */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className={`fixed top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-[20px] h-[48px] bg-white rounded-r-[8px] shadow-lg transition-all duration-300 ease-in-out ${
-          isOpen ? 'left-102' : 'left-0'
+        className={`fixed top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-8 h-14 bg-neon-green rounded-r-[8px] shadow-lg transition-all duration-300 ease-in-out ${
+          isOpen ? 'left-101' : 'left-0'
         }`}
       >
         <Icon
           name={isOpen ? 'ChevronLeft' : 'ChevronRight'}
-          size={16}
+          size={42}
           className='text-brand-gray-600'
         />
       </button>
