@@ -9,13 +9,14 @@ interface ModalBoxProps {
   children: React.ReactNode;
   isCloseIcon?: boolean;
   width?: number;
+  baseAspect?: boolean;
 }
 
-export default function ModalBox({ children, isCloseIcon = true, width = 560 }: ModalBoxProps) {
+export default function ModalBox({ children, isCloseIcon = true, width = 560, baseAspect = true }: ModalBoxProps) {
   const { close } = useModalStore();
   return (
     <div
-      className='flex flex-col gap-5 bg-white aspect-560/191 rounded-lg relative pt-7 px-6 pb-6'
+      className={`flex flex-col gap-5 bg-white  rounded-lg relative pt-7 px-6 pb-6 ${baseAspect ? 'aspect-560/191' : 'max-h-187.5'} `}
       style={{ width: `clamp(320px,35vw,${width}px)` }}
       onClick={(e) => e.stopPropagation()}
     >
