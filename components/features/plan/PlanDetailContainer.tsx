@@ -98,10 +98,7 @@ export default function PlanDetailContainer({ planId }: PlanDetailContainerProps
         </div>
       </QueryBoundary>
 
-      <PlanPlaceListContainer
-        planId={planId}
-        scheduleId={currentSchedule.id}
-      />
+      <PlanPlaceListContainer planId={planId} />
     </div>
   );
 }

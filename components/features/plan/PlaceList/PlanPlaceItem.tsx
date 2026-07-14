@@ -39,7 +39,7 @@ export function PlanPlaceItem({ place, planId, scheduleId }: PlanPlaceItemProps)
 
   return (
     <div className='w-full flex gap-3.25 bg-brand-gray-0 p-3 rounded-sm border border-brand-blue-700 items-start'>
-      <div className='w-20 h-20 shrink-0 border border-brand-blue-700 rounded-xs bg-brand-blue-50'>
+      <div className='w-20 h-20 shrink-0 border border-brand-gray-200 rounded-xs bg-brand-blue-50'>
         {place.thumbnail ? (
           <Image
             src={place.thumbnail}
@@ -49,9 +49,13 @@ export function PlanPlaceItem({ place, planId, scheduleId }: PlanPlaceItemProps)
             className='w-full h-full object-cover'
           />
         ) : (
-          <div className='w-full h-full flex items-center justify-center text-brand-gray-300 text-typo-caption'>
-            이미지 없음
-          </div>
+          <Image
+            src='/images/not-found.webp'
+            alt='thumbnail'
+            width={80}
+            height={80}
+            className='w-full h-full object-cover'
+          />
         )}
       </div>
 

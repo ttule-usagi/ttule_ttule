@@ -2,21 +2,22 @@
 
 import { useState } from 'react';
 import { Icon } from '@/components/common/Icon';
-import { PlanPlaceListSection } from './PlanPlaceListSection';
 import dynamic from 'next/dynamic';
 
 interface PlanPlaceListContainerProps {
   planId: string;
-  scheduleId: string;
 }
 
-export default function PlanPlaceListContainer({ planId, scheduleId }: PlanPlaceListContainerProps) {
-  const [isOpen, setIsOpen] = useState(false);
+const PlanPlaceListSection = dynamic(
+  () => import('./PlanPlaceListSection').then((mod) => ({ default: mod.PlanPlaceListSection })),
+  {
+    ssr: false,
+    loading: () => null, // ← 로딩 중 아무것도 표시 안 함
+  },
+);
 
-  const PlanPlaceListSection = dynamic(
-    () => import('./PlanPlaceListSection').then((mod) => ({ default: mod.PlanPlaceListSection })),
-    { ssr: false },
-  );
+export default function PlanPlaceListContainer({ planId }: PlanPlaceListContainerProps) {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
@@ -26,23 +27,29 @@ export default function PlanPlaceListContainer({ planId, scheduleId }: PlanPlace
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <PlanPlaceListSection
-          planId={planId}
-          scheduleId={scheduleId}
-        />
+        <PlanPlaceListSection planId={planId} />
       </section>
 
       {/* 토글 버튼 */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className={`fixed top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-8 h-14 bg-neon-green rounded-r-[8px] shadow-lg transition-all duration-300 ease-in-out ${
-          isOpen ? 'left-101' : 'left-0'
+        className={`fixed top-1/2 -translate-y-1/2 z-20 flex items-center justify-center h-13 bg-brand-blue-700 rounded-r-[8px] shadow-lg transition-all duration-300 ease-in-out ${
+          isOpen ? 'left-101 w-8' : 'left-0 w-18'
         }`}
       >
+        {isOpen ? (
+          ''
+        ) : (
+          <Icon
+            name='Bookmark'
+            size={30}
+            className='text-white ml-3'
+          />
+        )}
         <Icon
           name={isOpen ? 'ChevronLeft' : 'ChevronRight'}
-          size={42}
-          className='text-brand-gray-600'
+          size={40}
+          className='text-white'
         />
       </button>
     </>
