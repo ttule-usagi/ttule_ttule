@@ -1,4 +1,5 @@
 import { PlaceCategory } from './CorePlace';
+import { Role } from './shareOption';
 
 //장소 리스트 유형 - 공유된, 저장된 리스트로 구분해서 볼 때 사용
 export type ListType = 'all' | 'owned' | 'shared';
@@ -42,6 +43,7 @@ export interface PlaceListDetail extends PlaceListOverview {
   master: PlaceListMember;
   participants: PlaceListMember[];
   participantCount: number;
+  myRole: Role | null;
   tags?: Tag[]; // 태그 구현 시 분리
 }
 
