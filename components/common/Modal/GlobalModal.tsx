@@ -5,7 +5,7 @@ import EnterInviteLinkModal from '../../features/Plan/EnterInviteLinkModal';
 import CancelSignupModal from '@/components/features/CancelSignupModal';
 import CancelNewPlaceModal from '@/components/features/new-place/CancelNewPlaceModal';
 import ShareLinkModal from '../ShareLinkModal';
-import InviteErrorModal from '../../features/invite/InviteErrorModal';
+import ErrorModal from '../ErrorModal';
 
 /**
  * 전역 모달 컴포넌트
@@ -34,8 +34,8 @@ export default function GlobalModal() {
           link={activeModal.props.link}
         />
       )}
-      {activeModal.type === 'inviteError' && (
-        <InviteErrorModal
+      {activeModal.type === 'error' && (
+        <ErrorModal
           title={activeModal.props.title}
           description={activeModal.props.description}
         />

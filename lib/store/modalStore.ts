@@ -15,7 +15,7 @@ type ModalPayload =
   | { type: 'cancelSignup' } // props가 필요 없는 모달
   | { type: 'shareLink'; props: { type: 'VIEW' | 'EDIT'; link: string } }
   | { type: 'cancelNewPlace'; props: { onCancel: () => void } }
-  | { type: 'inviteError'; props: { title: string; description: string } }
+  | { type: 'error'; props: { title: string; description: string } }
   | { type: 'enterInviteLink'; props: { type: ResourceType } };
 
 interface ModalState {

@@ -37,7 +37,7 @@ export const useInviteEditorHandler = ({ id, resourceType }: InviteHookParams) =
         onSuccess: (result) => {
           if ('error' in result) {
             open({
-              type: 'inviteError',
+              type: 'error',
               props: INVITE_ERROR_MESSAGES[resourceType][result.error as InviteErrorCode] ?? DEFAULT_INVITE_ERROR_PROPS,
             });
             router.replace(pathname);
