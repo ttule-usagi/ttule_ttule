@@ -1,4 +1,4 @@
-import { RESOURCE_ROUTE } from '@/lib/constants/inviteResourceType';
+import { RESOURCE_ROUTE } from '@/lib/constants/ResourceType';
 import { ResourceType } from '@/types/invite';
 
 export const createViewLink = (id: string, type: ResourceType) => {
