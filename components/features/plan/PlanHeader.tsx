@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link'
+import Link from 'next/link';
 import { useGetPlanDetail } from '@/hooks/plan/useGetPlanDetail';
 import { Icon } from '@/components/common/Icon';
 
@@ -24,31 +24,27 @@ export default function PlanHeader({ planId }: PlanHeaderProps) {
 
   const dateRange = formatDateRange(plan.departureDate, plan.arrivalDate, plan.isDateUndecided);
 
-
   return (
     <div className='absolute top-0 right-0 flex gap-[16px] items-end px-[20px] py-[20px] z-10  '>
       {/* 홈/레이아웃 모드 전환 버튼 */}
       <div className='flex gap-[12px] items-center shrink-0'>
         <Link href='/lobby'>
-        <div
-          className='flex items-center justify-center size-[48px] rounded-[8px] bg-brand-blue-400 shadow-lg p-[8px]'
-         
-        >
-          <Icon
-            name='Luggage'
-            size={32}
-            className='text-white'
-          />
-        </div>
-</Link>
-<Link href={`/plan/${planId}/edit`}>
-        <div className='flex items-center justify-center size-[48px] rounded-[8px] bg-[#D0F65E] shadow-lg p-[8px]'>
-          <Icon
-            name='Columns'
-            size={32}
-            className='text-brand-gray-700'
-          />
-        </div>
+          <div className='flex items-center justify-center size-[48px] rounded-[8px] bg-brand-blue-400 shadow-lg p-[8px]'>
+            <Icon
+              name='Luggage'
+              size={32}
+              className='text-white'
+            />
+          </div>
+        </Link>
+        <Link href={`/plan/${planId}/edit`}>
+          <div className='flex items-center justify-center size-[48px] rounded-[8px] bg-[#D0F65E] shadow-lg p-[8px]'>
+            <Icon
+              name='Columns'
+              size={32}
+              className='text-brand-gray-700'
+            />
+          </div>
         </Link>
       </div>
 
@@ -71,6 +67,7 @@ export default function PlanHeader({ planId }: PlanHeaderProps) {
                     src={member.profileImageUrl}
                     alt={member.username}
                     fill
+                    sizes='24px'
                     className='object-cover'
                   />
                 ) : (

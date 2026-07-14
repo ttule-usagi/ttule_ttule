@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { scheduleItemsQueryOptions, useGetScheduleItems } from '@/hooks/plan/useGetScheduleItems';
 import { useGetPlanDetail } from '@/hooks/plan/useGetPlanDetail';
@@ -9,7 +9,7 @@ import PlanDayPanel from '@/components/features/plan/PlanDayPanel';
 import GoogleMapJS from '../map/GoogleMapJS';
 import GoogleMapEmbed from '../map/GoogleMapEmbed';
 import { PlaceCategory } from '@/types/CorePlace';
-import { COUNTRIES } from '@/lib/utils/countries';
+import { DESTINATIONS } from '@/lib/utils/destinations';
 import PlanPlaceListContainer from './PlaceList/PlanPlaceListContainer';
 
 interface PlanDetailContainerProps {
@@ -30,16 +30,28 @@ export default function PlanDetailContainer({ planId }: PlanDetailContainerProps
     currentIndex === 0 ? firstScheduleItems : undefined,
   );
 
-  const coordinates = items
-    .filter((item) => item.latitude && item.longitude)
-    .map((item) => ({
-      lat: item.latitude!,
-      lng: item.longitude!,
-      placeName: item.placeName,
-      category: item.placeCategory as PlaceCategory | null,
-    }));
+  const coordinates = useMemo(
+    () =>
+      items
+        .filter((item) => item.latitude && item.longitude)
+        .map((item) => ({
+          lat: item.latitude!,
+          lng: item.longitude!,
+          placeName: item.placeName,
+          category: item.placeCategory as PlaceCategory | null,
+        })),
+    [items],
+  );
+  const [stableCoordinates, setStableCoordinates] = useState(coordinates);
 
-  const country = COUNTRIES.find((c) => c.label === plan.destination) ?? COUNTRIES.find((c) => c.label === '한국')!; // 못찾으면 한국 기본값
+  useEffect(() => {
+    if (!isFetching) {
+      setStableCoordinates(coordinates);
+    }
+  }, [isFetching, coordinates]);
+
+  const destination =
+    DESTINATIONS.find((c) => c.city === plan.destination) ?? DESTINATIONS.find((c) => c.city === '서울')!; // 못찾으면 한국 기본값
 
   const handleNext = () => {
     const nextSchedule = schedules[currentIndex + 1];
@@ -56,16 +68,17 @@ export default function PlanDetailContainer({ planId }: PlanDetailContainerProps
 
   return (
     <div className='relative h-screen w-full overflow-hidden'>
-      {/* 지도 배경 영역 — 추후 GoogleMapJS or GoogleMapEmbed로 교체 */}
-      {/* <div className='absolute inset-0 bg-brand-blue-50' /> */}
-      {coordinates.length > 0 ? (
-        <GoogleMapJS coordinates={coordinates} />
+      {stableCoordinates.length > 0 ? (
+        <GoogleMapJS
+          coordinates={stableCoordinates}
+          defaultCenter={{ lat: destination.latitude, lng: destination.longitude }}
+          defaultZoom={5}
+        />
       ) : (
-        // plan_item 없으면 Embed API로 나라 중심 표시
         <GoogleMapEmbed
           mode='view'
-          center={`${country.latitude},${country.longitude}`}
-          zoom='5'
+          center={`${destination.latitude},${destination.longitude}`}
+          zoom='11'
         />
       )}
       {/* 오른쪽 일정 패널 */}

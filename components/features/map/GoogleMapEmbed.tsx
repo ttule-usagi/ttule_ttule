@@ -10,18 +10,20 @@ interface GoogleMapEmbedProps {
   zoom?: string;
 }
 
-export default function GoogleMapEmbed({ mode, googlePlaceId, query }: GoogleMapEmbedProps) {
+export default function GoogleMapEmbed({ mode, googlePlaceId, query, center, zoom }: GoogleMapEmbedProps) {
   const [src, setSrc] = useState<string | null>(null);
 
   useEffect(() => {
     const params = new URLSearchParams({ mode });
     if (googlePlaceId) params.set('googlePlaceId', googlePlaceId);
     if (query) params.set('query', query);
+    if (center) params.set('center', center);
+    if (zoom) params.set('zoom', zoom);
 
     fetch(`/api/map/google-embed?${params.toString()}`)
       .then((res) => res.json())
       .then((data) => setSrc(data.src));
-  }, [mode, googlePlaceId, query]);
+  }, [mode, googlePlaceId, query, center, zoom]);
 
   if (!src)
     return (

@@ -59,7 +59,7 @@ export default function NewPlanContainer() {
 
     const res = await createNewPlan({
       title: title || city || '제목 없음',
-      destination: countryCode,
+      destination: city,
       departure_date: state.scheduleMode === 'date' ? state.startDate : null,
       arrival_date: state.scheduleMode === 'date' ? state.endDate : null,
       is_date_undecided: state.scheduleMode === 'undecided',
