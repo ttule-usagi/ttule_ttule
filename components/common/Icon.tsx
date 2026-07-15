@@ -16,6 +16,8 @@ import Search from '@/assets/icons/search.svg';
 import Share from '@/assets/icons/share.svg';
 import Edit from '@/assets/icons/edit.svg';
 import ChevronDown from '@/assets/icons/chevron-down.svg';
+import ChevronRight from '@/assets/icons/chevron-right.svg';
+import ChevronLeft from '@/assets/icons/chevron-left.svg';
 import Check from '@/assets/icons/check.svg';
 import Image from '@/assets/icons/image.svg';
 import RatingStar from '@/assets/icons/rating-star.svg';
@@ -26,6 +28,13 @@ import Globe from '@/assets/icons/globe.svg';
 import CalendarPlus from '@/assets/icons/calendar-plus.svg';
 import ChevronUp from '@/assets/icons/chevron-up.svg';
 import BookmarkFilled from '@/assets/icons/bookmarked.svg';
+import Hamburger from '@/assets/icons/hamburger.svg';
+import MessageDots from '@/assets/icons/message-dots.svg';
+import PageLeft from '@/assets/icons/page-left.svg';
+import PageRight from '@/assets/icons/page-right.svg';
+import Columns from '@/assets/icons/columns.svg';
+import CheckboxChecked from '@/assets/icons/check-square.svg';
+import Setting from '@/assets/icons/settings.svg';
 
 export const ICONS = {
   Luggage,
@@ -48,6 +57,8 @@ export const ICONS = {
   Edit,
   ChevronUp,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Check,
   Image,
   RatingStar,
@@ -56,6 +67,13 @@ export const ICONS = {
   Announcement,
   Globe,
   CalendarPlus,
+  Hamburger,
+  MessageDots,
+  PageLeft,
+  PageRight,
+  Columns,
+  CheckboxChecked,
+  Setting,
 } as const;
 
 export type IconName = keyof typeof ICONS;

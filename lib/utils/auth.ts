@@ -137,8 +137,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           .eq('id', userId)
           .single();
 
-        // if (error) console.error('❌ [JWT] DB 조회 에러:', error);
-
         token.id = userId;
         token.role = data?.role;
         token.username = data?.username;

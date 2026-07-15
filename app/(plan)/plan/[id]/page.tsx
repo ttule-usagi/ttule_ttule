@@ -1,4 +1,5 @@
 import InviteEditorHandler from '@/components/features/invite/InviteEditorHandler';
+import PlanDetailContainer from '@/components/features/plan/PlanDetailContainer';
 import { Suspense } from 'react';
 
 export default async function PlanDetail({ params }: { params: Promise<{ id: string }> }) {
@@ -12,7 +13,7 @@ export default async function PlanDetail({ params }: { params: Promise<{ id: str
           resourceType='plan'
         />
       </Suspense>
-      <span>계획 디테일</span>
+      <PlanDetailContainer planId={id} />
     </>
   );
 }
