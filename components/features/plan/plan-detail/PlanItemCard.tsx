@@ -21,7 +21,7 @@ function CategoryIcon({ category }: { category: string | null }) {
       className='flex items-center justify-center rounded-full size-[26px] shrink-0'
       style={{ backgroundColor: color }}
     >
-      <span className='font-mona12 text-emoji-sm'>{emoji}</span>
+      <span className='font-mona12 text-emoji-sm pl-0.5 pb-0.5'>{emoji}</span>
     </div>
   );
 }

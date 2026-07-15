@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { PlanDetail, PlanItem } from '@/types/plan';
+import type { PlanDetail, PlanItem, PlanSchedule } from '@/types/plan';
+import { PlanScheduleOverview } from '@/hooks/plan/useGetPlanSchedules';
 
 export const getPlanDetail = async ({
   supabase,
@@ -31,4 +32,20 @@ export const getScheduleItems = async ({
   if (error) throw error;
   if (!data) throw new Error('일정 항목을 가져오는 데 실패했습니다.');
   return data as PlanItem[];
+};
+
+export const getPlanSchedules = async ({
+  supabase,
+  planId,
+}: {
+  supabase: SupabaseClient;
+  planId: string;
+}): Promise<PlanSchedule[]> => {
+  const { data, error } = await supabase.rpc('get_plan_schedules', {
+    p_plan_id: planId,
+  });
+
+  if (error) throw error;
+  if (!data) throw new Error('일정을 가져오는 데 실패했습니다.');
+  return data as PlanSchedule[];
 };

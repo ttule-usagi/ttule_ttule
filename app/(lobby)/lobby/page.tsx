@@ -3,7 +3,7 @@
 
 import JoinPlanButton from '@/components/features/JoinPlanButton';
 import LobbyLastPlanItem from '@/components/features/Plan/LobbyLastPlanItem';
-import LobbyPlanItem from '@/components/features/Plan/LobbyPlanItem';
+import LobbyPlanItem from '@/components/features/plan/lobby/LobbyPlanItem';
 import NoticeHeader from '@/components/features/NoticeHeader';
 import Image from 'next/image';
 import Link from 'next/link';
