@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseUser } from '@/lib/utils/supabase';
-import { getPlanDetail } from '@/lib/api/plan';
+import { getPlanDetail } from '@/lib/actions/api/plan';
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ planId: string }> }) {
   const { planId } = await params;

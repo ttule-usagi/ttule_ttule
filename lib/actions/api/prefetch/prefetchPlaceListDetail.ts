@@ -1,6 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
 import { supabaseUser } from '@/lib/utils/supabase';
-import { getPlaceListPlaces } from '@/lib/api/placeList';
+import { getPlaceListPlaces } from '@/lib/actions/api/placeList';
 import type { PageParam } from '@/types/placeList';
 import { placeListPlacesQueryOptions, placeListTagsQueryOptions } from '@/hooks/place-list/useGetPlaceListDetail';
 

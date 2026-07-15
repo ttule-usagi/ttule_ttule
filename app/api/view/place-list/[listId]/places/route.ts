@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseUser } from '@/lib/utils/supabase';
-import { getPlaceListPlaces } from '@/lib/api/placeList';
+import { getPlaceListPlaces } from '@/lib/actions/api/placeList';
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ listId: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ listId: string }> }) {
   const { listId } = await params;
   const searchParams = request.nextUrl.searchParams;
   const createdAt = searchParams.get('createdAt');
