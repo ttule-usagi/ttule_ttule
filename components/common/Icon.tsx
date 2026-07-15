@@ -35,6 +35,7 @@ import PageRight from '@/assets/icons/page-right.svg';
 import Columns from '@/assets/icons/columns.svg';
 import CheckboxChecked from '@/assets/icons/check-square.svg';
 import Setting from '@/assets/icons/settings.svg';
+import UserPlus from '@/assets/icons/user-plus.svg';
 
 export const ICONS = {
   Luggage,
@@ -74,6 +75,7 @@ export const ICONS = {
   Columns,
   CheckboxChecked,
   Setting,
+  UserPlus,
 } as const;
 
 export type IconName = keyof typeof ICONS;
