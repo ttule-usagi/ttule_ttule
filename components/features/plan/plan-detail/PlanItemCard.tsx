@@ -65,7 +65,6 @@ export default function PlanItemCard({ item, onClick }: PlanItemCardProps) {
         </div>
 
         {/* 더보기 버튼 */}
-
         <DropDown>
           {/* 트리거는 드롭다운 메뉴를 열고 닫을 버튼이 되는 것 */}
           <DropDown.Trigger>
