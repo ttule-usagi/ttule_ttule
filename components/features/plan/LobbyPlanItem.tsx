@@ -2,8 +2,10 @@
 'use client';
 
 import { PlanOverview } from '@/hooks/plan/useGetUserPlans';
+import { formatRelativeDate } from '@/lib/utils/date';
 import LobbyPlanActionMenu from './LobbyPlanActionMenu';
 import Link from 'next/link';
+import { getDestinationDisplay } from '@/lib/utils/destinationDisplay';
 
 export default function LobbyPlanItem({
   id,
@@ -16,6 +18,9 @@ export default function LobbyPlanItem({
   memberCount,
   updatedAt,
 }: PlanOverview) {
+  const formattedUpdatedAt = formatRelativeDate(updatedAt);
+  const { text, fontSize } = getDestinationDisplay(destination);
+
   return (
     <Link
       className="max-w-[275.76px] aspect-[275.76/397.69] bg-[url('/images/lobby-plan.svg')] bg-center bg-cover px-4 pt-19.25 pb-6 flex flex-col drop-shadow-lg"
@@ -32,9 +37,13 @@ export default function LobbyPlanItem({
       </div>
 
       {/* 목적지 */}
-      <p className='mt-4.5 font-paperlogy-semi-bold text-[101px] text-brand-blue-700 leading-none tracking-[-3px] text-center'>
-        {destination || 'KOR'}
-      </p>
+      <div className='flex h-30 justify-center items-center text-brand-blue-700'>
+        <p
+          className={`mt-4.5 font-paperlogy-semi-bold  text-brand-blue-700 leading-none tracking-[-3px] text-center ${fontSize}`}
+        >
+          {text}
+        </p>
+      </div>
 
       {/* 여행 기간 */}
       <div className='flex gap-14.5 font-paperlogy-regular text-[15px] text-brand-gray-500 leading-none tracking-[-1.1%] justify-between items-center mt-14.5 w-full'>
@@ -54,7 +63,7 @@ export default function LobbyPlanItem({
         </p>
         <p className='flex justify-between'>
           <span>updated</span>
-          {updatedAt}
+          {formattedUpdatedAt}
         </p>
       </div>
     </Link>

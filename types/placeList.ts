@@ -57,8 +57,8 @@ export interface PlaceListMember {
 // 단일 장소 아이템
 export interface Place {
   id: string;
-  placeListId: number;
-  corePlaceId: number;
+  placeListId: string;
+  corePlaceId: string;
   latitude: number | null;
   longitude: number | null;
   customName: string;

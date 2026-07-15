@@ -221,6 +221,14 @@ input:-webkit-autofill:active {
   );
 }
 
+@utility bg-line-pattern-blue {
+  background-color: #395EBA;
+  background-image: linear-gradient(#496ABF 1px, transparent 1px), linear-gradient(to right, #496ABF 1px, transparent 1px);
+  background-size: 18px 18px, 18px 18px;
+  background-repeat: repeat, repeat;
+  background-position: 0 0, 0 0;
+}
+
 @utility no-scrollbar {
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
   scrollbar-width: none; /* 파이어폭스 */
@@ -229,4 +237,17 @@ input:-webkit-autofill:active {
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+@layer utilities {
+  .animate-skeleton {
+    animation: loading-grey 3s infinite;
+    background: linear-gradient(90deg, #497ACD 25%, #5E8CD7 50%, #497ACD 70%);
+    background-size: 200% 100%;
+  }
+}
+
+@keyframes loading-grey {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }

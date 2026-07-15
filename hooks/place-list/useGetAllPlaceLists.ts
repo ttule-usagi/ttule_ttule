@@ -1,4 +1,3 @@
-
 import { AllPlaceLists, ListType } from '@/types/placeList';
 import { useSuspenseInfiniteQuery, UseSuspenseInfiniteQueryResult } from '@tanstack/react-query';
 
@@ -29,6 +28,7 @@ export const useGetAllPlaceLists = (listType: ListType): UseSuspenseInfiniteQuer
       items: data.pages.flatMap((p) => p.items),
       totalCount: data.pages[0]?.totalCount ?? 0,
     }),
+    staleTime: 5 * 60 * 1000,
   });
 
   // 자동 refetch 에러는 수동으로 ErrorBoundary에 전파
