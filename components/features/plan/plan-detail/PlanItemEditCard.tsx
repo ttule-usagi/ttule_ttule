@@ -93,7 +93,7 @@ export default function PlanItemEditCard({ item, onClose, onSave }: PlanItemEdit
 
         {/* 복사/드래그 버튼 */}
         <div className='flex gap-[12px] items-center shrink-0 mt-[4px]'>
-          <button aria-label='복사'>
+          <button aria-label='복제'>
             <Icon
               name='Copy'
               size={32}

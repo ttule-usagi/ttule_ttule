@@ -37,3 +37,30 @@ export const addPlanItem = async ({ scheduleId, placeDetail }: AddPlanItemProps)
     return { error: error.message };
   }
 };
+
+interface AddPlanMemoItemProps {
+  scheduleId: string;
+  placeName: string; // ← 필수
+  memoContent?: string | null;
+  visitTime?: string | null;
+}
+
+export const addPlanMemoItem = async ({ scheduleId, placeName, memoContent, visitTime }: AddPlanMemoItemProps) => {
+  const supabase = await supabaseUser();
+
+  try {
+    const { data, error } = await supabase.rpc('add_plan_memo_item', {
+      p_schedule_id: scheduleId,
+      p_place_name: placeName,
+      p_memo_content: memoContent ?? null,
+      p_visit_time: visitTime ?? null,
+    });
+
+    if (error) throw error;
+    return { data };
+  } catch (error: any) {
+    console.error('❌ add_plan_memo_item 에러:', error);
+    if (error.code === '42501') return { error: 'UNAUTHORIZED' };
+    return { error: error.message };
+  }
+};

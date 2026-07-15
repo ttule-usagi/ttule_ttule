@@ -11,7 +11,7 @@ export default function ProfileImage() {
           alt='profile image'
           width={48}
           height={48}
-          className='rounded-full object-cover'
+          className='w-full h-full rounded-full object-cover'
         />
       )}
     </div>

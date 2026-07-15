@@ -2,15 +2,16 @@
 
 import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { scheduleItemsQueryOptions, useGetScheduleItems } from '@/hooks/plan/useGetScheduleItems';
+import { scheduleItemsQueryOptions } from '@/hooks/plan/useGetScheduleItems';
 import { PlanSchedule, PlanItem } from '@/types/plan';
 import { Icon } from '@/components/common/Icon';
 import PlanItemCard from './PlanItemCard';
 import PlanItemEditCard from './PlanItemEditCard';
 import TransitInfo from './TransitInfo';
 import Image from 'next/image';
-import lobbyPlan from '@/images/lobby-plan.svg';
 import DropDown from '@/components/common/Dropdown';
+import PlanMemoItemCard from './PlanMemoItemCard';
+import PlanMemoItemEditCard from './PlanMemoItemEditCard';
 
 interface PlanDayPanelProps {
   planId: string;
@@ -48,6 +49,7 @@ export default function PlanDayPanel({
   const queryClient = useQueryClient();
 
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
+  const [isNewMemoOpen, setIsNewMemoOpen] = useState(false);
 
   const dateStr = formatScheduleDate(schedule.scheduleDate, schedule.dayNumber);
 
@@ -140,7 +142,22 @@ export default function PlanDayPanel({
                     key={item.id}
                     className='flex flex-col gap-2'
                   >
-                    {editingItemId === item.id ? (
+                    {item.type === 'memo' ? (
+                      editingItemId === item.id ? (
+                        <PlanMemoItemEditCard
+                          item={item}
+                          isNew={false}
+                          scheduleId={schedule.id}
+                          onClose={() => setEditingItemId(null)}
+                          onSave={() => setEditingItemId(null)}
+                        />
+                      ) : (
+                        <PlanMemoItemCard
+                          item={item}
+                          onClick={() => setEditingItemId(item.id)}
+                        />
+                      )
+                    ) : editingItemId === item.id ? (
                       <PlanItemEditCard
                         item={item}
                         onClose={() => setEditingItemId(null)}
@@ -161,6 +178,15 @@ export default function PlanDayPanel({
                     )}
                   </div>
                 ))}
+
+                {isNewMemoOpen && (
+                  <PlanMemoItemEditCard
+                    isNew={true}
+                    scheduleId={schedule.id}
+                    onClose={() => setIsNewMemoOpen(false)}
+                    onSave={() => {}}
+                  />
+                )}
 
                 {/* 장소 추가 버튼 */}
                 <DropDown>
@@ -185,7 +211,7 @@ export default function PlanDayPanel({
                     {/* 아이템 하나가 버튼 하나고, 여기 이벤트를 연결해주면 된다 */}
                     <DropDown.Item>리스트에서 장소 가져오기</DropDown.Item>
                     <DropDown.Item>검색에서 장소 가져오기</DropDown.Item>
-                    <DropDown.Item>장소 없는 일정 만들기</DropDown.Item>
+                    <DropDown.Item onClick={() => setIsNewMemoOpen(true)}>장소 없는 일정 만들기</DropDown.Item>
                   </DropDown.Menu>
                 </DropDown>
               </>
