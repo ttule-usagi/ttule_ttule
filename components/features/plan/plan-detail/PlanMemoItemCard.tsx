@@ -2,6 +2,7 @@
 
 import DropDown from '@/components/common/Dropdown';
 import { Icon } from '@/components/common/Icon';
+import { useAddPlanMemoItem } from '@/hooks/plan/useAddPlanMemoItem';
 import type { PlanItem } from '@/types/plan';
 
 interface PlanMemoItemCardProps {
@@ -15,6 +16,17 @@ function formatVisitTime(time: string | null): string {
 }
 
 export default function PlanMemoItemCard({ item, onClick }: PlanMemoItemCardProps) {
+  const { addMemoItem, isSubmitting } = useAddPlanMemoItem();
+
+  const handleDuplicate = async () => {
+    await addMemoItem({
+      scheduleId: item.scheduleId,
+      placeName: item.placeName,
+      memoContent: item.memoContent,
+      visitTime: item.visitTime,
+    });
+  };
+
   return (
     <div className='flex bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer w-full gap-2 px-4'>
       {/* 왼쪽 방문 시간 */}
@@ -49,7 +61,7 @@ export default function PlanMemoItemCard({ item, onClick }: PlanMemoItemCardProp
         <DropDown.Menu>
           {/* 아이템 하나가 버튼 하나고, 여기 이벤트를 연결해주면 된다 */}
           <DropDown.Item>일정 삭제</DropDown.Item>
-          <DropDown.Item>일정 복제</DropDown.Item>
+          <DropDown.Item onClick={handleDuplicate}>일정 복제</DropDown.Item>
           <DropDown.Item onClick={onClick}>일정 편집</DropDown.Item>
           <DropDown.Item>다른 날짜로 변경</DropDown.Item>
         </DropDown.Menu>

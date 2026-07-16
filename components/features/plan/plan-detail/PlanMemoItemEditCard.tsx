@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import { Icon } from '@/components/common/Icon';
 import type { PlanItem } from '@/types/plan';
-import { addPlanMemoItem } from '@/lib/actions/planItem';
-import { useQueryClient } from '@tanstack/react-query';
+import { useAddPlanMemoItem } from '@/hooks/plan/useAddPlanMemoItem';
 
 interface PlanMemoItemEditCardProps {
   item?: PlanItem;
@@ -26,44 +25,15 @@ export default function PlanMemoItemEditCard({
   onClose,
   onSave,
 }: PlanMemoItemEditCardProps) {
-  const queryClient = useQueryClient();
   const [placeName, setPlaceName] = useState(item?.placeName ?? '');
   const [visitTime, setVisitTime] = useState(formatVisitTime(item?.visitTime ?? null));
   const [memoContent, setMemoContent] = useState(item?.memoContent ?? '');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { addMemoItem, isSubmitting } = useAddPlanMemoItem();
 
   const handleSave = async () => {
     if (!placeName.trim()) return;
-
-    if (isNew) {
-      // 신규 생성
-      if (isSubmitting) return;
-      setIsSubmitting(true);
-
-      const result = await addPlanMemoItem({
-        scheduleId,
-        placeName: placeName.trim(),
-        memoContent: memoContent || null,
-        visitTime: visitTime || null,
-      });
-
-      setIsSubmitting(false);
-
-      if (!result.error) {
-        await queryClient.invalidateQueries({
-          predicate: (query) => query.queryKey.includes('items') && query.queryKey.includes(scheduleId),
-          refetchType: 'active',
-        });
-        onClose();
-      }
-    } else {
-      // 기존 수정
-      onSave({
-        placeName: placeName.trim(),
-        visitTime: visitTime || null,
-        memoContent: memoContent || null,
-      });
-    }
+    const result = await addMemoItem({ scheduleId, placeName, memoContent, visitTime });
+    if (!result?.error) onClose();
   };
 
   return (

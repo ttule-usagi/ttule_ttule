@@ -2,6 +2,7 @@
 
 import { supabaseUser } from '@/lib/utils/supabase';
 import type { CorePlaceDetail } from '@/types/CorePlace';
+import { PlanItem } from '@/types/plan';
 
 interface AddPlanItemProps {
   scheduleId: string;
@@ -60,6 +61,29 @@ export const addPlanMemoItem = async ({ scheduleId, placeName, memoContent, visi
     return { data };
   } catch (error: any) {
     console.error('❌ add_plan_memo_item 에러:', error);
+    if (error.code === '42501') return { error: 'UNAUTHORIZED' };
+    return { error: error.message };
+  }
+};
+
+export const duplicatePlanItem = async (item: PlanItem) => {
+  const supabase = await supabaseUser();
+
+  try {
+    const { data, error } = await supabase.rpc('add_plan_item', {
+      p_schedule_id: item.scheduleId,
+      p_place_id: item.placeId,
+      p_latitude: item.latitude,
+      p_longitude: item.longitude,
+      p_place_name: item.placeName,
+      p_place_category: item.placeCategory,
+      p_place_thumbnail: item.placeThumbnail,
+      p_google_place_id: item.googlePlaceId,
+    });
+
+    if (error) throw error;
+    return { data };
+  } catch (error: any) {
     if (error.code === '42501') return { error: 'UNAUTHORIZED' };
     return { error: error.message };
   }

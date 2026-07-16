@@ -1,11 +1,14 @@
 'use client';
 
+import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { PlanItem } from '@/types/plan';
 import { Icon } from '@/components/common/Icon';
 import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
 import { CATEGORY_COLORS, CATEGORY_EMOJI } from '@/lib/utils/placeCategory';
 import type { PlaceCategory } from '@/types/CorePlace';
 import DropDown from '@/components/common/Dropdown';
+import { addPlanItem, duplicatePlanItem } from '@/lib/actions/planItem';
 
 interface PlanItemCardProps {
   item: PlanItem;
@@ -32,10 +35,21 @@ function formatVisitTime(time: string | null): string {
 }
 
 export default function PlanItemCard({ item, onClick }: PlanItemCardProps) {
+  const queryClient = useQueryClient();
   const categoryLabel = item.placeCategory ? getPlaceCategoryLabel(item.placeCategory) : null;
 
+  const handleDuplicate = async () => {
+    const result = await duplicatePlanItem(item);
+    if (!result.error) {
+      await queryClient.invalidateQueries({
+        predicate: (query) => query.queryKey.includes('items') && query.queryKey.includes(item.scheduleId),
+        refetchType: 'active',
+      });
+    }
+  };
+
   return (
-    <div className='relative bg-white rounded-[8px] shadow-[0px_12px_16px_-4px_rgba(16,24,40,0.08),0px_4px_6px_-2px_rgba(16,24,40,0.03)] overflow-hidden cursor-pointer'>
+    <div className='relative bg-white rounded-2 shadow-lg overflow-hidden cursor-pointer'>
       {/* 왼쪽 색상 바 (카테고리 색상) */}
       {/* <div
         className='absolute left-0 top-0 bottom-0 w-[8px]'
@@ -79,7 +93,7 @@ export default function PlanItemCard({ item, onClick }: PlanItemCardProps) {
           <DropDown.Menu>
             {/* 아이템 하나가 버튼 하나고, 여기 이벤트를 연결해주면 된다 */}
             <DropDown.Item>일정 삭제</DropDown.Item>
-            <DropDown.Item>일정 복제</DropDown.Item>
+            <DropDown.Item onClick={handleDuplicate}>일정 복제</DropDown.Item>
             <DropDown.Item onClick={onClick}>일정 편집</DropDown.Item>
             <DropDown.Item>구글 지도에서 보기</DropDown.Item>
             <DropDown.Item>다른 날짜로 변경</DropDown.Item>
