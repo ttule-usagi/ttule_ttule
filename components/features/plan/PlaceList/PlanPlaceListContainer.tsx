@@ -21,37 +21,36 @@ export default function PlanPlaceListContainer({ planId }: PlanPlaceListContaine
 
   return (
     <>
-      {/* 슬라이드 패널 */}
-      <section
-        className={`fixed top-0 h-screen w-102 pt-23.5 px-4 pb-7 overflow-y-auto bg-line-pattern z-10 transition-transform duration-300 ease-in-out border-r border-brand-blue-700 ${
+      <div
+        className={`fixed top-0 h-screen z-10 transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <PlanPlaceListSection planId={planId} />
-      </section>
+        <div className='relative h-full max-w-102 min-w-85 w-[26vw]'>
+          {/* 패널 */}
+          <section className='h-full pt-23.5 px-4 pb-7 overflow-y-auto bg-line-pattern border-r border-brand-blue-700'>
+            <PlanPlaceListSection planId={planId} />
+          </section>
 
-      {/* 토글 버튼 */}
-      <button
-        onClick={() => setIsOpen((prev) => !prev)}
-        className={`fixed top-1/2 -translate-y-1/2 z-20 flex items-center justify-center h-13 bg-brand-blue-700 rounded-r-[8px] shadow-lg transition-all duration-300 ease-in-out ${
-          isOpen ? 'left-101 w-8' : 'left-0 w-18'
-        }`}
-      >
-        {isOpen ? (
-          ''
-        ) : (
-          <Icon
-            name='Bookmark'
-            size={30}
-            className='text-white ml-3'
-          />
-        )}
-        <Icon
-          name={isOpen ? 'ChevronLeft' : 'ChevronRight'}
-          size={40}
-          className='text-white'
-        />
-      </button>
+          <button
+            onClick={() => setIsOpen((prev) => !prev)}
+            className='absolute top-1/2 -translate-y-1/2 left-full flex items-center justify-center h-13 bg-brand-blue-700 rounded-r-[8px] shadow-lg'
+          >
+            {!isOpen && (
+              <Icon
+                name='Bookmark'
+                size={30}
+                className='text-white ml-3'
+              />
+            )}
+            <Icon
+              name={isOpen ? 'ChevronLeft' : 'ChevronRight'}
+              size={40}
+              className='text-white'
+            />
+          </button>
+        </div>
+      </div>
     </>
   );
 }

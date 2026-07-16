@@ -25,11 +25,11 @@ export default function PlanHeader({ planId }: PlanHeaderProps) {
   const dateRange = formatDateRange(plan.departureDate, plan.arrivalDate, plan.isDateUndecided);
 
   return (
-    <div className='absolute top-0 right-0 flex gap-[16px] items-end px-[20px] py-[20px] z-10  '>
+    <div className='absolute top-0 right-0 flex gap-4 items-end p-5 z-10  '>
       {/* 홈/레이아웃 모드 전환 버튼 */}
-      <div className='flex gap-[12px] items-center shrink-0'>
+      <div className='flex gap-3 items-center shrink-0'>
         <Link href='/lobby'>
-          <div className='flex items-center justify-center size-[48px] rounded-[8px] bg-brand-blue-400 shadow-lg p-[8px]'>
+          <div className='flex items-center justify-center size-12 rounded-lg bg-brand-blue-400 shadow-lg p-2'>
             <Icon
               name='Luggage'
               size={32}
@@ -38,7 +38,7 @@ export default function PlanHeader({ planId }: PlanHeaderProps) {
           </div>
         </Link>
         <Link href={`/plan/${planId}/edit`}>
-          <div className='flex items-center justify-center size-[48px] rounded-[8px] bg-[#D0F65E] shadow-lg p-[8px]'>
+          <div className='flex items-center justify-center size-12 rounded-lg bg-neon-green shadow-lg p-2'>
             <Icon
               name='Columns'
               size={32}
@@ -49,17 +49,17 @@ export default function PlanHeader({ planId }: PlanHeaderProps) {
       </div>
 
       {/* 계획 정보 카드 */}
-      <div className='bg-white rounded-[8px] shadow-lg px-[16px] py-[8px] flex items-center justify-between flex-1 w-116'>
-        <div className='flex items-center gap-[8px]'>
+      <div className='bg-white rounded-lg shadow-lg px-4 py-2 flex items-center justify-between flex-1 max-w-115 min-w-95.5 w-[39vw] '>
+        <div className='flex items-center gap-2'>
           {/* 계획 제목 */}
-          <p className='text-typo-sub-title text-brand-blue-600 truncate max-w-[200px]'>{plan.title}</p>
+          <p className='text-typo-sub-title text-brand-blue-600 truncate max-w-50'>{plan.title}</p>
 
           {/* 멤버 프로필 이미지 */}
           <div className='flex items-center'>
             {members.slice(0, 3).map((member, index) => (
               <div
                 key={member.userId}
-                className='relative size-[24px] rounded-full overflow-hidden border-2 border-white'
+                className='relative size-6 rounded-full overflow-hidden border-2 border-white'
                 style={{ marginLeft: index === 0 ? 0 : -8, zIndex: members.length - index }}
               >
                 {member.profileImageUrl ? (
