@@ -16,15 +16,15 @@ function formatVisitTime(time: string | null): string {
 
 export default function PlanMemoItemCard({ item, onClick }: PlanMemoItemCardProps) {
   return (
-    <div className='flex bg-white rounded-[8px] shadow-sm overflow-hidden cursor-pointer w-full gap-2 px-4'>
+    <div className='flex bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer w-full gap-2 px-4'>
       {/* 왼쪽 방문 시간 */}
       {item.visitTime && (
-        <p className='absolute left-[11px] top-[25px] text-typo-caption text-brand-gray-400 whitespace-nowrap'>
+        <p className='absolute left-3 top-6 text-typo-caption text-brand-gray-400 whitespace-nowrap'>
           {formatVisitTime(item.visitTime)}
         </p>
       )}
 
-      <div className='flex-1 pl-[51px] pr-[48px] py-[17px] flex flex-col gap-[8px]'>
+      <div className='flex-1 pl-13 pr-12 py-4 flex flex-col gap-2'>
         {/* 제목 */}
         <p className='text-typo-sub-title text-brand-blue-700 whitespace-nowrap'>{item.placeName}</p>
 

@@ -61,12 +61,12 @@ export default function PlanDayPanel({
   };
 
   return (
-    <div className='relative h-full w-full max-w-[472px]'>
+    <div className='relative h-full w-full max-w-118'>
       {/* 이전 화살표 */}
       {currentIndex > 0 && (
         <button
           onClick={onPrev}
-          className='absolute left-[-20px] top-1/2 -translate-y-1/2 z-10 size-[32px] flex items-center justify-center'
+          className='absolute -left-5 top-1/2 -translate-y-1/2 z-10 size-8 flex items-center justify-center'
           aria-label='이전 일차'
         >
           <Icon
@@ -83,7 +83,7 @@ export default function PlanDayPanel({
           onClick={onNext}
           onMouseEnter={handlePrefetchNext}
           onFocus={handlePrefetchNext}
-          className='absolute right-[-20px] top-1/2 -translate-y-1/2 z-10 size-[32px] flex items-center justify-center'
+          className='absolute -right-5 top-1/2 -translate-y-1/2 z-10 size-8 flex items-center justify-center'
           aria-label='다음 일차'
         >
           <Icon
@@ -97,7 +97,7 @@ export default function PlanDayPanel({
       {/* 안쪽 파란 패널 — 화살표 너비만큼 좌우 여백 */}
       <div className='absolute top-0 left-8 right-8 bottom-0 bg-line-pattern-blue rounded-lg shadow-xl overflow-hidden'>
         <div className='relative h-full w-full bg-line-pattern-blue rounded-tl-2 shadow-lg overflow-hidden'>
-          <div className='absolute top-[-11px] right-7'>
+          <div className='absolute -top-[11px] right-7'>
             <Image
               src='/images/poststamp.svg'
               alt='우표장식'
@@ -125,7 +125,7 @@ export default function PlanDayPanel({
           </div>
 
           {/* 아이템 목록 */}
-          <div className='absolute top-27 left-4 right-4 bottom-4 overflow-y-auto flex flex-col gap-[8px]'>
+          <div className='absolute top-27 left-4 right-4 bottom-4 overflow-y-auto flex flex-col gap-2'>
             {isFetching ? (
               <div className='flex-1 flex-col gap-2'>
                 {[1, 2, 3].map((i) => (

@@ -46,9 +46,9 @@ export default function PlanItemCard({ item, onClick }: PlanItemCardProps) {
         }}
       /> */}
 
-      <div className='pl-[15px] pr-[16px] py-[17px] flex gap-[8px] items-start'>
+      <div className='pl-4 pr-4 py-4 flex gap-2 items-start'>
         {/* 카테고리 아이콘 + 방문 시간 */}
-        <div className='flex flex-col gap-[2px] items-center w-[27px] shrink-0 mt-[4px]'>
+        <div className='flex flex-col gap-0.5 items-center w-7 shrink-0 mt-1'>
           <CategoryIcon category={item.placeCategory} />
           {item.visitTime && (
             <p className='text-typo-caption text-brand-gray-400 whitespace-nowrap'>{formatVisitTime(item.visitTime)}</p>
@@ -56,7 +56,7 @@ export default function PlanItemCard({ item, onClick }: PlanItemCardProps) {
         </div>
 
         {/* 장소 정보 */}
-        <div className='flex flex-col gap-[8px] flex-1 min-w-0'>
+        <div className='flex flex-col gap-2 flex-1 min-w-0'>
           <div className='flex flex-col items-start'>
             <p className='text-typo-sub-title text-brand-blue-700 truncate w-full'>{item.placeName}</p>
             {categoryLabel && <p className='text-typo-description text-brand-gray-400'>{categoryLabel}</p>}

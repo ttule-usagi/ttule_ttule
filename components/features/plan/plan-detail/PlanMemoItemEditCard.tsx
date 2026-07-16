@@ -67,10 +67,10 @@ export default function PlanMemoItemEditCard({
   };
 
   return (
-    <div className='relative bg-white rounded-[8px] shadow-sm overflow-hidden w-full'>
-      <div className='pl-[51px] pr-[48px] py-[17px] flex flex-col gap-[8px]'>
+    <div className='relative bg-white rounded-lg shadow-sm overflow-hidden w-full'>
+      <div className='pl-13 pr-12 py-4 flex flex-col gap-2'>
         {/* 제목 입력 */}
-        <div className='bg-brand-gray-100 border border-brand-gray-200 rounded-[4px] px-[12px] py-[8px] h-[40px] flex items-center'>
+        <div className='bg-brand-gray-100 border border-brand-gray-200 rounded-sm px-3 py-2 h-10 flex items-center'>
           <input
             type='text'
             value={placeName}
@@ -81,7 +81,7 @@ export default function PlanMemoItemEditCard({
         </div>
 
         {/* 방문 시간 입력 */}
-        <div className='bg-brand-gray-100 border border-brand-gray-200 rounded-[4px] pl-[8px] py-[5px] h-[30px] flex items-center gap-[4px]'>
+        <div className='bg-brand-gray-100 border border-brand-gray-200 rounded-sm pl-2 py-1 h-8 flex items-center gap-1'>
           <Icon
             name='Clock'
             size={16}
@@ -97,27 +97,27 @@ export default function PlanMemoItemEditCard({
         </div>
 
         {/* 메모 입력 */}
-        <div className='bg-brand-gray-100 border border-brand-gray-200 rounded-[4px] px-[12px] py-[8px] min-h-[70px] max-h-[120px]'>
+        <div className='bg-brand-gray-100 border border-brand-gray-200 rounded-sm px-3 py-2 min-h-18 max-h-30'>
           <textarea
             value={memoContent}
             onChange={(e) => setMemoContent(e.target.value)}
             placeholder='메모를 입력하세요'
-            className='bg-transparent text-typo-base text-brand-gray-600 w-full outline-none resize-none placeholder:text-brand-gray-400 min-h-[54px]'
+            className='bg-transparent text-typo-base text-brand-gray-600 w-full outline-none resize-none placeholder:text-brand-gray-400 min-h-14'
           />
         </div>
 
         {/* 취소/저장 버튼 */}
-        <div className='flex gap-[8px]'>
+        <div className='flex gap-2'>
           <button
             onClick={onClose}
-            className='flex-1 flex items-center justify-center py-[8px] border border-brand-gray-200 rounded-[4px]'
+            className='flex-1 flex items-center justify-center py-2 border border-brand-gray-200 rounded-1'
           >
             <span className='text-typo-description text-brand-gray-500'>취소</span>
           </button>
           <button
             onClick={handleSave}
             disabled={!placeName.trim() || isSubmitting}
-            className='flex-1 flex items-center justify-center py-[8px] bg-brand-blue-700 rounded-[4px] text-brand-gray-50'
+            className='flex-1 flex items-center justify-center py-2 bg-brand-blue-700 rounded-sm text-brand-gray-50'
           >
             <span>{isNew ? (isSubmitting ? '추가 중...' : '추가하기') : '저장'}</span>
           </button>
@@ -125,10 +125,10 @@ export default function PlanMemoItemEditCard({
       </div>
 
       {/* 닫기 버튼 */}
-      <div className='absolute left-[16px] top-[21px]'>
+      <div className='absolute left-4 top-5'>
         <button
           onClick={onClose}
-          className='flex items-center justify-center size-[26px] rounded-full bg-brand-gray-200'
+          className='flex items-center justify-center size-6.5 rounded-full bg-brand-gray-200'
           aria-label='닫기'
         >
           <Icon
@@ -141,7 +141,7 @@ export default function PlanMemoItemEditCard({
 
       {/* 드래그 핸들 */}
       <button
-        className='absolute right-[8px] top-[17px]'
+        className='absolute right-2 top-4'
         aria-label='순서 변경'
       >
         <Icon

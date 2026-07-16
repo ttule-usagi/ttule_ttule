@@ -13,9 +13,9 @@ export default function TransitInfo({ mode, time, hasMemo }: TransitInfoProps) {
   const modeLabel = TRANSIT_MODE_LABELS[mode as PlanTransitMode] ?? mode;
 
   return (
-    <div className='flex gap-[12px] items-center px-[4px]'>
+    <div className='flex gap-3 items-center px-1'>
       {/* 이동 수단 아이콘 자리 — 추후 교체 */}
-      <div className='h-[16px] w-[19px] bg-white/30 rounded-sm shrink-0' />
+      <div className='h-4 w-5 bg-white/30 rounded-sm shrink-0' />
 
       <p className='text-typo-base text-white'>
         {modeLabel}
