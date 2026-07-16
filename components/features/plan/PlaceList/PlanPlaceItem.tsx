@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useState } from 'react';
-import { addPlanItem } from '@/lib/actions/planItem';
+import { addPlanItemWithTransit } from '@/lib/actions/planItem';
 import { useGetCorePlace } from '@/hooks/place/useGetCorePlace';
 import { Place } from '@/types/placeList';
 import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
@@ -24,7 +24,7 @@ export function PlanPlaceItem({ place, planId, scheduleId }: PlanPlaceItemProps)
     if (!placeDetail) return;
     setIsAdding(true);
 
-    const result = await addPlanItem({ scheduleId, placeDetail });
+    const result = await addPlanItemWithTransit({ scheduleId, placeDetail });
 
     setIsAdding(false);
 

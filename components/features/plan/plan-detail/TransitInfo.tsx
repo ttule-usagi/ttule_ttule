@@ -2,6 +2,7 @@
 
 import { Icon } from '@/components/common/Icon';
 import { TRANSIT_MODE_LABELS, type PlanTransitMode } from '@/types/plan';
+import { formatDuration } from '@/lib/utils/minutes';
 
 interface TransitInfoProps {
   mode: string;
@@ -20,7 +21,7 @@ export default function TransitInfo({ mode, time, hasMemo }: TransitInfoProps) {
       <p className='text-typo-base text-white'>
         {modeLabel}
         <span className='text-brand-gray-200'>{` | `}</span>
-        {time != null && `약 ${time}분`}
+        {time != null && formatDuration(time)}
       </p>
 
       {hasMemo && (

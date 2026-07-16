@@ -83,7 +83,7 @@ export default function PlanDetailContainer({ planId }: PlanDetailContainerProps
       )}
       {/* 오른쪽 일정 패널 */}
       <QueryBoundary>
-        <div className='absolute top-22 right-10 max-w-118 min-w-98.5 w-[40vw] bottom-6'>
+        <div className='absolute top-22 right-10 bottom-6 max-w-118 min-w-98.5 w-[40vw]'>
           <PlanDayPanel
             planId={planId}
             schedule={currentSchedule}

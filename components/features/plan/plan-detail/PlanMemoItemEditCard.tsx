@@ -37,7 +37,7 @@ export default function PlanMemoItemEditCard({
   };
 
   return (
-    <div className='relative bg-white rounded-lg shadow-sm overflow-hidden w-full'>
+    <div className='relative bg-white rounded-lg shadow-sm w-full'>
       <div className='pl-13 pr-12 py-4 flex flex-col gap-2'>
         {/* 제목 입력 */}
         <div className='bg-brand-gray-100 border border-brand-gray-200 rounded-sm px-3 py-2 h-10 flex items-center'>

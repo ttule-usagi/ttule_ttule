@@ -28,7 +28,7 @@ export default function PlanMemoItemCard({ item, onClick }: PlanMemoItemCardProp
   };
 
   return (
-    <div className='flex bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer w-full gap-2 px-4'>
+    <div className='flex bg-white rounded-lg shadow-sm cursor-pointer w-full gap-2 px-4'>
       {/* 왼쪽 방문 시간 */}
       {item.visitTime && (
         <p className='absolute left-3 top-6 text-typo-caption text-brand-gray-400 whitespace-nowrap'>
