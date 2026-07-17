@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Icon } from '@/components/common/Icon';
 import dynamic from 'next/dynamic';
+import { usePlanPlaceListStore } from '@/lib/store/planPlaceListStore';
 
 interface PlanPlaceListContainerProps {
   planId: string;
@@ -18,6 +19,14 @@ const PlanPlaceListSection = dynamic(
 
 export default function PlanPlaceListContainer({ planId }: PlanPlaceListContainerProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const { shouldOpenPlaceList, resetOpenPlaceList } = usePlanPlaceListStore();
+
+  useEffect(() => {
+    if (shouldOpenPlaceList) {
+      setIsOpen(true);
+      resetOpenPlaceList();
+    }
+  }, [shouldOpenPlaceList]);
 
   return (
     <>
