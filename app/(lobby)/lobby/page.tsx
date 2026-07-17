@@ -2,8 +2,8 @@
 'use client';
 
 import JoinPlanButton from '@/components/features/JoinPlanButton';
-import LobbyLastPlanItem from '@/components/features/Plan/LobbyLastPlanItem';
-import LobbyPlanItem from '@/components/features/Plan/LobbyPlanItem';
+import LobbyLastPlanItem from '@/components/features/plan/LobbyLastPlanItem';
+import LobbyPlanItem from '@/components/features/plan/LobbyPlanItem';
 import NoticeHeader from '@/components/features/NoticeHeader';
 import Image from 'next/image';
 import Link from 'next/link';
