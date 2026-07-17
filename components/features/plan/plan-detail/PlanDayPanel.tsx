@@ -12,6 +12,7 @@ import Image from 'next/image';
 import DropDown from '@/components/common/Dropdown';
 import PlanMemoItemCard from './PlanMemoItemCard';
 import PlanMemoItemEditCard from './PlanMemoItemEditCard';
+import { usePlanSearchStore } from '@/lib/store/planSearchStore';
 
 interface PlanDayPanelProps {
   planId: string;
@@ -59,6 +60,8 @@ export default function PlanDayPanel({
       queryClient.prefetchQuery(scheduleItemsQueryOptions(planId, nextSchedule.id));
     }
   };
+
+  const { triggerFocus } = usePlanSearchStore();
 
   return (
     <div className='relative h-full w-full max-w-118'>
@@ -212,7 +215,7 @@ export default function PlanDayPanel({
 
               <DropDown.Menu>
                 <DropDown.Item>리스트에서 장소 가져오기</DropDown.Item>
-                <DropDown.Item>검색에서 장소 가져오기</DropDown.Item>
+                <DropDown.Item onClick={triggerFocus}>검색에서 장소 가져오기</DropDown.Item>
                 <DropDown.Item onClick={() => setIsNewMemoOpen(true)}>장소 없는 일정 만들기</DropDown.Item>
               </DropDown.Menu>
             </DropDown>
