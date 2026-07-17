@@ -72,7 +72,7 @@ export const duplicatePlanItem = async (item: PlanItem) => {
       const route = await getRouteDistance(
         { lat: result.prev_latitude, lng: result.prev_longitude },
         { lat: item.latitude, lng: item.longitude },
-        'driving',
+        'transit',
       );
 
       if (route) {
@@ -80,7 +80,7 @@ export const duplicatePlanItem = async (item: PlanItem) => {
           p_item_id: result.prev_item_id,
           p_transit_time: route.durationMinutes,
           p_transit_distance: route.distanceMeters / 1000,
-          p_transit_mode: 'driving',
+          p_transit_mode: 'transit',
         });
       }
     }
@@ -186,7 +186,7 @@ export const reorderPlanItem = async ({
   itemId,
   newOrder,
   scheduleId,
-  transitMode = 'driving',
+  transitMode = 'transit',
 }: {
   itemId: string;
   newOrder: number;
