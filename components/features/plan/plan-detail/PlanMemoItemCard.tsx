@@ -33,7 +33,7 @@ export default function PlanMemoItemCard({ item, onClick }: PlanMemoItemCardProp
       <NotchRows count={1} />
       {/* 왼쪽 방문 시간 */}
       {item.visitTime && (
-        <p className='absolute left-3 top-6 text-typo-caption text-brand-gray-400 whitespace-nowrap'>
+        <p className='absolute left-3 top-5 text-typo-caption text-brand-gray-400 whitespace-nowrap'>
           {formatVisitTime(item.visitTime)}
         </p>
       )}
