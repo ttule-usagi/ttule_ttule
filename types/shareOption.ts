@@ -18,6 +18,6 @@ export interface DeleteMemberParams extends ResourceParams {
 export interface Member {
   id: string;
   username: string;
-  ProfileImageUrl: string;
+  profileImageUrl: string;
   role: Role;
 }
