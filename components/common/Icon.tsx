@@ -36,6 +36,7 @@ import Columns from '@/assets/icons/columns.svg';
 import CheckboxChecked from '@/assets/icons/check-square.svg';
 import Setting from '@/assets/icons/settings.svg';
 import UserPlus from '@/assets/icons/user-plus.svg';
+import Lock from '@/assets/icons/lock.svg';
 
 export const ICONS = {
   Luggage,
@@ -76,6 +77,7 @@ export const ICONS = {
   CheckboxChecked,
   Setting,
   UserPlus,
+  Lock,
 } as const;
 
 export type IconName = keyof typeof ICONS;
