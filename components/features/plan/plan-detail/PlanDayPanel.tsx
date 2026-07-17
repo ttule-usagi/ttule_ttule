@@ -194,30 +194,29 @@ export default function PlanDayPanel({
               )}
             </>
           )}
-        </div>
+          {/* 3. 장소 추가 버튼 */}
+          <div className=' z-10'>
+            <DropDown>
+              <DropDown.Trigger>
+                <div className='flex items-center justify-center cursor-pointer hover:bg-brand-blue-900/20 hover:backdrop-blur-sm transition-colors duration-200 ease-in-out'>
+                  <Image
+                    src='/images/new-plan-item.svg'
+                    alt='장소 추가'
+                    width={375}
+                    height={87}
+                    style={{ width: 'auto' }}
+                    loading='eager'
+                  />
+                </div>
+              </DropDown.Trigger>
 
-        {/* 3. 장소 추가 버튼 (고정 영역) */}
-        <div className='flex-none p-4 z-10'>
-          <DropDown>
-            <DropDown.Trigger>
-              <div className='flex items-center justify-center cursor-pointer hover:bg-brand-blue-900/20 hover:backdrop-blur-sm transition-colors duration-200 ease-in-out'>
-                <Image
-                  src='/images/new-plan-item.svg'
-                  alt='장소 추가'
-                  width={375}
-                  height={87}
-                  style={{ width: 'auto' }}
-                  loading='eager'
-                />
-              </div>
-            </DropDown.Trigger>
-
-            <DropDown.Menu>
-              <DropDown.Item>리스트에서 장소 가져오기</DropDown.Item>
-              <DropDown.Item>검색에서 장소 가져오기</DropDown.Item>
-              <DropDown.Item onClick={() => setIsNewMemoOpen(true)}>장소 없는 일정 만들기</DropDown.Item>
-            </DropDown.Menu>
-          </DropDown>
+              <DropDown.Menu>
+                <DropDown.Item>리스트에서 장소 가져오기</DropDown.Item>
+                <DropDown.Item>검색에서 장소 가져오기</DropDown.Item>
+                <DropDown.Item onClick={() => setIsNewMemoOpen(true)}>장소 없는 일정 만들기</DropDown.Item>
+              </DropDown.Menu>
+            </DropDown>
+          </div>
         </div>
       </div>
     </div>

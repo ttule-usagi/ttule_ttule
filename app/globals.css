@@ -200,6 +200,35 @@ input:-webkit-autofill:active {
     /* 혹은 round */
     border-image-repeat: round;
   }
+
+  /* 티켓형 컴포넌트*/
+
+  .notch-row {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    flex-direction: row-reverse;
+  }
+
+  .notch-row--top {
+    top: -8.5px; /* 원 크기의 절반만큼 위로 */
+    left: 52px;
+    right: 52px;
+  }
+
+  .notch-row--bottom {
+    bottom: -8.5px;
+    left: 52px;
+    right: 52px;
+  }
+
+  .notch-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--page-bg, #3862b8); /* 카드 뒤 배경색과 동일하게 */
+  }
 }
 
 /* 배경 점 패턴 */

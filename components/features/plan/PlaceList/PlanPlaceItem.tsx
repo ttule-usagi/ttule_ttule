@@ -60,7 +60,7 @@ export function PlanPlaceItem({ place, planId, scheduleId }: PlanPlaceItemProps)
       </div>
 
       <div className='flex flex-col gap-1 flex-1 min-w-0'>
-        <p className='text-typo-sub-title text-brand-blue-700 truncate'>{place.customName}</p>
+        <p className='text-typo-sub-title text-brand-blue-700 whitespace-break-spaces'>{place.customName}</p>
         {place.category && (
           <p className='text-brand-gray-400 text-typo-description'>{getPlaceCategoryLabel(place.category)}</p>
         )}

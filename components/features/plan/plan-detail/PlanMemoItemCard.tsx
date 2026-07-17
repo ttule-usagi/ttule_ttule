@@ -4,6 +4,7 @@ import DropDown from '@/components/common/Dropdown';
 import { Icon } from '@/components/common/Icon';
 import { useAddPlanMemoItem } from '@/hooks/plan/useAddPlanMemoItem';
 import type { PlanItem } from '@/types/plan';
+import NotchRows from '../NotchRows';
 
 interface PlanMemoItemCardProps {
   item: PlanItem;
@@ -28,7 +29,8 @@ export default function PlanMemoItemCard({ item, onClick }: PlanMemoItemCardProp
   };
 
   return (
-    <div className='flex bg-white rounded-lg shadow-sm cursor-pointer w-full gap-2 px-4'>
+    <div className='relative flex bg-white shadow-sm cursor-pointer w-full gap-2 px-4 rounded-sm'>
+      <NotchRows count={1} />
       {/* 왼쪽 방문 시간 */}
       {item.visitTime && (
         <p className='absolute left-3 top-6 text-typo-caption text-brand-gray-400 whitespace-nowrap'>
@@ -36,9 +38,11 @@ export default function PlanMemoItemCard({ item, onClick }: PlanMemoItemCardProp
         </p>
       )}
 
-      <div className='flex-1 pl-13 pr-12 py-4 flex flex-col gap-2'>
+      <div className='flex-1 pl-8 pr-12 py-4 flex flex-col gap-2'>
         {/* 제목 */}
-        <p className='text-typo-sub-title text-brand-blue-700 whitespace-nowrap'>{item.placeName}</p>
+        <p className='text-typo-base-bold xl:text-typo-sub-title text-brand-blue-700 whitespace-nowrap'>
+          {item.placeName}
+        </p>
 
         {/* 메모 */}
         {item.memoContent && (

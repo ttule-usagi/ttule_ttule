@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { PlanItem } from '@/types/plan';
 import { Icon } from '@/components/common/Icon';
@@ -10,6 +9,7 @@ import type { PlaceCategory } from '@/types/CorePlace';
 import DropDown from '@/components/common/Dropdown';
 import { duplicatePlanItem, deletePlanItem } from '@/lib/actions/planItem';
 import { useModalStore } from '@/lib/store/modalStore';
+import NotchRows from '../NotchRows';
 
 interface PlanItemCardProps {
   item: PlanItem;
@@ -62,8 +62,9 @@ export default function PlanItemCard({ item, onClick }: PlanItemCardProps) {
   };
 
   return (
-    <div className='relative bg-white rounded-2 shadow-lg cursor-pointer'>
-      {/* 왼쪽 색상 바 (카테고리 색상) */}
+    <div className='relative bg-white rounded-2 shadow-lg cursor-pointer overflow-hidden rounded-sm'>
+      <NotchRows />
+      {/* 왼쪽 색상 바- 추후 가장 최근 수정된 컴포넌트 표기 적용예정 */}
       {/* <div
         className='absolute left-0 top-0 bottom-0 w-[8px]'
         style={{
@@ -85,7 +86,9 @@ export default function PlanItemCard({ item, onClick }: PlanItemCardProps) {
         {/* 장소 정보 */}
         <div className='flex flex-col gap-2 flex-1 min-w-0'>
           <div className='flex flex-col items-start'>
-            <p className='text-typo-sub-title text-brand-blue-700 truncate w-full'>{item.placeName}</p>
+            <p className='text-typo-base-bold xl:text-typo-sub-title text-brand-blue-700 whitespace-break-spaces w-full'>
+              {item.placeName}
+            </p>
             {categoryLabel && <p className='text-typo-description text-brand-gray-400'>{categoryLabel}</p>}
           </div>
           {item.memoContent && <p className='text-typo-base text-brand-gray-600 line-clamp-2'>{item.memoContent}</p>}

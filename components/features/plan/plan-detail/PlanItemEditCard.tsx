@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { PlanItem } from '@/types/plan';
 import { Icon } from '@/components/common/Icon';
+import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
+import NotchRows from '../NotchRows';
 
 interface PlanItemEditCardProps {
   item: PlanItem;
@@ -19,13 +21,16 @@ export default function PlanItemEditCard({ item, onClose, onSave }: PlanItemEdit
   const [visitTime, setVisitTime] = useState(formatVisitTime(item.visitTime));
   const [memoContent, setMemoContent] = useState(item.memoContent ?? '');
 
+  const categoryLabel = item.placeCategory ? getPlaceCategoryLabel(item.placeCategory) : null;
+
   const handleSave = () => {
     onSave({ visitTime, memoContent });
   };
 
   return (
-    <div className='relative bg-white rounded-2 shadow-lg '>
-      <div className='p-4 flex gap-2 items-start'>
+    <div className='relative bg-white shadow-lg plan-item-card rounded-sm'>
+      <NotchRows />
+      <div className='p-4 flex gap-2 items-start pr-12'>
         {/* 닫기 버튼 */}
         <div className='flex flex-col items-center w-7 shrink-0 mt-1'>
           <button
@@ -45,8 +50,10 @@ export default function PlanItemEditCard({ item, onClose, onSave }: PlanItemEdit
         <div className='flex flex-col gap-2 flex-1 min-w-0'>
           {/* 장소명 + 카테고리 */}
           <div className='flex flex-col items-start'>
-            <p className='text-typo-sub-title text-brand-blue-700 truncate w-full'>{item.placeName}</p>
-            {item.placeCategory && <p className='text-typo-description text-brand-gray-400'>{item.placeCategory}</p>}
+            <p className='text-typo-sub-title text-brand-blue-700 whitespace-break-spaces w-full pr-10'>
+              {item.placeName}
+            </p>
+            {item.placeCategory && <p className='text-typo-description text-brand-gray-400'>{categoryLabel}</p>}
           </div>
 
           {/* 방문 시간 입력 */}
@@ -71,7 +78,7 @@ export default function PlanItemEditCard({ item, onClose, onSave }: PlanItemEdit
             onChange={(e) => setMemoContent(e.target.value)}
             placeholder='메모를 입력하세요'
             rows={3}
-            className='bg-brand-gray-100 border border-brand-gray-200 rounded-sm px-3 py-2 text-typo-base text-brand-gray-600 w-full outline-none resize-none placeholder:text-brand-gray-400 min-h-18'
+            className='bg-brand-gray-100 border border-brand-gray-200 rounded-sm px-3 py-2 text-typo-desciption text-brand-gray-600 w-full  outline-none resize-y placeholder:text-brand-gray-400 min-h-18'
           />
 
           {/* 취소/저장 버튼 */}
@@ -84,7 +91,7 @@ export default function PlanItemEditCard({ item, onClose, onSave }: PlanItemEdit
             </button>
             <button
               onClick={handleSave}
-              className='flex-1 flex items-center justify-center py-2 bg-brand-blue-700 rounded-1'
+              className='flex-1 flex items-center justify-center py-2 bg-brand-blue-700 rounded-sm'
             >
               <span className='text-typo-description font-semibold text-white'>저장</span>
             </button>
@@ -92,7 +99,7 @@ export default function PlanItemEditCard({ item, onClose, onSave }: PlanItemEdit
         </div>
 
         {/* 복사/드래그 버튼 */}
-        <div className='flex gap-3 items-center shrink-0 mt-1'>
+        <div className='absolute top-4 right-4  flex gap-3 items-center shrink-0 mt-1'>
           <button aria-label='복제'>
             <Icon
               name='Copy'
