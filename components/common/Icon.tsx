@@ -7,6 +7,7 @@ import Clock from '@/assets/icons/clock.svg';
 import ArrowRight from '@/assets/icons/arrow-right.svg';
 import Copy from '@/assets/icons/copy.svg';
 import Link from '@/assets/icons/link.svg';
+import LinkThin from '@/assets/icons/link-thin.svg';
 import XClose from '@/assets/icons/x-close.svg';
 import Google from '@/assets/icons/google.svg';
 import Plus from '@/assets/icons/plus.svg';
@@ -78,6 +79,7 @@ export const ICONS = {
   Setting,
   UserPlus,
   Lock,
+  LinkThin,
 } as const;
 
 export type IconName = keyof typeof ICONS;
