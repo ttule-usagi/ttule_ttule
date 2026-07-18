@@ -7,13 +7,20 @@ import Link from 'next/link';
 
 export default function LoginButtonProfile() {
   const [showTooltip, setShowTooltip] = useState(true);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
     <div className='absolute bottom-5.5'>
       {/* 아바타 + 말풍선을 묶는 relative 컨테이너 */}
       <div className='relative group'>
         <div
-          className={`absolute bottom-full mb-3 left-1.5 drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] transition-opacity duration-200 ${showTooltip ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0 group-hover:pointer-events-auto group-hover:opacity-100'} `}
+          className={`absolute bottom-full mb-3 left-1.5 drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] transition-opacity duration-200 ${
+            !imageLoaded
+              ? 'pointer-events-none opacity-0'
+              : showTooltip
+                ? 'pointer-events-auto opacity-100'
+                : 'pointer-events-none opacity-0 group-hover:pointer-events-auto group-hover:opacity-100'
+          } `}
         >
           {/* 말풍선 몸체 */}
           <div className='flex items-center gap-2 whitespace-nowrap rounded-lg bg-neon-green py-2 pl-3 pr-3'>
@@ -52,6 +59,8 @@ export default function LoginButtonProfile() {
             alt='placeholder-image'
             width={48}
             height={48}
+            priority
+            onLoad={() => setImageLoaded(true)}
             className='w-full h-full rounded-full object-cover'
           />
         </Link>
