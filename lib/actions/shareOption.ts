@@ -4,7 +4,7 @@ import { ActionResult } from '@/types/errors';
 import { supabaseUser } from '../utils/supabase';
 import { DeleteMemberParams, SetPublicParams } from '@/types/shareOption';
 
-// 참여 유저 삭제(추방)
+// 참여 유저 삭제
 export const deleteMember = async ({ id, resourceType, targetUserId }: DeleteMemberParams): Promise<ActionResult> => {
   const supabase = await supabaseUser();
 
@@ -15,8 +15,8 @@ export const deleteMember = async ({ id, resourceType, targetUserId }: DeleteMem
   });
 
   if (error) {
-    console.error('❌ 참여 유저 추방 실패:', error);
-    return { error: '참여 유저를 추방하는 중 오류가 발생했습니다.', code: error.code };
+    console.error('❌ 참여 유저 삭제 실패:', error);
+    return { error: '참여 유저를 삭제하는 중 오류가 발생했습니다.', code: error.code };
   }
 
   return { success: true };

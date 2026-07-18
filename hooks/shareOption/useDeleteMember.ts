@@ -30,7 +30,7 @@ export const useDeleteMember = ({ id, resourceType }: ResourceParams) => {
       open({
         type: 'error',
         props: {
-          title: '참여 유저 추방 실패',
+          title: '참여 유저 삭제 실패',
           description: `${error.message}\n잠시 후 다시 시도해주세요.`,
         },
       });
