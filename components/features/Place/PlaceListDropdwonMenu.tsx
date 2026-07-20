@@ -3,17 +3,22 @@
 import DropDown from '@/components/common/Dropdown';
 import { Icon } from '@/components/common/Icon';
 import { useShareEditLink } from '@/hooks/invite-member/useShareEditLink';
+import { useConfirmDeletePlaceList } from '@/hooks/place-list/useConfirmDeletePlaceList';
 import { useModalStore } from '@/lib/store/modalStore';
 import { createViewLink } from '@/lib/utils/invite/createViewLink';
+import { useRouter } from 'next/navigation';
 
 interface PlaceListDropdownMenuProps {
   id: string;
   type?: 'overview' | 'detail';
+  listName: string;
 }
 
-export default function PlaceListDropdownMenu({ id, type = 'overview' }: PlaceListDropdownMenuProps) {
+export default function PlaceListDropdownMenu({ id, type = 'overview', listName }: PlaceListDropdownMenuProps) {
+  const router = useRouter();
   const { open } = useModalStore();
   const { createShareLink, isPending } = useShareEditLink();
+  const { confirmDeletePlaceList } = useConfirmDeletePlaceList();
 
   return (
     <DropDown>
@@ -41,9 +46,9 @@ export default function PlaceListDropdownMenu({ id, type = 'overview' }: PlaceLi
         </DropDown.Item>
         <DropDown.Item>공유 옵션 관리</DropDown.Item>
         {type === 'detail' && (
-          <DropDown.Item onClick={() => console.log('전체 리스트 편집 페이지로 이동')}>리스트 편집</DropDown.Item>
+          <DropDown.Item onClick={() => router.push(`/places/edit/${id}`)}>리스트 편집</DropDown.Item>
         )}
-        <DropDown.Item>리스트 삭제</DropDown.Item>
+        <DropDown.Item onClick={() => confirmDeletePlaceList(listName, id)}>리스트 삭제</DropDown.Item>
       </DropDown.Menu>
     </DropDown>
   );

@@ -66,3 +66,18 @@ export const getPlaceListTags = async (listId: string): Promise<Tag[]> => {
   if (!data) throw new Error('저장된 태그를 가져오는 데 실패했습니다.');
   return toCamelKey<Tag[]>(data);
 };
+
+// 리스트 삭제
+export const deletePlaceList = async (listId: string) => {
+  const supabase = await supabaseUser();
+  const { error } = await supabase.rpc('delete_place_list', {
+    p_list_id: listId,
+  });
+
+  if (error) {
+    console.error('❌ 리스트 삭제 실패: ', error);
+    return { error: '장소 리스트 삭제 중 오류가 발생했습니다.', code: error.code };
+  }
+
+  return { success: true };
+};

@@ -23,6 +23,7 @@ export default function PlaceListHeader({ listId, hasSession }: { listId: string
             <PlaceListDropdownMenu
               id={listId}
               type='detail'
+              listName={data.title}
             />
           )}
         </div>
