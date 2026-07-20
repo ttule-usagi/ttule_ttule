@@ -54,7 +54,7 @@ export default function PlanPlaceItem({ place, planId }: PlanPlaceItemProps) {
         <button
           onClick={() => setIsModalOpen(true)}
           disabled={!placeDetail}
-          className='shrink-0 flex items-center justify-center px-[8px] py-[6px] rounded-[4px] text-typo-caption whitespace-nowrap bg-brand-blue-700 text-white disabled:bg-brand-gray-200 disabled:text-brand-gray-400'
+          className='shrink-0 flex items-center justify-center px-2 py-1.5 rounded-sm text-typo-caption whitespace-nowrap bg-brand-blue-700 text-white disabled:bg-brand-gray-200 disabled:text-brand-gray-400'
         >
           + 추가
         </button>
