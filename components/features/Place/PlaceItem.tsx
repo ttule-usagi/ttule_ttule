@@ -25,6 +25,8 @@ export default function PlaceItem({ place }: { place: Place }) {
             <Image
               src={place.thumbnail}
               alt='thumbnail'
+              width={80}
+              height={80}
             />
           ) : (
             <div>이미지</div>
