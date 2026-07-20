@@ -1,5 +1,5 @@
 import { useModalStore } from '@/lib/store/modalStore';
-import ModalBox from '../../common/Modal/ModalBox';
+import ModalBox from './Modal/ModalBox';
 import { Icon } from '@/components/common/Icon';
 
 interface ErrorModalProps {
@@ -8,7 +8,7 @@ interface ErrorModalProps {
   buttonText?: string;
 }
 
-export default function InviteErrorModal({ title, description, buttonText = '확인' }: ErrorModalProps) {
+export default function ErrorModal({ title, description, buttonText = '확인' }: ErrorModalProps) {
   const { close } = useModalStore();
   return (
     <ModalBox width={312}>

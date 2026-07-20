@@ -1,5 +1,6 @@
 export type ResourceType = 'plan' | 'place_list';
 export type TokenVerifyResult = 'ALREADY_JOINED' | 'INVALID' | 'VALID' | 'EXPIRED';
+export type ShareType = 'VIEW' | 'EDIT';
 
 export interface TokenVerifyParams {
   id: string;

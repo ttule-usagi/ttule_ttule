@@ -2,9 +2,8 @@
 
 import { Icon } from '@/components/common/Icon';
 import ModalBox from '@/components/common/Modal/ModalBox';
+import { ShareType } from '@/types/invite';
 import { useState } from 'react';
-
-type ShareType = 'VIEW' | 'EDIT';
 
 const MODAL_CONTENT = {
   VIEW: {
