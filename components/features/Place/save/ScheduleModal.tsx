@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useGetUserPlans } from '@/hooks/plan/useGetUserPlans';
-import { addPlanItem } from '@/lib/actions/planItem';
+import { addPlanItemWithTransit } from '@/lib/actions/planItem';
 import type { CorePlaceDetail } from '@/types/CorePlace';
 import ScheduleModalItem from '@/components/features/Place/save/ScheduleModalItem';
 import { Icon } from '@/components/common/Icon';
@@ -49,7 +49,7 @@ export default function AddToScheduleModal({ placeDetail, onClose }: AddToSchedu
 
     // 선택된 모든 schedule에 병렬로 추가
     const results = await Promise.all(
-      Array.from(selectedScheduleIds).map((scheduleId) => addPlanItem({ scheduleId, placeDetail })),
+      Array.from(selectedScheduleIds).map((scheduleId) => addPlanItemWithTransit({ scheduleId, placeDetail })),
     );
 
     setIsSubmitting(false);

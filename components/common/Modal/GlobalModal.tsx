@@ -1,11 +1,13 @@
 'use client';
 
 import { useModalStore } from '@/lib/store/modalStore';
-import EnterInviteLinkModal from '../../features/Plan/EnterInviteLinkModal';
+import EnterInviteLinkModal from '../../features/plan/EnterInviteLinkModal';
 import CancelSignupModal from '@/components/features/CancelSignupModal';
 import CancelNewPlaceModal from '@/components/features/new-place/CancelNewPlaceModal';
 import ShareLinkModal from '../ShareLinkModal';
-import InviteErrorModal from '../../features/invite/InviteErrorModal';
+import ErrorModal from '../ErrorModal';
+import ConfirmActionModal from '../ConfirmActionModal';
+import DeletePlanItemModal from '@/components/features/plan/plan-detail/DeletePlanItemModal';
 
 /**
  * 전역 모달 컴포넌트
@@ -34,10 +36,23 @@ export default function GlobalModal() {
           link={activeModal.props.link}
         />
       )}
-      {activeModal.type === 'inviteError' && (
-        <InviteErrorModal
+      {activeModal.type === 'error' && (
+        <ErrorModal
           title={activeModal.props.title}
           description={activeModal.props.description}
+        />
+      )}
+      {activeModal.type === 'confirmAction' && (
+        <ConfirmActionModal
+          description={activeModal.props.description}
+          confirmButtonText={activeModal.props.confirmButtonText}
+          onConfirm={activeModal.props.onConfirm}
+        />
+      )}
+      {activeModal.type === 'deletePlanItem' && (
+        <DeletePlanItemModal
+          onConfirm={activeModal.props.onConfirm}
+          onCancel={close}
         />
       )}
     </div>

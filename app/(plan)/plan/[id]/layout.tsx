@@ -1,5 +1,5 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-import { prefetchPlanDetail } from '@/lib/actions/prefetch/prefetchPlanDetail';
+import { prefetchPlanDetail } from '@/lib/actions/api/prefetch/prefetchPlanDetail';
 import PlanHeader from '@/components/features/plan/PlanHeader';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import Script from 'next/script';
@@ -39,7 +39,7 @@ export default async function PlanLayout({
         {/* 모드별 컨텐츠 */}
         {children}
       </HydrationBoundary>
-      <div className='fixed top-0 w-102 z-100 px-4 pt-5'>
+      <div className='fixed top-0 max-w-102 min-w-85 w-[26vw] z-100 px-4 pt-5'>
         <CorePlaceSearchInput />
       </div>
     </>

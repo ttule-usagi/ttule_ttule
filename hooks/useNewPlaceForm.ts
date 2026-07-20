@@ -16,7 +16,7 @@ export interface NewPlaceFormState {
 }
 
 interface UseNewPlaceFormOptions {
-  onSuccess?: (placeId: string) => void;
+  onSuccess?: (placeId: string, placeName: string) => void;
 }
 
 export type Action =
@@ -110,7 +110,8 @@ export function useNewPlaceForm(place: SelectedGooglePlace, options?: UseNewPlac
       {
         onSuccess: (result) => {
           if (result.success) {
-            options?.onSuccess?.(result.placeId);
+            const placeName = state.korean_name || state.english_name || state.original_name;
+            options?.onSuccess?.(result.placeId, placeName);
           }
         },
       },

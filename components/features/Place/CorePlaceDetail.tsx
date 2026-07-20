@@ -62,7 +62,11 @@ export default function CorePlaceDetail({
       {/* 장소 기본 정보 */}
       <div className='px-4 pt-5 pb-4 flex flex-col gap-2'>
         <div className='flex flex-col gap-0.5'>
-          <p className='text-typo-sub-title text-brand-gray-600'>{place.koreanName}</p>
+          {place.koreanName ? (
+            <p className='text-typo-sub-title text-brand-gray-600'> {place.koreanName}</p>
+          ) : (
+            <p className='text-typo-sub-title text-brand-gray-600'>{place.englishName}</p>
+          )}
           {place.originalName && <p className='text-typo-base text-brand-gray-500'>{place.originalName}</p>}
         </div>
         <div className='flex flex-col gap-1'>

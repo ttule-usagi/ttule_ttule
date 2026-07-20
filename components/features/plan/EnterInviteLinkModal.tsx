@@ -36,7 +36,7 @@ export default function EnterInviteLinkModal({ type }: { type: ResourceType }) {
     if (tokenStatus === 'INVALID' || tokenStatus === 'EXPIRED') {
       close();
       open({
-        type: 'inviteError',
+        type: 'error',
         props: INVITE_ERROR_MESSAGES[type][tokenStatus as InviteErrorCode],
       });
       return;

@@ -1,7 +1,7 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import CoreSearchResultList from '@/components/features/search/CoreSearchResultList';
-import { prefetchPlaceSearch } from '@/lib/actions/prefetch/prefetchPlaceSearch';
+import { prefetchPlaceSearch } from '@/lib/actions/api/prefetch/prefetchPlaceSearch';
 import CoreSearchContainer from '@/components/features/search/CoreSearchContainer';
 
 interface CoreSearchPageProps {
