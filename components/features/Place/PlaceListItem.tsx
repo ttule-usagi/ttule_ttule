@@ -18,7 +18,7 @@ export default function PlaceListItem({ place }: { place: PlaceListOverview }) {
         </div>
 
         <div className='flex gap-2 justify-baseline items-center text-typo-description font-light text-brand-gray-400'>
-          <span>
+          <span className='flex gap-1 items-center'>
             {place.isPublic ? (
               <>
                 <Icon
