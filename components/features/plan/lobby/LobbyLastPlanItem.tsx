@@ -1,8 +1,8 @@
 'use client';
 
 import { PlanOverview } from '@/hooks/plan/useGetUserPlans';
-import { Icon } from '../../common/Icon';
-import LobbyPlanActionMenu from './LobbyPlanActionMenu';
+import { Icon } from '@/components/common/Icon';
+import LobbyPlanActionMenu from '@/components/features/plan/lobby/LobbyPlanActionMenu';
 import Link from 'next/link';
 
 export default function LobbyLastPlanItem({

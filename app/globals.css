@@ -200,6 +200,35 @@ input:-webkit-autofill:active {
     /* 혹은 round */
     border-image-repeat: round;
   }
+
+  /* 티켓형 컴포넌트*/
+
+  .notch-row {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    flex-direction: row-reverse;
+  }
+
+  .notch-row--top {
+    top: -8.5px; /* 원 크기의 절반만큼 위로 */
+    left: 52px;
+    right: 52px;
+  }
+
+  .notch-row--bottom {
+    bottom: -8.5px;
+    left: 52px;
+    right: 52px;
+  }
+
+  .notch-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--page-bg, #3862b8); /* 카드 뒤 배경색과 동일하게 */
+  }
 }
 
 /* 배경 점 패턴 */
@@ -222,11 +251,16 @@ input:-webkit-autofill:active {
 }
 
 @utility bg-line-pattern-blue {
-  background-color: #395EBA;
-  background-image: linear-gradient(#496ABF 1px, transparent 1px), linear-gradient(to right, #496ABF 1px, transparent 1px);
-  background-size: 18px 18px, 18px 18px;
+  background-color: #395eba;
+  background-image:
+    linear-gradient(#496abf 1px, transparent 1px), linear-gradient(to right, #496abf 1px, transparent 1px);
+  background-size:
+    18px 18px,
+    18px 18px;
   background-repeat: repeat, repeat;
-  background-position: 0 0, 0 0;
+  background-position:
+    0 0,
+    0 0;
 }
 
 @utility no-scrollbar {
@@ -242,12 +276,26 @@ input:-webkit-autofill:active {
 @layer utilities {
   .animate-skeleton {
     animation: loading-grey 3s infinite;
-    background: linear-gradient(90deg, #497ACD 25%, #5E8CD7 50%, #497ACD 70%);
+    background: linear-gradient(90deg, #497acd 25%, #5e8cd7 50%, #497acd 70%);
     background-size: 200% 100%;
   }
 }
 
 @keyframes loading-grey {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* 스크롤바를 완전히 숨기는 유틸리티 클래스 */
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }

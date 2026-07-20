@@ -3,7 +3,7 @@
 import DropDown from '@/components/common/Dropdown';
 import { Icon } from '@/components/common/Icon';
 import { useState } from 'react';
-import PlanSettingModal from './PlanSettingModal';
+import PlanSettingModal from '../PlanSettingModal';
 
 export default function LobbyPlanActionMenu({ id }: { id: string }) {
   const [isSettingModalOpen, setSettingModalOpen] = useState(false);

@@ -7,6 +7,7 @@ import CancelNewPlaceModal from '@/components/features/new-place/CancelNewPlaceM
 import ShareLinkModal from '../ShareLinkModal';
 import ErrorModal from '../ErrorModal';
 import ConfirmActionModal from '../ConfirmActionModal';
+import DeletePlanItemModal from '@/components/features/plan/plan-detail/DeletePlanItemModal';
 
 /**
  * 전역 모달 컴포넌트
@@ -46,6 +47,12 @@ export default function GlobalModal() {
           description={activeModal.props.description}
           confirmButtonText={activeModal.props.confirmButtonText}
           onConfirm={activeModal.props.onConfirm}
+        />
+      )}
+      {activeModal.type === 'deletePlanItem' && (
+        <DeletePlanItemModal
+          onConfirm={activeModal.props.onConfirm}
+          onCancel={close}
         />
       )}
     </div>

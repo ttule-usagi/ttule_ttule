@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseUser } from '@/lib/utils/supabase';
-import { getPlaceSearchResults } from '@/lib/api/placeSearch';
+import { getPlaceSearchResults } from '@/lib/actions/api/placeSearch';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;

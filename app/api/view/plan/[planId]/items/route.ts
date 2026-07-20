@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseUser } from '@/lib/utils/supabase';
+import { getScheduleItems } from '@/lib/actions/api/plan';
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ planId: string }> }) {
-  const { planId: _ } = await params; // planId는 경로에만 사용
+  const { planId: _ } = await params;
   const scheduleId = request.nextUrl.searchParams.get('scheduleId');
 
   if (!scheduleId) {
@@ -12,14 +13,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   const supabase = await supabaseUser();
 
   try {
-    const { data, error } = await supabase.rpc('get_schedule_items', {
-      p_schedule_id: scheduleId,
-    });
-
-    if (error) throw error;
+    const data = await getScheduleItems({ supabase, scheduleId });
     return NextResponse.json(data);
   } catch (error: any) {
-    console.error('❌ get_schedule_items 에러:', error);
     if (error.code === '42501') {
       return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 });
     }

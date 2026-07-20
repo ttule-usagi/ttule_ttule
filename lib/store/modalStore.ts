@@ -20,7 +20,8 @@ type ModalPayload =
   | {
       type: 'confirmAction';
       props: { description: string; confirmButtonText: string; onConfirm: () => void | Promise<void> };
-    };
+    }
+  | { type: 'deletePlanItem'; props: { onConfirm: () => void } };
 
 interface ModalState {
   activeModal: ModalPayload | null;

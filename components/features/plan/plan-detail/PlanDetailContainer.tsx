@@ -5,12 +5,12 @@ import { useQueryClient } from '@tanstack/react-query';
 import { scheduleItemsQueryOptions, useGetScheduleItems } from '@/hooks/plan/useGetScheduleItems';
 import { useGetPlanDetail } from '@/hooks/plan/useGetPlanDetail';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
-import PlanDayPanel from '@/components/features/plan/PlanDayPanel';
-import GoogleMapJS from '../map/GoogleMapJS';
-import GoogleMapEmbed from '../map/GoogleMapEmbed';
+import PlanDayPanel from '@/components/features/plan/plan-detail/PlanDayPanel';
+import GoogleMapJS from '../../map/GoogleMapJS';
+import GoogleMapEmbed from '../../map/GoogleMapEmbed';
 import { PlaceCategory } from '@/types/CorePlace';
 import { DESTINATIONS } from '@/lib/utils/destinations';
-import PlanPlaceListContainer from './PlaceList/PlanPlaceListContainer';
+import PlanPlaceListContainer from '../placeList/PlanPlaceListContainer';
 
 interface PlanDetailContainerProps {
   planId: string;
@@ -83,7 +83,7 @@ export default function PlanDetailContainer({ planId }: PlanDetailContainerProps
       )}
       {/* 오른쪽 일정 패널 */}
       <QueryBoundary>
-        <div className='absolute top-[90px] right-[42px] w-[472px] bottom-6'>
+        <div className='absolute top-22 right-10 bottom-6 max-w-118 min-w-98.5 w-[40vw]'>
           <PlanDayPanel
             planId={planId}
             schedule={currentSchedule}

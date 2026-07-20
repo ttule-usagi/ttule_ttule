@@ -6,6 +6,7 @@ import { useAutoCompleteSearch } from '@/hooks/place-search/useAutoCompleteSearc
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import AutoComplete, { type AutoCompleteItem } from './AutoComplete';
+import { usePlanSearchStore } from '@/lib/store/planSearchStore';
 
 const SEARCH_RESULT_PATH = '/places/search';
 
@@ -13,6 +14,8 @@ export default function CorePlaceSearchInput() {
   const path = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { shouldFocus, resetFocus } = usePlanSearchStore();
 
   // 자동완성 api, 검색 결과 api 필요
   // 엔터키 누르기 전, 자동완성 항목 클릭 전까지는 자동완성 항목 노출
@@ -79,6 +82,15 @@ export default function CorePlaceSearchInput() {
     handleSubmit();
   };
 
+  // Focus 컨트롤을 위한 ref추가
+
+  useEffect(() => {
+    if (shouldFocus) {
+      inputRef.current?.focus();
+      resetFocus();
+    }
+  }, [shouldFocus]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     isUserTypingRef.current = true;
     setValue(e.target.value);
@@ -124,6 +136,7 @@ export default function CorePlaceSearchInput() {
           value={value}
           onChange={handleChange}
           onKeyDown={handleInputKeyDown}
+          ref={inputRef}
         />
         <div className='flex items-center'>
           {value !== '' && (

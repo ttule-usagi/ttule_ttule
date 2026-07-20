@@ -51,29 +51,18 @@ export interface PlanDetail {
   items: PlanItem[];
 }
 
-export type PlanTransitMode =
-  | 'walking'
-  | 'cycling'
-  | 'driving'
-  | 'bus'
-  | 'taxi'
-  | 'train'
-  | 'subway'
-  | 'hsr' // 고속철도
-  | 'tram'
-  | 'ferry'
-  | 'airplane';
+export type PlanTransitMode = 'walking' | 'cycling' | 'driving' | 'transit';
 
 export const TRANSIT_MODE_LABELS: Record<PlanTransitMode, string> = {
   walking: '도보',
   cycling: '자전거',
   driving: '자가용',
-  bus: '버스',
-  taxi: '택시',
-  train: '기차',
-  subway: '지하철',
-  hsr: '고속철도',
-  tram: '트램',
-  ferry: '페리',
-  airplane: '비행기',
+  transit: '대중교통',
+};
+
+export const VEHICLE_TO_TRAVEL_MODE: Record<PlanTransitMode, string> = {
+  walking: 'WALK',
+  cycling: 'BICYCLE',
+  driving: 'DRIVE',
+  transit: 'TRANSIT',
 };
