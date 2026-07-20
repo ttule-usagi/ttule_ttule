@@ -4,7 +4,7 @@ import PlaceListHeader from '@/components/features/Place/PlaceListHeader';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import PlaceListPlaces from '@/components/features/Place/PlaceListPlaces';
 import InviteEditorHandler from '@/components/features/invite/InviteEditorHandler';
-import { prefetchPlaceListDetail } from '@/lib/actions/prefetch/prefetchPlaceListDetail';
+import { prefetchPlaceListDetail } from '@/lib/actions/api/prefetch/prefetchPlaceListDetail';
 import { Suspense } from 'react';
 import { getQueryClient } from '@/lib/utils/getQueryClient';
 import { placeListDetailQueryOptions } from '@/hooks/place-list/useGetPlaceListDetail';

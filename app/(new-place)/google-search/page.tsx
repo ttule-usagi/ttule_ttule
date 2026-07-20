@@ -4,7 +4,6 @@ import NewPlaceFormContainer from '@/components/features/new-place/NewPlaceFormC
 import GooglePlaceDetail from '@/components/features/search/GooglePlaceDetail';
 import SearchInteraction from '@/components/features/search/SearchInteraction';
 import GoogleSearchResultListItem from '@/components/features/search/GoogleSearchResultItem';
-import Sidebar from '@/components/layouts/sidebar/Sidebar';
 import { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
 import React, { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
@@ -67,9 +66,17 @@ export default function SearchGoogle() {
   const enrichedPlace = selectedPlace && additionalData ? { ...selectedPlace, additionalData } : null;
 
   return (
-    <div className='relative'>
-      <Sidebar />
-      <div className='relative h-screen bg-line-pattern bg-brand-blue-50 ml-[64px]  max-w-102 mx-auto p-4 flex flex-col z-10'>
+    <div className='relative overflow-hidden'>
+      {/* 구글 embed 영역 */}
+      <div className='absolute inset-0 pl-102'>
+        <GoogleMapEmbed
+          mode={selectedPlace ? 'place' : submittedQuery ? 'search' : 'view'}
+          googlePlaceId={selectedPlace?.id}
+          query={submittedQuery}
+        />
+      </div>
+
+      <div className='relative h-screen bg-line-pattern bg-brand-blue-50 max-w-102 p-4 flex flex-col z-10'>
         {/* 검색 폼 */}
         <SearchForm
           query={query}
@@ -126,14 +133,6 @@ export default function SearchGoogle() {
             }}
           />
         )}
-      </div>
-      {/* 구글 embed 영역 */}
-      <div className='absolute inset-0 ml-118'>
-        <GoogleMapEmbed
-          mode={selectedPlace ? 'place' : 'search'}
-          googlePlaceId={selectedPlace?.id}
-          query={submittedQuery}
-        />
       </div>
     </div>
   );

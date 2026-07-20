@@ -16,7 +16,8 @@ type ModalPayload =
   | { type: 'shareLink'; props: { type: 'VIEW' | 'EDIT'; link: string } }
   | { type: 'cancelNewPlace'; props: { onCancel: () => void } }
   | { type: 'inviteError'; props: { title: string; description: string } }
-  | { type: 'enterInviteLink'; props: { type: ResourceType } };
+  | { type: 'enterInviteLink'; props: { type: ResourceType } }
+  | { type: 'deletePlanItem'; props: { onConfirm: () => void } };
 
 interface ModalState {
   activeModal: ModalPayload | null;

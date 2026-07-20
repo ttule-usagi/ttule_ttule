@@ -21,9 +21,9 @@ export default function NewPlaceFormContainer({ place, onClose, onCancelClose }:
   const [tab, setTab] = useState('basic');
 
   const { state, dispatch, isKorean, handleSubmit, isPending, error } = useNewPlaceForm(place, {
-    onSuccess: (placeId) => {
+    onSuccess: (placeId, placeName) => {
       onClose();
-      router.push(`/places/detail/${placeId}`);
+      router.push(`/places/search?query=${encodeURIComponent(placeName)}`);
     },
   });
 

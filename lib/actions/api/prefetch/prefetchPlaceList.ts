@@ -1,6 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
-import { getAllPlaceLists } from '@/lib/api/placeList';
-import { supabaseUser }from '@/lib/utils/supabase';
+import { getAllPlaceLists } from '@/lib/actions/api/placeList';
+import { supabaseUser } from '@/lib/utils/supabase';
 
 export async function prefetchPlaceList(queryClient: QueryClient) {
   const supabase = await supabaseUser();

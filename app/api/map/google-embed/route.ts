@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   const center = searchParams.get('center') ?? '37.5665,126.9780';
   const zoom = searchParams.get('zoom') ?? '10';
 
-  const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
   let src = '';
 
