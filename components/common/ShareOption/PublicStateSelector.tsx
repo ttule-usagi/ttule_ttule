@@ -26,7 +26,7 @@ export function PublicStateSelector({ id, resourceType, disabled }: PublicStateS
         />
       )}
       <p className='text-typo-description text-brand-gray-600 h-6 font-light'>
-        공개 여부는 관리자만 설정할 수 있습니다.
+        공개 여부는 소유자만 설정할 수 있습니다.
       </p>
     </div>
   );
