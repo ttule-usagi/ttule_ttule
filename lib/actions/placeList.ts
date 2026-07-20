@@ -4,6 +4,7 @@ import { PlaceListDetail, Tag } from '@/types/placeList';
 import { auth } from '../utils/auth';
 import { supabaseAdmin, supabaseUser } from '../utils/supabase';
 import { toCamelKey } from '../utils/toCamelCase';
+import { ActionResult } from '@/types/errors';
 
 export interface CreatePlaceListForm {
   title: string;
@@ -68,7 +69,7 @@ export const getPlaceListTags = async (listId: string): Promise<Tag[]> => {
 };
 
 // 리스트 삭제
-export const deletePlaceList = async (listId: string) => {
+export const deletePlaceList = async (listId: string): Promise<ActionResult> => {
   const supabase = await supabaseUser();
   const { error } = await supabase.rpc('delete_place_list', {
     p_list_id: listId,

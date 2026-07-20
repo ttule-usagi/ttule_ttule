@@ -53,7 +53,9 @@ export default function PlaceListDropdownMenu({ id, type = 'overview', listName 
           {type === 'detail' && (
             <DropDown.Item onClick={() => router.push(`/places/edit/${id}`)}>리스트 편집</DropDown.Item>
           )}
-          <DropDown.Item>리스트 삭제</DropDown.Item>
+          <DropDown.Item onClick={() => confirmDeletePlaceList(listName, id, type === 'detail')}>
+            리스트 삭제
+          </DropDown.Item>
         </DropDown.Menu>
       </DropDown>
 
