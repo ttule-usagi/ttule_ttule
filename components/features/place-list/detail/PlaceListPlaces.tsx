@@ -2,7 +2,7 @@
 
 import { useGetPlaceListPlaces } from '@/hooks/place-list/useGetPlaceListDetail';
 import PlaceItem from './PlaceItem';
-import EmptyState from './EmptyState';
+import EmptyState from '../../../common/EmptyState';
 
 export default function PlaceListPlaces({ listId }: { listId: string }) {
   const { data } = useGetPlaceListPlaces(listId);

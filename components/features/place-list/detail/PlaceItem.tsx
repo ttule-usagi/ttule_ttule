@@ -4,7 +4,7 @@ import { Icon } from '@/components/common/Icon';
 import { Place } from '@/types/placeList';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import PlaceTag from './PlaceTag';
+import PlaceTag from '../tag/PlaceTag';
 import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
 
 export default function PlaceItem({ place }: { place: Place }) {

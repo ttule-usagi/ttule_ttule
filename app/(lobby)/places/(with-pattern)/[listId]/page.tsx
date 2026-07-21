@@ -1,8 +1,8 @@
-import TagList from '@/components/features/Place/TagList';
+import TagList from '@/components/features/place-list/tag/TagList';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
-import PlaceListHeader from '@/components/features/Place/PlaceListHeader';
+import PlaceListHeader from '@/components/features/place-list/detail/PlaceListHeader';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
-import PlaceListPlaces from '@/components/features/Place/PlaceListPlaces';
+import PlaceListPlaces from '@/components/features/place-list/detail/PlaceListPlaces';
 import InviteEditorHandler from '@/components/features/invite/InviteEditorHandler';
 import { prefetchPlaceListDetail } from '@/lib/actions/api/prefetch/prefetchPlaceListDetail';
 import { Suspense } from 'react';

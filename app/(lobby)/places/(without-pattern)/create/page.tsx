@@ -1,7 +1,7 @@
 'use client';
 
 import { Icon } from '@/components/common/Icon';
-import EmojiPicker from '@/components/features/Place/EmojiPicker';
+import EmojiPicker from '@/components/features/place-list/create/EmojiPicker';
 import { useCreatePlaceList } from '@/hooks/new-place-list/useCreatePlaceList';
 import { IconType } from '@/lib/emoji';
 import { useRouter } from 'next/navigation';

@@ -1,7 +1,7 @@
 'use client';
 
 import { ListType } from '@/types/placeList';
-import EmptyState from './EmptyState';
+import EmptyState from '../../common/EmptyState';
 import MoreButton from './MoreButton';
 import PlaceListItem from './PlaceListItem';
 import { useGetAllPlaceLists } from '@/hooks/place-list/useGetAllPlaceLists';

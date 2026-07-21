@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Place } from '@/types/placeList';
 import Image from 'next/image';
 import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
-import AddToScheduleModal from '@/components/features/Place/save/ScheduleModal';
+import AddToScheduleModal from '@/components/features/place/save/ScheduleModal';
 import { useGetCorePlace } from '@/hooks/place/useGetCorePlace';
 
 interface PlanPlaceItemProps {

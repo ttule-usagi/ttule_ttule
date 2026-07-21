@@ -1,7 +1,7 @@
 'use client';
 
 import { Icon } from '@/components/common/Icon';
-import PlaceListDropdownMenu from './PlaceListDropdwonMenu';
+import PlaceListDropdownMenu from '../PlaceListDropdwonMenu';
 import { useGetPlaceListDetail } from '@/hooks/place-list/useGetPlaceListDetail';
 
 export default function PlaceListHeader({ listId, hasSession }: { listId: string; hasSession: boolean }) {

@@ -1,4 +1,4 @@
-import PlaceMap from '@/components/features/Place/PlaceMap';
+import PlaceMap from '@/components/features/place-list/map/PlaceMap';
 
 export default function PlaceLayout({
   children,
