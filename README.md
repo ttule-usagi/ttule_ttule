@@ -1,5 +1,5 @@
  <a href="https://ttulettule.party/">
-<img alt="ttulettule logo" src="ttule_ttule/public/md-source/logo.jpg" height="50">
+<img alt="ttulettule logo" src="\public\md-source\logo.jpg" height="50">
     </a>
 
 ## 프로젝트 소개
@@ -116,7 +116,7 @@ Google Maps Platform의 데이터 사용 정책을 최대한 준수하면서도 
 
 [🔗 Notion 바로가기](https://ronkacloset.notion.site/Beta-16dd5a9efb39804a8e52dc6c8328e950?pvs=4)
 
-[![Notion](\public\md-source\notion.jpg)](https://app.notion.com/p/291726cada088276a06481fe27ec1a43?source=copy_link)
+[![Notion]("\public\md-source\notion.jpg")](https://app.notion.com/p/291726cada088276a06481fe27ec1a43?source=copy_link)
 
 </details>
 
@@ -125,7 +125,7 @@ Google Maps Platform의 데이터 사용 정책을 최대한 준수하면서도 
 
 [🔗 FIGMA 바로가기](https://www.figma.com/design/nya2tGKklbyEdpl0GYHM46/ttulettule-%ED%99%94%EB%A9%B4%EA%B8%B0%ED%9A%8D%EC%84%9C-%EC%99%B8%EB%B6%80%EA%B3%B5%EA%B0%9C%EC%9A%A9?node-id=0-1&t=kL2pYKHbW4WKgUYu-1)
 
-[![피그마 화면계획서](\public\md-source\figma.jpg)](https://www.figma.com/design/nya2tGKklbyEdpl0GYHM46/ttulettule-%ED%99%94%EB%A9%B4%EA%B8%B0%ED%9A%8D%EC%84%9C-%EC%99%B8%EB%B6%80%EA%B3%B5%EA%B0%9C%EC%9A%A9?node-id=0-1&t=kL2pYKHbW4WKgUYu-1)
+[![피그마 화면계획서]("\public\md-source\figma.jpg")](https://www.figma.com/design/nya2tGKklbyEdpl0GYHM46/ttulettule-%ED%99%94%EB%A9%B4%EA%B8%B0%ED%9A%8D%EC%84%9C-%EC%99%B8%EB%B6%80%EA%B3%B5%EA%B0%9C%EC%9A%A9?node-id=0-1&t=kL2pYKHbW4WKgUYu-1)
 
 </details>
 
