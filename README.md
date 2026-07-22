@@ -27,14 +27,14 @@
 </details>
 
 <details>
-<summary><strong>인증 및 권한 관리 아키텍처</stong></summary>
+<summary><strong>인증 및 권한 관리 아키텍처</strong></summary>
 
 - Auth.js v5와 Supabase를 연동한 httpOnly 쿠키 기반 인증 구조를 설계하고, JWT 알고리즘 호환성(ECC/HS256) 문제를 분석·해결하여 안정적인 인증 체계를 구축
 
 </details>
 
 <details>
-<summary><strong>SSR 기반 무한 스크롤 구조</stong></summary>
+<summary><strong>SSR 기반 무한 스크롤 구조</strong></summary>
 
 - 스켈레톤 없이 초기 데이터는 prefetch로 채우고, 이후 더보기 페칭만 useSuspenseInfiniteQuery로 처리하는 구조로 초기 로딩과 추가 로딩의 책임을 분리
 - QueryBoundary(Suspense + ErrorBoundary)를 적용해 추가 데이터 조회 중 발생하는 에러를 별도로 캐치하고 사용자에게 노출
@@ -43,7 +43,7 @@
 </details>
 
 <details>
-<summary><strong>공유 기능 및 권한 제어</stong></summary>
+<summary><strong>공유 기능 및 권한 제어</strong></summary>
 
 - 보기용·수정용 권한을 하나의 초대 시스템으로 관리하기 위해 resourceType 기반 공용 공유 구조를 설계
 
@@ -55,7 +55,7 @@
 </details>
 
 <details>
-<summary><strong>컴파운드 패턴 기반 공용 UI 컴포넌트</stong></summary>
+<summary><strong>컴파운드 패턴 기반 공용 UI 컴포넌트</strong></summary>
 
 - Zustand 기반 전역 모달 스토어와 컴파운드 컴포넌트 패턴으로 구현하여 모달 전용 컴포넌트(Modal/ModalBox/ModalContent/ModalTitle 등)를 조합 가능한 구조로 설계
 - 드롭다운 메뉴는 별도 DropdownContext로 열림 상태를 관리하고, Floating UI로 화면 경계에 따라 위치가 자동으로 조정되도록 구현
@@ -64,7 +64,7 @@
 </details>
 
 <details>
-<summary><strong>검색 UX 및 다국어 검색 최적화</stong></summary>
+<summary><strong>검색 UX 및 다국어 검색 최적화</strong></summary>
 
 - 다국어 부분 검색을 지원하기 위해 Generated Column과 pg_trgm GIN Index를 적용하여 검색 성능과 정확도를 개선
 - 한국어 IME 조합 입력(isComposing), 키보드 탐색, URL 상태 동기화를 지원하는 AutoComplete 컴포넌트
