@@ -85,17 +85,20 @@ export default function CreatePlace() {
         </div>
 
         <div className='flex flex-col gap-3'>
-          <label
-            htmlFor='icon'
+          <span
+            id='icon-label'
             className='text-brand-gray-600'
           >
             아이콘
-          </label>
+          </span>
 
           <div className='flex flex-col gap-2'>
             <div className='flex gap-1.5 w-full'>
               <button
                 type='button'
+                aria-labelledby='icon-label'
+                aria-haspopup='true'
+                aria-expanded={isOpenIconMenu}
                 onClick={() => setIsOpenIconMenu(!isOpenIconMenu)}
                 className={`flex-1 min-w-0 create-place-input gap-2.5 cursor-pointer ${selectIcon ? 'text-brand-gray-700' : 'text-brand-gray-400'}`}
               >
