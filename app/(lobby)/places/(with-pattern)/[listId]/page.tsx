@@ -10,11 +10,26 @@ import { getQueryClient } from '@/lib/utils/getQueryClient';
 import { placeListDetailQueryOptions } from '@/hooks/place-list/useGetPlaceListDetail';
 import ForbiddenRedirect from '@/components/features/invite/ForbiddenRedirect';
 import { auth } from '@/lib/utils/auth';
+import { handleInviteAccess } from '@/lib/utils/invite/handleInviteAcess';
 
-export default async function PlaceListDetail({ params }: { params: Promise<{ listId: string }> }) {
+export default async function PlaceListDetail({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ listId: string }>;
+  searchParams: Promise<{ invite_token?: string }>;
+}) {
   const { listId } = await params;
   const session = await auth(); // 버튼 렌더링 여부 결정을 위해 세션 조회
   const queryClient = getQueryClient();
+  const { invite_token: inviteToken } = await searchParams;
+
+  await handleInviteAccess({
+    inviteToken,
+    session,
+    resourceId: listId,
+    resourceType: 'place_list',
+  });
 
   try {
     // 헤더 조회에서 FORBIDDEN을 바로 판단
@@ -31,10 +46,7 @@ export default async function PlaceListDetail({ params }: { params: Promise<{ li
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Suspense fallback={null}>
-        <InviteEditorHandler
-          id={listId}
-          resourceType='place_list'
-        />
+        <InviteEditorHandler hasInviteToken={!!inviteToken} />
       </Suspense>
       <div className='flex flex-col gap-5.5'>
         <QueryBoundary>
