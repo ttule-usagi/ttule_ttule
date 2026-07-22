@@ -25,6 +25,7 @@ export interface PlaceListOverview {
   editToken: string;
   editTokenExpiresAt: string;
   isPublic: boolean;
+  myRole: Role | null;
   placeCount: number;
   icon: string | null;
   createdAt: string;
@@ -43,7 +44,6 @@ export interface PlaceListDetail extends PlaceListOverview {
   master: PlaceListMember;
   participants: PlaceListMember[];
   participantCount: number;
-  myRole: Role | null;
   tags?: Tag[]; // 태그 구현 시 분리
 }
 
