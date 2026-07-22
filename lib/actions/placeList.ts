@@ -1,9 +1,7 @@
 'use server';
 
-import { PlaceListDetail, Tag } from '@/types/placeList';
 import { auth } from '../utils/auth';
 import { supabaseAdmin, supabaseUser } from '../utils/supabase';
-import { toCamelKey } from '../utils/toCamelCase';
 import { ActionResult } from '@/types/errors';
 
 export interface CreatePlaceListForm {
@@ -35,37 +33,6 @@ export const createNewPlaceList = async ({ title, icon, description }: CreatePla
   if (error) throw error;
   if (!data) throw new Error('장소 리스트 생성에 실패했습니다.');
   return data;
-};
-
-// 장소 리스트 상세 개요
-export const getPlaceListDetail = async (
-  listId: string,
-): Promise<PlaceListDetail | { error: string; code?: string }> => {
-  const supabase = await supabaseUser();
-  const { data, error } = await supabase.rpc('get_place_list_detail', {
-    p_list_id: listId,
-  });
-
-  if (error) {
-    console.error('리스트 상세정보 조회 실패: ', error);
-    if (error.code === '42501') return { error: 'FORBIDDEN', code: '42501' };
-    return { error: '리스트 정보 조회 중 오류가 발생했습니다.' };
-  }
-
-  if (!data) throw new Error('장소 리스트 상세정보를 가져오는 데 실패했습니다.');
-  return data;
-};
-
-// 장소 리스트에 저장된(생성된) 태그
-export const getPlaceListTags = async (listId: string): Promise<Tag[]> => {
-  const supabase = await supabaseUser();
-  const { data, error } = await supabase.rpc('get_place_list_tags', {
-    p_list_id: listId,
-  });
-
-  if (error) throw error;
-  if (!data) throw new Error('저장된 태그를 가져오는 데 실패했습니다.');
-  return toCamelKey<Tag[]>(data);
 };
 
 // 리스트 삭제
