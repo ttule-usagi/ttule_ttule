@@ -24,6 +24,7 @@ export default function PlaceListHeader({ listId, hasSession }: { listId: string
               id={listId}
               type='detail'
               listName={data.title}
+              myRole={data.myRole}
             />
           )}
         </div>

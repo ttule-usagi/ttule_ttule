@@ -9,14 +9,17 @@ import { createViewLink } from '@/lib/utils/invite/createViewLink';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import PlaceListShareOptionModal from './PlaceListShareOptionModal';
+import { Role } from '@/types/shareOption';
+import AuthorityWrapper from '../AuthorityWrapper';
 
 interface PlaceListDropdownMenuProps {
   id: string;
   type?: 'overview' | 'detail';
   listName: string;
+  myRole: Role | null;
 }
 
-export default function PlaceListDropdownMenu({ id, type = 'overview', listName }: PlaceListDropdownMenuProps) {
+export default function PlaceListDropdownMenu({ id, type = 'overview', listName, myRole }: PlaceListDropdownMenuProps) {
   const router = useRouter();
   const { open } = useModalStore();
   const { createShareLink, isPending } = useShareEditLink();
@@ -24,8 +27,13 @@ export default function PlaceListDropdownMenu({ id, type = 'overview', listName 
 
   const [isShareOptionModalOpen, setShareOptionModalOpen] = useState(false);
 
+  const isMaster = myRole === 'master';
+
   return (
-    <>
+    <AuthorityWrapper
+      role={myRole}
+      requiredRole='editor'
+    >
       <DropDown>
         <DropDown.Trigger>
           <Icon
@@ -53,9 +61,11 @@ export default function PlaceListDropdownMenu({ id, type = 'overview', listName 
           {type === 'detail' && (
             <DropDown.Item onClick={() => router.push(`/places/edit/${id}`)}>리스트 편집</DropDown.Item>
           )}
-          <DropDown.Item onClick={() => confirmDeletePlaceList(listName, id, type === 'detail')}>
-            리스트 삭제
-          </DropDown.Item>
+          {isMaster && (
+            <DropDown.Item onClick={() => confirmDeletePlaceList(listName, id, type === 'detail')}>
+              리스트 삭제
+            </DropDown.Item>
+          )}
         </DropDown.Menu>
       </DropDown>
 
@@ -65,6 +75,6 @@ export default function PlaceListDropdownMenu({ id, type = 'overview', listName 
           onClose={() => setShareOptionModalOpen(false)}
         />
       )}
-    </>
+    </AuthorityWrapper>
   );
 }

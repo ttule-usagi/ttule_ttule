@@ -50,6 +50,7 @@ export default function PlaceListItem({ place }: { place: PlaceListOverview }) {
         <PlaceListDropdownMenu
           id={place.id}
           listName={place.title}
+          myRole={place.myRole}
         />
       </div>
     </Link>
