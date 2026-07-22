@@ -1,8 +1,8 @@
 'use client';
 
-import { useGetPlaceListPlaces } from '@/hooks/place-list/useGetPlaceListDetail';
 import PlaceItem from './PlaceItem';
 import EmptyState from '../../../common/EmptyState';
+import { useGetPlaceListPlaces } from '@/hooks/place-list/useGetPlaceListPlaces';
 
 export default function PlaceListPlaces({ listId }: { listId: string }) {
   const { data } = useGetPlaceListPlaces(listId);

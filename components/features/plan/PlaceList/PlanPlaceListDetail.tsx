@@ -1,6 +1,6 @@
-import { useGetPlaceListPlaces } from '@/hooks/place-list/useGetPlaceListDetail';
 import { Icon } from '@/components/common/Icon';
 import PlanPlaceItem from './PlanPlaceListDetailItem';
+import { useGetPlaceListPlaces } from '@/hooks/place-list/useGetPlaceListPlaces';
 
 interface PlanPlaceListDetailProps {
   listId: string;
