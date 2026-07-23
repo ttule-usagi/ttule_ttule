@@ -3,6 +3,7 @@
 import { PlaceListOverview } from '@/types/placeList';
 import Link from 'next/link';
 import PlaceListDropdownMenu from './PlaceListDropdwonMenu';
+import { Icon } from '@/components/common/Icon';
 
 export default function PlaceListItem({ place }: { place: PlaceListOverview }) {
   return (
@@ -17,7 +18,25 @@ export default function PlaceListItem({ place }: { place: PlaceListOverview }) {
         </div>
 
         <div className='flex gap-2 justify-baseline items-center text-typo-description font-light text-brand-gray-400'>
-          <span>{place.isPublic ? '공유 목록' : '비공개'}</span>
+          <span className='flex gap-1 items-center'>
+            {place.isPublic ? (
+              <>
+                <Icon
+                  name='Globe'
+                  size={14}
+                />
+                공개됨
+              </>
+            ) : (
+              <>
+                <Icon
+                  name='Lock'
+                  size={14}
+                />
+                비공개
+              </>
+            )}
+          </span>
           <span>장소 {place.placeCount}개</span>
         </div>
       </div>
@@ -28,7 +47,11 @@ export default function PlaceListItem({ place }: { place: PlaceListOverview }) {
         }}
         className='text-brand-blue-700'
       >
-        <PlaceListDropdownMenu id={place.id} />
+        <PlaceListDropdownMenu
+          id={place.id}
+          listName={place.title}
+          myRole={place.myRole}
+        />
       </div>
     </Link>
   );

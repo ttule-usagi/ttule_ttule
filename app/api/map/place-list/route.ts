@@ -1,38 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const DUMMY_DB = {
-  0: [
-    [
-      '50.93811410569264',
-      '6.954929367031603', // 쾰른
-    ],
-  ],
-  1: [
-    [
-      '34.695073441117096',
-      '135.50148279051817', //오사카
-    ],
-  ],
-  2: [
-    [
-      '37.555614',
-      '126.991577', // 서울
-    ],
-  ],
-  3: [
-    [
-      '25.045438642576872',
-      '121.56358769107352', // 타이베이
-    ],
-  ],
-  4: [
-    [
-      '48.16467916914933',
-      '108.64511519505224', // 울란바토르
-    ],
-  ],
-};
-
 export async function GET(request: NextRequest) {
   const listId = request.nextUrl.searchParams.get('listId');
 

@@ -3,8 +3,8 @@
 import { Icon } from '@/components/common/Icon';
 import TagListItem from './TagListItem';
 import { useState } from 'react';
-import { useGetPlaceListTags } from '@/hooks/place-list/useGetPlaceListDetail';
 import { useDragScroll } from '@/hooks/useDragScroll';
+import { useGetPlaceListTags } from '@/hooks/place-list/useGetPlaceListTags';
 
 // 장소 리스트에 포함된 태그를 보여주는 태그 리스트 컴포넌트(상단에 위치)
 export default function TagList({ listId }: { listId: string }) {

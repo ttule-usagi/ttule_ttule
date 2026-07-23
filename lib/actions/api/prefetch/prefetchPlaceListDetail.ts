@@ -1,12 +1,11 @@
 import { QueryClient } from '@tanstack/react-query';
-import { supabaseUser } from '@/lib/utils/supabase';
-import { getPlaceListPlaces } from '@/lib/actions/api/placeList';
+import { getPlaceListPlaces, getPlaceListTags } from '@/lib/actions/api/placeList';
 import type { PageParam } from '@/types/placeList';
-import { placeListPlacesQueryOptions, placeListTagsQueryOptions } from '@/hooks/place-list/useGetPlaceListDetail';
+import { placeListPlacesQueryOptions } from '@/hooks/place-list/useGetPlaceListPlaces';
+import { placeListTagsQueryOptions } from '@/hooks/place-list/useGetPlaceListTags';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
-export async function prefetchPlaceListDetail(queryClient: QueryClient, listId: string) {
-  const supabase = await supabaseUser();
-
+export async function prefetchPlaceListDetail(queryClient: QueryClient, listId: string, supabase: SupabaseClient) {
   await Promise.all([
     queryClient.prefetchInfiniteQuery({
       ...placeListPlacesQueryOptions(listId),
@@ -14,6 +13,9 @@ export async function prefetchPlaceListDetail(queryClient: QueryClient, listId: 
       queryFn: ({ pageParam }) => getPlaceListPlaces({ supabase, listId, cursor: pageParam as PageParam }),
       initialPageParam: null as PageParam,
     }),
-    queryClient.prefetchQuery(placeListTagsQueryOptions(listId)),
+    queryClient.prefetchQuery({
+      ...placeListTagsQueryOptions(listId),
+      queryFn: () => getPlaceListTags({ supabase, listId }),
+    }),
   ]);
 }

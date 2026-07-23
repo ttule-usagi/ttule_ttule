@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import { useGetCorePlace } from '@/hooks/place/useGetCorePlace';
-import CorePlaceDetail from '@/components/features/Place/CorePlaceDetail';
-import SaveToListModal from '@/components/features/Place/save/ListModal';
+import CorePlaceDetail from '@/components/features/place/CorePlaceDetail';
+import SaveToListModal from '@/components/features/place/save/ListModal';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
-import AddToScheduleModal from '@/components/features/Place/save/ScheduleModal';
+import AddToScheduleModal from '@/components/features/place/save/ScheduleModal';
 
 export default function CorePlaceDetailContainer({ placeId }: { placeId: string }) {
   const { data } = useGetCorePlace(placeId);

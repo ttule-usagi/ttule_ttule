@@ -5,7 +5,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useGetUserPlans } from '@/hooks/plan/useGetUserPlans';
 import { addPlanItemWithTransit } from '@/lib/actions/planItem';
 import type { CorePlaceDetail } from '@/types/CorePlace';
-import ScheduleModalItem from '@/components/features/Place/save/ScheduleModalItem';
+import ScheduleModalItem from '@/components/features/place/save/ScheduleModalItem';
 import { Icon } from '@/components/common/Icon';
 
 interface AddToScheduleModalProps {

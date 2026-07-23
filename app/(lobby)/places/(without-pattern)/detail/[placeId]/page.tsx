@@ -1,6 +1,6 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
-import CorePlaceDetailContainer from '@/components/features/Place/CorePlaceDetailContainer';
+import CorePlaceDetailContainer from '@/components/features/place/CorePlaceDetailContainer';
 import { prefetchCorePlace } from '@/lib/actions/api/prefetch/prefetchCorePlaceDetail';
 
 export default async function PlaceDetailPage({ params }: { params: Promise<{ placeId: string }> }) {

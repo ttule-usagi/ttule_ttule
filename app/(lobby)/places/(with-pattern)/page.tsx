@@ -1,7 +1,7 @@
 import { Icon } from '@/components/common/Icon';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
-import JoinPlaceListButton from '@/components/features/Place/JoinPlaceListButton';
-import PlaceList from '@/components/features/Place/PlaceList';
+import JoinPlaceListButton from '@/components/features/place-list/JoinPlaceListButton';
+import PlaceList from '@/components/features/place-list/PlaceList';
 import { prefetchPlaceList } from '@/lib/actions/api/prefetch/prefetchPlaceList';
 import { getQueryClient } from '@/lib/utils/getQueryClient';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
