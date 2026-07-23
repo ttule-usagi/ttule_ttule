@@ -42,7 +42,7 @@ export default async function PlaceListDetail({
       queryFn: () => getPlaceListDetail({ supabase, listId }),
     });
   } catch (error) {
-    if (error instanceof RpcError && error.code === '42501') {
+    if (error instanceof RpcError && error.message === 'FORBIDDEN') {
       return <ForbiddenRedirect />;
     }
     throw error;
