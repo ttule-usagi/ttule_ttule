@@ -5,6 +5,9 @@ import { Role } from './shareOption';
 export type ListType = 'all' | 'owned' | 'shared';
 export type TagColor = 'red' | 'hotpink' | 'yellow' | 'green' | 'blue' | 'purple' | 'grey';
 
+// 저장된 장소 정렬 타입 - 최근 등록순, 과거 등록순, 최근 수정순
+export type SortType = 'createdAsc' | 'createdDesc' | 'updated';
+
 // 커서 기반 무한스크롤
 export type PageParam = {
   id: string;
@@ -51,7 +54,7 @@ export interface PlaceListDetail extends PlaceListOverview {
 export interface PlaceListMember {
   id: number;
   username: string;
-  profileImage: string | null;
+  profileImageUrl: string | null;
 }
 
 // 단일 장소 아이템
