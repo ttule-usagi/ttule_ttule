@@ -8,11 +8,11 @@ import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 interface QueryBoundaryProps {
   children: React.ReactNode;
   errorFallback?: (props: FallbackProps) => React.ReactNode;
-  actionLabel?: string;
+  subject?: string;
 }
 
-export function QueryBoundary({ children, errorFallback, actionLabel }: QueryBoundaryProps) {
-  const fallback = errorFallback ?? ((props: FallbackProps) => defaultErrorFallback(props, actionLabel ?? '요청'));
+export function QueryBoundary({ children, errorFallback, subject }: QueryBoundaryProps) {
+  const fallback = errorFallback ?? ((props: FallbackProps) => defaultErrorFallback(props, subject ?? '요청'));
   return (
     <QueryErrorResetBoundary>
       {({ reset }) => (
@@ -27,11 +27,11 @@ export function QueryBoundary({ children, errorFallback, actionLabel }: QueryBou
   );
 }
 
-function defaultErrorFallback({ error, resetErrorBoundary }: FallbackProps, actionLabel: string) {
+function defaultErrorFallback({ error, resetErrorBoundary }: FallbackProps, subject: string) {
   let errorMessage = '알 수 없는 에러가 발생했습니다.';
 
   if (error instanceof RpcError) {
-    errorMessage = getErrorMessage(error.message as RpcErrorMessage, actionLabel);
+    errorMessage = getErrorMessage(error.message as RpcErrorMessage, subject);
   } else if (error instanceof Error) {
     // TODO: 추후 삭제 필요 - 아직 수정 안 한 쿼리들을 위해 남겨둠
     errorMessage = error.message;

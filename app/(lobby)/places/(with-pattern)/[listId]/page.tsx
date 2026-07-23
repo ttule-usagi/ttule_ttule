@@ -56,7 +56,7 @@ export default async function PlaceListDetail({
         <InviteEditorHandler hasInviteToken={!!inviteToken} />
       </Suspense>
       <div className='flex flex-col gap-5.5'>
-        <QueryBoundary actionLabel='리스트 상세정보'>
+        <QueryBoundary subject='리스트 상세정보'>
           <PlaceListHeader
             listId={listId}
             hasSession={!!session}
@@ -64,10 +64,10 @@ export default async function PlaceListDetail({
         </QueryBoundary>
 
         <div className='flex flex-col gap-3'>
-          <QueryBoundary actionLabel='태그'>
+          <QueryBoundary subject='태그'>
             <TagList listId={listId} />
           </QueryBoundary>
-          <QueryBoundary actionLabel='저장된 장소'>
+          <QueryBoundary subject='저장된 장소'>
             <PlaceListPlaces listId={listId} />
           </QueryBoundary>
         </div>

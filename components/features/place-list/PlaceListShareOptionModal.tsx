@@ -25,7 +25,7 @@ export default function PlaceListShareOptionModal({ id, onClose }: { id: string;
             onClick={onClose}
           />
         </header>
-        <QueryBoundary actionLabel='공유 옵션 조회'>
+        <QueryBoundary subject='공유 옵션 조회'>
           <ShareOptionContent
             id={id}
             resourceType='place_list'
