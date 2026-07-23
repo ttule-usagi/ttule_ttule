@@ -20,38 +20,26 @@ export default function PlaceItem({ place }: { place: Place }) {
   return (
     <div className='w-full flex gap-3.25 bg-brand-gray-0 p-3 rounded-sm border border-brand-blue-700 items-start'>
       {!isEdit && (
-        <div className='w-20 h-20 shrink-0 border border-brand-blue-700 rounded-xs bg-brand-blue-50'>
-          {place.thumbnail ? (
-            <Image
-              src={place.thumbnail}
-              alt='thumbnail'
-              width={80}
-              height={80}
-            />
-          ) : (
-            <div>이미지</div>
-          )}
+        <div className='w-20 h-20 shrink-0 border border-brand-gray-200 rounded-xs bg-brand-blue-50'>
+          <Image
+            src={place.thumbnail || '/images/not-found.webp'}
+            alt={place.thumbnail ? 'thumbnail' : 'not-found'}
+            width={80}
+            height={80}
+            className='w-full h-full object-cover'
+          />
         </div>
       )}
 
       <div className='flex flex-col gap-1 flex-1'>
         <div className='flex justify-between items-center'>
-          <p className='flex-1 text-typo-sub-title text-brand-blue-700'>{place.customName}</p>
-          {!isEdit ? (
-            <Icon
-              name='Edit'
-              size={26}
-              className='text-brand-gray-300 cursor-pointer'
-              onClick={() => setIsEdit(!isEdit)}
-            />
-          ) : (
-            <Icon
-              name='XClose'
-              size={26}
-              className='text-brand-gray-400 cursor-pointer'
-              onClick={() => setIsEdit(!isEdit)}
-            />
-          )}
+          <p className='flex-1 text-typo-sub-title text-brand-gray-600 font-medium'>{place.customName}</p>
+          <Icon
+            name={isEdit ? 'XClose' : 'Edit'}
+            size={26}
+            className={`cursor-pointer ${isEdit ? 'text-brand-gray-400' : 'text-brand-gray-300'}`}
+            onClick={() => setIsEdit(!isEdit)}
+          />
         </div>
 
         {!isEdit && place.category && (
