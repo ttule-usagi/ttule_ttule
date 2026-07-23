@@ -1,5 +1,5 @@
 import { useSuspenseInfiniteQuery, type UseSuspenseInfiniteQueryResult } from '@tanstack/react-query';
-import type { PlaceSearchResults } from '@/types/corePlace;
+import type { PlaceSearchResults } from '@/types/corePlace';
 
 interface FetchPlaceSearchProps {
   query: string;
