@@ -70,3 +70,9 @@ export type ActionResult<T> =
 export function isPostgresError(error: unknown): error is { code: string; message: string } {
   return typeof error === 'object' && error !== null && 'code' in error;
 }
+
+// 조회 함수 Router Handler 응답타입
+export interface RpcErrorResponseBody {
+  error: RpcErrorMessage;
+  code?: string;
+}
