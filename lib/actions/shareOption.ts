@@ -1,11 +1,15 @@
 'use server';
 
-import { ActionResult } from '@/types/errors';
+import { ActionResult, SQLSTATE_TO_RPC_ERROR } from '@/types/errors';
 import { supabaseUser } from '../utils/supabase';
 import { DeleteMemberParams, SetPublicParams } from '@/types/shareOption';
 
 // 참여 유저 삭제
-export const deleteMember = async ({ id, resourceType, targetUserId }: DeleteMemberParams): Promise<ActionResult> => {
+export const deleteMember = async ({
+  id,
+  resourceType,
+  targetUserId,
+}: DeleteMemberParams): Promise<ActionResult<null>> => {
   const supabase = await supabaseUser();
 
   const { error } = await supabase.rpc('delete_member', {
@@ -16,14 +20,15 @@ export const deleteMember = async ({ id, resourceType, targetUserId }: DeleteMem
 
   if (error) {
     console.error('❌ 참여 유저 삭제 실패:', error);
-    return { error: '참여 유저를 삭제하는 중 오류가 발생했습니다.', code: error.code };
+    const message = SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR';
+    return { success: false, error: { message, code: error.code } };
   }
 
-  return { success: true };
+  return { success: true, data: null };
 };
 
 // 공개, 비공개 설정
-export const setPublic = async ({ id, resourceType, isPublic }: SetPublicParams): Promise<ActionResult> => {
+export const setPublic = async ({ id, resourceType, isPublic }: SetPublicParams): Promise<ActionResult<null>> => {
   const supabase = await supabaseUser();
 
   const { error } = await supabase.rpc('set_public', {
@@ -34,8 +39,9 @@ export const setPublic = async ({ id, resourceType, isPublic }: SetPublicParams)
 
   if (error) {
     console.error('❌ 공개/비공개 설정 실패:', error);
-    return { error: '공개 여부 설정중 오류가 발생했습니다.', code: error.code };
+    const message = SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR';
+    return { success: false, error: { message, code: error.code } };
   }
 
-  return { success: true };
+  return { success: true, data: null };
 };
