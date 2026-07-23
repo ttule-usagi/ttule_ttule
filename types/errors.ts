@@ -23,6 +23,7 @@ export const SQLSTATE_TO_RPC_ERROR: Record<string, RpcErrorMessage> = {
   '23505': 'CONFLICT',
   P0002: 'NOT_FOUND',
   P0001: 'FORBIDDEN',
+  '23502': 'VALIDATION_ERROR',
   SELF1: 'CANNOT_REMOVE_SELF',
 };
 
@@ -41,14 +42,15 @@ export const RPC_ERROR_TO_STATUS: Record<RpcErrorMessage, number> = {
 export const ERROR_MESSAGES: Record<RpcErrorMessage, string> = {
   UNAUTHORIZED: '로그인이 필요합니다.',
   FORBIDDEN: '권한이 없습니다.',
-  NOT_FOUND: '을(를) 찾을 수 없습니다.',
+  NOT_FOUND: '대상을(를) 찾을 수 없습니다.',
   CONFLICT: '이(가) 이미 존재합니다.',
   VALIDATION_ERROR: '입력값을 확인해주세요.',
   INTERNAL_ERROR: '중 오류가 발생했습니다.',
   CANNOT_REMOVE_SELF: '자기 자신은 삭제할 수 없습니다.',
 };
 
-export const getErrorMessage = (message: RpcErrorMessage, subject: string) => `${subject} ${ERROR_MESSAGES[message]}`;
+export const getErrorMessage = (message: RpcErrorMessage, subject: string): string =>
+  `${subject} ${ERROR_MESSAGES[message]}`;
 
 // 조회 함수에서 사용하는 에러 클래스
 export class RpcError extends Error {
