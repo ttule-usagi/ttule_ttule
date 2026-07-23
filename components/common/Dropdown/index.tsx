@@ -8,15 +8,16 @@ import { flip, offset, Placement, shift, useClick, useDismiss, useFloating, useI
 interface DropDownProps {
   children: React.ReactNode;
   placement?: Placement;
+  offsetValue?: number;
 }
 
-export default function DropDown({ children, placement = 'right-start' }: DropDownProps) {
+export default function DropDown({ children, placement = 'right-start', offsetValue = 18 }: DropDownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
     placement: placement,
-    middleware: [offset(18), flip(), shift()],
+    middleware: [offset(offsetValue), flip(), shift()],
   });
 
   const click = useClick(context);
