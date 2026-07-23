@@ -1,4 +1,4 @@
-import { PlaceCategory } from './CorePlace';
+import { PlaceCategory } from './corePlace';
 import { Role } from './shareOption';
 
 //장소 리스트 유형 - 공유된, 저장된 리스트로 구분해서 볼 때 사용
