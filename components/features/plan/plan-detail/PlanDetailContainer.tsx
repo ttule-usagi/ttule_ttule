@@ -8,7 +8,7 @@ import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import PlanDayPanel from '@/components/features/plan/plan-detail/PlanDayPanel';
 import GoogleMapJS from '../../map/GoogleMapJS';
 import GoogleMapEmbed from '../../map/GoogleMapEmbed';
-import { PlaceCategory } from '@/types/CorePlace';
+import { PlaceCategory } from '@/types/corePlace';
 import { DESTINATIONS } from '@/lib/utils/destinations';
 import PlanPlaceListContainer from '../placeList/PlanPlaceListContainer';
 

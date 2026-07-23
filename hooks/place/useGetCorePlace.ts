@@ -1,5 +1,5 @@
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
-import type { CorePlaceDetail } from '@/types/CorePlace';
+import type { CorePlaceDetail } from '@/types/corePlace;
 
 const fetchCorePlace = async (placeId: string): Promise<CorePlaceDetail> => {
   const res = await fetch(`/api/view/place/${placeId}`);

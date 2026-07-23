@@ -1,4 +1,4 @@
-import type { PlaceCategory } from '@/types/CorePlace';
+import type { PlaceCategory } from '@/types/corePlace';
 
 export const CATEGORY_COLORS: Record<PlaceCategory, string> = {
   restaurant: '#FFBA3B',

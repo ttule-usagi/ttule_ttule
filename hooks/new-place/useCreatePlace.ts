@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { createNewPlace } from '@/lib/actions/places';
-import type { CreatePlacePayload } from '@/types/CorePlace';
+import type { CreatePlacePayload } from '@/types/corePlace';
 
 export const useCreatePlace = () => {
   return useMutation({

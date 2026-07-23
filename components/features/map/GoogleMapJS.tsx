@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import type { PlaceCategory } from '@/types/CorePlace';
+import type { PlaceCategory } from '@/types/corePlace';
 import { CATEGORY_COLORS, CATEGORY_EMOJI } from '@/lib/utils/placeCategory';
 
 interface MapCoordinate {

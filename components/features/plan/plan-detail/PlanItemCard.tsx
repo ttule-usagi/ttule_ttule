@@ -5,7 +5,7 @@ import { PlanItem } from '@/types/plan';
 import { Icon } from '@/components/common/Icon';
 import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
 import { CATEGORY_COLORS, CATEGORY_EMOJI } from '@/lib/utils/placeCategory';
-import type { PlaceCategory } from '@/types/CorePlace';
+import type { PlaceCategory } from '@/types/corePlace';
 import DropDown from '@/components/common/Dropdown';
 import { duplicatePlanItem, deletePlanItem } from '@/lib/actions/planItem';
 import { useModalStore } from '@/lib/store/modalStore';

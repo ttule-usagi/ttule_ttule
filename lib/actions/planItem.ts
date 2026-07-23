@@ -1,7 +1,7 @@
 'use server';
 
 import { supabaseUser } from '@/lib/utils/supabase';
-import type { CorePlaceDetail } from '@/types/CorePlace';
+import type { CorePlaceDetail } from '@/types/corePlace';
 import { PlanItem, PlanTransitMode } from '@/types/plan';
 import { getRouteDistance } from '../utils/googleRoutes';
 

@@ -3,7 +3,7 @@
 import { useState, useReducer } from 'react';
 import { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
 import { useCreatePlace } from './new-place/useCreatePlace';
-import { sanitizeBusinessStatus, type PlaceCategory } from '@/types/CorePlace';
+import { sanitizeBusinessStatus, type PlaceCategory } from '@/types/corePlace';
 
 export interface NewPlaceFormState {
   korean_name: string;

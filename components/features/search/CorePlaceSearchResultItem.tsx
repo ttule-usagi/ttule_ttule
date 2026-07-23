@@ -1,5 +1,5 @@
 import { Icon } from '@/components/common/Icon';
-import { CorePlaceSearchResult, PLACE_CATEGORIES } from '@/types/CorePlace';
+import { CorePlaceSearchResult, PLACE_CATEGORIES } from '@/types/corePlace';
 
 interface CorePlaceSearchResultItemProps {
   result: CorePlaceSearchResult;
