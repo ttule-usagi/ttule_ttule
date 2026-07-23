@@ -50,8 +50,8 @@ export interface PlaceListDetail extends PlaceListOverview {
 // 장소 리스트 멤버
 export interface PlaceListMember {
   id: number;
-  username?: string | null;
-  profileImage?: string | null;
+  username: string;
+  profileImage: string | null;
 }
 
 // 단일 장소 아이템
