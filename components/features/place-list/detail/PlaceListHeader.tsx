@@ -5,7 +5,6 @@ import PlaceListDropdownMenu from '../PlaceListDropdwonMenu';
 import { useGetPlaceListDetail } from '@/hooks/place-list/useGetPlaceListDetail';
 import { useModalStore } from '@/lib/store/modalStore';
 import { createViewLink } from '@/lib/utils/invite/createViewLink';
-import { MemberAvatar } from '@/components/common/ShareOption/MemberAvatar';
 import ParticipantsImages from './ParticipantsImages';
 
 export default function PlaceListHeader({ listId, hasSession }: { listId: string; hasSession: boolean }) {
@@ -39,9 +38,14 @@ export default function PlaceListHeader({ listId, hasSession }: { listId: string
       </div>
 
       <div className='flex flex-col gap-1 text-typo-base font-light'>
-        <div className='flex gap-3 text-brand-gray-400'>
+        <div className='flex gap-2 text-brand-gray-400 items-center'>
           <span>{data.master.username}</span>
-          <ParticipantsImages data={data.participants} />
+          {data.participantCount > 0 && (
+            <ParticipantsImages
+              data={data.participants}
+              participantCount={data.participantCount}
+            />
+          )}
           <span>장소 {data.placeCount}개</span>
           <span>{data.isPublic ? '공유됨' : '비공개'}</span>
         </div>
