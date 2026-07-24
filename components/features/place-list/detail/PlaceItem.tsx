@@ -8,11 +8,14 @@ import PlaceTag from '../tag/PlaceTag';
 import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
 import { useConfirmDeletePlace } from '@/hooks/place-list/useConfirmDeletePlace';
 import { useUpdatePlace } from '@/hooks/place-list/useUpdatePlace';
+import AuthorityWrapper from '../../AuthorityWrapper';
+import { useGetMyRole } from '@/hooks/place-list/useGetMyRole';
 
 export default function PlaceItem({ place, listId }: { place: Place; listId: string }) {
   const [isEdit, setIsEdit] = useState(false);
   const [memo, setMemo] = useState<string | null>(place.memoContent);
   const { confirmDeletePlaceList } = useConfirmDeletePlace(listId);
+  const { data: myRole } = useGetMyRole(listId);
   const { mutate: updatePlace } = useUpdatePlace(listId);
 
   const handleEdit = () => {
@@ -44,12 +47,17 @@ export default function PlaceItem({ place, listId }: { place: Place; listId: str
               onClick={() => confirmDeletePlaceList(place.customName, place.id)}
             />
           ) : (
-            <Icon
-              name={'Edit'}
-              size={26}
-              className='cursor-pointer text-brand-gray-300'
-              onClick={() => setIsEdit(!isEdit)}
-            />
+            <AuthorityWrapper
+              role={myRole}
+              requiredRole='editor'
+            >
+              <Icon
+                name={'Edit'}
+                size={26}
+                className='cursor-pointer text-brand-gray-300'
+                onClick={() => setIsEdit(!isEdit)}
+              />
+            </AuthorityWrapper>
           )}
         </div>
 
