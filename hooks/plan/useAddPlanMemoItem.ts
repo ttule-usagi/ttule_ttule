@@ -29,11 +29,14 @@ export function useAddPlanMemoItem() {
 
     setIsSubmitting(false);
 
-    if (!result.error) {
+    if (result.success) {
       await queryClient.invalidateQueries({
         predicate: (query) => query.queryKey.includes('items') && query.queryKey.includes(scheduleId),
         refetchType: 'active',
       });
+    } else {
+      console.error('❌ 메모 추가 실패:', result.error.message);
+      // TODO: 추후 toast 추가
     }
 
     return result;

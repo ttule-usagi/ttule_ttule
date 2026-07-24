@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { RpcError, RpcErrorMessage, RpcErrorResponseBody } from '@/types/errors';
 
 export interface PlanScheduleOverview {
   id: string;
@@ -9,9 +10,11 @@ export interface PlanScheduleOverview {
 
 const fetchPlanSchedules = async (planId: string): Promise<PlanScheduleOverview[]> => {
   const res = await fetch(`/api/view/plan/${planId}/schedules`);
-  if (res.status === 401) throw new Error('UNAUTHORIZED');
-  if (res.status === 403) throw new Error('FORBIDDEN');
-  if (!res.ok) throw new Error('일정을 가져오는 데 실패했습니다.');
+  if (!res.ok) {
+    const body = (await res.json().catch(() => null)) as RpcErrorResponseBody | null;
+    const message: RpcErrorMessage = body?.error ?? 'INTERNAL_ERROR';
+    throw new RpcError(message);
+  }
   return res.json();
 };
 
