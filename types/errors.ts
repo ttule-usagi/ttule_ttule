@@ -49,8 +49,26 @@ export const ERROR_MESSAGES: Record<RpcErrorMessage, string> = {
   CANNOT_REMOVE_SELF: '자기 자신은 삭제할 수 없습니다.',
 };
 
-export const getErrorMessage = (message: RpcErrorMessage, subject: string): string =>
-  `${subject} ${ERROR_MESSAGES[message]}`;
+export function getErrorMessage(code: RpcErrorMessage, { action, subject }: { action: string; subject: string }) {
+  switch (code) {
+    case 'INTERNAL_ERROR':
+      return `${subject} ${action} 중 오류가 발생했습니다.`;
+    case 'NOT_FOUND':
+      return `${subject}을(를) 찾을 수 없습니다.`;
+    case 'CONFLICT':
+      return `${subject}이(가) 이미 존재합니다.`;
+    case 'UNAUTHORIZED':
+      return '로그인이 필요합니다.';
+    case 'FORBIDDEN':
+      return '권한이 없습니다.';
+    case 'VALIDATION_ERROR':
+      return '입력값을 확인해주세요.';
+    case 'CANNOT_REMOVE_SELF':
+      return '자기 자신은 삭제할 수 없습니다.';
+    default:
+      return '알 수 없는 오류가 발생했습니다.';
+  }
+}
 
 // 조회 함수에서 사용하는 에러 클래스
 export class RpcError extends Error {

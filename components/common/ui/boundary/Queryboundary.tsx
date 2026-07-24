@@ -12,7 +12,7 @@ interface QueryBoundaryProps {
 }
 
 export function QueryBoundary({ children, errorFallback, subject }: QueryBoundaryProps) {
-  const fallback = errorFallback ?? ((props: FallbackProps) => defaultErrorFallback(props, subject ?? '요청'));
+  const fallback = errorFallback ?? ((props: FallbackProps) => defaultErrorFallback(props, subject ?? '대상'));
   return (
     <QueryErrorResetBoundary>
       {({ reset }) => (
@@ -31,7 +31,7 @@ function defaultErrorFallback({ error, resetErrorBoundary }: FallbackProps, subj
   let errorMessage = '알 수 없는 에러가 발생했습니다.';
 
   if (error instanceof RpcError) {
-    errorMessage = getErrorMessage(error.message as RpcErrorMessage, subject);
+    errorMessage = getErrorMessage(error.message as RpcErrorMessage, { subject, action: '조회' });
   } else if (error instanceof Error) {
     // TODO: 추후 삭제 필요 - 아직 수정 안 한 쿼리들을 위해 남겨둠
     errorMessage = error.message;
