@@ -6,7 +6,7 @@ export type ListType = 'all' | 'owned' | 'shared';
 export type TagColor = 'red' | 'hotpink' | 'yellow' | 'green' | 'blue' | 'purple' | 'grey';
 
 // 저장된 장소 정렬 타입 - 최근 등록순, 과거 등록순, 최근 수정순
-export type SortType = 'createdAsc' | 'createdDesc' | 'updated';
+export type SortType = 'created_desc' | 'created_asc';
 
 // 커서 기반 무한스크롤
 export type PageParam = {
@@ -78,4 +78,10 @@ export interface UpdatePlaceParams {
   placeId: string;
   memo: string | null;
   //  tags: Tag[]
+}
+
+// 저장된 장소 호출 파라미터
+export interface GetPlacesParams {
+  listId: string;
+  sortBy: SortType;
 }
