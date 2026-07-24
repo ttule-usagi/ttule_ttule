@@ -8,7 +8,7 @@ import { useState } from 'react';
 import SortingDropdownButton from './SortingDropdownButton';
 
 export default function PlaceListContent({ listId }: { listId: string }) {
-  const [sortBy, setSortBy] = useState<SortType>('createdDesc');
+  const [sortBy, setSortBy] = useState<SortType>('created_desc');
   return (
     <div className='flex flex-col gap-3'>
       <div className='flex gap-2 text-typo-description items-center'>
@@ -17,9 +17,9 @@ export default function PlaceListContent({ listId }: { listId: string }) {
           sortBy={sortBy}
           onSortChange={setSortBy}
         />
-        <QueryBoundary subject='태그'>
+        {/* <QueryBoundary subject='태그'>
           <TagList listId={listId} />
-        </QueryBoundary>
+        </QueryBoundary> */}
       </div>
       <QueryBoundary subject='저장된 장소'>
         <PlaceListPlaces

@@ -7,20 +7,20 @@ import { useMemo } from 'react';
 import { SortType } from '@/types/placeList';
 
 export default function PlaceListPlaces({ listId, sortBy }: { listId: string; sortBy: SortType }) {
-  const { data } = useGetPlaceListPlaces(listId);
+  const { data } = useGetPlaceListPlaces({ listId, sortBy });
 
   const sortedPlaces = useMemo(() => {
     return [...data].sort((a, b) => {
       // 최근 수정순
-      if (sortBy === 'updated') {
-        return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
-      }
+      // if (sortBy === 'updated') {
+      //   return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+      // }
       // 최근 등록순
-      if (sortBy === 'createdDesc') {
+      if (sortBy === 'created_desc') {
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       }
       // 과거 등록순
-      if (sortBy === 'createdAsc') {
+      if (sortBy === 'created_asc') {
         return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
       }
       return 0;

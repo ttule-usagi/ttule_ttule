@@ -10,7 +10,7 @@ interface PlanPlaceListDetailProps {
 }
 
 export default function PlanPlaceListDetail({ listId, title, planId, onBack }: PlanPlaceListDetailProps) {
-  const { data: places } = useGetPlaceListPlaces(listId);
+  const { data: places } = useGetPlaceListPlaces({ listId, sortBy: 'created_desc' });
 
   return (
     <div className='flex flex-col gap-3'>

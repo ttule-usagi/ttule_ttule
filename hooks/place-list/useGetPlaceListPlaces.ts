@@ -1,8 +1,9 @@
-import { PageParam, Place } from '@/types/placeList';
+import { GetPlacesParams, PageParam, Place, SortType } from '@/types/placeList';
 import { infiniteQueryOptions, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
-const fetchPlaceListPlaces = async (listId: string, cursor: PageParam): Promise<Place[]> => {
+const fetchPlaceListPlaces = async (listId: string, cursor: PageParam, sortBy: SortType): Promise<Place[]> => {
   const params = new URLSearchParams();
+  params.set('sortBy', sortBy);
   if (cursor) {
     params.set('createdAt', cursor.createdAt);
     params.set('id', cursor.id);
@@ -13,17 +14,17 @@ const fetchPlaceListPlaces = async (listId: string, cursor: PageParam): Promise<
 };
 
 // 리스트에 저장된 장소 queryOptions
-export const placeListPlacesQueryOptions = (listId: string) => {
+export const placeListPlacesQueryOptions = ({ listId, sortBy }: GetPlacesParams) => {
   return infiniteQueryOptions({
-    queryKey: ['place-list', listId, 'places'],
-    queryFn: ({ pageParam }) => fetchPlaceListPlaces(listId, pageParam),
+    queryKey: ['place-list', listId, 'places', sortBy],
+    queryFn: ({ pageParam }) => fetchPlaceListPlaces(listId, pageParam, sortBy),
     initialPageParam: null as PageParam,
     getNextPageParam: (lastPage) =>
       lastPage.length < 20 ? undefined : { createdAt: lastPage.at(-1)!.createdAt, id: lastPage.at(-1)!.id },
   });
 };
 
-export const useGetPlaceListPlaces = (listId: string) => {
-  const { data, ...rest } = useSuspenseInfiniteQuery(placeListPlacesQueryOptions(listId));
+export const useGetPlaceListPlaces = ({ listId, sortBy }: GetPlacesParams) => {
+  const { data, ...rest } = useSuspenseInfiniteQuery(placeListPlacesQueryOptions({ listId, sortBy }));
   return { data: data.pages.flat(), ...rest };
 };
