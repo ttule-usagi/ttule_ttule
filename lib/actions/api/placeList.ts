@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { toCamelKey } from '@/lib/utils/toCamelCase';
 import type { Place, PageParam, AllPlaceLists, ListType, PlaceListDetail, Tag } from '@/types/placeList';
-import { RpcError } from '@/types/errors';
+import { RpcError, RpcErrorMessage } from '@/types/errors';
 
 interface GetPlaceListPlacesProps {
   supabase: SupabaseClient;
@@ -62,12 +62,13 @@ export const getPlaceListDetail = async ({
     p_list_id: listId,
   });
 
-  if (error) {
-    console.error('❌ 리스트 상세정보 조회 실패: ', error);
-    throw new RpcError(error.message, error.code);
+  if (error) throw new RpcError(error.message as RpcErrorMessage, error.code);
+
+  if (!data) {
+    console.error('❌ 리스트 상세정보 없음: ', listId);
+    throw new RpcError('NOT_FOUND');
   }
 
-  if (!data) throw new RpcError('장소 리스트 상세정보를 가져오는 데 실패했습니다.');
   return data;
 };
 
@@ -83,10 +84,11 @@ export const getPlaceListTags = async ({
     p_list_id: listId,
   });
 
-  if (error) {
-    console.error('❌ 태그 조회 실패', error);
-    throw new RpcError(error.message, error.code);
+  if (error) throw new RpcError(error.message as RpcErrorMessage, error.code);
+
+  if (!data) {
+    console.error('❌ 리스트 상세정보 없음: ', listId);
+    throw new RpcError('NOT_FOUND');
   }
-  if (!data) throw new RpcError('저장된 태그를 가져오는 데 실패했습니다.');
   return toCamelKey<Tag[]>(data);
 };
