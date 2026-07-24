@@ -31,22 +31,23 @@ export default function PlaceItem({ place, listId }: { place: Place; listId: str
             alt={place.thumbnail ? 'thumbnail' : 'not-found'}
             width={80}
             height={80}
-            className='w-full h-full object-cover'
+            className='w-full h-full object-cover rounded-xs'
           />
         </div>
       )}
 
       <div className='flex flex-col gap-1 flex-1'>
         <div className='flex justify-between items-center'>
-          <p className='flex-1 text-typo-sub-title text-brand-gray-600 font-medium'>{place.customName}</p>
-          {isEdit ? (
+          {isEdit && (
             <Icon
               name='XClose'
               size={26}
-              className='cursor-pointer text-brand-gray-400'
+              className='cursor-pointer text-brand-gray-400 mr-0.5'
               onClick={() => confirmDeletePlaceList(place.customName, place.id)}
             />
-          ) : (
+          )}
+          <p className='flex-1 text-typo-sub-title text-brand-gray-600 font-medium'>{place.customName}</p>
+          {!isEdit && (
             <AuthorityWrapper
               role={myRole}
               requiredRole='editor'
@@ -66,7 +67,9 @@ export default function PlaceItem({ place, listId }: { place: Place; listId: str
         )}
         {!isEdit ? (
           <>
-            {place.memoContent && <p className='text-brand-gray-600 text-typo-description'>{place.memoContent}</p>}
+            {place.memoContent && (
+              <p className='text-brand-gray-600 text-typo-description whitespace-pre-wrap'>{place.memoContent}</p>
+            )}
 
             {/* TODO: 2차 MVP 때 태그 적용 */}
             {/* <div className='flex gap-1 items-center overflow flex-wrap'>
@@ -83,7 +86,7 @@ export default function PlaceItem({ place, listId }: { place: Place; listId: str
           <div>
             <textarea
               value={memo ?? ''}
-              className='bg-brand-gray-100 min-h-16 text-typo-base px-3 py-2 text-brand-gray-600 border border-brand-gray-200 outline-none resize-none rounded-sm w-full overscroll-none'
+              className='bg-brand-gray-100 min-h-16 text-typo-base px-3 py-2 text-brand-gray-600 border border-brand-gray-200 outline-none rounded-sm w-full overscroll-none resize-y'
               onChange={(e) => setMemo(e.target.value)}
             />
 
