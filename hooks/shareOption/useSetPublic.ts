@@ -29,8 +29,8 @@ export const useSetPublic = ({ id, resourceType }: ResourceParams) => {
 
       const message =
         error instanceof RpcError
-          ? getErrorMessage(error.message as RpcErrorMessage, '공개 여부 설정')
-          : getErrorMessage('INTERNAL_ERROR', '공개 여부 설정');
+          ? getErrorMessage(error.message as RpcErrorMessage, { subject: '공개 여부', action: '설정' })
+          : getErrorMessage('INTERNAL_ERROR', { subject: '공개 여부', action: '설정' });
 
       open({
         type: 'error',

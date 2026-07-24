@@ -30,8 +30,8 @@ export const useDeleteMember = ({ id, resourceType }: ResourceParams) => {
 
       const message =
         error instanceof RpcError
-          ? getErrorMessage(error.message as RpcErrorMessage, '참여 유저 삭제')
-          : getErrorMessage('INTERNAL_ERROR', '참여 유저 삭제');
+          ? getErrorMessage(error.message as RpcErrorMessage, { subject: '참여 유저', action: '삭제' })
+          : getErrorMessage('INTERNAL_ERROR', { subject: '참여 유저', action: '삭제' });
 
       open({
         type: 'error',

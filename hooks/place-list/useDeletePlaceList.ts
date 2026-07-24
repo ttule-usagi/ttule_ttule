@@ -28,8 +28,8 @@ export const useDeletePlaceList = () => {
 
       const message =
         error instanceof RpcError
-          ? getErrorMessage(error.message as RpcErrorMessage, '장소 리스트 삭제')
-          : getErrorMessage('INTERNAL_ERROR', '장소 리스트 삭제');
+          ? getErrorMessage(error.message as RpcErrorMessage, { subject: '장소 리스트', action: '삭제' })
+          : getErrorMessage('INTERNAL_ERROR', { subject: '장소 리스트', action: '삭제' });
 
       open({
         type: 'error',
