@@ -20,15 +20,18 @@ export const useUpdatePlace = (listId: string) => {
       return result;
     },
     onSuccess: (_, variables) => {
-      queryClient.setQueryData(['place-list', listId, 'places'], (old: InfiniteData<Place[]> | undefined) => {
-        if (!old) return old;
-        return {
-          ...old,
-          pages: old.pages.map((page) =>
-            page.map((p) => (p.id === variables.placeId ? { ...p, memoContent: variables.memo } : p)),
-          ),
-        };
-      });
+      queryClient.setQueriesData(
+        { queryKey: ['place-list', listId, 'places'] },
+        (old: InfiniteData<Place[]> | undefined) => {
+          if (!old) return old;
+          return {
+            ...old,
+            pages: old.pages.map((page) =>
+              page.map((p) => (p.id === variables.placeId ? { ...p, memoContent: variables.memo } : p)),
+            ),
+          };
+        },
+      );
     },
     onError: (error) => {
       console.error('❌ 단일 장소 편집 실패');
