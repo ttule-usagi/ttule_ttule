@@ -57,3 +57,33 @@ export const deletePlaceList = async (listId: string): Promise<ActionResult<null
     return { success: false, error: { message, code } };
   }
 };
+
+// 장소 리스트에 저장된 단일 장소 삭제
+export const deletePlace = async ({
+  listId,
+  placeId,
+}: {
+  listId: string;
+  placeId: string;
+}): Promise<ActionResult<null>> => {
+  try {
+    const supabase = await supabaseUser();
+    const { error } = await supabase.rpc('delete_place', {
+      p_place_list_id: listId,
+      p_place_id: placeId,
+    });
+
+    if (error) {
+      console.error('❌ 단일 장소 삭제 실패: ', error);
+      const message = SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR';
+      return { success: false, error: { message, code: error.code } };
+    }
+
+    return { success: true, data: null };
+  } catch (error: unknown) {
+    console.error('❌ 단일 장소 삭제 실패: ', error);
+    const code = isPostgresError(error) ? error.code : undefined;
+    const message = ((code && SQLSTATE_TO_RPC_ERROR[code]) ?? 'INTERNAL_ERROR') as RpcErrorMessage;
+    return { success: false, error: { message, code } };
+  }
+};
