@@ -1,11 +1,16 @@
-import { RpcError } from '@/types/errors';
+import { RpcError, RpcErrorMessage, RpcErrorResponseBody } from '@/types/errors';
 import { Tag } from '@/types/placeList';
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
 
 const fetchPlaceListTags = async (listId: string): Promise<Tag[]> => {
   const res = await fetch(`/api/view/place-list/${listId}/tags`);
-  if (res.status === 401) throw new RpcError('UNAUTHORIZED');
-  if (!res.ok) throw new RpcError('장소 리스트에 저장된 태그를 가져오는 데 실패했습니다.');
+
+  if (!res.ok) {
+    const body = (await res.json().catch(() => null)) as RpcErrorResponseBody | null;
+    const message: RpcErrorMessage = body?.error ?? 'INTERNAL_ERROR';
+    throw new RpcError(message);
+  }
+
   return res.json();
 };
 

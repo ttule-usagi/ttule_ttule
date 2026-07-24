@@ -1,5 +1,6 @@
 'use client';
 
+import { getErrorMessage, RpcError, RpcErrorMessage } from '@/types/errors';
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import { Suspense } from 'react';
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
@@ -7,15 +8,17 @@ import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 interface QueryBoundaryProps {
   children: React.ReactNode;
   errorFallback?: (props: FallbackProps) => React.ReactNode;
+  subject?: string;
 }
 
-export function QueryBoundary({ children, errorFallback }: QueryBoundaryProps) {
+export function QueryBoundary({ children, errorFallback, subject }: QueryBoundaryProps) {
+  const fallback = errorFallback ?? ((props: FallbackProps) => defaultErrorFallback(props, subject ?? '대상'));
   return (
     <QueryErrorResetBoundary>
       {({ reset }) => (
         <ErrorBoundary
           onReset={reset}
-          fallbackRender={errorFallback ?? defaultErrorFallback}
+          fallbackRender={fallback}
         >
           <Suspense>{children}</Suspense>
         </ErrorBoundary>
@@ -24,9 +27,13 @@ export function QueryBoundary({ children, errorFallback }: QueryBoundaryProps) {
   );
 }
 
-function defaultErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
+function defaultErrorFallback({ error, resetErrorBoundary }: FallbackProps, subject: string) {
   let errorMessage = '알 수 없는 에러가 발생했습니다.';
-  if (error instanceof Error) {
+
+  if (error instanceof RpcError) {
+    errorMessage = getErrorMessage(error.message as RpcErrorMessage, { subject, action: '조회' });
+  } else if (error instanceof Error) {
+    // TODO: 추후 삭제 필요 - 아직 수정 안 한 쿼리들을 위해 남겨둠
     errorMessage = error.message;
   }
 

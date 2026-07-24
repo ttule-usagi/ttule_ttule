@@ -42,7 +42,7 @@ export default async function PlaceListDetail({
       queryFn: () => getPlaceListDetail({ supabase, listId }),
     });
   } catch (error) {
-    if (error instanceof RpcError && error.code === '42501') {
+    if (error instanceof RpcError && error.message === 'FORBIDDEN') {
       return <ForbiddenRedirect />;
     }
     throw error;
@@ -56,7 +56,7 @@ export default async function PlaceListDetail({
         <InviteEditorHandler hasInviteToken={!!inviteToken} />
       </Suspense>
       <div className='flex flex-col gap-5.5'>
-        <QueryBoundary>
+        <QueryBoundary subject='리스트 상세정보'>
           <PlaceListHeader
             listId={listId}
             hasSession={!!session}
@@ -64,10 +64,10 @@ export default async function PlaceListDetail({
         </QueryBoundary>
 
         <div className='flex flex-col gap-3'>
-          <QueryBoundary>
+          <QueryBoundary subject='태그'>
             <TagList listId={listId} />
           </QueryBoundary>
-          <QueryBoundary>
+          <QueryBoundary subject='저장된 장소'>
             <PlaceListPlaces listId={listId} />
           </QueryBoundary>
         </div>

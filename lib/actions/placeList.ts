@@ -2,7 +2,7 @@
 
 import { auth } from '../utils/auth';
 import { supabaseAdmin, supabaseUser } from '../utils/supabase';
-import { ActionResult } from '@/types/errors';
+import { ActionResult, isPostgresError, RpcErrorMessage, SQLSTATE_TO_RPC_ERROR } from '@/types/errors';
 
 export interface CreatePlaceListForm {
   title: string;
@@ -36,16 +36,24 @@ export const createNewPlaceList = async ({ title, icon, description }: CreatePla
 };
 
 // 리스트 삭제
-export const deletePlaceList = async (listId: string): Promise<ActionResult> => {
-  const supabase = await supabaseUser();
-  const { error } = await supabase.rpc('delete_place_list', {
-    p_list_id: listId,
-  });
+export const deletePlaceList = async (listId: string): Promise<ActionResult<null>> => {
+  try {
+    const supabase = await supabaseUser();
+    const { error } = await supabase.rpc('delete_place_list', {
+      p_list_id: listId,
+    });
 
-  if (error) {
+    if (error) {
+      console.error('❌ 리스트 삭제 실패: ', error);
+      const message = SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR';
+      return { success: false, error: { message, code: error.code } };
+    }
+
+    return { success: true, data: null };
+  } catch (error: unknown) {
     console.error('❌ 리스트 삭제 실패: ', error);
-    return { error: '장소 리스트 삭제 중 오류가 발생했습니다.', code: error.code };
+    const code = isPostgresError(error) ? error.code : undefined;
+    const message = ((code && SQLSTATE_TO_RPC_ERROR[code]) ?? 'INTERNAL_ERROR') as RpcErrorMessage;
+    return { success: false, error: { message, code } };
   }
-
-  return { success: true };
 };
