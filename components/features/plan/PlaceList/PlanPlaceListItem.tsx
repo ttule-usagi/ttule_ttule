@@ -13,7 +13,7 @@ export function PlanPlaceListItem({ place, onClick }: { place: PlaceListOverview
           <span className='text-typo-sub-title max-w-58 xl:max-w-75 truncate'>{place.title}</span>
         </div>
         <div className='flex gap-2 text-typo-description font-light text-brand-gray-400'>
-          <span>{place.isPublic ? '공유 목록' : '비공개'}</span>
+          <span>{place.isPublic ? '공개됨' : '비공개'}</span>
           <span>장소 {place.placeCount}개</span>
         </div>
       </div>

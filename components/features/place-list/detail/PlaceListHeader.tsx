@@ -47,7 +47,7 @@ export default function PlaceListHeader({ listId, hasSession }: { listId: string
             />
           )}
           <span>장소 {data.placeCount}개</span>
-          <span>{data.isPublic ? '공유됨' : '비공개'}</span>
+          <span>{data.isPublic ? '공개됨' : '비공개'}</span>
         </div>
         <p className='text-brand-gray-600'>{data.description}</p>
       </div>
