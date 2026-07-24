@@ -48,7 +48,8 @@ export default function ShareLinkModal({ type, link }: { type: ShareType; link: 
           <input
             className='modal-input min-w-0'
             value={link}
-            disabled
+            readOnly
+            onClick={(e) => e.currentTarget.select()}
           />
           <button
             className='modal-button px-5 shrink-0 min-w-30.25'

@@ -5,6 +5,9 @@ import { Role } from './shareOption';
 export type ListType = 'all' | 'owned' | 'shared';
 export type TagColor = 'red' | 'hotpink' | 'yellow' | 'green' | 'blue' | 'purple' | 'grey';
 
+// 저장된 장소 정렬 타입 - 최근 등록순, 과거 등록순, 최근 수정순
+export type SortType = 'created_desc' | 'created_asc';
+
 // 커서 기반 무한스크롤
 export type PageParam = {
   id: string;
@@ -50,14 +53,13 @@ export interface PlaceListDetail extends PlaceListOverview {
 // 장소 리스트 멤버
 export interface PlaceListMember {
   id: number;
-  username?: string | null;
-  profileImage?: string | null;
+  username: string;
+  profileImageUrl: string | null;
 }
 
 // 단일 장소 아이템
 export interface Place {
   id: string;
-  placeListId: string;
   corePlaceId: string;
   latitude: number | null;
   longitude: number | null;
@@ -68,4 +70,18 @@ export interface Place {
   tags: Tag[];
   createdAt: string;
   updatedAt: string;
+}
+
+// 단일 장소 편집 파라미터
+export interface UpdatePlaceParams {
+  listId: string;
+  placeId: string;
+  memo: string | null;
+  //  tags: Tag[]
+}
+
+// 저장된 장소 호출 파라미터
+export interface GetPlacesParams {
+  listId: string;
+  sortBy: SortType;
 }

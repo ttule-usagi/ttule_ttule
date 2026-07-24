@@ -1,28 +1,42 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { toCamelKey } from '@/lib/utils/toCamelCase';
-import type { Place, PageParam, AllPlaceLists, ListType, PlaceListDetail, Tag } from '@/types/placeList';
+import type {
+  Place,
+  PageParam,
+  AllPlaceLists,
+  ListType,
+  PlaceListDetail,
+  Tag,
+  GetPlacesParams,
+} from '@/types/placeList';
 import { RpcError, RpcErrorMessage } from '@/types/errors';
 
-interface GetPlaceListPlacesProps {
+interface GetPlaceListPlacesProps extends GetPlacesParams {
   supabase: SupabaseClient;
-  listId: string;
   cursor?: PageParam;
 }
 
+// 저장된 장소 조회
 export const getPlaceListPlaces = async ({
   supabase,
   listId,
+  sortBy = 'created_desc',
   cursor = null,
 }: GetPlaceListPlacesProps): Promise<Place[]> => {
   const { data, error } = await supabase.rpc('get_place_list_places', {
     p_list_id: listId,
+    p_sort_by: sortBy,
     p_cursor_created_at: cursor?.createdAt ?? null,
     p_cursor_id: cursor?.id ?? null,
     p_limit: 20,
   });
 
-  if (error) throw error;
-  if (!data) throw new Error('저장된 장소를 가져오는 데 실패했습니다.');
+  if (error) throw new RpcError(error.message as RpcErrorMessage, error.code);
+
+  if (!data) {
+    console.error('❌ 저장된 장소 조회 실패: ', error);
+    throw new RpcError('NOT_FOUND');
+  }
   return toCamelKey<Place[]>(data);
 };
 
