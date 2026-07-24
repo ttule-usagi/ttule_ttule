@@ -3,7 +3,7 @@
 import { Icon } from '@/components/common/Icon';
 import { Place } from '@/types/placeList';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PlaceTag from '../tag/PlaceTag';
 import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
 import { useConfirmDeletePlace } from '@/hooks/place-list/useConfirmDeletePlace';
@@ -58,9 +58,10 @@ export default function PlaceItem({ place, listId }: { place: Place; listId: str
         )}
         {!isEdit ? (
           <>
-            <p className='text-brand-gray-600 text-typo-description mb-1'>{place.memoContent}</p>
+            {place.memoContent && <p className='text-brand-gray-600 text-typo-description'>{place.memoContent}</p>}
 
-            <div className='flex gap-1 items-center overflow flex-wrap'>
+            {/* TODO: 2차 MVP 때 태그 적용 */}
+            {/* <div className='flex gap-1 items-center overflow flex-wrap'>
               {place.tags.map((item) => (
                 <PlaceTag
                   key={item.id}
@@ -68,13 +69,13 @@ export default function PlaceItem({ place, listId }: { place: Place; listId: str
                   isRounded={true}
                 />
               ))}
-            </div>
+            </div> */}
           </>
         ) : (
           <div>
             <textarea
               value={memo ?? ''}
-              className='bg-brand-gray-100 min-h-16 text-typo-base px-3 py-2 text-brand-gray-600 border border-brand-gray-200 outline-none resize-none rounded-sm w-full'
+              className='bg-brand-gray-100 min-h-16 text-typo-base px-3 py-2 text-brand-gray-600 border border-brand-gray-200 outline-none resize-none rounded-sm w-full overscroll-none'
               onChange={(e) => setMemo(e.target.value)}
             />
 
