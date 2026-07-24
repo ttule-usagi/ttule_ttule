@@ -71,3 +71,11 @@ export interface Place {
   createdAt: string;
   updatedAt: string;
 }
+
+// 단일 장소 편집 파라미터
+export interface UpdatePlaceParams {
+  listId: string;
+  placeId: string;
+  memo: string | null;
+  //  tags: Tag[]
+}
