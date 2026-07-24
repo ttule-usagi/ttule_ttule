@@ -6,10 +6,12 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import PlaceTag from '../tag/PlaceTag';
 import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
+import { useConfirmDeletePlace } from '@/hooks/place-list/useConfirmDeletePlace';
 
-export default function PlaceItem({ place }: { place: Place }) {
+export default function PlaceItem({ place, listId }: { place: Place; listId: string }) {
   const [isEdit, setIsEdit] = useState(false);
   const [memo, setMemo] = useState<string | null>(place.memoContent);
+  const { confirmDeletePlaceList } = useConfirmDeletePlace(listId);
 
   const handleEdit = (e: React.SubmitEvent) => {
     e.preventDefault();
@@ -34,12 +36,21 @@ export default function PlaceItem({ place }: { place: Place }) {
       <div className='flex flex-col gap-1 flex-1'>
         <div className='flex justify-between items-center'>
           <p className='flex-1 text-typo-sub-title text-brand-gray-600 font-medium'>{place.customName}</p>
-          <Icon
-            name={isEdit ? 'XClose' : 'Edit'}
-            size={26}
-            className={`cursor-pointer ${isEdit ? 'text-brand-gray-400' : 'text-brand-gray-300'}`}
-            onClick={() => setIsEdit(!isEdit)}
-          />
+          {isEdit ? (
+            <Icon
+              name='XClose'
+              size={26}
+              className='cursor-pointer text-brand-gray-400'
+              onClick={() => confirmDeletePlaceList(place.customName, place.id)}
+            />
+          ) : (
+            <Icon
+              name={'Edit'}
+              size={26}
+              className='cursor-pointer text-brand-gray-300'
+              onClick={() => setIsEdit(!isEdit)}
+            />
+          )}
         </div>
 
         {!isEdit && place.category && (

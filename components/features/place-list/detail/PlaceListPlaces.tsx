@@ -37,6 +37,7 @@ export default function PlaceListPlaces({ listId }: { listId: string }) {
         <PlaceItem
           key={item.id}
           place={item}
+          listId={listId}
         />
       ))}
     </>
