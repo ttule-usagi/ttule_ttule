@@ -29,7 +29,7 @@ export default function ParticipantsImages({
 
       {remainingCount > 0 && (
         <div
-          className='-ml-0.5 flex h-5 w-5 items-center justify-center text-typo-base text-[##F4F4F5] font-light'
+          className='-ml-0.5 flex h-5 w-5 items-center justify-center text-typo-description text-[##F4F4F5] font-light'
           style={{ zIndex: 0 }}
         >
           +{remainingCount}
