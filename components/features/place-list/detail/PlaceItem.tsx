@@ -7,16 +7,16 @@ import React, { useState } from 'react';
 import PlaceTag from '../tag/PlaceTag';
 import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
 import { useConfirmDeletePlace } from '@/hooks/place-list/useConfirmDeletePlace';
+import { useUpdatePlace } from '@/hooks/place-list/useUpdatePlace';
 
 export default function PlaceItem({ place, listId }: { place: Place; listId: string }) {
   const [isEdit, setIsEdit] = useState(false);
   const [memo, setMemo] = useState<string | null>(place.memoContent);
   const { confirmDeletePlaceList } = useConfirmDeletePlace(listId);
+  const { mutate: updatePlace } = useUpdatePlace(listId);
 
-  const handleEdit = (e: React.SubmitEvent) => {
-    e.preventDefault();
-
-    // 수정 api 호출
+  const handleEdit = () => {
+    updatePlace({ placeId: place.id, memo }, { onSuccess: () => setIsEdit(false) });
   };
 
   return (
@@ -71,7 +71,7 @@ export default function PlaceItem({ place, listId }: { place: Place; listId: str
             </div>
           </>
         ) : (
-          <form>
+          <div>
             <textarea
               value={memo ?? ''}
               className='bg-brand-gray-100 min-h-16 text-typo-base px-3 py-2 text-brand-gray-600 border border-brand-gray-200 outline-none resize-none rounded-sm w-full'
@@ -86,13 +86,13 @@ export default function PlaceItem({ place, listId }: { place: Place; listId: str
                 취소
               </button>
               <button
-                type='submit'
                 className='flex-1 bg-brand-blue-700 text-brand-gray-0 rounded-sm py-2 cursor-pointer'
+                onClick={handleEdit}
               >
                 저장하기
               </button>
             </div>
-          </form>
+          </div>
         )}
       </div>
     </div>
