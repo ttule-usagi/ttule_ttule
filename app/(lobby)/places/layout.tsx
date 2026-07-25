@@ -1,4 +1,4 @@
-import PlaceMap from '@/components/features/place-list/map/PlaceMap';
+import PlaceListEmbedMap from '@/components/features/place-list/map/PlaceListEmbedMap';
 
 export default function PlaceLayout({
   children,
@@ -8,11 +8,7 @@ export default function PlaceLayout({
   return (
     <div className='h-screen w-full flex'>
       {children}
-
-      {/* 우측 지도 */}
-      {/* <section className='flex-1 bg-brand-blue-50 h-full'>
-        <PlaceMap />
-      </section> */}
+      <PlaceListEmbedMap />
     </div>
   );
 }
