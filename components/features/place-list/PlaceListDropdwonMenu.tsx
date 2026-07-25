@@ -59,7 +59,7 @@ export default function PlaceListDropdownMenu({ id, type = 'overview', listName,
           </DropDown.Item>
           <DropDown.Item onClick={() => setShareOptionModalOpen(true)}>공유 옵션 관리</DropDown.Item>
           {type === 'detail' && (
-            <DropDown.Item onClick={() => router.push(`/places/edit/${id}`)}>리스트 편집</DropDown.Item>
+            <DropDown.Item onClick={() => router.push(`/places/${id}/edit`)}>리스트 편집</DropDown.Item>
           )}
           {isMaster && (
             <DropDown.Item onClick={() => confirmDeletePlaceList(listName, id, type === 'detail')}>
