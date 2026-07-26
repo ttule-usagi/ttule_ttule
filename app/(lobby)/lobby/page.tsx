@@ -9,6 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useGetUserPlans } from '@/hooks/plan/useGetUserPlans';
 import { getTodayDateStr } from '@/lib/utils/date';
+import Loader from '@/components/common/Loader';
 
 export default function Page() {
   const { data } = useGetUserPlans();
@@ -24,6 +25,7 @@ export default function Page() {
           <p className='text-typo-big-title font-semibold text-brand-blue-700'>환영해요 닉네임님!</p>
           <p className='text-typo-sub-title font-medium text-brand-gray-400'>n개의 다가오는 여행이 있어요</p>
         </div>
+
         <div className='flex gap-3'>
           <JoinPlanButton variant='secondary' />
         </div>
