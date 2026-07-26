@@ -10,7 +10,10 @@ interface PlanPlaceListContainerProps {
 }
 
 const PlanPlaceListSection = dynamic(
-  () => import('./PlanPlaceListSection').then((mod) => ({ default: mod.PlanPlaceListSection })),
+  () =>
+    import('@/components/features/plan/PlaceList/PlanPlaceListSection').then((mod) => ({
+      default: mod.PlanPlaceListSection,
+    })),
   {
     ssr: false,
     loading: () => null, // ← 로딩 중 아무것도 표시 안 함

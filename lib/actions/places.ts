@@ -3,8 +3,8 @@
 import { revalidatePath } from 'next/cache';
 import { supabaseAdmin, supabaseUser } from '@/lib/utils/supabase/index';
 import { auth } from '@/lib/utils/auth';
-import type { CreatePlacePayload } from '@/types/corePlace;
-import { CorePlaceDetail } from '@/types/corePlace;
+import type { CreatePlacePayload } from '@/types/corePlace';
+import { CorePlaceDetail } from '@/types/corePlace';
 
 // 이미 등록한 장소인지 체크
 export async function checkPlaceExists(googlePlaceId: string) {

@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { addPlanMemoItem } from '@/lib/actions/planItem';
+import { RpcErrorMessage } from '@/types/errors';
 
 interface AddMemoItemParams {
   scheduleId: string;
@@ -17,7 +18,7 @@ export function useAddPlanMemoItem() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const addMemoItem = async ({ scheduleId, placeName, memoContent, visitTime }: AddMemoItemParams) => {
-    if (isSubmitting) return { error: 'SUBMITTING' };
+    if (isSubmitting) return { success: false, error: { message: 'INTERNAL_ERROR' as RpcErrorMessage } };
     setIsSubmitting(true);
 
     const result = await addPlanMemoItem({

@@ -54,7 +54,7 @@ export default function AddToScheduleModal({ placeDetail, onClose }: AddToSchedu
 
     setIsSubmitting(false);
 
-    const hasError = results.some((r) => r.error);
+    const hasError = results.some((r) => r.success);
     if (hasError) {
       setErrorMessage('일부 일정에 추가하지 못했습니다. 다시 시도해주세요.');
       return;

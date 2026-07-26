@@ -36,7 +36,7 @@ export default function PlanMemoItemCard({ item, onClick }: PlanMemoItemCardProp
   const handleDelete = async () => {
     const result = await deletePlanItem(item.id);
 
-    if (!result.error) {
+    if (!result.success) {
       await queryClient.invalidateQueries({
         predicate: (query) => query.queryKey.includes('items') && query.queryKey.includes(item.scheduleId),
         refetchType: 'active',
@@ -45,7 +45,7 @@ export default function PlanMemoItemCard({ item, onClick }: PlanMemoItemCardProp
   };
 
   return (
-    <div className='relative flex bg-white shadow-sm cursor-pointer w-full  rounded-sm my-1'>
+    <div className='relative flex bg-white shadow-sm cursor-pointer w-full  rounded-sm'>
       <NotchRows count={1} />
       {/* 왼쪽 방문 시간 */}
       {item.visitTime && (

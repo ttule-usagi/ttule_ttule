@@ -135,7 +135,7 @@ export default function PlanDayPanel({
 
         {/* 2. 아이템 목록 (스크롤 영역) */}
         {/* flex-1 min-h-0을 부모인 파란 패널이 직접 통제하도록 만들었습니다 */}
-        <div className='flex-1 min-h-0 overflow-y-auto no-scrollbar flex flex-col gap-1 mt-6 px-4 pb-2 z-10'>
+        <div className='flex-1 min-h-0 overflow-y-auto no-scrollbar flex flex-col gap-2 mt-6 px-4 pb-2 z-10'>
           {isFetching ? (
             <div className='flex flex-col gap-2'>
               {[1, 2, 3].map((i) => (
@@ -150,7 +150,7 @@ export default function PlanDayPanel({
               {items.map((item, index) => (
                 <div
                   key={item.id}
-                  className='flex flex-col gap-1 shrink-0'
+                  className='flex flex-col gap-2 shrink-0'
                 >
                   {item.type === 'memo' ? (
                     editingItemId === item.id ? (

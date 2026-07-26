@@ -1,7 +1,7 @@
 import type { PlaceCategory } from '@/types/corePlace';
 
 export const CATEGORY_COLORS: Record<PlaceCategory, string> = {
-  restaurant: '#FFBA3B',
+  restaurant: '#FF9721',
   cafe: '#A5D6A7',
   hotel: '#90CAF9',
   shopping: '#F48FB1',

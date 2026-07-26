@@ -10,7 +10,7 @@ import GoogleMapJS from '../../map/GoogleMapJS';
 import GoogleMapEmbed from '../../map/GoogleMapEmbed';
 import { PlaceCategory } from '@/types/corePlace';
 import { DESTINATIONS } from '@/lib/utils/destinations';
-import PlanPlaceListContainer from '../placeList/PlanPlaceListContainer';
+import PlanPlaceListContainer from '@/components/features/plan/PlaceList/PlanPlaceListContainer';
 
 interface PlanDetailContainerProps {
   planId: string;

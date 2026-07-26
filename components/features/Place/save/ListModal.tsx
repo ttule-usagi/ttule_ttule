@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useGetAllPlaceLists } from '@/hooks/place-list/useGetAllPlaceLists';
 import { useQueryClient } from '@tanstack/react-query';
 import { addPlaceToList } from '@/lib/actions/places';
-import type { CorePlaceDetail } from '@/types/corePlace;
+import type { CorePlaceDetail } from '@/types/corePlace';
 import type { AllPlaceLists } from '@/types/placeList';
 import { Icon } from '@/components/common/Icon';
 
