@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useGetPlanDetail } from '@/hooks/plan/useGetPlanDetail';
 import { Icon } from '@/components/common/Icon';
+import LobbyPlanActionMenu from './lobby/LobbyPlanActionMenu';
 
 interface PlanHeaderProps {
   planId: string;
@@ -85,20 +86,14 @@ export default function PlanHeader({ planId }: PlanHeaderProps) {
 
         {/* 체크/설정 버튼 */}
         <div className='flex gap-[12px] items-center shrink-0'>
-          <button aria-label='체크'>
+          {/* <button aria-label='체크'>
             <Icon
               name='CheckboxChecked'
               size={32}
               className='text-brand-blue-600'
             />
-          </button>
-          <button aria-label='설정'>
-            <Icon
-              name='Setting'
-              size={32}
-              className='text-brand-blue-600'
-            />
-          </button>
+          </button> */}
+          <LobbyPlanActionMenu id={planId} />
         </div>
       </div>
     </div>
