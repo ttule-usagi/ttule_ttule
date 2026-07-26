@@ -130,7 +130,7 @@ export default function SaveToListModal({ placeDetail, onClose, onCreateNewList 
                   {isAlreadySaved && <span className='ml-1 text-typo-caption text-brand-gray-400'>저장됨</span>}
                 </p>
                 <p className='text-typo-caption text-brand-gray-500'>
-                  {list.isPublic ? '공유됨' : '비공개'}
+                  {list.isPublic ? '공개됨' : '비공개'}
                   {list.placeCount > 0 && ` · ${list.placeCount}개 장소`}
                 </p>
               </button>

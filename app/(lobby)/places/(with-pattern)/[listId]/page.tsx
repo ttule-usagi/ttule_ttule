@@ -1,8 +1,6 @@
-import TagList from '@/components/features/place-list/tag/TagList';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import PlaceListHeader from '@/components/features/place-list/detail/PlaceListHeader';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
-import PlaceListPlaces from '@/components/features/place-list/detail/PlaceListPlaces';
 import InviteEditorHandler from '@/components/features/invite/InviteEditorHandler';
 import { prefetchPlaceListDetail } from '@/lib/actions/api/prefetch/prefetchPlaceListDetail';
 import { Suspense } from 'react';
@@ -14,6 +12,7 @@ import { handleInviteAccess } from '@/lib/utils/invite/handleInviteAcess';
 import { getPlaceListDetail } from '@/lib/actions/api/placeList';
 import { supabaseUser } from '@/lib/utils/supabase';
 import { RpcError } from '@/types/errors';
+import PlaceListContent from '@/components/features/place-list/detail/PlaceListContent';
 
 export default async function PlaceListDetail({
   params,
@@ -63,14 +62,7 @@ export default async function PlaceListDetail({
           />
         </QueryBoundary>
 
-        <div className='flex flex-col gap-3'>
-          <QueryBoundary subject='태그'>
-            <TagList listId={listId} />
-          </QueryBoundary>
-          <QueryBoundary subject='저장된 장소'>
-            <PlaceListPlaces listId={listId} />
-          </QueryBoundary>
-        </div>
+        <PlaceListContent listId={listId} />
       </div>
     </HydrationBoundary>
   );

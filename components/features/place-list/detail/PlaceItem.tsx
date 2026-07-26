@@ -3,54 +3,62 @@
 import { Icon } from '@/components/common/Icon';
 import { Place } from '@/types/placeList';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PlaceTag from '../tag/PlaceTag';
 import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
+import { useConfirmDeletePlace } from '@/hooks/place-list/useConfirmDeletePlace';
+import { useUpdatePlace } from '@/hooks/place-list/useUpdatePlace';
+import AuthorityWrapper from '../../AuthorityWrapper';
+import { useGetMyRole } from '@/hooks/place-list/useGetMyRole';
 
-export default function PlaceItem({ place }: { place: Place }) {
+export default function PlaceItem({ place, listId }: { place: Place; listId: string }) {
   const [isEdit, setIsEdit] = useState(false);
   const [memo, setMemo] = useState<string | null>(place.memoContent);
+  const { confirmDeletePlaceList } = useConfirmDeletePlace(listId);
+  const { data: myRole } = useGetMyRole(listId);
+  const { mutate: updatePlace } = useUpdatePlace(listId);
 
-  const handleEdit = (e: React.SubmitEvent) => {
-    e.preventDefault();
-
-    // 수정 api 호출
+  const handleEdit = () => {
+    updatePlace({ placeId: place.id, memo }, { onSuccess: () => setIsEdit(false) });
   };
 
   return (
     <div className='w-full flex gap-3.25 bg-brand-gray-0 p-3 rounded-sm border border-brand-blue-700 items-start'>
       {!isEdit && (
-        <div className='w-20 h-20 shrink-0 border border-brand-blue-700 rounded-xs bg-brand-blue-50'>
-          {place.thumbnail ? (
-            <Image
-              src={place.thumbnail}
-              alt='thumbnail'
-              width={80}
-              height={80}
-            />
-          ) : (
-            <div>이미지</div>
-          )}
+        <div className='w-20 h-20 shrink-0 border border-brand-gray-200 rounded-xs bg-brand-blue-50'>
+          <Image
+            src={place.thumbnail || '/images/not-found.webp'}
+            alt={place.thumbnail ? 'thumbnail' : 'not-found'}
+            width={80}
+            height={80}
+            className='w-full h-full object-cover rounded-xs'
+          />
         </div>
       )}
 
       <div className='flex flex-col gap-1 flex-1'>
         <div className='flex justify-between items-center'>
-          <p className='flex-1 text-typo-sub-title text-brand-blue-700'>{place.customName}</p>
-          {!isEdit ? (
-            <Icon
-              name='Edit'
-              size={26}
-              className='text-brand-gray-300 cursor-pointer'
-              onClick={() => setIsEdit(!isEdit)}
-            />
-          ) : (
+          {isEdit && (
             <Icon
               name='XClose'
               size={26}
-              className='text-brand-gray-400 cursor-pointer'
-              onClick={() => setIsEdit(!isEdit)}
+              className='cursor-pointer text-brand-gray-400 mr-0.5'
+              onClick={() => confirmDeletePlaceList(place.customName, place.id)}
             />
+          )}
+          <p className='flex-1 text-typo-sub-title text-brand-gray-600 font-medium'>{place.customName}</p>
+          {!isEdit && (
+            <AuthorityWrapper
+              role={myRole}
+              requiredRole='editor'
+            >
+              <Icon
+                name={'Edit'}
+                size={26}
+                className='cursor-pointer text-brand-gray-300'
+                onClick={() => setIsEdit(!isEdit)}
+              />
+            </AuthorityWrapper>
           )}
         </div>
 
@@ -59,9 +67,12 @@ export default function PlaceItem({ place }: { place: Place }) {
         )}
         {!isEdit ? (
           <>
-            <p className='text-brand-gray-600 text-typo-description mb-1'>{place.memoContent}</p>
+            {place.memoContent && (
+              <p className='text-brand-gray-600 text-typo-description whitespace-pre-wrap'>{place.memoContent}</p>
+            )}
 
-            <div className='flex gap-1 items-center overflow flex-wrap'>
+            {/* TODO: 2차 MVP 때 태그 적용 */}
+            {/* <div className='flex gap-1 items-center overflow flex-wrap'>
               {place.tags.map((item) => (
                 <PlaceTag
                   key={item.id}
@@ -69,13 +80,13 @@ export default function PlaceItem({ place }: { place: Place }) {
                   isRounded={true}
                 />
               ))}
-            </div>
+            </div> */}
           </>
         ) : (
-          <form>
+          <div>
             <textarea
               value={memo ?? ''}
-              className='bg-brand-gray-100 min-h-16 text-typo-base px-3 py-2 text-brand-gray-600 border border-brand-gray-200 outline-none resize-none rounded-sm w-full'
+              className='bg-brand-gray-100 min-h-16 text-typo-base px-3 py-2 text-brand-gray-600 border border-brand-gray-200 outline-none rounded-sm w-full overscroll-none resize-y'
               onChange={(e) => setMemo(e.target.value)}
             />
 
@@ -87,13 +98,13 @@ export default function PlaceItem({ place }: { place: Place }) {
                 취소
               </button>
               <button
-                type='submit'
                 className='flex-1 bg-brand-blue-700 text-brand-gray-0 rounded-sm py-2 cursor-pointer'
+                onClick={handleEdit}
               >
                 저장하기
               </button>
             </div>
-          </form>
+          </div>
         )}
       </div>
     </div>

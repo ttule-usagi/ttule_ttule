@@ -1,5 +1,6 @@
 'use server';
 
+import { UpdatePlaceParams } from '@/types/placeList';
 import { auth } from '../utils/auth';
 import { supabaseAdmin, supabaseUser } from '../utils/supabase';
 import { ActionResult, isPostgresError, RpcErrorMessage, SQLSTATE_TO_RPC_ERROR } from '@/types/errors';
@@ -52,6 +53,61 @@ export const deletePlaceList = async (listId: string): Promise<ActionResult<null
     return { success: true, data: null };
   } catch (error: unknown) {
     console.error('❌ 리스트 삭제 실패: ', error);
+    const code = isPostgresError(error) ? error.code : undefined;
+    const message = ((code && SQLSTATE_TO_RPC_ERROR[code]) ?? 'INTERNAL_ERROR') as RpcErrorMessage;
+    return { success: false, error: { message, code } };
+  }
+};
+
+// 장소 리스트에 저장된 단일 장소 삭제
+export const deletePlace = async ({
+  listId,
+  placeId,
+}: {
+  listId: string;
+  placeId: string;
+}): Promise<ActionResult<null>> => {
+  try {
+    const supabase = await supabaseUser();
+    const { error } = await supabase.rpc('delete_place', {
+      p_list_id: listId,
+      p_place_id: placeId,
+    });
+
+    if (error) {
+      console.error('❌ 단일 장소 삭제 실패: ', error);
+      const message = SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR';
+      return { success: false, error: { message, code: error.code } };
+    }
+
+    return { success: true, data: null };
+  } catch (error: unknown) {
+    console.error('❌ 단일 장소 삭제 실패: ', error);
+    const code = isPostgresError(error) ? error.code : undefined;
+    const message = ((code && SQLSTATE_TO_RPC_ERROR[code]) ?? 'INTERNAL_ERROR') as RpcErrorMessage;
+    return { success: false, error: { message, code } };
+  }
+};
+
+// 단일 장소 편집
+export const updatePlace = async ({ listId, placeId, memo }: UpdatePlaceParams): Promise<ActionResult<null>> => {
+  try {
+    const supabase = await supabaseUser();
+    const { error } = await supabase.rpc('update_place', {
+      p_list_id: listId,
+      p_place_id: placeId,
+      p_memo: memo,
+    });
+
+    if (error) {
+      console.error('❌ 단일 장소 편집 실패: ', error);
+      const message = SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR';
+      return { success: false, error: { message, code: error.code } };
+    }
+
+    return { success: true, data: null };
+  } catch (error: unknown) {
+    console.error('❌ 단일 장소 편집 실패: ', error);
     const code = isPostgresError(error) ? error.code : undefined;
     const message = ((code && SQLSTATE_TO_RPC_ERROR[code]) ?? 'INTERNAL_ERROR') as RpcErrorMessage;
     return { success: false, error: { message, code } };
