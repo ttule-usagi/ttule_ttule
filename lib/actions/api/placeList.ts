@@ -8,6 +8,7 @@ import type {
   PlaceListDetail,
   Tag,
   GetPlacesParams,
+  PlaceCoordinates,
 } from '@/types/placeList';
 import { RpcError, RpcErrorMessage } from '@/types/errors';
 
@@ -16,7 +17,7 @@ interface GetPlaceListPlacesProps extends GetPlacesParams {
   cursor?: PageParam;
 }
 
-// 저장된 장소 조회
+// 저장된 장소 조회(무한스크롤)
 export const getPlaceListPlaces = async ({
   supabase,
   listId,
@@ -105,4 +106,21 @@ export const getPlaceListTags = async ({
     throw new RpcError('NOT_FOUND');
   }
   return toCamelKey<Tag[]>(data);
+};
+
+// 저장된 장소 조회(마커용 - sortBy X, 무한스크롤 X)
+export const getPlaceListPlacesCoordinate = async ({
+  supabase,
+  listId,
+}: {
+  supabase: SupabaseClient;
+  listId: string;
+}): Promise<PlaceCoordinates[]> => {
+  const { data, error } = await supabase.rpc('get_place_list_places_coordinate', {
+    p_list_id: listId,
+  });
+
+  if (error) throw new RpcError(error.message as RpcErrorMessage, error.code);
+
+  return data ?? [];
 };

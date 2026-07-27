@@ -57,14 +57,18 @@ export interface PlaceListMember {
   profileImageUrl: string | null;
 }
 
-// 단일 장소 아이템
-export interface Place {
+// 지도 마커용 장소 아이템
+export interface PlaceCoordinates {
   id: string;
   corePlaceId: string;
   latitude: number | null;
   longitude: number | null;
   customName: string;
   category: PlaceCategory | null; // place_category
+}
+
+// 단일 장소 아이템
+export interface Place extends PlaceCoordinates {
   thumbnail: string | null;
   memoContent: string | null;
   tags: Tag[];
