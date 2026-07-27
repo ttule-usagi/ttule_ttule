@@ -5,6 +5,7 @@ import { useGetAllPlaceLists } from '@/hooks/place-list/useGetAllPlaceLists';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import { PlanPlaceListItem } from '@/components/features/plan/PlaceList/PlanPlaceListItem';
 import PlanPlaceListDetail from '@/components/features/plan/PlaceList/PlanPlaceListDetail';
+import Loader from '@/components/common/Loader';
 
 export const PlanPlaceListSection = memo(function PlanPlaceListSection({ planId }: { planId: string }) {
   const [selectedList, setSelectedList] = useState<{ id: string; title: string } | null>(null);
@@ -14,7 +15,13 @@ export const PlanPlaceListSection = memo(function PlanPlaceListSection({ planId 
   // selectedListId가 있으면 상세 뷰로 전환
   if (selectedList) {
     return (
-      <QueryBoundary>
+      <QueryBoundary
+        fallback={
+          <div className='pt-10'>
+            <Loader />
+          </div>
+        }
+      >
         <PlanPlaceListDetail
           listId={selectedList.id}
           planId={planId}
@@ -29,6 +36,7 @@ export const PlanPlaceListSection = memo(function PlanPlaceListSection({ planId 
       {/* 내 장소 리스트 */}
       <div className='flex flex-col gap-3'>
         <p className='text-typo-big-title font-semibold text-brand-blue-700 mb-3'>저장된 장소 리스트</p>
+
         {ownedLists.items.length === 0 ? (
           <div className='flex min-h-20 justify-center items-center'>
             <p className='text-typo-description text-brand-gray-400 text-center'>장소 리스트가 아직 없습니다.</p>{' '}

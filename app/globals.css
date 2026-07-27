@@ -232,7 +232,7 @@ input:-webkit-autofill:active {
 
   /* Tomato loading animation */
   .tomato-loader {
-    --size: 32px;
+    --size: 24px;
     width: calc(var(--size) * 4);
     height: var(--size);
     position: relative;

@@ -179,7 +179,7 @@ export default function PlanDayPanel({
                       onClick={() => setEditingItemId(item.id)}
                     />
                   )}
-                  {index < items.length - 1 && item.transitMode && (
+                  {index < items.length - 1 && item.transitMode && items[index + 1].type !== 'memo' && (
                     <TransitInfo
                       mode={item.transitMode}
                       time={item.transitTime}

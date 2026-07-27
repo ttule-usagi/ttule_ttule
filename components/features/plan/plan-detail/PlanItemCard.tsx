@@ -53,7 +53,7 @@ export default function PlanItemCard({ item, onClick }: PlanItemCardProps) {
   const handleDelete = async () => {
     const result = await deletePlanItem(item.id);
 
-    if (!result.success) {
+    if (result.success) {
       await queryClient.invalidateQueries({
         predicate: (query) => query.queryKey.includes('items') && query.queryKey.includes(item.scheduleId),
         refetchType: 'active',

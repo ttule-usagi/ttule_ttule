@@ -47,15 +47,23 @@ export default function AddToScheduleModal({ placeDetail, onClose }: AddToSchedu
     setIsSubmitting(true);
     setErrorMessage(null);
 
-    // 선택된 모든 schedule에 병렬로 추가
     const results = await Promise.all(
       Array.from(selectedScheduleIds).map((scheduleId) => addPlanItemWithTransit({ scheduleId, placeDetail })),
     );
 
     setIsSubmitting(false);
 
-    const hasError = results.some((r) => r.success);
-    if (hasError) {
+    const failedResults = results.filter((r) => !r.success);
+
+    if (failedResults.length > 0) {
+      // 실패 케이스별 처리
+      const hasUnauthorized = failedResults.some((r) => !r.success && r.error.message === 'UNAUTHORIZED');
+
+      if (hasUnauthorized) {
+        setErrorMessage('로그인이 필요합니다.');
+        return;
+      }
+
       setErrorMessage('일부 일정에 추가하지 못했습니다. 다시 시도해주세요.');
       return;
     }
