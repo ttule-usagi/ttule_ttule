@@ -21,7 +21,7 @@ export const useUpdatePlace = (listId: string) => {
     },
     onSuccess: (_, variables) => {
       queryClient.setQueriesData(
-        { queryKey: ['place-list', listId, 'places'] },
+        { queryKey: ['place-list', listId, 'places', 'list'] },
         (old: InfiniteData<Place[]> | undefined) => {
           if (!old) return old;
           return {

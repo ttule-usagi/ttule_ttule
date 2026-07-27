@@ -16,7 +16,7 @@ const fetchPlaceListPlaces = async (listId: string, cursor: PageParam, sortBy: S
 // 리스트에 저장된 장소 queryOptions
 export const placeListPlacesQueryOptions = ({ listId, sortBy }: GetPlacesParams) => {
   return infiniteQueryOptions({
-    queryKey: ['place-list', listId, 'places', sortBy],
+    queryKey: ['place-list', listId, 'places', 'list', sortBy],
     queryFn: ({ pageParam }) => fetchPlaceListPlaces(listId, pageParam, sortBy),
     initialPageParam: null as PageParam,
     getNextPageParam: (lastPage) =>
