@@ -25,6 +25,7 @@ interface PlanDayPanelProps {
   currentIndex: number;
   onPrev: () => void;
   onNext: () => void;
+  hasSession: boolean;
 }
 
 function formatScheduleDate(dateStr: string | null, dayNumber: number): string {
@@ -47,6 +48,7 @@ export default function PlanDayPanel({
   onNext,
   items,
   isFetching,
+  hasSession,
 }: PlanDayPanelProps) {
   const queryClient = useQueryClient();
 
@@ -123,18 +125,19 @@ export default function PlanDayPanel({
           </div>
 
           {/* 편집/더보기 버튼 */}
-          <div className='flex gap-3 items-center'>
-            <button className='text-white text-typo-base'>편집</button>
-            <Icon
-              name='DotsHorizontal'
-              size={32}
-              className='text-white'
-            />
-          </div>
+          {hasSession && (
+            <div className='flex gap-3 items-center'>
+              <button className='text-white text-typo-base'>편집</button>
+              <Icon
+                name='DotsHorizontal'
+                size={32}
+                className='text-white'
+              />
+            </div>
+          )}
         </div>
 
         {/* 2. 아이템 목록 (스크롤 영역) */}
-        {/* flex-1 min-h-0을 부모인 파란 패널이 직접 통제하도록 만들었습니다 */}
         <div className='flex-1 min-h-0 overflow-y-auto no-scrollbar flex flex-col gap-2 mt-6 px-4 pb-2 z-10'>
           {isFetching ? (
             <div className='flex flex-col gap-2'>
@@ -147,47 +150,55 @@ export default function PlanDayPanel({
             </div>
           ) : (
             <>
-              {items.map((item, index) => (
-                <div
-                  key={item.id}
-                  className='flex flex-col gap-2 shrink-0'
-                >
-                  {item.type === 'memo' ? (
-                    editingItemId === item.id ? (
-                      <PlanMemoItemEditCard
+              {items.length === 0 && !isFetching ? (
+                <div className='flex-1 flex items-center justify-center'>
+                  <p className='text-typo-description text-white'>저장된 장소가 없습니다.</p>
+                </div>
+              ) : (
+                items.map((item, index) => (
+                  <div
+                    key={item.id}
+                    className='flex flex-col gap-2 shrink-0'
+                  >
+                    {item.type === 'memo' ? (
+                      editingItemId === item.id ? (
+                        <PlanMemoItemEditCard
+                          item={item}
+                          isNew={false}
+                          scheduleId={schedule.id}
+                          onClose={() => setEditingItemId(null)}
+                          onSave={() => setEditingItemId(null)}
+                        />
+                      ) : (
+                        <PlanMemoItemCard
+                          item={item}
+                          onClick={() => setEditingItemId(item.id)}
+                          hasSession={hasSession}
+                        />
+                      )
+                    ) : editingItemId === item.id ? (
+                      <PlanItemEditCard
                         item={item}
-                        isNew={false}
-                        scheduleId={schedule.id}
                         onClose={() => setEditingItemId(null)}
                         onSave={() => setEditingItemId(null)}
                       />
                     ) : (
-                      <PlanMemoItemCard
+                      <PlanItemCard
                         item={item}
                         onClick={() => setEditingItemId(item.id)}
+                        hasSession={hasSession}
                       />
-                    )
-                  ) : editingItemId === item.id ? (
-                    <PlanItemEditCard
-                      item={item}
-                      onClose={() => setEditingItemId(null)}
-                      onSave={() => setEditingItemId(null)}
-                    />
-                  ) : (
-                    <PlanItemCard
-                      item={item}
-                      onClick={() => setEditingItemId(item.id)}
-                    />
-                  )}
-                  {index < items.length - 1 && item.transitMode && items[index + 1].type !== 'memo' && (
-                    <TransitInfo
-                      mode={item.transitMode}
-                      time={item.transitTime}
-                      hasMemo={!!item.transitMemo}
-                    />
-                  )}
-                </div>
-              ))}
+                    )}
+                    {index < items.length - 1 && item.transitMode && items[index + 1].type !== 'memo' && (
+                      <TransitInfo
+                        mode={item.transitMode}
+                        time={item.transitTime}
+                        hasMemo={!!item.transitMemo}
+                      />
+                    )}
+                  </div>
+                ))
+              )}
 
               {isNewMemoOpen && (
                 <PlanMemoItemEditCard
@@ -200,28 +211,30 @@ export default function PlanDayPanel({
             </>
           )}
           {/* 3. 장소 추가 버튼 */}
-          <div className=' z-10'>
-            <DropDown>
-              <DropDown.Trigger>
-                <div className='flex items-center justify-center cursor-pointer hover:bg-brand-blue-900/20 hover:backdrop-blur-sm transition-colors duration-200 ease-in-out'>
-                  <Image
-                    src='/images/new-plan-item.svg'
-                    alt='장소 추가'
-                    width={375}
-                    height={87}
-                    style={{ width: 'auto' }}
-                    loading='eager'
-                  />
-                </div>
-              </DropDown.Trigger>
+          {hasSession && (
+            <div className=' z-10'>
+              <DropDown>
+                <DropDown.Trigger>
+                  <div className='flex items-center justify-center cursor-pointer hover:bg-brand-blue-900/20 hover:backdrop-blur-sm transition-colors duration-200 ease-in-out'>
+                    <Image
+                      src='/images/new-plan-item.svg'
+                      alt='장소 추가'
+                      width={375}
+                      height={87}
+                      style={{ width: 'auto' }}
+                      loading='eager'
+                    />
+                  </div>
+                </DropDown.Trigger>
 
-              <DropDown.Menu>
-                <DropDown.Item onClick={triggerOpenPlaceList}>리스트에서 장소 가져오기</DropDown.Item>
-                <DropDown.Item onClick={triggerFocus}>검색에서 장소 가져오기</DropDown.Item>
-                <DropDown.Item onClick={() => setIsNewMemoOpen(true)}>장소 없는 일정 만들기</DropDown.Item>
-              </DropDown.Menu>
-            </DropDown>
-          </div>
+                <DropDown.Menu>
+                  <DropDown.Item onClick={triggerOpenPlaceList}>리스트에서 장소 가져오기</DropDown.Item>
+                  <DropDown.Item onClick={triggerFocus}>검색에서 장소 가져오기</DropDown.Item>
+                  <DropDown.Item onClick={() => setIsNewMemoOpen(true)}>장소 없는 일정 만들기</DropDown.Item>
+                </DropDown.Menu>
+              </DropDown>
+            </div>
+          )}
         </div>
       </div>
     </div>

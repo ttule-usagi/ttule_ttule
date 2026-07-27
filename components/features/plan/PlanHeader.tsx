@@ -8,6 +8,7 @@ import LobbyPlanActionMenu from './lobby/LobbyPlanActionMenu';
 
 interface PlanHeaderProps {
   planId: string;
+  hasSession: boolean;
 }
 
 function formatDateRange(departureDate: string | null, arrivalDate: string | null, isDateUndecided: boolean): string {
@@ -19,7 +20,7 @@ function formatDateRange(departureDate: string | null, arrivalDate: string | nul
   return `${fmt(departureDate)}~${fmt(arrivalDate)}`;
 }
 
-export default function PlanHeader({ planId }: PlanHeaderProps) {
+export default function PlanHeader({ planId, hasSession }: PlanHeaderProps) {
   const { data } = useGetPlanDetail(planId);
   const { plan, members } = data;
 
@@ -93,7 +94,7 @@ export default function PlanHeader({ planId }: PlanHeaderProps) {
               className='text-brand-blue-600'
             />
           </button> */}
-          <LobbyPlanActionMenu id={planId} />
+          {hasSession && <LobbyPlanActionMenu id={planId} />}
         </div>
       </div>
     </div>

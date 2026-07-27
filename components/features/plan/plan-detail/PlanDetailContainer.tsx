@@ -14,9 +14,10 @@ import PlanPlaceListContainer from '@/components/features/plan/PlaceList/PlanPla
 
 interface PlanDetailContainerProps {
   planId: string;
+  hasSession: boolean;
 }
 
-export default function PlanDetailContainer({ planId }: PlanDetailContainerProps) {
+export default function PlanDetailContainer({ planId, hasSession }: PlanDetailContainerProps) {
   const queryClient = useQueryClient();
   const { data } = useGetPlanDetail(planId);
   const { plan, schedules, members, items: firstScheduleItems } = data;
@@ -94,11 +95,11 @@ export default function PlanDetailContainer({ planId }: PlanDetailContainerProps
             totalDays={schedules.length}
             onPrev={handlePrev}
             onNext={handleNext}
+            hasSession={hasSession}
           />
         </div>
       </QueryBoundary>
-
-      <PlanPlaceListContainer planId={planId} />
+      {hasSession && <PlanPlaceListContainer planId={planId} />}
     </div>
   );
 }

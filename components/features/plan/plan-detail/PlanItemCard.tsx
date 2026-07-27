@@ -14,6 +14,7 @@ import NotchRows from '../NotchRows';
 interface PlanItemCardProps {
   item: PlanItem;
   onClick: () => void;
+  hasSession: boolean;
 }
 
 function CategoryIcon({ category }: { category: string | null }) {
@@ -35,7 +36,7 @@ function formatVisitTime(time: string | null): string {
   return time.slice(0, 5); // "HH:MM"
 }
 
-export default function PlanItemCard({ item, onClick }: PlanItemCardProps) {
+export default function PlanItemCard({ item, onClick, hasSession }: PlanItemCardProps) {
   const { open } = useModalStore();
   const queryClient = useQueryClient();
   const categoryLabel = item.placeCategory ? getPlaceCategoryLabel(item.placeCategory) : null;
@@ -95,35 +96,37 @@ export default function PlanItemCard({ item, onClick }: PlanItemCardProps) {
         </div>
 
         {/* 더보기 버튼 */}
-        <DropDown>
-          {/* 트리거는 드롭다운 메뉴를 열고 닫을 버튼이 되는 것 */}
-          <DropDown.Trigger>
-            <Icon
-              name='DotsHorizontal'
-              size={24}
-              className='mt-3 text-brand-gray-400'
-            />
-          </DropDown.Trigger>
+        {hasSession && (
+          <DropDown>
+            {/* 트리거는 드롭다운 메뉴를 열고 닫을 버튼이 되는 것 */}
+            <DropDown.Trigger>
+              <Icon
+                name='DotsHorizontal'
+                size={24}
+                className='mt-3 text-brand-gray-400'
+              />
+            </DropDown.Trigger>
 
-          {/* 실제로 열릴 드롭다운 메뉴 */}
-          <DropDown.Menu>
-            {/* 아이템 하나가 버튼 하나고, 여기 이벤트를 연결해주면 된다 */}
-            <DropDown.Item
-              onClick={() =>
-                open({
-                  type: 'deletePlanItem',
-                  props: { onConfirm: handleDelete },
-                })
-              }
-            >
-              일정 삭제
-            </DropDown.Item>
-            <DropDown.Item onClick={handleDuplicate}>일정 복제</DropDown.Item>
-            <DropDown.Item onClick={onClick}>일정 편집</DropDown.Item>
-            <DropDown.Item>구글 지도에서 보기</DropDown.Item>
-            <DropDown.Item>다른 날짜로 변경</DropDown.Item>
-          </DropDown.Menu>
-        </DropDown>
+            {/* 실제로 열릴 드롭다운 메뉴 */}
+            <DropDown.Menu>
+              {/* 아이템 하나가 버튼 하나고, 여기 이벤트를 연결해주면 된다 */}
+              <DropDown.Item
+                onClick={() =>
+                  open({
+                    type: 'deletePlanItem',
+                    props: { onConfirm: handleDelete },
+                  })
+                }
+              >
+                일정 삭제
+              </DropDown.Item>
+              <DropDown.Item onClick={handleDuplicate}>일정 복제</DropDown.Item>
+              <DropDown.Item onClick={onClick}>일정 편집</DropDown.Item>
+              <DropDown.Item>구글 지도에서 보기</DropDown.Item>
+              <DropDown.Item>다른 날짜로 변경</DropDown.Item>
+            </DropDown.Menu>
+          </DropDown>
+        )}
       </div>
     </div>
   );
