@@ -1,4 +1,5 @@
-import PlaceMap from '@/components/features/place-list/map/PlaceMap';
+import PlaceListMap from '@/components/features/place-list/map/PlaceListMap';
+import Script from 'next/script';
 
 export default function PlaceLayout({
   children,
@@ -7,12 +8,12 @@ export default function PlaceLayout({
 }>) {
   return (
     <div className='h-screen w-full flex'>
+      <Script
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&loading=async`}
+        strategy='afterInteractive'
+      />
       {children}
-
-      {/* 우측 지도 */}
-      {/* <section className='flex-1 bg-brand-blue-50 h-full'>
-        <PlaceMap />
-      </section> */}
+      <PlaceListMap />
     </div>
   );
 }

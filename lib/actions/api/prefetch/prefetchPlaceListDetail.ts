@@ -1,9 +1,10 @@
 import { QueryClient } from '@tanstack/react-query';
-import { getPlaceListPlaces, getPlaceListTags } from '@/lib/actions/api/placeList';
+import { getPlaceListPlaces, getPlaceListPlacesCoordinate, getPlaceListTags } from '@/lib/actions/api/placeList';
 import type { PageParam } from '@/types/placeList';
 import { placeListPlacesQueryOptions } from '@/hooks/place-list/useGetPlaceListPlaces';
 import { placeListTagsQueryOptions } from '@/hooks/place-list/useGetPlaceListTags';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { placeListPlacesCoordinateQueryOptions } from '@/hooks/place-list/useGetPlaceListPlacesCoordinate';
 
 export async function prefetchPlaceListDetail(queryClient: QueryClient, listId: string, supabase: SupabaseClient) {
   await Promise.all([
@@ -13,6 +14,10 @@ export async function prefetchPlaceListDetail(queryClient: QueryClient, listId: 
       queryFn: ({ pageParam }) =>
         getPlaceListPlaces({ supabase, listId, sortBy: 'created_desc', cursor: pageParam as PageParam }),
       initialPageParam: null as PageParam,
+    }),
+    queryClient.prefetchQuery({
+      ...placeListPlacesCoordinateQueryOptions(listId),
+      queryFn: () => getPlaceListPlacesCoordinate({ supabase, listId }),
     }),
     // TODO: 2차에 태그 기능 추가
     // queryClient.prefetchQuery({
