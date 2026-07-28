@@ -15,18 +15,20 @@ export default function PlaceInfoHeader({ place }: { place: CorePlace }) {
         )}
         {place.originalName && <p className='text-typo-base text-brand-gray-500'>{place.originalName}</p>}
       </div>
-      <div className='flex flex-col gap-1'>
+      <div className='flex flex-col gap-1 text-typo-description text-brand-gray-500'>
         <div className='flex items-center gap-0.5'>
           <Icon
-            name='RatingStar'
-            size={24}
+            name='RoundStar'
+            size={14}
+            className='mr-0.5'
           />
-          <span className='text-typo-description text-brand-gray-500'>{place.averageRating.toFixed(1)}</span>
-          <span className='text-typo-description text-brand-gray-500'>({place.reviewCount})</span>
-          <span className='text-typo-description text-brand-gray-500 mx-0.5'>·</span>
-          <span className='text-typo-description text-brand-gray-500'>{place.savedCount ?? 0} 저장됨</span>
+
+          <span>{place.averageRating.toFixed(1)}</span>
+          <span>({place.reviewCount})</span>
+          <span className='mx-0.5'>·</span>
+          <span>{place.savedCount ?? 0} 저장됨</span>
         </div>
-        {categoryLabel && <p className='text-typo-description text-brand-gray-500'>{categoryLabel}</p>}
+        {categoryLabel && <p>{categoryLabel}</p>}
       </div>
     </div>
   );
