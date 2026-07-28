@@ -71,6 +71,8 @@ export default function PlanDayPanel({
   const { triggerFocus } = usePlanSearchStore();
   const { triggerOpenPlaceList } = usePlanPlaceListStore();
 
+  const isGuest = !hasSession;
+
   return (
     <div className='relative h-full w-full max-w-118'>
       {/* 이전 화살표 */}
@@ -147,7 +149,7 @@ export default function PlanDayPanel({
         </div>
 
         {/* 2. 아이템 목록 (스크롤 영역) */}
-        <div className='flex-1 min-h-0 overflow-y-auto no-scrollbar flex flex-col gap-2 mt-6 px-4 pb-2 z-10'>
+        <div className='flex-1 min-h-0 overflow-y-auto no-scrollbar flex flex-col gap-2 mt-6 px-4 pb-4 z-10'>
           {isFetching ? (
             <div className='flex flex-col gap-2'>
               {[1, 2, 3].map((i) => (
@@ -159,57 +161,51 @@ export default function PlanDayPanel({
             </div>
           ) : (
             <>
-              {items.length === 0 && !isFetching ? (
-                <div className='flex-1 flex items-center justify-center'>
-                  <p className='text-typo-description text-white'>저장된 장소가 없습니다.</p>
-                </div>
-              ) : (
-                items.map((item, index) => (
-                  <div
-                    key={item.id}
-                    className='flex flex-col gap-2 shrink-0'
-                  >
-                    {item.type === 'memo' ? (
-                      editingItemId === item.id ? (
-                        <PlanMemoItemEditCard
-                          item={item}
-                          isNew={false}
-                          scheduleId={schedule.id}
-                          onClose={() => setEditingItemId(null)}
-                          onSave={() => setEditingItemId(null)}
-                        />
-                      ) : (
-                        <PlanMemoItemCard
-                          item={item}
-                          onClick={() => setEditingItemId(item.id)}
-                          hasSession={hasSession}
-                          myRole={myRole}
-                        />
-                      )
-                    ) : editingItemId === item.id ? (
-                      <PlanItemEditCard
+              {items.map((item, index) => (
+                <div
+                  key={item.id}
+                  className='flex flex-col gap-2 shrink-0'
+                >
+                  {item.type === 'memo' ? (
+                    editingItemId === item.id ? (
+                      <PlanMemoItemEditCard
                         item={item}
+                        isNew={false}
+                        scheduleId={schedule.id}
                         onClose={() => setEditingItemId(null)}
                         onSave={() => setEditingItemId(null)}
                       />
                     ) : (
-                      <PlanItemCard
+                      <PlanMemoItemCard
                         item={item}
                         onClick={() => setEditingItemId(item.id)}
                         hasSession={hasSession}
                         myRole={myRole}
                       />
-                    )}
-                    {index < items.length - 1 && item.transitMode && items[index + 1].type !== 'memo' && (
-                      <TransitInfo
-                        mode={item.transitMode}
-                        time={item.transitTime}
-                        hasMemo={!!item.transitMemo}
-                      />
-                    )}
-                  </div>
-                ))
-              )}
+                    )
+                  ) : editingItemId === item.id ? (
+                    <PlanItemEditCard
+                      item={item}
+                      onClose={() => setEditingItemId(null)}
+                      onSave={() => setEditingItemId(null)}
+                    />
+                  ) : (
+                    <PlanItemCard
+                      item={item}
+                      onClick={() => setEditingItemId(item.id)}
+                      hasSession={hasSession}
+                      myRole={myRole}
+                    />
+                  )}
+                  {index < items.length - 1 && item.transitMode && items[index + 1].type !== 'memo' && (
+                    <TransitInfo
+                      mode={item.transitMode}
+                      time={item.transitTime}
+                      hasMemo={!!item.transitMemo}
+                    />
+                  )}
+                </div>
+              ))}
 
               {isNewMemoOpen && (
                 <PlanMemoItemEditCard
@@ -250,6 +246,13 @@ export default function PlanDayPanel({
                 </DropDown>
               </div>
             </AuthorityWrapper>
+          )}
+          {items.length === 0 && !isFetching ? (
+            <div className='flex-1 flex items-center justify-center pb-10'>
+              <p className='text-typo-description text-white'>저장된 장소가 없습니다.</p>
+            </div>
+          ) : (
+            ''
           )}
         </div>
       </div>
