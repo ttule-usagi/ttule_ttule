@@ -40,8 +40,8 @@ export default function PlaceListMap() {
         </Suspense>
       )}
       {config.block && (
-        <div className='absolute inset-0 bg-white/86 flex flex-col items-center justify-center'>
-          <span className='text-typo-base text-brand-gray-400'>지금은 지도를 조작할 수 없습니다.</span>
+        <div className='absolute inset-0 bg-white/50 backdrop-blur-md flex flex-col items-center justify-center'>
+          <span className='text-typo-description text-brand-gray-400'>지금은 지도를 조작할 수 없습니다.</span>
         </div>
       )}
     </div>
