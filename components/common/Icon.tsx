@@ -38,6 +38,7 @@ import CheckboxChecked from '@/assets/icons/check-square.svg';
 import Setting from '@/assets/icons/settings.svg';
 import UserPlus from '@/assets/icons/user-plus.svg';
 import Lock from '@/assets/icons/lock.svg';
+import Naver from '@/assets/icons/naver.svg';
 
 export const ICONS = {
   Luggage,
@@ -80,6 +81,7 @@ export const ICONS = {
   UserPlus,
   Lock,
   LinkThin,
+  Naver,
 } as const;
 
 export type IconName = keyof typeof ICONS;
