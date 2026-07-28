@@ -4,6 +4,11 @@ import Image from 'next/image';
 import type { CorePlaceDetail } from '@/types/CorePlace';
 import { Icon } from '@/components/common/Icon';
 import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
+import WebsiteUri from './detail/WebsiteUri';
+import ExternalLinkButton from './detail/ExternalLinkButton';
+import { formatRelativeTime } from '@/lib/utils/date';
+import BusinessHours from './detail/BusinessHours';
+import Address from './detail/Address';
 
 interface CorePlaceDetailProps {
   data: CorePlaceDetail;
@@ -30,18 +35,18 @@ export default function CorePlaceDetail({
   const categoryLabel = getPlaceCategoryLabel(place.category);
 
   return (
-    <div className='bg-white  overflow-hidden relative w-full'>
+    <div className='bg-white relative w-full'>
       {/* 커버 이미지 */}
-      <div className='relative h-60 w-full'>
+      <div className='h-60 w-full'>
         {mainImage ? (
           <Image
             src={mainImage.imgUrl}
             alt={place.koreanName}
             fill
-            className='object-cover '
+            className='object-cover'
           />
         ) : (
-          <div className='w-full h-full bg-brand-gray-100 rounded-lg ' />
+          <div className='w-full h-full bg-brand-gray-100 rounded-lg' />
         )}
       </div>
 
@@ -138,91 +143,30 @@ export default function CorePlaceDetail({
       <hr className='border-brand-gray-200' />
 
       {/* 장소 상세 정보 */}
-      <div className='flex flex-col gap-3 px-4 py-5'>
+      <div className='flex flex-col gap-3 py-5 w-full'>
         {/* 주소 */}
-        {place.address && (
-          <div className='flex gap-4 items-start'>
-            <div className='flex items-center px-1 shrink-0'>
-              <Icon
-                name='Map'
-                size={18}
-              />
-            </div>
-            <p className='text-typo-description text-brand-gray-500'>{place.address}</p>
-          </div>
-        )}
+        {place.address && <Address address={place.address} />}
 
         {/* 영업시간 */}
-        <div className='flex flex-col gap-2'>
-          <div className='flex gap-4 items-start'>
-            <div className='flex items-center px-1 shrink-0'>
-              <Icon
-                name='Clock'
-                size={18}
-              />
-            </div>
-            <p className='text-typo-description text-brand-gray-500'>영업시간 확인 안됨</p>
-          </div>
-          <div className='flex gap-2 items-center bg-brand-blue-50 px-2 py-2 rounded-sm'>
-            <Icon
-              name='Announcement'
-              size={16}
-            />
-            <p className='text-typo-caption text-brand-gray-500 whitespace-nowrap'>
-              정확한 영업시간은 구글맵에서 확인해주세요
-            </p>
-          </div>
-        </div>
+        <BusinessHours />
 
         {/* 웹사이트 */}
-        {place.websiteUri && (
-          <div className='flex gap-4 items-start'>
-            <div className='flex items-center px-1 shrink-0'>
-              <Icon
-                name='Globe'
-                size={24}
-              />
-            </div>
-            <a
-              href={place.websiteUri}
-              target='_blank'
-              rel='noopener noreferrer'
-              className='text-typo-description text-brand-gray-500 underline'
-            >
-              {place.websiteUri.replace(/^https?:\/\//, '')}
-            </a>
-          </div>
-        )}
+        {place.websiteUri && <WebsiteUri websiteUri={place.websiteUri} />}
       </div>
 
       {/* 외부 링크 버튼 */}
-      <div className='flex gap-2 px-4 pb-5'>
+      <div className='flex gap-2 pb-5'>
         {/* 네이버에서 보기 */}
-        <a
-          href={`https://map.naver.com/v5/search/${encodeURIComponent(place.koreanName)}`}
-          target='_blank'
-          rel='noopener noreferrer'
-          className='flex-1 flex items-center justify-center gap-2 px-3.5 py-2.5 border border-brand-gray-200 rounded-lg bg-white'
-        >
-          <span className='text-3 font-bold text-[#03C75A]'>N</span>
-          <span className='text-typo-description font-medium text-brand-blue-700 whitespace-nowrap'>
-            네이버에서 보기
-          </span>
-        </a>
+        <ExternalLinkButton
+          type='naver'
+          link={`https://map.naver.com/v5/search/${encodeURIComponent(place.koreanName)}`}
+        />
 
         {/* 구글에서 보기 */}
-        <a
-          href={`https://www.google.com/maps/place/?q=place_id:${place.googlePlaceId}`}
-          target='_blank'
-          rel='noopener noreferrer'
-          className='flex-1 flex items-center justify-center gap-1.5 px-3 py-[11px] border border-brand-gray-200 rounded-lg bg-white'
-        >
-          <Icon
-            name='Google'
-            size={15}
-          />
-          <span className='text-typo-description font-medium text-brand-blue-700 whitespace-nowrap'>구글에서 보기</span>
-        </a>
+        <ExternalLinkButton
+          type='google'
+          link={`https://www.google.com/maps/place/?q=place_id:${place.googlePlaceId}`}
+        />
       </div>
 
       {/* 구분선 */}
@@ -291,17 +235,4 @@ export default function CorePlaceDetail({
       </div>
     </div>
   );
-}
-
-function formatRelativeTime(dateStr: string): string {
-  const date = new Date(dateStr);
-  const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-  if (diffDays < 1) return '오늘';
-  if (diffDays < 7) return `${diffDays}일 전`;
-  if (diffDays < 30) return `${Math.floor(diffDays / 7)}주 전`;
-  if (diffDays < 365) return `${Math.floor(diffDays / 30)}달 전`;
-  return `${Math.floor(diffDays / 365)}년전`;
 }
