@@ -71,7 +71,7 @@ export default function CorePlaceDetail({
 
         {/* 저장된 리스트 이름 */}
         {isSaved && savedListNames && (
-          <p className='text-typo-description text-brand-gray-600'>{savedListNames}에 저장됨</p>
+          <p className='text-typo-description text-brand-gray-600'>{`'${savedListNames}'`} 에 저장됨</p>
         )}
       </div>
 
@@ -106,7 +106,7 @@ export default function CorePlaceDetail({
       </div>
 
       {/* 구분선 */}
-      {/* <hr className='border-brand-gray-200' /> */}
+      {/* <hr className='border-brand-gray-200 -mx-4' /> */}
 
       {/* 리뷰 섹션 - 2차 적용 */}
       {/* <ReviewContainer

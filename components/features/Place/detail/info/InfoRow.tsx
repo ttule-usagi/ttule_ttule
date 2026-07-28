@@ -7,7 +7,7 @@ interface InfoRowProps {
 
 export default function InfoRow({ iconName, children }: InfoRowProps) {
   return (
-    <div className='flex gap-4 items-center w-full'>
+    <div className='flex gap-4 items-start w-full'>
       <div className='flex items-center px-1'>
         <Icon
           name={iconName}
