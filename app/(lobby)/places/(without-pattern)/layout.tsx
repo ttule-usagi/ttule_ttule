@@ -9,7 +9,7 @@ export default async function PlaceLayout({
   const session = await auth();
 
   return (
-    <section className='w-102 pt-5 px-4 pb-60 overflow-y-auto h-screen bg-brand-gray-0'>
+    <section className='w-102 pt-5 px-4 overflow-y-auto h-screen bg-brand-gray-0'>
       {session && <CorePlaceSearchInput />}
       {children}
     </section>
