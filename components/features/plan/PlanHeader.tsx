@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { useGetPlanDetail } from '@/hooks/plan/useGetPlanDetail';
 import { Icon } from '@/components/common/Icon';
 import LobbyPlanActionMenu from './lobby/LobbyPlanActionMenu';
+import { createViewLink } from '@/lib/utils/invite/createViewLink';
+import { useModalStore } from '@/lib/store/modalStore';
 
 interface PlanHeaderProps {
   planId: string;
@@ -25,6 +27,7 @@ export default function PlanHeader({ planId, hasSession }: PlanHeaderProps) {
   const { plan, members } = data;
 
   const dateRange = formatDateRange(plan.departureDate, plan.arrivalDate, plan.isDateUndecided);
+  const { open } = useModalStore();
 
   return (
     <div className='absolute top-0 right-0 flex gap-4 items-end p-5 z-10  '>
@@ -98,6 +101,14 @@ export default function PlanHeader({ planId, hasSession }: PlanHeaderProps) {
             <LobbyPlanActionMenu
               id={planId}
               myRole={data.myRole}
+            />
+          )}
+          {!hasSession && (
+            <Icon
+              name='Share'
+              size={32}
+              className='cursor-pointer'
+              onClick={() => open({ type: 'shareLink', props: { type: 'VIEW', link: createViewLink(planId, 'plan') } })}
             />
           )}
         </div>
