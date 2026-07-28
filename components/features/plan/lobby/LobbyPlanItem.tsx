@@ -6,6 +6,7 @@ import { formatRelativeDate } from '@/lib/utils/date';
 import LobbyPlanActionMenu from './LobbyPlanActionMenu';
 import Link from 'next/link';
 import { getDestinationDisplay } from '@/lib/utils/destinationDisplay';
+import { useGetPlanMyRole } from '@/hooks/plan/useGetPlanMyRole';
 
 export default function LobbyPlanItem({
   id,
@@ -21,6 +22,8 @@ export default function LobbyPlanItem({
   const formattedUpdatedAt = formatRelativeDate(updatedAt);
   const { text, fontSize } = getDestinationDisplay(destination);
 
+  const { data: myRole } = useGetPlanMyRole(id);
+
   return (
     <Link
       className="max-w-[275.76px] aspect-[275.76/397.69] bg-[url('/images/lobby-plan.svg')] bg-center bg-cover px-4 pt-19.25 pb-6 flex flex-col drop-shadow-lg"
@@ -33,7 +36,10 @@ export default function LobbyPlanItem({
           e.stopPropagation();
         }}
       >
-        <LobbyPlanActionMenu id={id} />
+        <LobbyPlanActionMenu
+          id={id}
+          myRole={myRole}
+        />
       </div>
 
       {/* 목적지 */}

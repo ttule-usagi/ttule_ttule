@@ -10,11 +10,14 @@ import DropDown from '@/components/common/Dropdown';
 import { duplicatePlanItem, deletePlanItem } from '@/lib/actions/planItem';
 import { useModalStore } from '@/lib/store/modalStore';
 import NotchRows from '../NotchRows';
+import { Role } from '@/types/shareOption';
+import AuthorityWrapper from '../../AuthorityWrapper';
 
 interface PlanItemCardProps {
   item: PlanItem;
   onClick: () => void;
   hasSession: boolean;
+  myRole: Role | null;
 }
 
 function CategoryIcon({ category }: { category: string | null }) {
@@ -36,7 +39,7 @@ function formatVisitTime(time: string | null): string {
   return time.slice(0, 5); // "HH:MM"
 }
 
-export default function PlanItemCard({ item, onClick, hasSession }: PlanItemCardProps) {
+export default function PlanItemCard({ item, onClick, hasSession, myRole }: PlanItemCardProps) {
   const { open } = useModalStore();
   const queryClient = useQueryClient();
   const categoryLabel = item.placeCategory ? getPlaceCategoryLabel(item.placeCategory) : null;
@@ -92,40 +95,47 @@ export default function PlanItemCard({ item, onClick, hasSession }: PlanItemCard
             </p>
             {categoryLabel && <p className='text-typo-description text-brand-gray-400'>{categoryLabel}</p>}
           </div>
-          {item.memoContent && <p className='text-typo-base text-brand-gray-600 line-clamp-2'>{item.memoContent}</p>}
+          {item.memoContent && (
+            <p className='text-typo-base text-brand-gray-600 whitespace-pre-wrap'>{item.memoContent}</p>
+          )}
         </div>
 
         {/* 더보기 버튼 */}
         {hasSession && (
-          <DropDown>
-            {/* 트리거는 드롭다운 메뉴를 열고 닫을 버튼이 되는 것 */}
-            <DropDown.Trigger>
-              <Icon
-                name='DotsHorizontal'
-                size={24}
-                className='mt-3 text-brand-gray-400'
-              />
-            </DropDown.Trigger>
+          <AuthorityWrapper
+            role={myRole}
+            requiredRole='editor'
+          >
+            <DropDown>
+              {/* 트리거는 드롭다운 메뉴를 열고 닫을 버튼이 되는 것 */}
+              <DropDown.Trigger>
+                <Icon
+                  name='DotsHorizontal'
+                  size={24}
+                  className='mt-3 text-brand-gray-400'
+                />
+              </DropDown.Trigger>
 
-            {/* 실제로 열릴 드롭다운 메뉴 */}
-            <DropDown.Menu>
-              {/* 아이템 하나가 버튼 하나고, 여기 이벤트를 연결해주면 된다 */}
-              <DropDown.Item
-                onClick={() =>
-                  open({
-                    type: 'deletePlanItem',
-                    props: { onConfirm: handleDelete },
-                  })
-                }
-              >
-                일정 삭제
-              </DropDown.Item>
-              <DropDown.Item onClick={handleDuplicate}>일정 복제</DropDown.Item>
-              <DropDown.Item onClick={onClick}>일정 편집</DropDown.Item>
-              <DropDown.Item>구글 지도에서 보기</DropDown.Item>
-              <DropDown.Item>다른 날짜로 변경</DropDown.Item>
-            </DropDown.Menu>
-          </DropDown>
+              {/* 실제로 열릴 드롭다운 메뉴 */}
+              <DropDown.Menu>
+                {/* 아이템 하나가 버튼 하나고, 여기 이벤트를 연결해주면 된다 */}
+                <DropDown.Item
+                  onClick={() =>
+                    open({
+                      type: 'deletePlanItem',
+                      props: { onConfirm: handleDelete },
+                    })
+                  }
+                >
+                  일정 삭제
+                </DropDown.Item>
+                <DropDown.Item onClick={handleDuplicate}>일정 복제</DropDown.Item>
+                <DropDown.Item onClick={onClick}>일정 편집</DropDown.Item>
+                <DropDown.Item>구글 지도에서 보기</DropDown.Item>
+                <DropDown.Item>다른 날짜로 변경</DropDown.Item>
+              </DropDown.Menu>
+            </DropDown>
+          </AuthorityWrapper>
         )}
       </div>
     </div>

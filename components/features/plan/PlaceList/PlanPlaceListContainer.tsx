@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { Icon } from '@/components/common/Icon';
 import dynamic from 'next/dynamic';
 import { usePlanPlaceListStore } from '@/lib/store/planPlaceListStore';
+import { useGetPlanMyRole } from '@/hooks/plan/useGetPlanMyRole';
+import AuthorityWrapper from '../../AuthorityWrapper';
 
 interface PlanPlaceListContainerProps {
   planId: string;
@@ -31,6 +33,8 @@ export default function PlanPlaceListContainer({ planId }: PlanPlaceListContaine
     }
   }, [shouldOpenPlaceList]);
 
+  const { data: myRole } = useGetPlanMyRole(planId);
+
   return (
     <>
       <div
@@ -43,24 +47,28 @@ export default function PlanPlaceListContainer({ planId }: PlanPlaceListContaine
           <section className='h-full pt-23.5 px-4 pb-7 overflow-y-auto bg-line-pattern border-r border-brand-blue-700'>
             <PlanPlaceListSection planId={planId} />
           </section>
-
-          <button
-            onClick={() => setIsOpen((prev) => !prev)}
-            className='absolute top-1/2 -translate-y-1/2 left-full flex items-center justify-center h-13 bg-brand-blue-700 rounded-r-[8px] shadow-lg'
+          <AuthorityWrapper
+            role={myRole}
+            requiredRole='editor'
           >
-            {!isOpen && (
+            <button
+              onClick={() => setIsOpen((prev) => !prev)}
+              className='absolute top-1/2 -translate-y-1/2 left-full flex items-center justify-center h-13 bg-brand-blue-700 rounded-r-[8px] shadow-lg'
+            >
+              {!isOpen && (
+                <Icon
+                  name='Bookmark'
+                  size={30}
+                  className='text-white ml-3'
+                />
+              )}
               <Icon
-                name='Bookmark'
-                size={30}
-                className='text-white ml-3'
+                name={isOpen ? 'ChevronLeft' : 'ChevronRight'}
+                size={40}
+                className='text-white'
               />
-            )}
-            <Icon
-              name={isOpen ? 'ChevronLeft' : 'ChevronRight'}
-              size={40}
-              className='text-white'
-            />
-          </button>
+            </button>
+          </AuthorityWrapper>
         </div>
       </div>
     </>

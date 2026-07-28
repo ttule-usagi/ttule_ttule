@@ -14,6 +14,8 @@ import PlanMemoItemCard from './PlanMemoItemCard';
 import PlanMemoItemEditCard from './PlanMemoItemEditCard';
 import { usePlanSearchStore } from '@/lib/store/planSearchStore';
 import { usePlanPlaceListStore } from '@/lib/store/planPlaceListStore';
+import { useGetPlanMyRole } from '@/hooks/plan/useGetPlanMyRole';
+import AuthorityWrapper from '../../AuthorityWrapper';
 
 interface PlanDayPanelProps {
   planId: string;
@@ -56,6 +58,8 @@ export default function PlanDayPanel({
   const [isNewMemoOpen, setIsNewMemoOpen] = useState(false);
 
   const dateStr = formatScheduleDate(schedule.scheduleDate, schedule.dayNumber);
+
+  const { data: myRole } = useGetPlanMyRole(planId);
 
   const handlePrefetchNext = () => {
     const nextSchedule = schedules[currentIndex + 1];
@@ -126,14 +130,19 @@ export default function PlanDayPanel({
 
           {/* 편집/더보기 버튼 */}
           {hasSession && (
-            <div className='flex gap-3 items-center'>
-              <button className='text-white text-typo-base'>편집</button>
-              <Icon
-                name='DotsHorizontal'
-                size={32}
-                className='text-white'
-              />
-            </div>
+            <AuthorityWrapper
+              role={myRole}
+              requiredRole='editor'
+            >
+              <div className='flex gap-3 items-center'>
+                <button className='text-white text-typo-base'>편집</button>
+                <Icon
+                  name='DotsHorizontal'
+                  size={32}
+                  className='text-white'
+                />
+              </div>
+            </AuthorityWrapper>
           )}
         </div>
 
@@ -174,6 +183,7 @@ export default function PlanDayPanel({
                           item={item}
                           onClick={() => setEditingItemId(item.id)}
                           hasSession={hasSession}
+                          myRole={myRole}
                         />
                       )
                     ) : editingItemId === item.id ? (
@@ -187,6 +197,7 @@ export default function PlanDayPanel({
                         item={item}
                         onClick={() => setEditingItemId(item.id)}
                         hasSession={hasSession}
+                        myRole={myRole}
                       />
                     )}
                     {index < items.length - 1 && item.transitMode && items[index + 1].type !== 'memo' && (
@@ -212,28 +223,33 @@ export default function PlanDayPanel({
           )}
           {/* 3. 장소 추가 버튼 */}
           {hasSession && (
-            <div className=' z-10'>
-              <DropDown>
-                <DropDown.Trigger>
-                  <div className='flex items-center justify-center cursor-pointer hover:bg-brand-blue-900/20 hover:backdrop-blur-sm transition-colors duration-200 ease-in-out'>
-                    <Image
-                      src='/images/new-plan-item.svg'
-                      alt='장소 추가'
-                      width={375}
-                      height={87}
-                      style={{ width: 'auto' }}
-                      loading='eager'
-                    />
-                  </div>
-                </DropDown.Trigger>
+            <AuthorityWrapper
+              role={myRole}
+              requiredRole='editor'
+            >
+              <div className=' z-10'>
+                <DropDown>
+                  <DropDown.Trigger>
+                    <div className='flex items-center justify-center cursor-pointer hover:bg-brand-blue-900/20 hover:backdrop-blur-sm transition-colors duration-200 ease-in-out'>
+                      <Image
+                        src='/images/new-plan-item.svg'
+                        alt='장소 추가'
+                        width={375}
+                        height={87}
+                        style={{ width: 'auto' }}
+                        loading='eager'
+                      />
+                    </div>
+                  </DropDown.Trigger>
 
-                <DropDown.Menu>
-                  <DropDown.Item onClick={triggerOpenPlaceList}>리스트에서 장소 가져오기</DropDown.Item>
-                  <DropDown.Item onClick={triggerFocus}>검색에서 장소 가져오기</DropDown.Item>
-                  <DropDown.Item onClick={() => setIsNewMemoOpen(true)}>장소 없는 일정 만들기</DropDown.Item>
-                </DropDown.Menu>
-              </DropDown>
-            </div>
+                  <DropDown.Menu>
+                    <DropDown.Item onClick={triggerOpenPlaceList}>리스트에서 장소 가져오기</DropDown.Item>
+                    <DropDown.Item onClick={triggerFocus}>검색에서 장소 가져오기</DropDown.Item>
+                    <DropDown.Item onClick={() => setIsNewMemoOpen(true)}>장소 없는 일정 만들기</DropDown.Item>
+                  </DropDown.Menu>
+                </DropDown>
+              </div>
+            </AuthorityWrapper>
           )}
         </div>
       </div>

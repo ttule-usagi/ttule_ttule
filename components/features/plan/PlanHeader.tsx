@@ -94,7 +94,12 @@ export default function PlanHeader({ planId, hasSession }: PlanHeaderProps) {
               className='text-brand-blue-600'
             />
           </button> */}
-          {hasSession && <LobbyPlanActionMenu id={planId} />}
+          {hasSession && (
+            <LobbyPlanActionMenu
+              id={planId}
+              myRole={data.myRole}
+            />
+          )}
         </div>
       </div>
     </div>
