@@ -27,15 +27,16 @@ export default function PlaceActionBar({
 
       {/* 장소 리스트에 저장 */}
       <SaveButton
-        iconName='Bookmark'
+        iconName={isSaved ? 'BookmarkCheck' : 'Bookmark'}
         buttonText={isSaved ? `저장됨(${savedListsCount})` : '리스트 저장'}
         onClick={onSave}
+        isSaved={isSaved}
       />
 
       {/* 공유 */}
       <button
         onClick={onShare}
-        className='flex items-center justify-center p-2 border border-brand-gray-200 rounded-lg bg-white'
+        className='flex items-center justify-center p-2 border border-brand-gray-200 rounded-lg bg-white cursor-pointer'
         aria-label='공유'
       >
         <Icon
