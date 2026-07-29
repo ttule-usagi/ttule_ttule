@@ -3,6 +3,7 @@
 import { auth } from '@/lib/utils/auth';
 import { supabaseUser } from '@/lib/utils/supabase';
 import { AddEditMemberParams, TokenVerifyParams, TokenVerifyResult } from '@/types/invite';
+import { cookies } from 'next/headers';
 
 // edit 토큰 유효성 검증
 export const getOrRefreshInviteToken = async ({ id, type }: TokenVerifyParams) => {
@@ -65,3 +66,11 @@ export const addEditMember = async ({ token, id, type }: AddEditMemberParams) =>
 
   return { data }; // resource_id
 };
+
+export async function setInviteRedirectCookie(destination: string) {
+  (await cookies()).set('invite_redirect', destination, {
+    httpOnly: true,
+    maxAge: 60 * 10, // 10분 (로그인 진행 중 유효)
+    path: '/',
+  });
+}

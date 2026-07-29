@@ -4,7 +4,7 @@ import CorePlaceSearchResultItem from '@/components/features/search/CorePlaceSea
 import RegisterNewPlaceBanner from '@/components/features/search/RegisterNewPlaceBanner';
 import { useSearchPlaces } from '@/hooks/place-search/useSearchPlaces';
 import { toCamelKey } from '@/lib/utils/toCamelCase';
-import { PlaceSearchResults } from '@/types/CorePlace';
+import { PlaceSearchResults } from '@/types/corePlace';
 import { useEffect, useRef } from 'react';
 
 interface SearchResultListProps {

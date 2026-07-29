@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { AutoCompleteResults, PlaceSearchResults } from '@/types/CorePlace';
+import type { AutoCompleteResults, PlaceSearchResults } from '@/types/corePlace';
 
 interface GetAutoCompletePlacesProps {
   supabase: SupabaseClient;

@@ -4,6 +4,8 @@ import PlanHeader from '@/components/features/plan/PlanHeader';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import Script from 'next/script';
 import CorePlaceSearchInput from '@/components/features/search/CorePlaceSearchInput';
+import { getSharedQueryClient } from '@/lib/utils/getSharedQueryClient';
+import { auth } from '@/lib/utils/auth';
 
 export default async function PlanLayout({
   children,
@@ -13,14 +15,10 @@ export default async function PlanLayout({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const session = await auth();
+  const queryClient = getSharedQueryClient();
 
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 30 * 1000,
-      },
-    },
-  });
+  const hasSession = session;
 
   await prefetchPlanDetail(queryClient, id);
 
@@ -34,14 +32,19 @@ export default async function PlanLayout({
       <HydrationBoundary state={dehydrate(queryClient)}>
         {/* 공통 헤더 - 계획 정보 표시 */}
         <QueryBoundary>
-          <PlanHeader planId={id} />
+          <PlanHeader
+            planId={id}
+            hasSession={!!session}
+          />
         </QueryBoundary>
         {/* 모드별 컨텐츠 */}
         {children}
       </HydrationBoundary>
-      <div className='fixed top-0 max-w-102 min-w-85 w-[26vw] z-100 px-4 pt-5'>
-        <CorePlaceSearchInput />
-      </div>
+      {hasSession && (
+        <div className='fixed top-0 max-w-102 min-w-85 w-[26vw] z-100 px-4 pt-5'>
+          <CorePlaceSearchInput />
+        </div>
+      )}
     </>
   );
 }

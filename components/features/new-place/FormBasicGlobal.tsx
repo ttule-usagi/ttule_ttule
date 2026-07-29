@@ -2,7 +2,7 @@
 
 import FormTypeText from './form-inputs/FormTypeText';
 import FormTypeSelect from './form-inputs/FormTypeSelect';
-import { PLACE_CATEGORIES, type PlaceCategory } from '@/types/CorePlace';
+import { PLACE_CATEGORIES, type PlaceCategory } from '@/types/corePlace';
 import type { NewPlaceFormState, Action } from '@/hooks/useNewPlaceForm';
 import type { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
 

@@ -1,5 +1,5 @@
 import { Icon } from '@/components/common/Icon';
-import PlanPlaceItem from './PlanPlaceListDetailItem';
+import PlanPlaceItem from '@/components/features/plan/PlaceList/PlanPlaceListDetailItem';
 import { useGetPlaceListPlaces } from '@/hooks/place-list/useGetPlaceListPlaces';
 
 interface PlanPlaceListDetailProps {

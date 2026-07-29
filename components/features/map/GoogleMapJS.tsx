@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import type { PlaceCategory } from '@/types/CorePlace';
+import type { PlaceCategory } from '@/types/corePlace';
 import { CATEGORY_COLORS, CATEGORY_EMOJI } from '@/lib/utils/placeCategory';
 
 interface MapCoordinate {
@@ -35,12 +35,19 @@ export default function GoogleMapJS({
     if (!mapRef.current) return;
     if (mapInstanceRef.current) return;
 
+    let cancelled = false; // ← 추가
+
     const checkGoogle = setInterval(() => {
-      if (typeof google === 'undefined' || !google.maps) return;
+      if (typeof google === 'undefined' || !google.maps || typeof google.maps.importLibrary !== 'function') return;
       clearInterval(checkGoogle);
 
       const initMap = async () => {
+        if (cancelled) return; // ← 언마운트 후 실행 방지
+
         const { Map } = (await google.maps.importLibrary('maps')) as google.maps.MapsLibrary;
+
+        if (cancelled) return; // ← await 후에도 체크
+        if (!mapRef.current) return;
 
         mapInstanceRef.current = new Map(mapRef.current!, {
           center: coordinates.length > 0 ? { lat: coordinates[0].lat, lng: coordinates[0].lng } : defaultCenter,
@@ -58,7 +65,10 @@ export default function GoogleMapJS({
       initMap();
     }, 100);
 
-    return () => clearInterval(checkGoogle);
+    return () => {
+      cancelled = true; // ← 언마운트 시 플래그
+      clearInterval(checkGoogle);
+    };
   }, []);
 
   // 마커 업데이트 — isMapReady가 true일 때만 실행

@@ -229,6 +229,60 @@ input:-webkit-autofill:active {
     border-radius: 50%;
     background: var(--page-bg, #3862b8); /* 카드 뒤 배경색과 동일하게 */
   }
+
+  /* Tomato loading animation */
+  .tomato-loader {
+    --size: 24px;
+    width: calc(var(--size) * 4);
+    height: var(--size);
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+
+  .tomato-loader__body {
+    position: absolute;
+    top: 50%;
+    left: -10%;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #f7573c, #ff391f 75%);
+    box-shadow: inset -3px -3px 5px rgba(218, 0, 0, 0.2);
+    animation:
+      tomato-loader-spin 0.8s linear infinite,
+      tomato-loader-roll 1.5s linear infinite;
+    transform-origin: center center;
+  }
+
+  .tomato-loader__star {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(var(--size) * 0.35);
+    height: calc(var(--size) * 0.35);
+    background: #dcfc9f;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    transform: translate(-50%, -50%) translateX(calc(var(--size) * 0.28));
+  }
+
+  @keyframes tomato-loader-spin {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+
+  @keyframes tomato-loader-roll {
+    0% {
+      left: -10%;
+    }
+    100% {
+      left: 110%;
+    }
+  }
 }
 
 /* 배경 점 패턴 */

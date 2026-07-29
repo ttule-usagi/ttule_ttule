@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import type { CorePlaceDetail } from '@/types/CorePlace';
+import type { CorePlaceDetail } from '@/types/corePlace';
 import { Icon } from '@/components/common/Icon';
 import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
 

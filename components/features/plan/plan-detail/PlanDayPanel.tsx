@@ -14,6 +14,8 @@ import PlanMemoItemCard from './PlanMemoItemCard';
 import PlanMemoItemEditCard from './PlanMemoItemEditCard';
 import { usePlanSearchStore } from '@/lib/store/planSearchStore';
 import { usePlanPlaceListStore } from '@/lib/store/planPlaceListStore';
+import { useGetPlanMyRole } from '@/hooks/plan/useGetPlanMyRole';
+import AuthorityWrapper from '../../AuthorityWrapper';
 
 interface PlanDayPanelProps {
   planId: string;
@@ -25,6 +27,7 @@ interface PlanDayPanelProps {
   currentIndex: number;
   onPrev: () => void;
   onNext: () => void;
+  hasSession: boolean;
 }
 
 function formatScheduleDate(dateStr: string | null, dayNumber: number): string {
@@ -47,6 +50,7 @@ export default function PlanDayPanel({
   onNext,
   items,
   isFetching,
+  hasSession,
 }: PlanDayPanelProps) {
   const queryClient = useQueryClient();
 
@@ -54,6 +58,8 @@ export default function PlanDayPanel({
   const [isNewMemoOpen, setIsNewMemoOpen] = useState(false);
 
   const dateStr = formatScheduleDate(schedule.scheduleDate, schedule.dayNumber);
+
+  const { data: myRole } = useGetPlanMyRole(planId);
 
   const handlePrefetchNext = () => {
     const nextSchedule = schedules[currentIndex + 1];
@@ -123,19 +129,25 @@ export default function PlanDayPanel({
           </div>
 
           {/* 편집/더보기 버튼 */}
-          <div className='flex gap-3 items-center'>
-            <button className='text-white text-typo-base'>편집</button>
-            <Icon
-              name='DotsHorizontal'
-              size={32}
-              className='text-white'
-            />
-          </div>
+          {hasSession && (
+            <AuthorityWrapper
+              role={myRole}
+              requiredRole='editor'
+            >
+              <div className='flex gap-3 items-center'>
+                <button className='text-white text-typo-base'>편집</button>
+                <Icon
+                  name='DotsHorizontal'
+                  size={32}
+                  className='text-white'
+                />
+              </div>
+            </AuthorityWrapper>
+          )}
         </div>
 
         {/* 2. 아이템 목록 (스크롤 영역) */}
-        {/* flex-1 min-h-0을 부모인 파란 패널이 직접 통제하도록 만들었습니다 */}
-        <div className='flex-1 min-h-0 overflow-y-auto no-scrollbar flex flex-col gap-1 mt-6 px-4 pb-2 z-10'>
+        <div className='flex-1 min-h-0 overflow-y-auto no-scrollbar flex flex-col gap-2 mt-6 px-4 pb-4 z-10'>
           {isFetching ? (
             <div className='flex flex-col gap-2'>
               {[1, 2, 3].map((i) => (
@@ -150,7 +162,7 @@ export default function PlanDayPanel({
               {items.map((item, index) => (
                 <div
                   key={item.id}
-                  className='flex flex-col gap-1 shrink-0'
+                  className='flex flex-col gap-2 shrink-0'
                 >
                   {item.type === 'memo' ? (
                     editingItemId === item.id ? (
@@ -165,6 +177,8 @@ export default function PlanDayPanel({
                       <PlanMemoItemCard
                         item={item}
                         onClick={() => setEditingItemId(item.id)}
+                        hasSession={hasSession}
+                        myRole={myRole}
                       />
                     )
                   ) : editingItemId === item.id ? (
@@ -177,9 +191,11 @@ export default function PlanDayPanel({
                     <PlanItemCard
                       item={item}
                       onClick={() => setEditingItemId(item.id)}
+                      hasSession={hasSession}
+                      myRole={myRole}
                     />
                   )}
-                  {index < items.length - 1 && item.transitMode && (
+                  {index < items.length - 1 && item.transitMode && items[index + 1].type !== 'memo' && (
                     <TransitInfo
                       mode={item.transitMode}
                       time={item.transitTime}
@@ -200,28 +216,42 @@ export default function PlanDayPanel({
             </>
           )}
           {/* 3. 장소 추가 버튼 */}
-          <div className=' z-10'>
-            <DropDown>
-              <DropDown.Trigger>
-                <div className='flex items-center justify-center cursor-pointer hover:bg-brand-blue-900/20 hover:backdrop-blur-sm transition-colors duration-200 ease-in-out'>
-                  <Image
-                    src='/images/new-plan-item.svg'
-                    alt='장소 추가'
-                    width={375}
-                    height={87}
-                    style={{ width: 'auto' }}
-                    loading='eager'
-                  />
-                </div>
-              </DropDown.Trigger>
+          {hasSession && (
+            <AuthorityWrapper
+              role={myRole}
+              requiredRole='editor'
+            >
+              <div className=' z-10'>
+                <DropDown>
+                  <DropDown.Trigger>
+                    <div className='flex items-center justify-center cursor-pointer hover:bg-brand-blue-900/20 hover:backdrop-blur-sm transition-colors duration-200 ease-in-out'>
+                      <Image
+                        src='/images/new-plan-item.svg'
+                        alt='장소 추가'
+                        width={375}
+                        height={87}
+                        style={{ width: 'auto' }}
+                        loading='eager'
+                      />
+                    </div>
+                  </DropDown.Trigger>
 
-              <DropDown.Menu>
-                <DropDown.Item onClick={triggerOpenPlaceList}>리스트에서 장소 가져오기</DropDown.Item>
-                <DropDown.Item onClick={triggerFocus}>검색에서 장소 가져오기</DropDown.Item>
-                <DropDown.Item onClick={() => setIsNewMemoOpen(true)}>장소 없는 일정 만들기</DropDown.Item>
-              </DropDown.Menu>
-            </DropDown>
-          </div>
+                  <DropDown.Menu>
+                    <DropDown.Item onClick={triggerOpenPlaceList}>리스트에서 장소 가져오기</DropDown.Item>
+                    <DropDown.Item onClick={triggerFocus}>검색에서 장소 가져오기</DropDown.Item>
+                    <DropDown.Item onClick={() => setIsNewMemoOpen(true)}>장소 없는 일정 만들기</DropDown.Item>
+                  </DropDown.Menu>
+                </DropDown>
+              </div>
+            </AuthorityWrapper>
+          )}
+          {items.length === 0 && !isFetching ? (
+            <div className='flex-1 flex items-center justify-center pb-10'>
+              <p className='text-typo-description text-white'>저장된 장소가 없습니다.</p>
+            </div>
+          ) : (
+            ''
+          )}
         </div>
       </div>
     </div>

@@ -5,15 +5,19 @@ import { PlanItem } from '@/types/plan';
 import { Icon } from '@/components/common/Icon';
 import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
 import { CATEGORY_COLORS, CATEGORY_EMOJI } from '@/lib/utils/placeCategory';
-import type { PlaceCategory } from '@/types/CorePlace';
+import type { PlaceCategory } from '@/types/corePlace';
 import DropDown from '@/components/common/Dropdown';
 import { duplicatePlanItem, deletePlanItem } from '@/lib/actions/planItem';
 import { useModalStore } from '@/lib/store/modalStore';
 import NotchRows from '../NotchRows';
+import { Role } from '@/types/shareOption';
+import AuthorityWrapper from '../../AuthorityWrapper';
 
 interface PlanItemCardProps {
   item: PlanItem;
   onClick: () => void;
+  hasSession: boolean;
+  myRole: Role | null;
 }
 
 function CategoryIcon({ category }: { category: string | null }) {
@@ -35,14 +39,14 @@ function formatVisitTime(time: string | null): string {
   return time.slice(0, 5); // "HH:MM"
 }
 
-export default function PlanItemCard({ item, onClick }: PlanItemCardProps) {
+export default function PlanItemCard({ item, onClick, hasSession, myRole }: PlanItemCardProps) {
   const { open } = useModalStore();
   const queryClient = useQueryClient();
   const categoryLabel = item.placeCategory ? getPlaceCategoryLabel(item.placeCategory) : null;
 
   const handleDuplicate = async () => {
     const result = await duplicatePlanItem(item);
-    if (!result.error) {
+    if (!result.success) {
       await queryClient.invalidateQueries({
         predicate: (query) => query.queryKey.includes('items') && query.queryKey.includes(item.scheduleId),
         refetchType: 'active',
@@ -53,7 +57,7 @@ export default function PlanItemCard({ item, onClick }: PlanItemCardProps) {
   const handleDelete = async () => {
     const result = await deletePlanItem(item.id);
 
-    if (!result.error) {
+    if (result.success) {
       await queryClient.invalidateQueries({
         predicate: (query) => query.queryKey.includes('items') && query.queryKey.includes(item.scheduleId),
         refetchType: 'active',
@@ -91,39 +95,48 @@ export default function PlanItemCard({ item, onClick }: PlanItemCardProps) {
             </p>
             {categoryLabel && <p className='text-typo-description text-brand-gray-400'>{categoryLabel}</p>}
           </div>
-          {item.memoContent && <p className='text-typo-base text-brand-gray-600 line-clamp-2'>{item.memoContent}</p>}
+          {item.memoContent && (
+            <p className='text-typo-base text-brand-gray-600 whitespace-pre-wrap'>{item.memoContent}</p>
+          )}
         </div>
 
         {/* 더보기 버튼 */}
-        <DropDown>
-          {/* 트리거는 드롭다운 메뉴를 열고 닫을 버튼이 되는 것 */}
-          <DropDown.Trigger>
-            <Icon
-              name='DotsHorizontal'
-              size={24}
-              className='mt-3 text-brand-gray-400'
-            />
-          </DropDown.Trigger>
+        {hasSession && (
+          <AuthorityWrapper
+            role={myRole}
+            requiredRole='editor'
+          >
+            <DropDown>
+              {/* 트리거는 드롭다운 메뉴를 열고 닫을 버튼이 되는 것 */}
+              <DropDown.Trigger>
+                <Icon
+                  name='DotsHorizontal'
+                  size={24}
+                  className='mt-3 text-brand-gray-400'
+                />
+              </DropDown.Trigger>
 
-          {/* 실제로 열릴 드롭다운 메뉴 */}
-          <DropDown.Menu>
-            {/* 아이템 하나가 버튼 하나고, 여기 이벤트를 연결해주면 된다 */}
-            <DropDown.Item
-              onClick={() =>
-                open({
-                  type: 'deletePlanItem',
-                  props: { onConfirm: handleDelete },
-                })
-              }
-            >
-              일정 삭제
-            </DropDown.Item>
-            <DropDown.Item onClick={handleDuplicate}>일정 복제</DropDown.Item>
-            <DropDown.Item onClick={onClick}>일정 편집</DropDown.Item>
-            <DropDown.Item>구글 지도에서 보기</DropDown.Item>
-            <DropDown.Item>다른 날짜로 변경</DropDown.Item>
-          </DropDown.Menu>
-        </DropDown>
+              {/* 실제로 열릴 드롭다운 메뉴 */}
+              <DropDown.Menu>
+                {/* 아이템 하나가 버튼 하나고, 여기 이벤트를 연결해주면 된다 */}
+                <DropDown.Item
+                  onClick={() =>
+                    open({
+                      type: 'deletePlanItem',
+                      props: { onConfirm: handleDelete },
+                    })
+                  }
+                >
+                  일정 삭제
+                </DropDown.Item>
+                <DropDown.Item onClick={handleDuplicate}>일정 복제</DropDown.Item>
+                <DropDown.Item onClick={onClick}>일정 편집</DropDown.Item>
+                <DropDown.Item>구글 지도에서 보기</DropDown.Item>
+                <DropDown.Item>다른 날짜로 변경</DropDown.Item>
+              </DropDown.Menu>
+            </DropDown>
+          </AuthorityWrapper>
+        )}
       </div>
     </div>
   );

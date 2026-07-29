@@ -24,6 +24,14 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/signup/google', request.url));
   }
 
+  // 1.5. 초대 리다이렉트 쿠키 처리 — 로그인 완료 후 원래 목적지(초대 링크)로 이동
+  const inviteRedirect = request.cookies.get('invite_redirect')?.value;
+  if (session && inviteRedirect && !isNewGoogleUser) {
+    const response = NextResponse.redirect(new URL(inviteRedirect, request.url));
+    response.cookies.delete('invite_redirect');
+    return response;
+  }
+
   // 2. 세션이 있는데 /login 접근 시 로비로
   if (session && pathname === '/login') {
     return NextResponse.redirect(new URL('/lobby', request.url));

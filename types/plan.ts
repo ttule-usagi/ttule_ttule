@@ -1,3 +1,5 @@
+import { Role } from '@/types/shareOption';
+
 export interface PlanInfo {
   id: string;
   title: string;
@@ -46,6 +48,7 @@ export interface PlanItem {
 
 export interface PlanDetail {
   plan: PlanInfo;
+  myRole: Role | null;
   members: PlanMember[];
   schedules: PlanSchedule[];
   items: PlanItem[];

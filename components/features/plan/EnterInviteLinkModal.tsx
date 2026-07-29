@@ -1,13 +1,14 @@
 'use client';
 
 import ModalBox from '@/components/common/Modal/ModalBox';
-import { verifyInviteToken } from '@/lib/actions/invite';
+import { setInviteRedirectCookie, verifyInviteToken } from '@/lib/actions/invite';
 import { INVITE_ERROR_MESSAGES, InviteErrorCode } from '@/lib/constants/inviteErrorMessage';
 import { useModalStore } from '@/lib/store/modalStore';
 import { validateInviteLink } from '@/lib/utils/invite/verifyValidInviteLink';
 import { ResourceType } from '@/types/invite';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 export default function EnterInviteLinkModal({ type }: { type: ResourceType }) {
   const router = useRouter();
@@ -15,6 +16,8 @@ export default function EnterInviteLinkModal({ type }: { type: ResourceType }) {
   const [errorText, setErrorText] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { open, close } = useModalStore();
+  const { status } = useSession();
+  const hasSession = status === 'authenticated';
 
   const handleSubmit = async (link: string) => {
     // 유효한 링크인지 검증
@@ -44,6 +47,14 @@ export default function EnterInviteLinkModal({ type }: { type: ResourceType }) {
 
     isValidLink.url.searchParams.set('from', 'modal');
     const destination = isValidLink.url.pathname + isValidLink.url.search;
+
+    if (!hasSession) {
+      await setInviteRedirectCookie(destination); // destination = pathname + search (invite_token 포함)
+      close();
+      router.push('/login');
+      return;
+    }
+
     router.push(destination);
     setErrorText(null);
     close();

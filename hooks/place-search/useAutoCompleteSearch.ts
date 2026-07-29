@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import type { AutoCompleteResults } from '@/types/CorePlace';
+import type { AutoCompleteResults } from '@/types/corePlace';
 
 interface FetchAutoCompleteProps {
   query: string;

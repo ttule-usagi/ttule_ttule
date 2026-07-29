@@ -4,7 +4,7 @@ import FormTypeText from './form-inputs/FormTypeText';
 import FormTypeSelect from './form-inputs/FormTypeSelect';
 import type { NewPlaceFormState, Action } from '@/hooks/useNewPlaceForm';
 import type { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
-import { PLACE_CATEGORIES, PlaceCategory } from '@/types/CorePlace';
+import { PLACE_CATEGORIES, PlaceCategory } from '@/types/corePlace';
 
 interface Props {
   state: NewPlaceFormState;

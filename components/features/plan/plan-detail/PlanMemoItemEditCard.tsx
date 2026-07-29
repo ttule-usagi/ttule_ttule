@@ -34,7 +34,7 @@ export default function PlanMemoItemEditCard({
   const handleSave = async () => {
     if (!placeName.trim()) return;
     const result = await addMemoItem({ scheduleId, placeName, memoContent, visitTime });
-    if (!result?.error) onClose();
+    if (result?.success) onClose();
   };
 
   return (
