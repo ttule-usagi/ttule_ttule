@@ -7,6 +7,8 @@ import { Icon } from '@/components/common/Icon';
 import LobbyPlanActionMenu from './lobby/LobbyPlanActionMenu';
 import { createViewLink } from '@/lib/utils/invite/createViewLink';
 import { useModalStore } from '@/lib/store/modalStore';
+import { useGetPlanMyRole } from '@/hooks/plan/useGetPlanMyRole';
+import { Role } from '@/types/shareOption';
 
 interface PlanHeaderProps {
   planId: string;
@@ -28,6 +30,9 @@ export default function PlanHeader({ planId, hasSession }: PlanHeaderProps) {
 
   const dateRange = formatDateRange(plan.departureDate, plan.arrivalDate, plan.isDateUndecided);
   const { open } = useModalStore();
+
+  const { data: myRole } = useGetPlanMyRole(planId);
+  const AUTHORIZED_ROLES: Role[] = ['master', 'editor'];
 
   return (
     <div className='absolute top-0 right-0 flex gap-4 items-end p-5 z-10  '>
@@ -103,7 +108,7 @@ export default function PlanHeader({ planId, hasSession }: PlanHeaderProps) {
               myRole={data.myRole}
             />
           )}
-          {!hasSession && (
+          {!AUTHORIZED_ROLES.includes(myRole as Role) && (
             <Icon
               name='Share'
               size={32}

@@ -71,8 +71,6 @@ export default function PlanDayPanel({
   const { triggerFocus } = usePlanSearchStore();
   const { triggerOpenPlaceList } = usePlanPlaceListStore();
 
-  const isGuest = !hasSession;
-
   return (
     <div className='relative h-full w-full max-w-118'>
       {/* 이전 화살표 */}
