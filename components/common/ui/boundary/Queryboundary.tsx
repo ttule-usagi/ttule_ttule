@@ -8,11 +8,11 @@ import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 interface QueryBoundaryProps {
   children: React.ReactNode;
   errorFallback?: (props: FallbackProps) => React.ReactNode;
-  fallback?: React.ReactNode;
+  loadingFallback?: React.ReactNode;
   subject?: string;
 }
 
-export function QueryBoundary({ children, errorFallback, fallback, subject }: QueryBoundaryProps) {
+export function QueryBoundary({ children, errorFallback, loadingFallback, subject }: QueryBoundaryProps) {
   const fallbackRender = errorFallback ?? ((props: FallbackProps) => defaultErrorFallback(props, subject ?? '대상'));
   return (
     <QueryErrorResetBoundary>
@@ -21,7 +21,7 @@ export function QueryBoundary({ children, errorFallback, fallback, subject }: Qu
           onReset={reset}
           fallbackRender={fallbackRender}
         >
-          <Suspense fallback={fallback ?? null}>{children}</Suspense>
+          <Suspense fallback={loadingFallback ?? null}>{children}</Suspense>
         </ErrorBoundary>
       )}
     </QueryErrorResetBoundary>
