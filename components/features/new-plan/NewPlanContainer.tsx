@@ -12,7 +12,6 @@ import PlanNameAnswer from './plan-answer/PlanNameAnswer';
 import SkipButton from './plan-answer/SkipButton';
 import FadeUp from '@/components/common/FadeUp';
 import { useNewPlanForm } from '@/hooks/new-plan/useNewPlanForm';
-import { useShareEditLink } from '@/hooks/invite-member/useShareEditLink';
 import { useGetOrRefreshEditToken } from '@/hooks/invite-member/useGetOrRefreshEditToken';
 import { RESOURCE_ROUTE } from '@/lib/constants/ResourceType';
 
@@ -28,7 +27,6 @@ export default function NewPlanContainer() {
 
   const { data: countries } = useCountries(selectOpen);
   const { data: destinations } = useDestinations(selectOpen);
-  const { createShareLink, isPending } = useShareEditLink();
 
   const groups = useMemo(() => {
     if (!countries || !destinations) return [];

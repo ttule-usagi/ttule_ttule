@@ -9,7 +9,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useGetUserPlans } from '@/hooks/plan/useGetUserPlans';
 import { getTodayDateStr } from '@/lib/utils/date';
-import Loader from '@/components/common/Loader';
 
 export default function Page() {
   const { data } = useGetUserPlans();
