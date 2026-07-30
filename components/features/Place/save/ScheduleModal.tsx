@@ -1,12 +1,15 @@
 'use client';
 
-import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+
+import ScheduleModalItem from '@/components/features/place/save/ScheduleModalItem';
 import { useGetUserPlans } from '@/hooks/plan/useGetUserPlans';
 import { addPlanItemWithTransit } from '@/lib/actions/planItem';
 import type { CorePlaceDetail } from '@/types/corePlace';
-import ScheduleModalItem from '@/components/features/place/save/ScheduleModalItem';
-import { Icon } from '@/components/common/Icon';
+
+import BottomButton from './modal-item/BottomButton';
+import ModalHeader from './modal-item/ModalHeader';
 
 interface AddToScheduleModalProps {
   placeDetail: CorePlaceDetail;
@@ -82,31 +85,22 @@ export default function AddToScheduleModal({ placeDetail, onClose }: AddToSchedu
       onClick={onClose}
     >
       <div
-        className='relative bg-white rounded-lg h-[50vh] w-80 flex flex-col gap-4 px-5 py-4'
+        className='relative bg-white rounded-lg h-[50vh] w-80 flex flex-col px-5 pt-4'
         onClick={(e) => e.stopPropagation()}
       >
         {/* 헤더 */}
-        <div className='flex items-center justify-between'>
-          <p className='text-typo-base-bold text-brand-gray-700'>여행 일정에 추가</p>
-          <button
-            onClick={onClose}
-            aria-label='닫기'
-          >
-            <Icon
-              name='XClose'
-              size={26}
-              className='text-brand-gray-600'
-            />
-          </button>
-        </div>
+        <ModalHeader
+          title='여행 일정에 추가'
+          onClose={onClose}
+        />
 
         {/* plan 목록 */}
-        <div className='flex flex-col gap-4 max-h-100 overflow-y-auto'>
+        <div className='flex flex-col gap-4 max-h-100 overflow-y-auto mt-4'>
           {isPlansLoading && <p className='text-typo-description text-brand-gray-400 text-center'>로딩 중...</p>}
 
           {/* 현재 여행 */}
           {currentPlans.length > 0 && (
-            <div className='flex flex-col gap-[8px]'>
+            <div className='flex flex-col gap-2'>
               <p className='text-typo-description text-brand-gray-700'>현재 여행</p>
               {currentPlans.map((plan) => (
                 <ScheduleModalItem
@@ -121,7 +115,7 @@ export default function AddToScheduleModal({ placeDetail, onClose }: AddToSchedu
 
           {/* 다가오는 여행 */}
           {upcomingPlans.length > 0 && (
-            <div className='flex flex-col gap-[8px]'>
+            <div className='flex flex-col gap-2'>
               <p className='text-typo-description text-brand-gray-700'>다가오는 여행</p>
               {upcomingPlans.map((plan) => (
                 <ScheduleModalItem
@@ -144,17 +138,19 @@ export default function AddToScheduleModal({ placeDetail, onClose }: AddToSchedu
         {errorMessage && <p className='text-typo-caption text-tag-red-text text-center'>{errorMessage}</p>}
 
         {/* 추가하기 버튼 */}
-        <button
-          onClick={handleSubmit}
-          disabled={selectedScheduleIds.size === 0 || isSubmitting}
-          className={`absolute bottom-0 left-0 right-0 mx-5 mb-4 py-2 rounded-sm text-typo-base-bold text-center transition-colors ${
-            selectedScheduleIds.size > 0 && !isSubmitting
-              ? 'bg-brand-blue-700 text-white'
-              : 'bg-brand-gray-200 text-brand-gray-400 cursor-not-allowed'
-          }`}
-        >
-          {isSubmitting ? '추가 중...' : '추가하기'}
-        </button>
+        <BottomButton>
+          <button
+            onClick={handleSubmit}
+            disabled={selectedScheduleIds.size === 0 || isSubmitting}
+            className={`w-full py-2 rounded-sm text-typo-base-bold text-center transition-colors box-border border ${
+              selectedScheduleIds.size > 0 && !isSubmitting
+                ? 'bg-brand-blue-700 text-white border-brand-gray-300'
+                : 'bg-brand-gray-200 text-brand-gray-400 border-brand-gray-200 cursor-not-allowed'
+            }`}
+          >
+            {isSubmitting ? '추가 중...' : '추가하기'}
+          </button>
+        </BottomButton>
       </div>
     </div>
   );
