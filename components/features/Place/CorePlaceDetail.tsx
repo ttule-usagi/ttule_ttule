@@ -1,16 +1,16 @@
 'use client';
 
-import type { CorePlaceDetail } from '@/types/corePlace';
 import { Icon } from '@/components/common/Icon';
-import ExternalLinkButton from './detail/ExternalLinkButton';
-import BusinessHours from './detail/info/BusinessHours';
-import Address from './detail/info/Address';
-import ReviewContainer from './detail/review/ReviewContainer';
-import WebsiteUri from './detail/info/WebsiteUri';
-import PlaceInfoHeader from './detail/info/PlaceInfoHeader';
-import PlaceImage from './detail/info/PlaceImage';
-import PlaceActionBar from './detail/PlaceActionBar';
 import { getGoogleLink, getNaverLink } from '@/lib/utils/getExternalLink';
+import type { CorePlaceDetail } from '@/types/corePlace';
+
+import ExternalLinkButton from './detail/ExternalLinkButton';
+import Address from './detail/info/Address';
+import BusinessHours from './detail/info/BusinessHours';
+import PlaceImage from './detail/info/PlaceImage';
+import PlaceInfoHeader from './detail/info/PlaceInfoHeader';
+import WebsiteUri from './detail/info/WebsiteUri';
+import PlaceActionBar from './detail/PlaceActionBar';
 
 interface CorePlaceDetailProps {
   data: CorePlaceDetail;
@@ -21,15 +21,8 @@ interface CorePlaceDetailProps {
   onWriteReview?: () => void;
 }
 
-export default function CorePlaceDetail({
-  data,
-  onClose,
-  onAddToSchedule,
-  onSave,
-  onShare,
-  onWriteReview,
-}: CorePlaceDetailProps) {
-  const { place, images, reviews, savedLists } = data;
+export default function CorePlaceDetail({ data, onClose, onAddToSchedule, onSave, onShare }: CorePlaceDetailProps) {
+  const { place, images, savedLists } = data;
 
   const savedListNames = savedLists.map((l) => l.title).join(', ');
   const isSaved = savedLists.length > 0;
