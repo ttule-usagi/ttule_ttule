@@ -4,24 +4,23 @@ import { Icon } from '@/components/common/Icon';
 import { getGoogleLink, getNaverLink } from '@/lib/utils/getExternalLink';
 import type { CorePlaceDetail } from '@/types/corePlace';
 
+import PlaceActionBar from './detail/action-bar/PlaceActionBar';
 import ExternalLinkButton from './detail/ExternalLinkButton';
 import Address from './detail/info/Address';
 import BusinessHours from './detail/info/BusinessHours';
 import PlaceImage from './detail/info/PlaceImage';
 import PlaceInfoHeader from './detail/info/PlaceInfoHeader';
 import WebsiteUri from './detail/info/WebsiteUri';
-import PlaceActionBar from './detail/PlaceActionBar';
 
 interface CorePlaceDetailProps {
   data: CorePlaceDetail;
   onClose?: () => void;
   onAddToSchedule?: () => void;
   onSave?: () => void;
-  onShare?: () => void;
   onWriteReview?: () => void;
 }
 
-export default function CorePlaceDetail({ data, onClose, onAddToSchedule, onSave, onShare }: CorePlaceDetailProps) {
+export default function CorePlaceDetail({ data, onClose, onAddToSchedule, onSave }: CorePlaceDetailProps) {
   const { place, images, savedLists } = data;
 
   const savedListNames = savedLists.map((l) => l.title).join(', ');
@@ -60,7 +59,6 @@ export default function CorePlaceDetail({ data, onClose, onAddToSchedule, onSave
         <PlaceActionBar
           onAddToSchedule={onAddToSchedule}
           onSave={onSave}
-          onShare={onShare}
           savedListsCount={savedLists.length}
           isSaved={isSaved}
         />
