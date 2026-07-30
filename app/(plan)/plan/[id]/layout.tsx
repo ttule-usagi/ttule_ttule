@@ -1,11 +1,12 @@
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
-import { prefetchPlanDetail } from '@/lib/actions/api/prefetch/prefetchPlanDetail';
-import PlanHeader from '@/components/features/plan/PlanHeader';
-import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import Script from 'next/script';
+
+import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
+import PlanHeader from '@/components/features/plan/PlanHeader';
 import CorePlaceSearchInput from '@/components/features/search/CorePlaceSearchInput';
-import { getSharedQueryClient } from '@/lib/utils/getSharedQueryClient';
+import { prefetchPlanDetail } from '@/lib/actions/api/prefetch/prefetchPlanDetail';
 import { auth } from '@/lib/utils/auth';
+import { getSharedQueryClient } from '@/lib/utils/getSharedQueryClient';
 
 export default async function PlanLayout({
   children,

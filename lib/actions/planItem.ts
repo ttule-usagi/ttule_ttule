@@ -2,9 +2,10 @@
 
 import { supabaseUser } from '@/lib/utils/supabase';
 import type { CorePlaceDetail } from '@/types/corePlace';
-import { PlanItem, PlanTransitMode } from '@/types/plan';
-import { getRouteDistance } from '../utils/googleRoutes';
 import { ActionResult, SQLSTATE_TO_RPC_ERROR } from '@/types/errors';
+import { PlanItem, PlanTransitMode } from '@/types/plan';
+
+import { getRouteDistance } from '../utils/googleRoutes';
 
 interface AddPlanMemoItemProps {
   scheduleId: string;

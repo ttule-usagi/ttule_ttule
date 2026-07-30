@@ -1,14 +1,15 @@
+import { Suspense } from 'react';
+
+import ForbiddenRedirect from '@/components/features/invite/ForbiddenRedirect';
 import InviteEditorHandler from '@/components/features/invite/InviteEditorHandler';
 import PlanDetailContainer from '@/components/features/plan/plan-detail/PlanDetailContainer';
-import { handleInviteAccess } from '@/lib/utils/invite/handleInviteAcess';
-import { Suspense } from 'react';
+import { planDetailQueryOptions } from '@/hooks/plan/useGetPlanDetail';
+import { getPlanDetail } from '@/lib/actions/api/plan';
 import { auth } from '@/lib/utils/auth';
 import { getSharedQueryClient } from '@/lib/utils/getSharedQueryClient';
-import { RpcError } from '@/types/errors';
-import ForbiddenRedirect from '@/components/features/invite/ForbiddenRedirect';
-import { getPlanDetail } from '@/lib/actions/api/plan';
+import { handleInviteAccess } from '@/lib/utils/invite/handleInviteAcess';
 import { supabaseAdmin, supabaseUser } from '@/lib/utils/supabase';
-import { planDetailQueryOptions } from '@/hooks/plan/useGetPlanDetail';
+import { RpcError } from '@/types/errors';
 
 export default async function PlanDetail({
   params,

@@ -1,7 +1,8 @@
-import JoinPlanButton from '@/components/features/JoinPlanButton';
-import LoginButton from '@/components/features/LoginButton';
 import Image from 'next/image';
 import Link from 'next/link';
+
+import JoinPlanButton from '@/components/features/JoinPlanButton';
+import LoginButton from '@/components/features/LoginButton';
 
 export default function Home() {
   return (
