@@ -7,7 +7,7 @@ import SaveToListModal from '@/components/features/place/save/ListModal';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import AddToScheduleModal from '@/components/features/place/save/ScheduleModal';
 
-export default function CorePlaceDetailContainer({ placeId }: { placeId: string }) {
+export default function CorePlaceDetailContainer({ placeId, onClose }: { placeId: string; onClose?: () => void }) {
   const { data } = useGetCorePlace(placeId);
   const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
   const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
@@ -16,6 +16,7 @@ export default function CorePlaceDetailContainer({ placeId }: { placeId: string 
     <>
       <CorePlaceDetail
         data={data}
+        onClose={onClose}
         onSave={() => setIsSaveModalOpen(true)}
         onAddToSchedule={() => setIsScheduleModalOpen(true)}
       />
