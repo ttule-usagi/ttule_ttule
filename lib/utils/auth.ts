@@ -1,9 +1,10 @@
-import NextAuth from 'next-auth';
 import { SupabaseAdapter } from '@auth/supabase-adapter';
-import Google from 'next-auth/providers/google';
-import Credentials from 'next-auth/providers/credentials';
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import NextAuth from 'next-auth';
+import Credentials from 'next-auth/providers/credentials';
+import Google from 'next-auth/providers/google';
+
 import { supabaseAdmin } from '@/lib/utils/supabase';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -12,6 +13,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Google({
       clientId: process.env.AUTH_GOOGLE_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
+      allowDangerousEmailAccountLinking: true,
+      authorization: {
+        params: {
+          prompt: 'select_account',
+        },
+      },
     }),
     Credentials({
       credentials: {
@@ -101,29 +108,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return true;
       }
 
-      // 기존 유저가 구글 로그인 시도 BUT accounts 테이블에 연결 정보가 없는 경우
-      // ex: 이메일로 가입했다가 동일한 이메일로 구글 로그인 시도
-      if (existingProfile && account?.provider === 'google') {
-        const { data: existingAccount } = await supabaseAdmin
-          .schema('next_auth')
-          .from('accounts')
-          .select('id')
-          .eq('userId', existingProfile.id)
-          .eq('provider', 'google')
-          .maybeSingle();
-
-        if (!existingAccount) {
-          // 서버에서 계정 연결 진행
-          await supabaseAdmin.schema('next_auth').from('next_auth.accounts').insert({
-            userId: existingProfile.id,
-            provider: account?.provider,
-            providerAccountId: account?.providerAccountId,
-            type: account?.type,
-          });
-          return true;
-        }
-      }
-
       // 그 외 모든 성공케이스(기존 유저, 이메일 가입 직후 등)은 로비로 이동
       return true;
     },
@@ -131,7 +115,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // 최초 로그인 또는 update() 함수 호출 시에만 DB조회
       if (user || trigger === 'update') {
         const userId = user?.id || token.id;
-        const { data, error } = await supabaseAdmin
+        const { data } = await supabaseAdmin
           .from('profiles')
           .select('role, username, profile_image_url')
           .eq('id', userId)
