@@ -1,5 +1,6 @@
-import { CorePlaceImage } from '@/types/CorePlace';
 import Image from 'next/image';
+
+import { CorePlaceImage } from '@/types/corePlace';
 
 interface PlaceImageProps {
   images: CorePlaceImage[];
