@@ -35,32 +35,35 @@ export default function CorePlaceDetail({
   const isSaved = savedLists.length > 0;
 
   return (
-    <div className='bg-white relative w-full pb-40'>
+    <div className='bg-white w-full relative'>
+      {/* 닫기 버튼 */}
+      {onClose && (
+        <div className='sticky top-4 z-20 h-0 flex justify-end pr-4'>
+          <button
+            onClick={onClose}
+            className='bg-white rounded-full size-8 flex items-center justify-center cursor-pointer'
+            aria-label='닫기'
+          >
+            <Icon
+              name='XClose'
+              size={24}
+              className='text-brand-gray-600'
+            />
+          </button>
+        </div>
+      )}
+
       {/* 커버 이미지 */}
       <PlaceImage
         images={images}
         koreanName={place.koreanName}
       />
 
-      {/* 닫기 버튼 */}
-      {onClose && (
-        <button
-          onClick={onClose}
-          className='absolute top-4 right-4 bg-white rounded-full size-8 flex items-center justify-center z-10'
-          aria-label='닫기'
-        >
-          <Icon
-            name='XClose'
-            size={24}
-          />
-        </button>
-      )}
-
       {/* 장소 기본 정보 */}
       <PlaceInfoHeader place={place} />
 
       {/* 액션 버튼 + 저장된 리스트 */}
-      <div className='flex flex-col gap-4 pb-5'>
+      <div className='flex flex-col gap-4 pb-5 px-4'>
         <PlaceActionBar
           onAddToSchedule={onAddToSchedule}
           onSave={onSave}
@@ -79,7 +82,7 @@ export default function CorePlaceDetail({
       <hr className='border-brand-gray-200' />
 
       {/* 장소 상세 정보 */}
-      <div className='flex flex-col gap-3 py-5 w-full'>
+      <div className='flex flex-col gap-3 py-5 w-full px-4'>
         {/* 주소 */}
         {place.address && <Address address={place.address} />}
 
@@ -91,7 +94,7 @@ export default function CorePlaceDetail({
       </div>
 
       {/* 외부 링크 버튼 */}
-      <div className='flex gap-2 pb-5'>
+      <div className='flex gap-2 pb-5 px-4'>
         {/* 네이버에서 보기 */}
         <ExternalLinkButton
           type='naver'
