@@ -15,7 +15,8 @@ export default function PlaceImage({ images, koreanName }: PlaceImageProps) {
         <Image
           src={mainImage.imgUrl}
           alt={koreanName}
-          fill
+          width={360}
+          height={240}
           className='object-cover w-full h-full'
         />
       ) : (

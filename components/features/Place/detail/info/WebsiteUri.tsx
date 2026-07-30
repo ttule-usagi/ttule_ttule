@@ -7,7 +7,7 @@ export default function WebsiteUri({ websiteUri }: { websiteUri: string }) {
         href={websiteUri}
         target='_blank'
         rel='noopener noreferrer'
-        className='text-typo-description text-brand-gray-500 underline truncate '
+        className='inline-block text-typo-description text-brand-gray-500 underline truncate w-full'
       >
         {websiteUri.replace(/^https?:\/\//, '')}
       </a>

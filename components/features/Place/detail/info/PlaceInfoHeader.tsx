@@ -6,7 +6,7 @@ export default function PlaceInfoHeader({ place }: { place: CorePlace }) {
   const categoryLabel = getPlaceCategoryLabel(place.category);
 
   return (
-    <div className='pt-5 pb-4 flex flex-col gap-2'>
+    <div className='pt-5 pb-4 flex flex-col gap-2 px-4'>
       <div className='flex flex-col gap-0.5'>
         {place.koreanName ? (
           <p className='text-typo-sub-title text-brand-gray-600'> {place.koreanName}</p>
