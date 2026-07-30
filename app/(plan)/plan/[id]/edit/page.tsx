@@ -1,3 +1,3 @@
 export default function PlanHeader() {
-    return(<>edit</>)
+  return <>edit</>;
 }

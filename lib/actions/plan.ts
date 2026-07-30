@@ -1,9 +1,8 @@
 'use server';
 
 import { auth } from '@/lib/utils/auth';
-import { supabaseAdmin, supabaseUser } from '@/lib/utils/supabase';
-
-type CreatePlanResult = { data: { planId: string; token: string }; error?: never } | { error: string; data?: never };
+import { supabaseUser } from '@/lib/utils/supabase';
+import { ActionResult, isPostgresError, RpcErrorMessage, SQLSTATE_TO_RPC_ERROR } from '@/types/errors';
 
 export async function createNewPlan(formData: {
   title: string;
@@ -12,7 +11,7 @@ export async function createNewPlan(formData: {
   arrival_date: string | null;
   is_date_undecided: boolean;
   total_days: number | null;
-}): Promise<CreatePlanResult> {
+}): Promise<ActionResult<{ planId: string }>> {
   // 인증 확인
   const session = await auth();
   if (!session?.user?.id) {
@@ -31,7 +30,13 @@ export async function createNewPlan(formData: {
     const end = new Date(formData.arrival_date);
 
     if (start > end) {
-      return { error: '출발 일자는 도착 일자보다 빠를 수 없습니다.' };
+      return {
+        success: false,
+        error: {
+          message: 'VALIDATION_ERROR' as RpcErrorMessage,
+          code: 'INVALID_DATE_RANGE',
+        },
+      };
     }
 
     // 날짜 차이 계산 (시간차 무시를 위해 UTC 혹은 정오 기준 계산 권장)
@@ -57,16 +62,17 @@ export async function createNewPlan(formData: {
 
     if (error) throw error;
     if (!data) throw new Error('계획 생성 후 ID를 반환받지 못했습니다.');
-    const result = (data as { new_plan_id: string; new_edit_token: string }[])[0];
+    const result = (data as { new_plan_id: string }[])[0];
 
-    return {
-      data: {
-        planId: result.new_plan_id,
-        token: result.new_edit_token,
-      },
-    };
-  } catch (error: any) {
+    if (!result?.new_plan_id) {
+      return { success: false, error: { message: 'INTERNAL_ERROR' as RpcErrorMessage } };
+    }
+
+    return { success: true, data: { planId: result.new_plan_id } };
+  } catch (error: unknown) {
     console.error('Plan 생성 실패:', error);
-    return { error: error.message || '계획을 생성하는 중 오류가 발생했습니다.' };
+    const code = isPostgresError(error) ? error.code : undefined;
+    const message = ((code && SQLSTATE_TO_RPC_ERROR[code]) ?? 'INTERNAL_ERROR') as RpcErrorMessage;
+    return { success: false, error: { message, code } };
   }
 }

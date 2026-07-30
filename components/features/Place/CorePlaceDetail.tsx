@@ -1,6 +1,6 @@
 'use client';
 
-import type { CorePlaceDetail } from '@/types/CorePlace';
+import type { CorePlaceDetail } from '@/types/corePlace';
 import { Icon } from '@/components/common/Icon';
 import ExternalLinkButton from './detail/ExternalLinkButton';
 import BusinessHours from './detail/info/BusinessHours';

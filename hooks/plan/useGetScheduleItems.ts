@@ -1,10 +1,14 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import type { PlanItem } from '@/types/plan';
+import { RpcError, RpcErrorMessage, RpcErrorResponseBody } from '@/types/errors';
 
 const fetchScheduleItems = async (planId: string, scheduleId: string): Promise<PlanItem[]> => {
   const res = await fetch(`/api/view/plan/${planId}/items?scheduleId=${scheduleId}`);
-  if (res.status === 401) throw new Error('UNAUTHORIZED');
-  if (!res.ok) throw new Error('일정 항목을 가져오는 데 실패했습니다.');
+  if (!res.ok) {
+    const body = (await res.json().catch(() => null)) as RpcErrorResponseBody | null;
+    const message: RpcErrorMessage = body?.error ?? 'INTERNAL_ERROR';
+    throw new RpcError(message);
+  }
   return res.json();
 };
 

@@ -4,9 +4,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useGetPlanDetail } from '@/hooks/plan/useGetPlanDetail';
 import { Icon } from '@/components/common/Icon';
+import LobbyPlanActionMenu from './lobby/LobbyPlanActionMenu';
+import { createViewLink } from '@/lib/utils/invite/createViewLink';
+import { useModalStore } from '@/lib/store/modalStore';
+import { useGetPlanMyRole } from '@/hooks/plan/useGetPlanMyRole';
+import { Role } from '@/types/shareOption';
 
 interface PlanHeaderProps {
   planId: string;
+  hasSession: boolean;
 }
 
 function formatDateRange(departureDate: string | null, arrivalDate: string | null, isDateUndecided: boolean): string {
@@ -18,11 +24,15 @@ function formatDateRange(departureDate: string | null, arrivalDate: string | nul
   return `${fmt(departureDate)}~${fmt(arrivalDate)}`;
 }
 
-export default function PlanHeader({ planId }: PlanHeaderProps) {
+export default function PlanHeader({ planId, hasSession }: PlanHeaderProps) {
   const { data } = useGetPlanDetail(planId);
   const { plan, members } = data;
 
   const dateRange = formatDateRange(plan.departureDate, plan.arrivalDate, plan.isDateUndecided);
+  const { open } = useModalStore();
+
+  const { data: myRole } = useGetPlanMyRole(planId);
+  const AUTHORIZED_ROLES: Role[] = ['master', 'editor'];
 
   return (
     <div className='absolute top-0 right-0 flex gap-4 items-end p-5 z-10  '>
@@ -85,20 +95,27 @@ export default function PlanHeader({ planId }: PlanHeaderProps) {
 
         {/* 체크/설정 버튼 */}
         <div className='flex gap-[12px] items-center shrink-0'>
-          <button aria-label='체크'>
+          {/* <button aria-label='체크'>
             <Icon
               name='CheckboxChecked'
               size={32}
               className='text-brand-blue-600'
             />
-          </button>
-          <button aria-label='설정'>
-            <Icon
-              name='Setting'
-              size={32}
-              className='text-brand-blue-600'
+          </button> */}
+          {hasSession && (
+            <LobbyPlanActionMenu
+              id={planId}
+              myRole={data.myRole}
             />
-          </button>
+          )}
+          {!AUTHORIZED_ROLES.includes(myRole as Role) && (
+            <Icon
+              name='Share'
+              size={32}
+              className='cursor-pointer'
+              onClick={() => open({ type: 'shareLink', props: { type: 'VIEW', link: createViewLink(planId, 'plan') } })}
+            />
+          )}
         </div>
       </div>
     </div>

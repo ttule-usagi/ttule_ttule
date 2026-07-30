@@ -12,9 +12,12 @@ import PlanNameAnswer from './plan-answer/PlanNameAnswer';
 import SkipButton from './plan-answer/SkipButton';
 import FadeUp from '@/components/common/FadeUp';
 import { useNewPlanForm } from '@/hooks/new-plan/useNewPlanForm';
+import { useGetOrRefreshEditToken } from '@/hooks/invite-member/useGetOrRefreshEditToken';
+import { RESOURCE_ROUTE } from '@/lib/constants/ResourceType';
 
 export default function NewPlanContainer() {
   const { state, dispatch } = useNewPlanForm();
+  const { mutate: refreshToken } = useGetOrRefreshEditToken();
 
   const router = useRouter();
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -72,13 +75,32 @@ export default function NewPlanContainer() {
     }
 
     if (!res.data) return;
-    () => nextStep(3);
 
-    dispatch({
-      type: 'SUBMIT_SUCCESS',
-      planId: res.data.planId,
-      inviteToken: `${res.data.planId}/${res.data.token}`,
-    });
+    refreshToken(
+      { id: res.data.planId, type: 'plan' },
+      {
+        onSuccess: (token) => {
+          const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+          if (!baseUrl) {
+            console.error('NEXT_PUBLIC_BASE_URL이 설정되지 않았습니다.');
+            dispatch({ type: 'SUBMIT_ERROR', error: '초대 링크 생성에 실패했습니다.' });
+            return;
+          }
+
+          const editLink = `${baseUrl}/${RESOURCE_ROUTE['plan']}/${res.data.planId}?invite_token=${token}`;
+
+          dispatch({
+            type: 'SUBMIT_SUCCESS',
+            planId: res.data.planId,
+            inviteToken: editLink,
+          });
+          nextStep(3);
+        },
+        onError: () => {
+          dispatch({ type: 'SUBMIT_ERROR', error: '초대 링크 생성에 실패했습니다.' });
+        },
+      },
+    );
   };
 
   const handleSubmit = () => {
@@ -95,7 +117,7 @@ export default function NewPlanContainer() {
 
   const handleConfirm = () => {
     if (!state.planId) return;
-    router.push(`/plan/${state.planId}`);
+    router.replace(`/plan/${state.planId}`);
   };
 
   const handleBack = () => {
@@ -207,7 +229,7 @@ export default function NewPlanContainer() {
                     onClick={handleCopy}
                     className='mt-2 flex items-center gap-2 bg-white rounded-lg px-3 py-2 max-w-[stretch] hover:bg-brand-gray-50 cursor-pointer'
                   >
-                    <span className='flex-1 text-typo-sm text-brand-gray-700 truncate'>{`${state.planId}/${state.inviteToken}`}</span>
+                    <span className='flex-1 text-typo-sm text-brand-gray-700 truncate'>{`${state.inviteToken}`}</span>
 
                     <Icon
                       name={copied ? 'Check' : 'Copy'}

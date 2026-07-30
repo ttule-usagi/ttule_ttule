@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { PlanDetail, PlanItem, PlanSchedule } from '@/types/plan';
-import { PlanScheduleOverview } from '@/hooks/plan/useGetPlanSchedules';
+import { RpcError, RpcErrorMessage } from '@/types/errors';
 
 export const getPlanDetail = async ({
   supabase,
@@ -13,8 +13,13 @@ export const getPlanDetail = async ({
     p_plan_id: planId,
   });
 
-  if (error) throw error;
-  if (!data) throw new Error('계획 정보를 가져오는 데 실패했습니다.');
+  if (error) throw new RpcError(error.message as RpcErrorMessage, error.code);
+
+  if (!data) {
+    console.error('❌ 계획 상세 조회 실패: ', error);
+    throw new RpcError('NOT_FOUND');
+  }
+
   return data as PlanDetail;
 };
 
@@ -29,8 +34,11 @@ export const getScheduleItems = async ({
     p_schedule_id: scheduleId,
   });
 
-  if (error) throw error;
-  if (!data) throw new Error('일정 항목을 가져오는 데 실패했습니다.');
+  if (error) throw new RpcError(error.message as RpcErrorMessage, error.code);
+  if (!data) {
+    console.error('❌ 계획 일차별 아이템 조회 실패: ', error);
+    throw new RpcError('NOT_FOUND');
+  }
   return data as PlanItem[];
 };
 
@@ -45,7 +53,10 @@ export const getPlanSchedules = async ({
     p_plan_id: planId,
   });
 
-  if (error) throw error;
-  if (!data) throw new Error('일정을 가져오는 데 실패했습니다.');
+  if (error) throw new RpcError(error.message as RpcErrorMessage, error.code);
+  if (!data) {
+    console.error('❌ 계획 스케줄 리스트 조회 실패: ', error);
+    throw new RpcError('NOT_FOUND');
+  }
   return data as PlanSchedule[];
 };

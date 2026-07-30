@@ -113,8 +113,7 @@ export default function CorePlaceSearchInput() {
     setIsAutoCompleteOpen(false);
   };
 
-  const HIDE_BACK_BUTTON_PATHS = ['/places', '/plan'];
-  const shouldShowBack = !HIDE_BACK_BUTTON_PATHS.some((p) => path.startsWith(p));
+  const shouldShowBack = path !== '/places' && !path.startsWith('/plan/');
 
   return (
     <div className='relative flex gap-4 items-center mb-8'>
