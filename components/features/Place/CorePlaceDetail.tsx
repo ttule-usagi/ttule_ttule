@@ -61,6 +61,7 @@ export default function CorePlaceDetail({ data, onClose, onAddToSchedule, onSave
           onSave={onSave}
           savedListsCount={savedLists.length}
           isSaved={isSaved}
+          placeId={data.place.id}
         />
 
         {/* 저장된 리스트 이름 */}

@@ -3,13 +3,20 @@ import SaveButton from '../save-button/SaveButton';
 import ShareButton from './ShareButton';
 
 interface PlaceActionBarProps {
+  placeId: string;
   onAddToSchedule?: () => void;
   onSave?: () => void;
   savedListsCount: number;
   isSaved: boolean;
 }
 
-export default function PlaceActionBar({ onAddToSchedule, onSave, savedListsCount, isSaved }: PlaceActionBarProps) {
+export default function PlaceActionBar({
+  placeId,
+  onAddToSchedule,
+  onSave,
+  savedListsCount,
+  isSaved,
+}: PlaceActionBarProps) {
   return (
     <div className='flex gap-2 items-center'>
       {/* 일정에 추가 */}
@@ -28,7 +35,7 @@ export default function PlaceActionBar({ onAddToSchedule, onSave, savedListsCoun
       />
 
       {/* 공유 */}
-      <ShareButton />
+      <ShareButton placeId={placeId} />
     </div>
   );
 }

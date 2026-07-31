@@ -2,11 +2,11 @@ import { useState } from 'react';
 
 import { Icon } from '@/components/common/Icon';
 
-export default function ShareButton() {
+export default function ShareButton({ placeId }: { placeId: string }) {
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
   const handleCopyPlaceLink = async () => {
-    const url = window.location.href;
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/places/detail/${placeId}`;
     try {
       await navigator.clipboard.writeText(url);
 
