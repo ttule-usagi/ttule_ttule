@@ -2,6 +2,7 @@
 
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 
 import { Icon } from '@/components/common/Icon';
 import { useGetAllPlaceLists } from '@/hooks/place-list/useGetAllPlaceLists';
@@ -67,7 +68,7 @@ export default function SaveToListModal({ placeDetail, onClose, onCreateNewList 
     onClose();
   };
 
-  return (
+  return createPortal(
     // 모달 오버레이
     <div
       className='fixed inset-0 z-50 flex items-center justify-center bg-black/40'
@@ -150,6 +151,7 @@ export default function SaveToListModal({ placeDetail, onClose, onCreateNewList 
           </button>
         </BottomButton>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

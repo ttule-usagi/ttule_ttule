@@ -2,6 +2,7 @@
 
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 
 import ScheduleModalItem from '@/components/features/place/save/ScheduleModalItem';
 import { useGetUserPlans } from '@/hooks/plan/useGetUserPlans';
@@ -79,7 +80,7 @@ export default function AddToScheduleModal({ placeDetail, onClose }: AddToSchedu
     onClose();
   };
 
-  return (
+  return createPortal(
     <div
       className='fixed inset-0 z-50 flex items-center justify-center bg-black/40'
       onClick={onClose}
@@ -152,6 +153,7 @@ export default function AddToScheduleModal({ placeDetail, onClose }: AddToSchedu
           </button>
         </BottomButton>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
