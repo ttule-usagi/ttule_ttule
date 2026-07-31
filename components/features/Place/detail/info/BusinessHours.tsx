@@ -1,4 +1,5 @@
 import { Icon } from '@/components/common/Icon';
+
 import InfoRow from './InfoRow';
 
 export default function BusinessHours() {

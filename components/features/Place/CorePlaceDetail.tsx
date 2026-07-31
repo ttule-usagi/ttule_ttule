@@ -23,7 +23,7 @@ interface CorePlaceDetailProps {
 export default function CorePlaceDetail({ data, onClose, onAddToSchedule, onSave }: CorePlaceDetailProps) {
   const { place, images, savedLists } = data;
 
-  const savedListNames = savedLists.map((l) => l.title).join(', ');
+  const savedListNames = savedLists.map((l) => `'${l.title}'`).join(', ');
   const isSaved = savedLists.length > 0;
 
   return (
@@ -63,10 +63,10 @@ export default function CorePlaceDetail({ data, onClose, onAddToSchedule, onSave
           isSaved={isSaved}
           placeId={data.place.id}
         />
-
         {/* 저장된 리스트 이름 */}
+
         {isSaved && savedListNames && (
-          <p className='text-typo-description text-brand-gray-600'>{`'${savedListNames}'`} 에 저장됨</p>
+          <p className='text-typo-description text-brand-gray-600'>{savedListNames} 에 저장됨</p>
         )}
       </div>
 
