@@ -71,7 +71,7 @@ export default function SaveToListModal({ placeDetail, onClose, onCreateNewList 
   return createPortal(
     // 모달 오버레이
     <div
-      className='fixed inset-0 z-50 flex items-center justify-center bg-black/40'
+      className='fixed inset-0 z-1000 flex items-center justify-center bg-black/40'
       onClick={onClose}
     >
       <div
