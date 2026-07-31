@@ -82,7 +82,7 @@ export default function AddToScheduleModal({ placeDetail, onClose }: AddToSchedu
 
   return createPortal(
     <div
-      className='fixed inset-0 z-1000 flex items-center justify-center bg-black/40'
+      className='modal-overlay'
       onClick={onClose}
     >
       <div
