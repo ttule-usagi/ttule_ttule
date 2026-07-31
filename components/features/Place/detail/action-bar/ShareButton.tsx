@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Icon } from '@/components/common/Icon';
 
 export default function ShareButton() {
-  const [showTooltip, setShowTooltip] = useState(false);
+  const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
   const handleCopyPlaceLink = async () => {
     const url = window.location.href;
@@ -49,7 +49,7 @@ export default function ShareButton() {
         aria-label='공유'
       >
         <Icon
-          name='Share'
+          name={showTooltip ? 'Check' : 'Share'}
           size={24}
         />
       </button>
