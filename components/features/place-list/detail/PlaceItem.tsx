@@ -3,15 +3,22 @@
 import { Icon } from '@/components/common/Icon';
 import { Place } from '@/types/placeList';
 import Image from 'next/image';
-import { useState } from 'react';
-import PlaceTag from '../tag/PlaceTag';
+import React, { useState } from 'react';
 import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
 import { useConfirmDeletePlace } from '@/hooks/place-list/useConfirmDeletePlace';
 import { useUpdatePlace } from '@/hooks/place-list/useUpdatePlace';
 import AuthorityWrapper from '../../AuthorityWrapper';
 import { useGetMyRole } from '@/hooks/place-list/useGetMyRole';
 
-export default function PlaceItem({ place, listId }: { place: Place; listId: string }) {
+export default function PlaceItem({
+  place,
+  listId,
+  onClickItem,
+}: {
+  place: Place;
+  listId: string;
+  onClickItem: (id: string) => void;
+}) {
   const [isEdit, setIsEdit] = useState(false);
   const [memo, setMemo] = useState<string | null>(place.memoContent);
   const { confirmDeletePlaceList } = useConfirmDeletePlace(listId);
@@ -23,7 +30,13 @@ export default function PlaceItem({ place, listId }: { place: Place; listId: str
   };
 
   return (
-    <div className='w-full flex gap-3.25 bg-brand-gray-0 p-3 rounded-sm border border-brand-blue-700 items-start'>
+    <div
+      className='w-full flex gap-3.25 bg-brand-gray-0 p-3 rounded-sm border border-brand-blue-700 items-start cursor-pointer'
+      onClick={(e) => {
+        e.stopPropagation();
+        onClickItem(place.corePlaceId);
+      }}
+    >
       {!isEdit && (
         <div className='w-20 h-20 shrink-0 border border-brand-gray-200 rounded-xs bg-brand-blue-50'>
           <Image

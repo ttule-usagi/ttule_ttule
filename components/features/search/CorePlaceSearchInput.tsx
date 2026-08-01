@@ -1,12 +1,14 @@
 'use client';
 
-import { Icon } from '@/components/common/Icon';
-import { useDebounce } from '@/hooks/useDebounce';
-import { useAutoCompleteSearch } from '@/hooks/place-search/useAutoCompleteSearch';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import AutoComplete, { type AutoCompleteItem } from './AutoComplete';
+
+import { Icon } from '@/components/common/Icon';
+import { useAutoCompleteSearch } from '@/hooks/place-search/useAutoCompleteSearch';
+import { useDebounce } from '@/hooks/useDebounce';
 import { usePlanSearchStore } from '@/lib/store/planSearchStore';
+
+import AutoComplete, { type AutoCompleteItem } from './AutoComplete';
 
 const SEARCH_RESULT_PATH = '/places/search';
 
@@ -116,6 +118,7 @@ export default function CorePlaceSearchInput() {
   const shouldShowBack = path !== '/places' && !path.startsWith('/plan/');
 
   return (
+    // TODO: 장소 상세페이지에서 이미지 위에 검색창이 뜨게 하기 위해 z-index값 필요
     <div className='relative flex gap-4 items-center mb-8'>
       {shouldShowBack && (
         <Icon

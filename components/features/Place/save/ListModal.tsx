@@ -1,12 +1,16 @@
 'use client';
 
-import { useState } from 'react';
-import { useGetAllPlaceLists } from '@/hooks/place-list/useGetAllPlaceLists';
 import { useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
+
+import { Icon } from '@/components/common/Icon';
+import { useGetAllPlaceLists } from '@/hooks/place-list/useGetAllPlaceLists';
 import { addPlaceToList } from '@/lib/actions/places';
 import type { CorePlaceDetail } from '@/types/corePlace';
-import type { AllPlaceLists } from '@/types/placeList';
-import { Icon } from '@/components/common/Icon';
+
+import BottomButton from './modal-item/BottomButton';
+import ModalHeader from './modal-item/ModalHeader';
 
 interface SaveToListModalProps {
   placeDetail: CorePlaceDetail;
@@ -64,35 +68,26 @@ export default function SaveToListModal({ placeDetail, onClose, onCreateNewList 
     onClose();
   };
 
-  return (
+  return createPortal(
     // 모달 오버레이
     <div
-      className='fixed inset-0 z-50 flex items-center justify-center bg-black/40'
+      className='modal-overlay'
       onClick={onClose}
     >
       <div
-        className='bg-white rounded-lg w-70 flex flex-col gap-4 px-5 py-4 h-[50vh] overflow-y-auto relative'
+        className='bg-white rounded-lg w-70 flex flex-col px-5 pt-4 h-[50vh] overflow-y-auto relative'
         onClick={(e) => e.stopPropagation()}
       >
         {/* 헤더 */}
-        <div className='flex items-center justify-between'>
-          <p className='text-typo-base-bold text-brand-gray-700'>리스트 저장</p>
-          <button
-            onClick={onClose}
-            aria-label='닫기'
-          >
-            <Icon
-              name='XClose'
-              size={26}
-              className='text-brand-gray-600'
-            />
-          </button>
-        </div>
+        <ModalHeader
+          title='리스트에 저장'
+          onClose={onClose}
+        />
 
         {/* 새로운 리스트 버튼 */}
         <button
           onClick={onCreateNewList}
-          className='w-full flex items-center justify-center gap-1 py-2 border border-brand-gray-300 rounded-1'
+          className='w-full flex items-center justify-center gap-1 py-2 border border-brand-gray-300 rounded-1 rounded-lg cursor-pointer my-4'
         >
           <Icon
             name='Plus'
@@ -142,18 +137,21 @@ export default function SaveToListModal({ placeDetail, onClose, onCreateNewList 
         {errorMessage && <p className='text-typo-caption text-tag-red-text text-center'>{errorMessage}</p>}
 
         {/* 완료 버튼 */}
-        <button
-          onClick={handleComplete}
-          disabled={!selectedId || isLoading}
-          className={`absolute bottom-0 left-0 right-0 mx-5 mb-4 py-2 rounded-lg text-typo-base-bold text-center transition-colors ${
-            selectedId && !isLoading
-              ? 'bg-brand-blue-700 text-white'
-              : 'bg-brand-gray-200 text-brand-gray-400 cursor-not-allowed'
-          }`}
-        >
-          {isLoading ? '저장 중...' : '완료'}
-        </button>
+        <BottomButton>
+          <button
+            onClick={handleComplete}
+            disabled={!selectedId || isLoading}
+            className={`w-full py-2 rounded-lg text-typo-base-bold text-center transition-colors cursor-pointer box-border border ${
+              selectedId && !isLoading
+                ? 'bg-brand-blue-700 text-white border-brand-gray-300'
+                : 'bg-brand-gray-200 text-brand-gray-400 border-brand-gray-200 cursor-not-allowed'
+            }`}
+          >
+            {isLoading ? '저장 중...' : '완료'}
+          </button>
+        </BottomButton>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

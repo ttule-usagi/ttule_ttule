@@ -129,6 +129,8 @@
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 8px;
+
+  --animate-fade-out: fade-out 1s ease-out forwards;
 }
 
 @media (prefers-color-scheme: dark) {
