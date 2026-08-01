@@ -1,15 +1,16 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
+
 import CorePlaceSearchResultItem from '@/components/features/search/CorePlaceSearchResultItem';
 import RegisterNewPlaceBanner from '@/components/features/search/RegisterNewPlaceBanner';
 import { useSearchPlaces } from '@/hooks/place-search/useSearchPlaces';
 import { toCamelKey } from '@/lib/utils/toCamelCase';
 import { PlaceSearchResults } from '@/types/corePlace';
-import { useEffect, useRef } from 'react';
 
 interface SearchResultListProps {
   keyword: string;
-  onPlaceSelect?: (googlePlaceId: string) => void;
+  onPlaceSelect?: (place: { googlePlaceId: string; id: string }) => void;
 }
 
 export default function CoreSearchResultList({ keyword, onPlaceSelect }: SearchResultListProps) {
@@ -47,7 +48,7 @@ export default function CoreSearchResultList({ keyword, onPlaceSelect }: SearchR
             <CorePlaceSearchResultItem
               key={item.id}
               result={item}
-              onClick={() => onPlaceSelect?.(item.googlePlaceId)}
+              onClick={() => onPlaceSelect?.({ googlePlaceId: item.googlePlaceId, id: item.id })}
             />
           ))}
           {isFetchNextPageError && (

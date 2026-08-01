@@ -1,10 +1,14 @@
 // components/features/search/CoreSearchContainer.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
 
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import GoogleMapEmbed from '@/components/features/map/GoogleMapEmbed';
+import { useOpenPlaceDetailModal } from '@/hooks/place/useOpenPlaceDetailModal';
+
+import CorePlaceDetailContainer from '../place/CorePlaceDetailContainer';
 
 import CoreSearchResultList from './CoreSearchResultList';
 
@@ -13,12 +17,14 @@ interface CoreSearchContainerProps {
 }
 
 export default function CoreSearchContainer({ keyword }: CoreSearchContainerProps) {
-  const [selectedPlaceId, setSelectedPlaceId] = useState<string | null>(null);
-  // const { isOpenPlaceModal, selectedId, handleClickPlaceItem, handleClosePlaceDetailModal } = useOpenPlaceDetailModal();
+  const [selectedPlace, setSelectedPlace] = useState<{ googlePlaceId: string; id: string } | null>(null);
+  const { isOpenPlaceModal, selectedId, handleClickPlaceItem, handleClosePlaceDetailModal } = useOpenPlaceDetailModal();
+  const [currentKeyword, setCurrentKeyword] = useState(keyword);
 
-  useEffect(() => {
-    setSelectedPlaceId(null);
-  }, [keyword]);
+  if (currentKeyword !== keyword) {
+    setCurrentKeyword(keyword);
+    setSelectedPlace(null);
+  }
 
   return (
     <>
@@ -26,8 +32,8 @@ export default function CoreSearchContainer({ keyword }: CoreSearchContainerProp
         {/* 지도 */}
         <div className='absolute inset-0 ml-118'>
           <GoogleMapEmbed
-            mode={selectedPlaceId ? 'place' : 'view'}
-            googlePlaceId={selectedPlaceId ?? undefined}
+            mode={selectedPlace ? 'place' : 'view'}
+            googlePlaceId={selectedPlace?.googlePlaceId ?? undefined}
           />
         </div>
 
@@ -36,27 +42,27 @@ export default function CoreSearchContainer({ keyword }: CoreSearchContainerProp
           <QueryBoundary>
             <CoreSearchResultList
               keyword={keyword}
-              onPlaceSelect={(id) => {
-                setSelectedPlaceId(id);
-                // handleClickPlaceItem(id); // corePlaceId 필요
+              onPlaceSelect={(place) => {
+                setSelectedPlace(place);
+                handleClickPlaceItem(place.id);
               }}
             />
           </QueryBoundary>
         </div>
       </div>
-      {/* {isOpenPlaceModal &&
+      {isOpenPlaceModal &&
         selectedId &&
         createPortal(
           <div className='absolute left-120 w-90 rounded-lg overflow-y-auto max-h-[90vh] top-1/2 -translate-y-1/2 overscroll-contain'>
             <QueryBoundary>
               <CorePlaceDetailContainer
-                placeId={selectedId}
+                placeId={selectedPlace?.id ?? ''}
                 onClose={handleClosePlaceDetailModal}
               />
             </QueryBoundary>
           </div>,
           document.body,
-        )} */}
+        )}
     </>
   );
 }
