@@ -1,14 +1,16 @@
 'use client';
 
-import { Icon } from '@/components/common/Icon';
-import { Place } from '@/types/placeList';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
+
+import { Icon } from '@/components/common/Icon';
 import { useConfirmDeletePlace } from '@/hooks/place-list/useConfirmDeletePlace';
-import { useUpdatePlace } from '@/hooks/place-list/useUpdatePlace';
-import AuthorityWrapper from '../../AuthorityWrapper';
 import { useGetMyRole } from '@/hooks/place-list/useGetMyRole';
+import { useUpdatePlace } from '@/hooks/place-list/useUpdatePlace';
+import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
+import { Place } from '@/types/placeList';
+
+import AuthorityWrapper from '../../AuthorityWrapper';
 
 export default function PlaceItem({
   place,
@@ -34,7 +36,7 @@ export default function PlaceItem({
       className='w-full flex gap-3.25 bg-brand-gray-0 p-3 rounded-sm border border-brand-blue-700 items-start cursor-pointer'
       onClick={(e) => {
         e.stopPropagation();
-        onClickItem(place.corePlaceId);
+        if (!isEdit) onClickItem(place.corePlaceId);
       }}
     >
       {!isEdit && (
@@ -65,12 +67,17 @@ export default function PlaceItem({
               role={myRole}
               requiredRole='editor'
             >
-              <Icon
-                name={'Edit'}
-                size={26}
-                className='cursor-pointer text-brand-gray-300'
-                onClick={() => setIsEdit(!isEdit)}
-              />
+              <div className='flex flex-col items-center justify-center my-0.5 ml-1.5 self-start'>
+                <Icon
+                  name={'Edit'}
+                  size={26}
+                  className='cursor-pointer text-brand-gray-300'
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsEdit(!isEdit);
+                  }}
+                />
+              </div>
             </AuthorityWrapper>
           )}
         </div>
@@ -98,6 +105,7 @@ export default function PlaceItem({
         ) : (
           <div>
             <textarea
+              placeholder='메모 추가'
               value={memo ?? ''}
               className='bg-brand-gray-100 min-h-16 text-typo-base px-3 py-2 text-brand-gray-600 border border-brand-gray-200 outline-none rounded-sm w-full overscroll-none resize-y'
               onChange={(e) => setMemo(e.target.value)}
