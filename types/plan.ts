@@ -30,7 +30,7 @@ export interface PlanItem {
   id: string;
   type: string;
   scheduleId: string;
-  placeId: string | null;
+  placeId: string;
   placeName: string;
   placeCategory: string | null;
   placeThumbnail: string | null;

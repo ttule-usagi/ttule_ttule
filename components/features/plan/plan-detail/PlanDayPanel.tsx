@@ -40,6 +40,7 @@ interface PlanDayPanelProps {
   currentIndex: number;
   onPrev: () => void;
   onNext: () => void;
+  onOpenPlaceDetail: (item: PlanItem) => void;
   hasSession: boolean;
 }
 
@@ -65,6 +66,7 @@ export default function PlanDayPanel({
   items,
   isFetching,
   hasSession,
+  onOpenPlaceDetail,
 }: PlanDayPanelProps) {
   const queryClient = useQueryClient();
 
@@ -262,6 +264,7 @@ export default function PlanDayPanel({
                       <PlanItemCard
                         item={item}
                         onClick={() => setEditingItemId(item.id)}
+                        onOpenDetail={() => onOpenPlaceDetail(item)}
                         onChangeSchedule={() => setChangingScheduleItem(item)}
                         hasSession={hasSession}
                         myRole={myRole}

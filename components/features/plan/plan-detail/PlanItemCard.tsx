@@ -16,9 +16,12 @@ import { Role } from '@/types/shareOption';
 import AuthorityWrapper from '../../AuthorityWrapper';
 import NotchRows from '../NotchRows';
 
+import PlanDetailMemoContent from './PlanDetailMemoContent';
+
 interface PlanItemCardProps {
   item: PlanItem;
   onClick: () => void;
+  onOpenDetail: () => void;
   onChangeSchedule: () => void;
   hasSession: boolean;
   myRole: Role | null;
@@ -43,7 +46,14 @@ function formatVisitTime(time: string | null): string {
   return time.slice(0, 5); // "HH:MM"
 }
 
-export default function PlanItemCard({ item, onClick, onChangeSchedule, hasSession, myRole }: PlanItemCardProps) {
+export default function PlanItemCard({
+  item,
+  onClick,
+  onOpenDetail,
+  onChangeSchedule,
+  hasSession,
+  myRole,
+}: PlanItemCardProps) {
   const { open } = useModalStore();
   const queryClient = useQueryClient();
 
@@ -94,12 +104,19 @@ export default function PlanItemCard({ item, onClick, onChangeSchedule, hasSessi
 
         {/* 장소 정보 */}
         <div className='flex flex-col gap-2 flex-1 min-w-0'>
-          <div className='flex flex-col items-start'>
-            <p className='text-typo-base-bold xl:text-typo-sub-title text-brand-blue-700 w-full'>{item.placeName}</p>
+          <div
+            className='flex flex-col items-start'
+            onClick={onOpenDetail}
+          >
+            <p className='text-typo-base-bold xl:text-typo-sub-title text-brand-blue-700 w-full cursor-pointer'>
+              {item.placeName}
+            </p>
             {categoryLabel && <p className='text-typo-description text-brand-gray-400'>{categoryLabel}</p>}
           </div>
           {item.memoContent && (
-            <p className='text-typo-base text-brand-gray-600 whitespace-pre-wrap'>{item.memoContent}</p>
+            <div className='text-typo-description xl:text-typo-base text-brand-gray-600 whitespace-pre-wrap'>
+              <PlanDetailMemoContent content={item.memoContent} />
+            </div>
           )}
         </div>
 
@@ -115,7 +132,7 @@ export default function PlanItemCard({ item, onClick, onChangeSchedule, hasSessi
                 <Icon
                   name='DotsHorizontal'
                   size={24}
-                  className='mt-3 text-brand-gray-400'
+                  className='text-brand-gray-400'
                 />
               </DropDown.Trigger>
 

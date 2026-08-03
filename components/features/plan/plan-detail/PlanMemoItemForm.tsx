@@ -55,7 +55,7 @@ export default function PlanMemoItemForm({
           value={memoContent}
           onChange={(e) => onMemoContentChange(e.target.value)}
           placeholder='메모를 입력하세요'
-          className='bg-transparent text-typo-base text-brand-gray-600 w-full outline-none resize-none placeholder:text-brand-gray-400 min-h-14'
+          className='bg-transparent text-typo-base text-brand-gray-600 w-full outline-none resize-none placeholder:text-brand-gray-400 min-h-14 resize-y '
         />
       </div>
     </div>

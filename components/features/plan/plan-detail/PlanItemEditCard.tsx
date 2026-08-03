@@ -87,7 +87,7 @@ export default function PlanItemEditCard({ item, onClose, onSave, isSaving }: Pl
         <div className='flex flex-col gap-2 flex-1 min-w-0'>
           {/* 장소명 + 카테고리 */}
           <div className='flex flex-col items-start'>
-            <p className='text-typo-sub-title text-brand-blue-700 whitespace-break-spaces w-full pr-10'>
+            <p className='text-typo-sub-title text-brand-blue-700 whitespace-break-spaces w-full pr-11'>
               {item.placeName}
             </p>
             {item.placeCategory && <p className='text-typo-description text-brand-gray-400'>{categoryLabel}</p>}
@@ -105,7 +105,6 @@ export default function PlanItemEditCard({ item, onClose, onSave, isSaving }: Pl
               step={300}
               value={visitTime}
               onChange={(e) => setVisitTime(e.target.value)}
-              placeholder='방문 시간을 입력해주세요'
               className='bg-transparent text-typo-description text-brand-gray-600 w-full outline-none placeholder:text-brand-gray-400'
             />
           </div>
@@ -116,7 +115,7 @@ export default function PlanItemEditCard({ item, onClose, onSave, isSaving }: Pl
             onChange={(e) => setMemoContent(e.target.value)}
             placeholder='메모를 입력하세요'
             rows={3}
-            className='bg-brand-gray-100 border border-brand-gray-200 rounded-sm px-3 py-2 text-typo-desciption text-brand-gray-600 w-full  outline-none resize-y placeholder:text-brand-gray-400 min-h-18'
+            className='bg-brand-gray-100 border border-brand-gray-200 rounded-sm px-3 py-2 text-typo-desciption text-brand-gray-600 w-full outline-none resize-y placeholder:text-brand-gray-400 min-h-18'
           />
 
           {/* 취소/저장 버튼 */}

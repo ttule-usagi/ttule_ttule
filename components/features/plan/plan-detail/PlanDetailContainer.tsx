@@ -12,10 +12,12 @@ import {
 import { arrayMove } from '@dnd-kit/sortable';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import PlanPlaceListContainer from '@/components/features/plan/PlaceList/PlanPlaceListContainer';
 import PlanDayPanel from '@/components/features/plan/plan-detail/PlanDayPanel';
+import { useOpenPlaceDetailModal } from '@/hooks/place/useOpenPlaceDetailModal';
 import { useGetPlanDetail } from '@/hooks/plan/useGetPlanDetail';
 import { scheduleItemsQueryOptions, useGetScheduleItems } from '@/hooks/plan/useGetScheduleItems';
 import { useMovePlanItem } from '@/hooks/plan/useMovePlanItem';
@@ -25,6 +27,7 @@ import { PlanItem } from '@/types/plan';
 
 import GoogleMapEmbed from '../../map/GoogleMapEmbed';
 import GoogleMapJS from '../../map/GoogleMapJS';
+import CorePlaceDetailContainer from '../../place/CorePlaceDetailContainer';
 
 import { PlanDragPreview } from './PlanDragPreview';
 
@@ -48,6 +51,7 @@ export default function PlanDetailContainer({ planId, hasSession }: PlanDetailCo
   );
   const { mutate: movePlanItem } = useMovePlanItem({ planId });
   const [activeItem, setActiveItem] = useState<PlanItem | null>(null);
+  const { isOpenPlaceModal, selectedId, handleClickPlaceItem, handleClosePlaceDetailModal } = useOpenPlaceDetailModal();
 
   const { data: items = [], isFetching } = useGetScheduleItems(
     planId,
@@ -167,13 +171,26 @@ export default function PlanDetailContainer({ planId, hasSession }: PlanDetailCo
               totalDays={schedules.length}
               onPrev={handlePrev}
               onNext={handleNext}
+              onOpenPlaceDetail={(item) => handleClickPlaceItem(item.placeId)}
               hasSession={hasSession}
             />
           </div>
         </QueryBoundary>
         {hasSession && <PlanPlaceListContainer planId={planId} />}
       </div>
-
+      {isOpenPlaceModal &&
+        selectedId &&
+        createPortal(
+          <div className='absolute right-103 lg:right-123 w-90 rounded-lg overflow-y-auto max-h-[90vh] top-1/2 -translate-y-1/2 overscroll-contain'>
+            <QueryBoundary>
+              <CorePlaceDetailContainer
+                placeId={selectedId ?? ''}
+                onClose={handleClosePlaceDetailModal}
+              />
+            </QueryBoundary>
+          </div>,
+          document.body,
+        )}
       <DragOverlay>{activeItem ? <PlanDragPreview item={activeItem} /> : null}</DragOverlay>
     </DndContext>
   );
