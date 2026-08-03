@@ -42,15 +42,8 @@ export const addPlanMemoItem = async ({
 export const duplicatePlanItem = async (item: PlanItem): Promise<ActionResult<string>> => {
   const supabase = await supabaseUser();
 
-  const { data, error } = await supabase.rpc('add_plan_item', {
-    p_schedule_id: item.scheduleId,
-    p_place_id: item.placeId,
-    p_latitude: item.latitude,
-    p_longitude: item.longitude,
-    p_place_name: item.placeName,
-    p_place_category: item.placeCategory,
-    p_place_thumbnail: item.placeThumbnail,
-    p_google_place_id: item.googlePlaceId,
+  const { data, error } = await supabase.rpc('duplicate_plan_item', {
+    p_item_id: item.id,
   });
 
   if (error) {
@@ -59,41 +52,7 @@ export const duplicatePlanItem = async (item: PlanItem): Promise<ActionResult<st
     return { success: false, error: { message, code: error.code } };
   }
 
-  const result = (
-    data as {
-      new_item_id: string;
-      prev_item_id: string | null;
-      prev_latitude: number | null;
-      prev_longitude: number | null;
-      prev_google_place_id: string | null;
-    }[]
-  )[0];
-
-  // 이전 장소 아이템이 있으면 transit 계산
-  if (result.prev_item_id && result.prev_latitude && result.prev_longitude) {
-    const route = await getRouteDistance(
-      {
-        lat: result.prev_latitude,
-        lng: result.prev_longitude,
-        googlePlaceId: result.prev_google_place_id,
-      },
-      {
-        lat: item.latitude!,
-        lng: item.longitude!,
-        googlePlaceId: item.googlePlaceId,
-      },
-      'transit',
-    );
-
-    if (route) {
-      await supabase.rpc('update_plan_item_transit', {
-        p_item_id: result.prev_item_id,
-        p_transit_time: route.durationMinutes,
-        p_transit_distance: route.distanceMeters / 1000,
-        p_transit_mode: 'transit',
-      });
-    }
-  }
+  const result = (data as { new_item_id: string }[])[0];
 
   return { success: true, data: result.new_item_id };
 };
@@ -234,7 +193,7 @@ export const movePlanItem = async ({
   transitMode = 'transit',
 }: {
   itemId: string;
-  newOrder: number;
+  newOrder?: number;
   targetScheduleId?: string;
   transitMode?: PlanTransitMode;
 }): Promise<ActionResult<null>> => {
@@ -242,7 +201,7 @@ export const movePlanItem = async ({
 
   const { data, error } = await supabase.rpc('move_plan_item', {
     p_item_id: itemId,
-    p_new_order: newOrder,
+    p_new_order: newOrder ?? null,
     p_target_schedule_id: targetScheduleId,
   });
 
@@ -352,5 +311,40 @@ export const movePlanItem = async ({
     await supabase.rpc('clear_plan_item_transit', { p_item_id: result.old_prev_item_id });
   }
 
+  return { success: true, data: null };
+};
+
+// plan item 수정
+type UpdatePlanItemParams =
+  | { type: 'place'; itemId: string; visitTime: string; memoContent: string }
+  | { type: 'memo'; itemId: string; visitTime: string; memoContent: string };
+
+export const updatePlanItem = async (params: UpdatePlanItemParams): Promise<ActionResult<null>> => {
+  const supabase = await supabaseUser();
+
+  if (params.type === 'place') {
+    const { error } = await supabase.rpc('update_plan_item_place', {
+      p_item_id: params.itemId,
+      p_visit_time: params.visitTime,
+      p_memo_content: params.memoContent,
+    });
+    if (error)
+      return {
+        success: false,
+        error: { message: SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR', code: error.code },
+      };
+    return { success: true, data: null };
+  }
+
+  const { error } = await supabase.rpc('update_plan_item_memo', {
+    p_item_id: params.itemId,
+    p_visit_time: params.visitTime,
+    p_memo_content: params.memoContent,
+  });
+  if (error)
+    return {
+      success: false,
+      error: { message: SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR', code: error.code },
+    };
   return { success: true, data: null };
 };

@@ -157,6 +157,7 @@ export default function PlanDetailContainer({ planId, hasSession }: PlanDetailCo
         <QueryBoundary>
           <div className='absolute top-22 right-10 bottom-6 max-w-118 min-w-98.5 w-[40vw]'>
             <PlanDayPanel
+              plan={plan}
               planId={planId}
               schedule={currentSchedule}
               schedules={schedules}

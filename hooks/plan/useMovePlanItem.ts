@@ -12,7 +12,7 @@ interface UseMovePlanItemParams {
 
 interface MovePlanItemVariables {
   itemId: string;
-  newOrder: number;
+  newOrder?: number;
   sourceScheduleId: string;
   targetScheduleId?: string;
   transitMode?: PlanTransitMode;
@@ -23,7 +23,6 @@ interface MovePlanItemContext {
   queryKey: ReturnType<typeof scheduleItemsQueryOptions>['queryKey'];
 }
 
-// useMovePlanItem.ts
 export const useMovePlanItem = ({ planId }: UseMovePlanItemParams) => {
   const queryClient = useQueryClient();
 
@@ -37,19 +36,20 @@ export const useMovePlanItem = ({ planId }: UseMovePlanItemParams) => {
 
       const previousItems = queryClient.getQueryData<PlanItem[]>(queryKey);
 
-      queryClient.setQueryData<PlanItem[]>(queryKey, (old) => {
-        if (!old) return old;
-        const updated = old.map((item) =>
-          item.id === variables.itemId ? { ...item, order: variables.newOrder } : item,
-        );
-        return updated.sort((a, b) => a.order - b.order);
-      });
+      // newOrder가 명시된 경우(같은 일차 내 재정렬)에만 낙관적으로 순서 반영
+      if (variables.newOrder !== undefined) {
+        const newOrder = variables.newOrder; // 로컬 상수로 좁혀서 클로저 안에서도 number로 유지
+        queryClient.setQueryData<PlanItem[]>(queryKey, (old) => {
+          if (!old) return old;
+          const updated = old.map((item) => (item.id === variables.itemId ? { ...item, order: newOrder } : item));
+          return [...updated].sort((a, b) => a.order - b.order);
+        });
+      }
 
       return { previousItems, queryKey };
     },
 
     onError: (_err, _variables, context) => {
-      // 실패 시 롤백
       if (context?.previousItems) {
         queryClient.setQueryData(context.queryKey, context.previousItems);
       }
@@ -57,10 +57,18 @@ export const useMovePlanItem = ({ planId }: UseMovePlanItemParams) => {
 
     onSuccess: (result, variables) => {
       if (!result.success) return;
-      // 서버 확정 데이터로 최종 동기화
+
+      // 원래(또는 재정렬된) 일차 캐시 갱신
       queryClient.invalidateQueries({
         queryKey: scheduleItemsQueryOptions(planId, variables.sourceScheduleId).queryKey,
       });
+
+      // 다른 일차로 이동한 경우, 대상 일차 캐시도 함께 갱신
+      if (variables.targetScheduleId && variables.targetScheduleId !== variables.sourceScheduleId) {
+        queryClient.invalidateQueries({
+          queryKey: scheduleItemsQueryOptions(planId, variables.targetScheduleId).queryKey,
+        });
+      }
     },
   });
 };

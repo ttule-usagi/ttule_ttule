@@ -34,7 +34,7 @@ export interface PlanItem {
   placeName: string;
   placeCategory: string | null;
   placeThumbnail: string | null;
-  googlePlaceId: string | null;
+  googlePlaceId: string;
   latitude: number | null;
   longitude: number | null;
   order: number;

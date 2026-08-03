@@ -1,19 +1,22 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
+
 import DropDown from '@/components/common/Dropdown';
 import { Icon } from '@/components/common/Icon';
 import { useAddPlanMemoItem } from '@/hooks/plan/useAddPlanMemoItem';
-import type { PlanItem } from '@/types/plan';
-import NotchRows from '../NotchRows';
 import { deletePlanItem } from '@/lib/actions/planItem';
-import { useQueryClient } from '@tanstack/react-query';
 import { useModalStore } from '@/lib/store/modalStore';
+import type { PlanItem } from '@/types/plan';
 import { Role } from '@/types/shareOption';
+
 import AuthorityWrapper from '../../AuthorityWrapper';
+import NotchRows from '../NotchRows';
 
 interface PlanMemoItemCardProps {
   item: PlanItem;
   onClick: () => void;
+  onChangeSchedule: () => void;
   hasSession: boolean;
   myRole: Role | null;
 }
@@ -23,9 +26,15 @@ function formatVisitTime(time: string | null): string {
   return time.slice(0, 5);
 }
 
-export default function PlanMemoItemCard({ item, onClick, hasSession, myRole }: PlanMemoItemCardProps) {
+export default function PlanMemoItemCard({
+  item,
+  onClick,
+  onChangeSchedule,
+  hasSession,
+  myRole,
+}: PlanMemoItemCardProps) {
   const queryClient = useQueryClient();
-  const { addMemoItem, isSubmitting } = useAddPlanMemoItem();
+  const { addMemoItem } = useAddPlanMemoItem();
   const { open } = useModalStore();
 
   const handleDuplicate = async () => {
@@ -40,7 +49,7 @@ export default function PlanMemoItemCard({ item, onClick, hasSession, myRole }: 
   const handleDelete = async () => {
     const result = await deletePlanItem(item.id);
 
-    if (!result.success) {
+    if (result.success) {
       await queryClient.invalidateQueries({
         predicate: (query) => query.queryKey.includes('items') && query.queryKey.includes(item.scheduleId),
         refetchType: 'active',
@@ -90,7 +99,9 @@ export default function PlanMemoItemCard({ item, onClick, hasSession, myRole }: 
 
             {/* 실제로 열릴 드롭다운 메뉴 */}
             <DropDown.Menu>
-              {/* 아이템 하나가 버튼 하나고, 여기 이벤트를 연결해주면 된다 */}
+              <DropDown.Item onClick={onClick}>일정 편집</DropDown.Item>
+              <DropDown.Item onClick={handleDuplicate}>일정 복제</DropDown.Item>
+              <DropDown.Item onClick={onChangeSchedule}>다른 날짜로 변경</DropDown.Item>
               <DropDown.Item
                 onClick={() =>
                   open({
@@ -101,9 +112,6 @@ export default function PlanMemoItemCard({ item, onClick, hasSession, myRole }: 
               >
                 일정 삭제
               </DropDown.Item>
-              <DropDown.Item onClick={handleDuplicate}>일정 복제</DropDown.Item>
-              <DropDown.Item onClick={onClick}>일정 편집</DropDown.Item>
-              <DropDown.Item>다른 날짜로 변경</DropDown.Item>
             </DropDown.Menu>
           </DropDown>
         </AuthorityWrapper>
