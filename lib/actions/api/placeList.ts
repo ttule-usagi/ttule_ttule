@@ -1,5 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+
 import { toCamelKey } from '@/lib/utils/toCamelCase';
+import { RpcError, RpcErrorMessage } from '@/types/errors';
 import type {
   Place,
   PageParam,
@@ -10,11 +12,11 @@ import type {
   GetPlacesParams,
   PlaceCoordinates,
 } from '@/types/placeList';
-import { RpcError, RpcErrorMessage } from '@/types/errors';
 
 interface GetPlaceListPlacesProps extends GetPlacesParams {
   supabase: SupabaseClient;
   cursor?: PageParam;
+  limit?: number | null;
 }
 
 // 저장된 장소 조회(무한스크롤)
@@ -23,13 +25,14 @@ export const getPlaceListPlaces = async ({
   listId,
   sortBy = 'created_desc',
   cursor = null,
+  limit = 20,
 }: GetPlaceListPlacesProps): Promise<Place[]> => {
   const { data, error } = await supabase.rpc('get_place_list_places', {
     p_list_id: listId,
     p_sort_by: sortBy,
     p_cursor_created_at: cursor?.createdAt ?? null,
     p_cursor_id: cursor?.id ?? null,
-    p_limit: 20,
+    p_limit: limit,
   });
 
   if (error) throw new RpcError(error.message as RpcErrorMessage, error.code);
