@@ -1,7 +1,8 @@
 import { useModalStore } from '@/lib/store/modalStore';
+
 import { useDeletePlace } from './useDeletePlace';
 
-export const useConfirmDeletePlace = (listId: string) => {
+export const useConfirmDeletePlace = (listId: string, onDeleteSuccess?: (placeId: string) => void) => {
   const { mutateAsync: deletePlace } = useDeletePlace(listId);
   const { open } = useModalStore();
 
@@ -13,6 +14,7 @@ export const useConfirmDeletePlace = (listId: string) => {
         confirmButtonText: '삭제하기',
         onConfirm: async () => {
           await deletePlace(placeId);
+          onDeleteSuccess?.(placeId);
           // TODO: 성공 토스트 알림 등 추가
           // toast.success(`${placeName}가 삭제되었습니다.`)
         },
