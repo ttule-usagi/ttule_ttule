@@ -1,16 +1,32 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import {
+  DndContext,
+  DragOverlay,
+  DragStartEvent,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from '@dnd-kit/core';
+import { arrayMove } from '@dnd-kit/sortable';
 import { useQueryClient } from '@tanstack/react-query';
-import { scheduleItemsQueryOptions, useGetScheduleItems } from '@/hooks/plan/useGetScheduleItems';
-import { useGetPlanDetail } from '@/hooks/plan/useGetPlanDetail';
+import { useState, useMemo } from 'react';
+
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
-import PlanDayPanel from '@/components/features/plan/plan-detail/PlanDayPanel';
-import GoogleMapJS from '../../map/GoogleMapJS';
-import GoogleMapEmbed from '../../map/GoogleMapEmbed';
-import { PlaceCategory } from '@/types/corePlace';
-import { DESTINATIONS } from '@/lib/utils/destinations';
 import PlanPlaceListContainer from '@/components/features/plan/PlaceList/PlanPlaceListContainer';
+import PlanDayPanel from '@/components/features/plan/plan-detail/PlanDayPanel';
+import { useGetPlanDetail } from '@/hooks/plan/useGetPlanDetail';
+import { scheduleItemsQueryOptions, useGetScheduleItems } from '@/hooks/plan/useGetScheduleItems';
+import { useMovePlanItem } from '@/hooks/plan/useMovePlanItem';
+import { DESTINATIONS } from '@/lib/utils/destinations';
+import { PlaceCategory } from '@/types/corePlace';
+import { PlanItem } from '@/types/plan';
+
+import GoogleMapEmbed from '../../map/GoogleMapEmbed';
+import GoogleMapJS from '../../map/GoogleMapJS';
+
+import { PlanDragPreview } from './PlanDragPreview';
 
 interface PlanDetailContainerProps {
   planId: string;
@@ -20,10 +36,18 @@ interface PlanDetailContainerProps {
 export default function PlanDetailContainer({ planId, hasSession }: PlanDetailContainerProps) {
   const queryClient = useQueryClient();
   const { data } = useGetPlanDetail(planId);
-  const { plan, schedules, members, items: firstScheduleItems } = data;
+  const { plan, schedules, items: firstScheduleItems } = data;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentSchedule = schedules[currentIndex];
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: { delay: 500, tolerance: 5 },
+    }),
+  );
+  const { mutate: movePlanItem } = useMovePlanItem({ planId });
+  const [activeItem, setActiveItem] = useState<PlanItem | null>(null);
 
   const { data: items = [], isFetching } = useGetScheduleItems(
     planId,
@@ -43,13 +67,21 @@ export default function PlanDetailContainer({ planId, hasSession }: PlanDetailCo
         })),
     [items],
   );
+
+  const [prevScheduleId, setPrevScheduleId] = useState(currentSchedule.id);
+  const [prevItemsSignature, setPrevItemsSignature] = useState(() => items.map((i) => i.id).join(','));
   const [stableCoordinates, setStableCoordinates] = useState(coordinates);
 
-  useEffect(() => {
-    if (!isFetching) {
-      setStableCoordinates(coordinates);
-    }
-  }, [isFetching, coordinates]);
+  const scheduleChanged = currentSchedule.id !== prevScheduleId;
+  const itemsSignature = items.map((i) => i.id).join(',');
+  const itemsChanged = itemsSignature !== prevItemsSignature;
+
+  // 매 렌더마다 조건을 체크하여 stableCoordinates를 업데이트
+  if ((scheduleChanged || itemsChanged) && !isFetching) {
+    setPrevScheduleId(currentSchedule.id);
+    setPrevItemsSignature(itemsSignature);
+    setStableCoordinates(coordinates);
+  }
 
   const destination =
     DESTINATIONS.find((c) => c.city === plan.destination) ?? DESTINATIONS.find((c) => c.city === '서울')!; // 못찾으면 한국 기본값
@@ -67,39 +99,81 @@ export default function PlanDetailContainer({ planId, hasSession }: PlanDetailCo
     setCurrentIndex((i) => i - 1);
   };
 
+  const calculateNewOrder = (reorderedItems: PlanItem[], newIndex: number): number => {
+    const prevOrder = reorderedItems[newIndex - 1]?.order;
+    const nextOrder = reorderedItems[newIndex + 1]?.order;
+
+    if (prevOrder === undefined && nextOrder === undefined) return 1;
+    if (prevOrder === undefined) return nextOrder! - 1;
+    if (nextOrder === undefined) return prevOrder + 1;
+    return (prevOrder + nextOrder) / 2;
+  };
+
+  const handleDragStart = (event: DragStartEvent) => {
+    const item = items.find((i) => i.id === event.active.id);
+    setActiveItem(item ?? null);
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const activeIndex = items.findIndex((item) => item.id === active.id);
+    const overIndex = items.findIndex((item) => item.id === over.id);
+    if (activeIndex === -1 || overIndex === -1) return;
+
+    // 드래그 후 최종 배치를 먼저 시뮬레이션
+    const reordered = arrayMove(items, activeIndex, overIndex);
+    const newIndex = reordered.findIndex((item) => item.id === active.id); // === overIndex와 동일
+
+    movePlanItem({
+      itemId: active.id as string,
+      newOrder: calculateNewOrder(reordered, newIndex),
+      sourceScheduleId: currentSchedule.id,
+    });
+  };
+
   return (
-    <div className='relative h-screen w-full overflow-hidden'>
-      {stableCoordinates.length > 0 ? (
-        <GoogleMapJS
-          coordinates={stableCoordinates}
-          defaultCenter={{ lat: destination.latitude, lng: destination.longitude }}
-          defaultZoom={5}
-        />
-      ) : (
-        <GoogleMapEmbed
-          mode='view'
-          center={`${destination.latitude},${destination.longitude}`}
-          zoom='11'
-        />
-      )}
-      {/* 오른쪽 일정 패널 */}
-      <QueryBoundary>
-        <div className='absolute top-22 right-10 bottom-6 max-w-118 min-w-98.5 w-[40vw]'>
-          <PlanDayPanel
-            planId={planId}
-            schedule={currentSchedule}
-            schedules={schedules}
-            items={items}
-            isFetching={isFetching}
-            currentIndex={currentIndex}
-            totalDays={schedules.length}
-            onPrev={handlePrev}
-            onNext={handleNext}
-            hasSession={hasSession}
+    <DndContext
+      sensors={sensors}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      <div className='relative h-screen w-full overflow-hidden'>
+        {stableCoordinates.length > 0 ? (
+          <GoogleMapJS
+            coordinates={stableCoordinates}
+            defaultCenter={{ lat: destination.latitude, lng: destination.longitude }}
+            defaultZoom={5}
           />
-        </div>
-      </QueryBoundary>
-      {hasSession && <PlanPlaceListContainer planId={planId} />}
-    </div>
+        ) : (
+          <GoogleMapEmbed
+            mode='view'
+            center={`${destination.latitude},${destination.longitude}`}
+            zoom='11'
+          />
+        )}
+        {/* 오른쪽 일정 패널 */}
+        <QueryBoundary>
+          <div className='absolute top-22 right-10 bottom-6 max-w-118 min-w-98.5 w-[40vw]'>
+            <PlanDayPanel
+              planId={planId}
+              schedule={currentSchedule}
+              schedules={schedules}
+              items={items}
+              isFetching={isFetching}
+              currentIndex={currentIndex}
+              totalDays={schedules.length}
+              onPrev={handlePrev}
+              onNext={handleNext}
+              hasSession={hasSession}
+            />
+          </div>
+        </QueryBoundary>
+        {hasSession && <PlanPlaceListContainer planId={planId} />}
+      </div>
+
+      <DragOverlay>{activeItem ? <PlanDragPreview item={activeItem} /> : null}</DragOverlay>
+    </DndContext>
   );
 }

@@ -1,17 +1,19 @@
 'use client';
 
 import { useQueryClient } from '@tanstack/react-query';
-import { PlanItem } from '@/types/plan';
+
+import DropDown from '@/components/common/Dropdown';
 import { Icon } from '@/components/common/Icon';
+import { duplicatePlanItem, deletePlanItem } from '@/lib/actions/planItem';
+import { useModalStore } from '@/lib/store/modalStore';
 import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
 import { CATEGORY_COLORS, CATEGORY_EMOJI } from '@/lib/utils/placeCategory';
 import type { PlaceCategory } from '@/types/corePlace';
-import DropDown from '@/components/common/Dropdown';
-import { duplicatePlanItem, deletePlanItem } from '@/lib/actions/planItem';
-import { useModalStore } from '@/lib/store/modalStore';
-import NotchRows from '../NotchRows';
+import { PlanItem } from '@/types/plan';
 import { Role } from '@/types/shareOption';
+
 import AuthorityWrapper from '../../AuthorityWrapper';
+import NotchRows from '../NotchRows';
 
 interface PlanItemCardProps {
   item: PlanItem;
@@ -90,7 +92,7 @@ export default function PlanItemCard({ item, onClick, hasSession, myRole }: Plan
         {/* 장소 정보 */}
         <div className='flex flex-col gap-2 flex-1 min-w-0'>
           <div className='flex flex-col items-start'>
-            <p className='text-typo-base-bold xl:text-typo-sub-title text-brand-blue-700 whitespace-break-spaces w-full'>
+            <p className='text-typo-base-bold xl:text-typo-sub-title text-brand-blue-700 truncate w-full'>
               {item.placeName}
             </p>
             {categoryLabel && <p className='text-typo-description text-brand-gray-400'>{categoryLabel}</p>}

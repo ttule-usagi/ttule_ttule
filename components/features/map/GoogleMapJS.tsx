@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import type { PlaceCategory } from '@/types/corePlace';
+
 import { CATEGORY_COLORS, CATEGORY_EMOJI } from '@/lib/utils/placeCategory';
+import type { PlaceCategory } from '@/types/corePlace';
 
 interface MapCoordinate {
   lat: number;
@@ -76,9 +77,7 @@ export default function GoogleMapJS({
     if (!isMapReady || !mapInstanceRef.current) return;
 
     const updateMarkers = async () => {
-      const { AdvancedMarkerElement, PinElement } = (await google.maps.importLibrary(
-        'marker',
-      )) as google.maps.MarkerLibrary;
+      const { AdvancedMarkerElement } = (await google.maps.importLibrary('marker')) as google.maps.MarkerLibrary;
 
       markersRef.current.forEach((marker) => {
         marker.map = null;

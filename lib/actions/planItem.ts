@@ -227,24 +227,27 @@ export const deletePlanItem = async (itemId: string): Promise<ActionResult<null>
 };
 
 // 순서 변경 + transit 재계산
-export const reorderPlanItem = async ({
+export const movePlanItem = async ({
   itemId,
   newOrder,
+  targetScheduleId,
   transitMode = 'transit',
 }: {
   itemId: string;
   newOrder: number;
+  targetScheduleId?: string;
   transitMode?: PlanTransitMode;
 }): Promise<ActionResult<null>> => {
   const supabase = await supabaseUser();
 
-  const { data, error } = await supabase.rpc('reorder_plan_item', {
+  const { data, error } = await supabase.rpc('move_plan_item', {
     p_item_id: itemId,
     p_new_order: newOrder,
+    p_target_schedule_id: targetScheduleId,
   });
 
   if (error) {
-    console.error('❌ reorderPlanItem 에러:', error);
+    console.error('❌ movePlanItem 에러:', error);
     const message = SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR';
     return { success: false, error: { message, code: error.code } };
   }
@@ -262,6 +265,14 @@ export const reorderPlanItem = async ({
       next_latitude: number | null;
       next_longitude: number | null;
       next_google_place_id: string | null;
+      old_prev_item_id: string | null;
+      old_prev_latitude: number | null;
+      old_prev_longitude: number | null;
+      old_prev_google_place_id: string | null;
+      old_next_item_id: string | null;
+      old_next_latitude: number | null;
+      old_next_longitude: number | null;
+      old_next_google_place_id: string | null;
     }[]
   )[0];
 
@@ -303,6 +314,42 @@ export const reorderPlanItem = async ({
     } else {
       await supabase.rpc('clear_plan_item_transit', { p_item_id: itemId });
     }
+  }
+
+  // 이동 전 자리에 생긴 빈틈: old_prev ↔ old_next 직접 연결
+  if (
+    result.old_prev_item_id &&
+    result.old_next_item_id &&
+    result.old_next_item_id !== result.next_item_id
+    //  && result.old_prev_item_id !== result.prev_item_id
+  ) {
+    const route = await getRouteDistance(
+      {
+        lat: result.old_prev_latitude!,
+        lng: result.old_prev_longitude!,
+        googlePlaceId: result.old_prev_google_place_id,
+      },
+      {
+        lat: result.old_next_latitude!,
+        lng: result.old_next_longitude!,
+        googlePlaceId: result.old_next_google_place_id,
+      },
+      transitMode,
+    );
+
+    if (route) {
+      await supabase.rpc('update_plan_item_transit', {
+        p_item_id: result.old_prev_item_id,
+        p_transit_time: route.durationMinutes,
+        p_transit_distance: route.distanceMeters / 1000,
+        p_transit_mode: transitMode,
+      });
+    } else {
+      await supabase.rpc('clear_plan_item_transit', { p_item_id: result.old_prev_item_id });
+    }
+  } else if (result.old_prev_item_id && !result.old_next_item_id) {
+    // 이동한 아이템이 원래 그 일차의 마지막 place였던 경우: old_prev가 이제 마지막이 되므로 transit 제거
+    await supabase.rpc('clear_plan_item_transit', { p_item_id: result.old_prev_item_id });
   }
 
   return { success: true, data: null };
