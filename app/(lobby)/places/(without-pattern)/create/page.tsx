@@ -1,31 +1,20 @@
 'use client';
 
-import { Icon } from '@/components/common/Icon';
-import EmojiPicker from '@/components/features/place-list/create/EmojiPicker';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+import EditableOverviewField, { PlaceListErrorType } from '@/components/features/place-list/EditableOverviewField';
 import { useCreatePlaceList } from '@/hooks/new-place-list/useCreatePlaceList';
 import { IconType } from '@/lib/emoji';
-import { useRouter } from 'next/navigation';
-import { Suspense, useState } from 'react';
-
-interface CreatePlaceListErrorType {
-  type: 'FIELD' | 'UPLOAD';
-  message: string;
-}
 
 export default function CreatePlace() {
   const [title, setTitle] = useState<string>('');
-  const [error, setError] = useState<CreatePlaceListErrorType | null>(null);
+  const [error, setError] = useState<PlaceListErrorType | null>(null);
   const [description, setDescription] = useState<string>('');
-  const [isOpenIconMenu, setIsOpenIconMenu] = useState<boolean>(false);
   const [selectIcon, setSelectedIcon] = useState<IconType | null>(null);
 
   const { mutateAsync: createPlaceList } = useCreatePlaceList();
   const router = useRouter();
-
-  const handleSelectIcon = (value: IconType) => {
-    setSelectedIcon(value);
-    setIsOpenIconMenu(false);
-  };
 
   const handleSubmit = async () => {
     if (!title.trim()) {
@@ -63,103 +52,15 @@ export default function CreatePlace() {
         </button>
       </header>
 
-      <div className='flex flex-col gap-4'>
-        <div className='flex flex-col gap-3'>
-          <label
-            htmlFor='title'
-            className='text-brand-gray-600'
-          >
-            리스트 제목
-          </label>
-          <input
-            placeholder='리스트 제목 입력'
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            id='title'
-            className='create-place-input'
-            maxLength={20}
-          />
-          {error && error.type === 'FIELD' && (
-            <p className='text-typo-description text-tag-red-text -mt-1'>{error.message}</p>
-          )}
-        </div>
-
-        <div className='flex flex-col gap-3'>
-          <span
-            id='icon-label'
-            className='text-brand-gray-600'
-          >
-            아이콘
-          </span>
-
-          <div className='flex flex-col gap-2'>
-            <div className='flex gap-1.5 w-full'>
-              <button
-                type='button'
-                aria-labelledby='icon-label'
-                aria-haspopup='true'
-                aria-expanded={isOpenIconMenu}
-                onClick={() => setIsOpenIconMenu(!isOpenIconMenu)}
-                className={`flex-1 min-w-0 create-place-input gap-2.5 cursor-pointer ${selectIcon ? 'text-brand-gray-700' : 'text-brand-gray-400'}`}
-              >
-                <span className='font-mona12 text-typo-base'>
-                  {selectIcon ? (
-                    selectIcon.emoji
-                  ) : (
-                    <Icon
-                      name='Plus'
-                      size={20}
-                    />
-                  )}
-                </span>
-                <span className='flex-1 min-w-0 text-start text-ellipsis overflow-hidden whitespace-nowrap'>
-                  {selectIcon ? selectIcon.name : '아이콘 선택'}
-                </span>
-                <Icon
-                  name='ChevronDown'
-                  size={24}
-                />
-              </button>
-              {selectIcon && (
-                <button
-                  type='button'
-                  onClick={() => setSelectedIcon(null)}
-                  className='bg-tag-red-text text-brand-gray-0 rounded-sm px-2 w-14 cursor-pointer font-light'
-                >
-                  제거
-                </button>
-              )}
-            </div>
-
-            {isOpenIconMenu && (
-              <div className='w-full'>
-                <Suspense fallback={<div className='w-full text-brand-gray-400 text-center'>Loading...</div>}>
-                  <EmojiPicker onClick={(icon) => handleSelectIcon(icon)} />
-                </Suspense>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className='flex flex-col gap-3'>
-          <label
-            htmlFor='description'
-            className='text-brand-gray-600'
-          >
-            리스트 설명
-          </label>
-          <textarea
-            id='description'
-            placeholder='설명'
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className='resize-none create-place-input'
-          />
-        </div>
-      </div>
-      {error && error.type === 'UPLOAD' && (
-        <p className='text-typo-description text-tag-red-text -mt-1'>{error.message}</p>
-      )}
+      <EditableOverviewField
+        title={title}
+        onTitleChange={setTitle}
+        icon={selectIcon}
+        onSelectIcon={setSelectedIcon}
+        description={description}
+        onDescriptionChange={setDescription}
+        error={error}
+      />
     </div>
   );
 }
