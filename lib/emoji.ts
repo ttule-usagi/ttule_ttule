@@ -14,3 +14,9 @@ export const getEmojiList = async (): Promise<IconType[]> => {
     }))
     .filter((item) => item.emoji && item.group !== 'Symbols');
 };
+
+export const findEmoji = async (emoji: string | null) => {
+  if (!emoji) return;
+  const emojiList = await getEmojiList();
+  return emojiList.find((e) => e.emoji === emoji) ?? null;
+};
