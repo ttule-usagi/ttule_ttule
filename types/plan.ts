@@ -30,11 +30,11 @@ export interface PlanItem {
   id: string;
   type: string;
   scheduleId: string;
-  placeId: string | null;
+  placeId: string;
   placeName: string;
   placeCategory: string | null;
   placeThumbnail: string | null;
-  googlePlaceId: string | null;
+  googlePlaceId: string;
   latitude: number | null;
   longitude: number | null;
   order: number;

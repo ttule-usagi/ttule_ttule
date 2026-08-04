@@ -15,11 +15,13 @@ export type RpcErrorMessage =
   | 'CONFLICT'
   | 'VALIDATION_ERROR'
   | 'CANNOT_REMOVE_SELF'
-  | 'INTERNAL_ERROR';
+  | 'INTERNAL_ERROR'
+  | 'INVALID_ITEM_TYPE';
 
 // SQLSTATE → RpcErrorMessage
 export const SQLSTATE_TO_RPC_ERROR: Record<string, RpcErrorMessage> = {
   '42501': 'UNAUTHORIZED',
+  '22023': 'INVALID_ITEM_TYPE',
   '23505': 'CONFLICT',
   P0002: 'NOT_FOUND',
   P0001: 'FORBIDDEN',
@@ -36,6 +38,7 @@ export const RPC_ERROR_TO_STATUS: Record<RpcErrorMessage, number> = {
   VALIDATION_ERROR: 422,
   INTERNAL_ERROR: 500,
   CANNOT_REMOVE_SELF: 409,
+  INVALID_ITEM_TYPE: 422,
 };
 
 // 에러 메시지 템플릿
@@ -47,6 +50,7 @@ export const ERROR_MESSAGES: Record<RpcErrorMessage, string> = {
   VALIDATION_ERROR: '입력값을 확인해주세요.',
   INTERNAL_ERROR: '중 오류가 발생했습니다.',
   CANNOT_REMOVE_SELF: '자기 자신은 삭제할 수 없습니다.',
+  INVALID_ITEM_TYPE: '유효하지 않은 아이템 타입입니다.',
 };
 
 export function getErrorMessage(code: RpcErrorMessage, { action, subject }: { action: string; subject: string }) {
@@ -65,6 +69,8 @@ export function getErrorMessage(code: RpcErrorMessage, { action, subject }: { ac
       return '입력값을 확인해주세요.';
     case 'CANNOT_REMOVE_SELF':
       return '자기 자신은 삭제할 수 없습니다.';
+    case 'INVALID_ITEM_TYPE':
+      return '유효하지 않은 아이템 타입입니다.';
     default:
       return '알 수 없는 오류가 발생했습니다.';
   }

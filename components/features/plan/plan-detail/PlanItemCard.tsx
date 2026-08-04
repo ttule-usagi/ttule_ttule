@@ -1,21 +1,28 @@
 'use client';
 
 import { useQueryClient } from '@tanstack/react-query';
-import { PlanItem } from '@/types/plan';
-import { Icon } from '@/components/common/Icon';
-import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
-import { CATEGORY_COLORS, CATEGORY_EMOJI } from '@/lib/utils/placeCategory';
-import type { PlaceCategory } from '@/types/corePlace';
+
 import DropDown from '@/components/common/Dropdown';
+import { Icon } from '@/components/common/Icon';
 import { duplicatePlanItem, deletePlanItem } from '@/lib/actions/planItem';
 import { useModalStore } from '@/lib/store/modalStore';
-import NotchRows from '../NotchRows';
+import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
+import { getGoogleLink } from '@/lib/utils/getExternalLink';
+import { CATEGORY_COLORS, CATEGORY_EMOJI } from '@/lib/utils/placeCategory';
+import type { PlaceCategory } from '@/types/corePlace';
+import { PlanItem } from '@/types/plan';
 import { Role } from '@/types/shareOption';
+
 import AuthorityWrapper from '../../AuthorityWrapper';
+import NotchRows from '../NotchRows';
+
+import PlanDetailMemoContent from './PlanDetailMemoContent';
 
 interface PlanItemCardProps {
   item: PlanItem;
   onClick: () => void;
+  onOpenDetail: () => void;
+  onChangeSchedule: () => void;
   hasSession: boolean;
   myRole: Role | null;
 }
@@ -39,14 +46,22 @@ function formatVisitTime(time: string | null): string {
   return time.slice(0, 5); // "HH:MM"
 }
 
-export default function PlanItemCard({ item, onClick, hasSession, myRole }: PlanItemCardProps) {
+export default function PlanItemCard({
+  item,
+  onClick,
+  onOpenDetail,
+  onChangeSchedule,
+  hasSession,
+  myRole,
+}: PlanItemCardProps) {
   const { open } = useModalStore();
   const queryClient = useQueryClient();
+
   const categoryLabel = item.placeCategory ? getPlaceCategoryLabel(item.placeCategory) : null;
 
   const handleDuplicate = async () => {
     const result = await duplicatePlanItem(item);
-    if (!result.success) {
+    if (result.success) {
       await queryClient.invalidateQueries({
         predicate: (query) => query.queryKey.includes('items') && query.queryKey.includes(item.scheduleId),
         refetchType: 'active',
@@ -66,7 +81,7 @@ export default function PlanItemCard({ item, onClick, hasSession, myRole }: Plan
   };
 
   return (
-    <div className='relative bg-white rounded-2 shadow-lg cursor-pointer overflow-hidden rounded-sm'>
+    <div className='relative bg-white rounded-2 shadow-lg  overflow-hidden rounded-sm'>
       <NotchRows />
       {/* 왼쪽 색상 바- 추후 가장 최근 수정된 컴포넌트 표기 적용예정 */}
       {/* <div
@@ -89,14 +104,19 @@ export default function PlanItemCard({ item, onClick, hasSession, myRole }: Plan
 
         {/* 장소 정보 */}
         <div className='flex flex-col gap-2 flex-1 min-w-0'>
-          <div className='flex flex-col items-start'>
-            <p className='text-typo-base-bold xl:text-typo-sub-title text-brand-blue-700 whitespace-break-spaces w-full'>
+          <div
+            className='flex flex-col items-start'
+            onClick={onOpenDetail}
+          >
+            <p className='text-typo-base-bold xl:text-typo-sub-title text-brand-blue-700 w-full cursor-pointer'>
               {item.placeName}
             </p>
             {categoryLabel && <p className='text-typo-description text-brand-gray-400'>{categoryLabel}</p>}
           </div>
           {item.memoContent && (
-            <p className='text-typo-base text-brand-gray-600 whitespace-pre-wrap'>{item.memoContent}</p>
+            <div className='text-typo-description xl:text-typo-base text-brand-gray-600 whitespace-pre-wrap'>
+              <PlanDetailMemoContent content={item.memoContent} />
+            </div>
           )}
         </div>
 
@@ -112,13 +132,28 @@ export default function PlanItemCard({ item, onClick, hasSession, myRole }: Plan
                 <Icon
                   name='DotsHorizontal'
                   size={24}
-                  className='mt-3 text-brand-gray-400'
+                  className='text-brand-gray-400'
                 />
               </DropDown.Trigger>
 
               {/* 실제로 열릴 드롭다운 메뉴 */}
               <DropDown.Menu>
-                {/* 아이템 하나가 버튼 하나고, 여기 이벤트를 연결해주면 된다 */}
+                <DropDown.Item onClick={onClick}>일정 편집</DropDown.Item>
+
+                <DropDown.Item>
+                  {' '}
+                  <a
+                    href={getGoogleLink(item.googlePlaceId)}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='block w-full'
+                  >
+                    구글 지도에서 보기
+                  </a>
+                </DropDown.Item>
+                <DropDown.Item onClick={onChangeSchedule}>다른 날짜로 변경</DropDown.Item>
+                <DropDown.Item onClick={handleDuplicate}>일정 복제</DropDown.Item>
+
                 <DropDown.Item
                   onClick={() =>
                     open({
@@ -129,10 +164,6 @@ export default function PlanItemCard({ item, onClick, hasSession, myRole }: Plan
                 >
                   일정 삭제
                 </DropDown.Item>
-                <DropDown.Item onClick={handleDuplicate}>일정 복제</DropDown.Item>
-                <DropDown.Item onClick={onClick}>일정 편집</DropDown.Item>
-                <DropDown.Item>구글 지도에서 보기</DropDown.Item>
-                <DropDown.Item>다른 날짜로 변경</DropDown.Item>
               </DropDown.Menu>
             </DropDown>
           </AuthorityWrapper>
