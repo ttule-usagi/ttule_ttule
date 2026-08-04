@@ -27,6 +27,12 @@ export default function PlaceItem({
   const { data: myRole } = useGetMyRole(listId);
   const { mutate: updatePlace } = useUpdatePlace(listId);
 
+  const handleOpenEdit = () => {
+    // 전체 편집 모드에서 돌아왔을 때 메모 수정 사항을 바로 반영
+    setMemo(place.memoContent);
+    setIsEdit(true);
+  };
+
   const handleEdit = () => {
     updatePlace({ placeId: place.id, memo }, { onSuccess: () => setIsEdit(false) });
   };
@@ -74,7 +80,7 @@ export default function PlaceItem({
                   className='cursor-pointer text-brand-gray-300'
                   onClick={(e) => {
                     e.stopPropagation();
-                    setIsEdit(!isEdit);
+                    handleOpenEdit();
                   }}
                 />
               </div>
