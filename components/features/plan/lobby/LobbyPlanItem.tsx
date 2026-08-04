@@ -1,12 +1,14 @@
 // 마찬가지로 자세한 항목은 추후 수정
 'use client';
 
+import Link from 'next/link';
+
+import { useGetPlanMyRole } from '@/hooks/plan/useGetPlanMyRole';
 import { PlanOverview } from '@/hooks/plan/useGetUserPlans';
 import { formatRelativeDate } from '@/lib/utils/date';
-import LobbyPlanActionMenu from './LobbyPlanActionMenu';
-import Link from 'next/link';
 import { getDestinationDisplay } from '@/lib/utils/destinationDisplay';
-import { useGetPlanMyRole } from '@/hooks/plan/useGetPlanMyRole';
+
+import LobbyPlanActionMenu from './LobbyPlanActionMenu';
 
 export default function LobbyPlanItem({
   id,
@@ -14,7 +16,6 @@ export default function LobbyPlanItem({
   departureDate,
   arrivalDate,
   isDateUndecided,
-  totalDays,
   title,
   memberCount,
   updatedAt,
@@ -53,8 +54,8 @@ export default function LobbyPlanItem({
 
       {/* 여행 기간 */}
       <div className='flex gap-14.5 font-paperlogy-regular text-[15px] text-brand-gray-500 leading-none tracking-[-1.1%] justify-between items-center mt-14.5 w-full'>
-        <span>{isDateUndecided ? 'start' : departureDate}</span>
-        <span>{isDateUndecided ? 'end' : arrivalDate}</span>
+        <span>{isDateUndecided ? 'FROM-EGGS' : departureDate}</span>
+        <span>{isDateUndecided ? 'TO-APPLES' : arrivalDate}</span>
       </div>
 
       {/* 이외의 정보 */}

@@ -1,9 +1,9 @@
 'use client';
 
 import { Icon } from '@/components/common/Icon';
-import { TRANSIT_MODE_LABELS, type PlanTransitMode } from '@/types/plan';
 import { formatDuration } from '@/lib/utils/minutes';
 import { TRANSFORT_EMOJI } from '@/lib/utils/transport';
+import { TRANSIT_MODE_LABELS, type PlanTransitMode } from '@/types/plan';
 
 interface TransitInfoProps {
   mode: string;
