@@ -1,7 +1,7 @@
 'use server';
 
 import { ActionResult, isPostgresError, RpcErrorMessage, SQLSTATE_TO_RPC_ERROR } from '@/types/errors';
-import { UpdatePlaceParams } from '@/types/placeList';
+import { UpdatePlaceListParams, UpdatePlaceParams } from '@/types/placeList';
 
 import { auth } from '../utils/auth';
 import { supabaseAdmin, supabaseUser } from '../utils/supabase';
@@ -109,6 +109,33 @@ export const updatePlace = async ({ listId, placeId, memo }: UpdatePlaceParams):
     return { success: true, data: null };
   } catch (error: unknown) {
     console.error('❌ 단일 장소 편집 실패: ', error);
+    const code = isPostgresError(error) ? error.code : undefined;
+    const message = ((code && SQLSTATE_TO_RPC_ERROR[code]) ?? 'INTERNAL_ERROR') as RpcErrorMessage;
+    return { success: false, error: { message, code } };
+  }
+};
+
+// 장소 리스트 편집
+export const updatePlaceList = async ({ params }: { params: UpdatePlaceListParams }): Promise<ActionResult<null>> => {
+  try {
+    const supabase = await supabaseUser();
+    const { error } = await supabase.rpc('update_place_list', {
+      p_list_id: params.listId,
+      p_new_title: params.newTitle,
+      p_new_icon: params.newIcon,
+      p_new_description: params.newDescription,
+      p_places: params.places,
+    });
+
+    if (error) {
+      console.error('❌ 장소 리스트 편집 실패: ', error);
+      const message = SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR';
+      return { success: false, error: { message, code: error.code } };
+    }
+
+    return { success: true, data: null };
+  } catch (error: unknown) {
+    console.error('❌ 장소 리스트 편집 실패: ', error);
     const code = isPostgresError(error) ? error.code : undefined;
     const message = ((code && SQLSTATE_TO_RPC_ERROR[code]) ?? 'INTERNAL_ERROR') as RpcErrorMessage;
     return { success: false, error: { message, code } };

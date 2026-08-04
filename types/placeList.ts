@@ -89,3 +89,16 @@ export interface GetPlacesParams {
   listId: string;
   sortBy: SortType;
 }
+
+// 수정 페이지에서의 장소 - 추후 태그 추가
+export type EditablePlace = Pick<Place, 'id' | 'memoContent' | 'customName'>;
+export type EditablePlaceParams = Pick<EditablePlace, 'id' | 'memoContent'>;
+
+// 장소 리스트 전체 편집 파라미터
+export interface UpdatePlaceListParams {
+  listId: string;
+  newTitle: string;
+  newIcon: string | null;
+  newDescription: string | null;
+  places: EditablePlaceParams[];
+}

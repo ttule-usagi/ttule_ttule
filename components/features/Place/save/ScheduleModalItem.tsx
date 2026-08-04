@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+
+import { Icon } from '@/components/common/Icon';
 import { useGetPlanSchedules } from '@/hooks/plan/useGetPlanSchedules';
 import type { PlanOverview } from '@/hooks/plan/useGetUserPlans';
-import { Icon } from '@/components/common/Icon';
 
 interface PlanItemProps {
   plan: PlanOverview;
@@ -18,16 +19,23 @@ export default function PlanItem({ plan, selectedScheduleIds, onSelectSchedule }
   function formatDateRange(departureDate: string | null, arrivalDate: string | null, isDateUndecided: boolean): string {
     if (isDateUndecided) return '날짜 미정';
     if (!departureDate || !arrivalDate) return '';
-    const fmt = (d: string) => d.replace(/-/g, '.').slice(2); // "2026.3.25" 형태
-    return `${fmt(departureDate)} - ${fmt(arrivalDate).slice(5)}`; // "2026.3.25 - 3.26"
+    const fmt = (d: string) => d.replace(/-/g, '.').slice(2); // "26.03.25" 형태
+
+    const departYear = departureDate.slice(0, 4);
+    const arriveYear = arrivalDate.slice(0, 4);
+
+    if (departYear === arriveYear) return `${fmt(departureDate)} - ${fmt(arrivalDate).slice(3)}`; // "26.03.25 - 03.26"
+
+    return `${fmt(departureDate)} - ${fmt(arrivalDate)}`; // "26.12.31 - 27.01.09"
   }
+
   const dateRange = formatDateRange(plan.departureDate, plan.arrivalDate, plan.isDateUndecided);
 
   return (
     <div className='bg-brand-gray-50 border border-brand-blue-50 rounded-sm flex flex-col gap-2 px-3 py-2'>
       <button
         onClick={() => setIsExpanded((prev) => !prev)}
-        className='flex gap-[8px] items-center justify-between w-full'
+        className='flex gap-2 items-center justify-between w-full'
       >
         <div className='flex flex-col items-start flex-1 min-w-0'>
           <p className='text-typo-base text-brand-gray-700 truncate w-full text-left'>{plan.title}</p>
