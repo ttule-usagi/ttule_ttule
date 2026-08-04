@@ -55,8 +55,8 @@ export default function PlaceListEditForm({
       await updatePlaceList({
         listId: listId,
         newTitle: title,
-        newIcon: selectIcon?.emoji || null,
-        newDescription: description.trim() || null,
+        newIcon: (selectIcon && selectIcon?.emoji) || null,
+        newDescription: (description && description.trim()) || null,
         places: places.map((p) => ({ id: p.id, memoContent: p.memoContent })),
       });
       router.back();
