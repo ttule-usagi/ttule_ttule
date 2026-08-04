@@ -15,7 +15,7 @@ interface EditableOverviewFieldProps {
   onTitleChange: (value: string) => void;
   icon?: IconType | null;
   onSelectIcon: (icon: IconType | null) => void;
-  description: string;
+  description?: string | null;
   onDescriptionChange: (value: string) => void;
   error: PlaceListErrorType | null;
 }
@@ -48,7 +48,7 @@ export default function EditableOverviewField({
           </label>
           <input
             placeholder='리스트 제목 입력'
-            value={title}
+            value={title ?? ''}
             onChange={(e) => onTitleChange(e.target.value)}
             id='title'
             className='create-place-input'
@@ -126,7 +126,7 @@ export default function EditableOverviewField({
           <textarea
             id='description'
             placeholder='설명'
-            value={description}
+            value={description ?? ''}
             onChange={(e) => onDescriptionChange(e.target.value)}
             className='resize-none create-place-input'
           />
