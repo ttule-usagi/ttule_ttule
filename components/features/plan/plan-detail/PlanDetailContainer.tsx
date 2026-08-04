@@ -181,7 +181,7 @@ export default function PlanDetailContainer({ planId, hasSession }: PlanDetailCo
       {isOpenPlaceModal &&
         selectedId &&
         createPortal(
-          <div className='absolute right-103 lg:right-123 w-90 rounded-lg overflow-y-auto max-h-[90vh] top-1/2 -translate-y-1/2 overscroll-contain'>
+          <div className='absolute right-103 lg:right-123 w-90 rounded-lg overflow-y-auto max-h-[90vh] bottom-6 top-42 overscroll-contain z-25'>
             <QueryBoundary>
               <CorePlaceDetailContainer
                 placeId={selectedId ?? ''}
