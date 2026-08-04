@@ -52,13 +52,19 @@ export default function PlaceListEditForm({
       return;
     }
 
+    // 값이 바뀐 장소 데이터만 전송
+    const changedPlaces = places.filter((p) => {
+      const original = initialPlaces.find((initial) => initial.id === p.id);
+      return original?.memoContent !== p.memoContent;
+    });
+
     try {
       await updatePlaceList({
         listId: listId,
         newTitle: title,
         newIcon: (selectIcon && selectIcon?.emoji) || null,
         newDescription: (description && description.trim()) || null,
-        places: places.map((p) => ({ id: p.id, memoContent: p.memoContent })),
+        places: changedPlaces.map((p) => ({ id: p.id, memoContent: p.memoContent })),
       });
       router.back();
     } catch (error) {
