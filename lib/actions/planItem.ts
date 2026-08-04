@@ -317,7 +317,7 @@ export const movePlanItem = async ({
 // plan item 수정
 type UpdatePlanItemParams =
   | { type: 'place'; itemId: string; visitTime: string; memoContent: string }
-  | { type: 'memo'; itemId: string; visitTime: string; memoContent: string };
+  | { type: 'memo'; placeName: string; itemId: string; visitTime: string; memoContent: string };
 
 export const updatePlanItem = async (params: UpdatePlanItemParams): Promise<ActionResult<null>> => {
   const supabase = await supabaseUser();
@@ -338,6 +338,7 @@ export const updatePlanItem = async (params: UpdatePlanItemParams): Promise<Acti
 
   const { error } = await supabase.rpc('update_plan_item_memo', {
     p_item_id: params.itemId,
+    p_place_name: params.placeName,
     p_visit_time: params.visitTime,
     p_memo_content: params.memoContent,
   });

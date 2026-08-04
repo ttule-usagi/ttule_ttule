@@ -8,7 +8,7 @@ import { scheduleItemsQueryOptions } from './useGetScheduleItems';
 
 type UpdatePlanItemVariables =
   | { type: 'place'; itemId: string; scheduleId: string; visitTime: string; memoContent: string }
-  | { type: 'memo'; itemId: string; scheduleId: string; visitTime: string; memoContent: string };
+  | { type: 'memo'; itemId: string; scheduleId: string; placeName: string; visitTime: string; memoContent: string };
 
 interface UseUpdatePlanItemParams {
   planId: string;
@@ -29,6 +29,7 @@ export const useUpdatePlanItem = ({ planId }: UseUpdatePlanItemParams) => {
       }
       return updatePlanItem({
         type: 'memo',
+        placeName: variables.placeName,
         itemId: variables.itemId,
         visitTime: variables.visitTime,
         memoContent: variables.memoContent,

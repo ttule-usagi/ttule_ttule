@@ -119,6 +119,7 @@ export default function PlanDayPanel({
       {
         type: 'memo',
         itemId: item.id,
+        placeName: updated.placeName,
         scheduleId: item.scheduleId,
         visitTime: updated.visitTime ?? '',
         memoContent: updated.memoContent ?? '',
