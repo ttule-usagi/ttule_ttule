@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import EmptyState from '@/components/common/EmptyState';
 import { useConfirmDeletePlace } from '@/hooks/place-list/useConfirmDeletePlace';
 import { useUpdatePlaceList } from '@/hooks/place-list/useUpdatePlaceList';
 import { IconType } from '@/lib/emoji';
@@ -91,14 +92,18 @@ export default function PlaceListEditForm({
 
       {/* 저장된 장소 */}
       <div className='flex flex-col gap-4 mt-6'>
-        {places.map((p) => (
-          <EditPlace
-            key={p.id}
-            place={p}
-            onMemoChange={handlePlaceMemoChange}
-            onDeletePlace={confirmDeletePlaceList}
-          />
-        ))}
+        {places.length > 0 ? (
+          places.map((p) => (
+            <EditPlace
+              key={p.id}
+              place={p}
+              onMemoChange={handlePlaceMemoChange}
+              onDeletePlace={confirmDeletePlaceList}
+            />
+          ))
+        ) : (
+          <EmptyState message='저장된 장소가 아직 없습니다.' />
+        )}
       </div>
     </div>
   );
