@@ -29,7 +29,7 @@ import GoogleMapEmbed from '../../map/GoogleMapEmbed';
 import GoogleMapJS from '../../map/GoogleMapJS';
 import CorePlaceDetailContainer from '../../place/CorePlaceDetailContainer';
 
-import { PlanDragPreview } from './PlanDragPreview';
+import { PlanDragPreview } from './panelItemDetail/PlanDragPreview';
 
 interface PlanDetailContainerProps {
   planId: string;

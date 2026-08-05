@@ -1,6 +1,7 @@
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useState } from 'react';
 
+import PlanItemCard from '@/components/features/plan/plan-detail/panelItemDetail/PlanItemCard';
 import { useAddPlanMemoItem } from '@/hooks/plan/useAddPlanMemoItem';
 import { useMovePlanItem } from '@/hooks/plan/useMovePlanItem';
 import { useUpdatePlanItem } from '@/hooks/plan/useUpdatePlanItem';
@@ -8,14 +9,13 @@ import { ActionResult } from '@/types/errors';
 import { PlanInfo, PlanItem, PlanSchedule } from '@/types/plan';
 import { Role } from '@/types/shareOption';
 
-import ChangeScheduleModal from '../ChangeScheduleModal';
-import PlanItemCard from '../PlanItemCard';
-import PlanItemEditCard from '../PlanItemEditCard';
-import PlanMemoItemCard from '../PlanMemoItemCard';
-import PlanMemoItemCreateCard from '../PlanMemoItemCreateCard';
-import PlanMemoItemEditCard from '../PlanMemoItemEditCard';
-import { SortablePlanItem } from '../SortablePlanItem';
-import TransitInfo from '../TransitInfo';
+import ChangeScheduleModal from '../panelItemDetail/ChangeScheduleModal';
+import PlanItemEditCard from '../panelItemDetail/PlanItemEditCard';
+import PlanMemoItemCard from '../panelItemDetail/PlanMemoItemCard';
+import PlanMemoItemCreateCard from '../panelItemDetail/PlanMemoItemCreateCard';
+import PlanMemoItemEditCard from '../panelItemDetail/PlanMemoItemEditCard';
+import { SortablePlanItem } from '../panelItemDetail/SortablePlanItem';
+import TransitInfo from '../panelItemDetail/TransitInfo';
 
 import AddPlaceItem from './AddPlaceItem';
 
@@ -46,6 +46,7 @@ export function PlaceItems({
   const [isNewMemoOpen, setIsNewMemoOpen] = useState(false);
   const [changingScheduleItem, setChangingScheduleItem] = useState<PlanItem | null>(null);
   const { mutate: moveToSchedule, isPending: isMoving } = useMovePlanItem({ planId });
+
   // 장소/메모 수정 훅
   const { addMemoItem, isSubmitting: isAdding } = useAddPlanMemoItem();
   const { mutate: updatePlanItem, isPending: isUpdating } = useUpdatePlanItem({ planId });

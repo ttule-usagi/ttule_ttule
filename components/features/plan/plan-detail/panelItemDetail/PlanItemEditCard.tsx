@@ -9,8 +9,7 @@ import { useModalStore } from '@/lib/store/modalStore';
 import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
 import { PlanItem } from '@/types/plan';
 
-import NotchRows from '../NotchRows';
-
+import NotchRows from './NotchRows';
 import { useDragHandle } from './SortablePlanItem';
 
 interface PlanItemEditCardProps {

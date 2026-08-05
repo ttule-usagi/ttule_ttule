@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 
-import NotchRows from '../NotchRows';
-
+import NotchRows from './NotchRows';
 import PlanMemoItemForm from './PlanMemoItemForm';
 
 interface PlanMemoItemCreateCardProps {
