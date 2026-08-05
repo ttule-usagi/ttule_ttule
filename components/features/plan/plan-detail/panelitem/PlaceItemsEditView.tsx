@@ -17,7 +17,7 @@ interface PlaceItemsEditModeProps {
 
 export default function PlaceItemsEditView({ items, drafts, onChangeDraft, onRemoveItem }: PlaceItemsEditModeProps) {
   return (
-    <div className='flex-1 min-h-0 overflow-y-auto no-scrollbar flex flex-col gap-2 mt-6 px-4 pb-4 z-10'>
+    <div className='flex-1 min-h-0 overflow-y-auto no-scrollbar flex flex-col gap-2 mt-7 px-4 pb-4 z-10'>
       <SortableContext
         items={items.map((i) => i.id)}
         strategy={verticalListSortingStrategy}
