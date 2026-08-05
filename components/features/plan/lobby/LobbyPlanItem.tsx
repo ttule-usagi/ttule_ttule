@@ -16,7 +16,7 @@ export default function LobbyPlanItem({
   arrivalDate,
   isDateUndecided,
   title,
-  memberCount,
+  isPublic,
   updatedAt,
   myRole,
 }: PlanOverview) {
@@ -62,8 +62,8 @@ export default function LobbyPlanItem({
           {title ? title : 'Untitled'}
         </p>
         <p className='flex justify-between'>
-          <span>party</span>
-          {memberCount > 1 ? 'group' : 'single'}
+          <span>shared</span>
+          {isPublic ? 'public' : 'private'}
         </p>
         <p className='flex justify-between'>
           <span>updated</span>
