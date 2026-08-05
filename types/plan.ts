@@ -78,7 +78,7 @@ export interface PlanOverview {
   arrivalDate: string | null;
   isDateUndecided: boolean;
   totalDays: number;
-  memberCount: number;
   updatedAt: string;
   myRole: Role | null;
+  isPublic: boolean;
 }
