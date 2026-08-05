@@ -1,7 +1,6 @@
 'use client';
 
 import { Icon } from '@/components/common/Icon';
-import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
 import type { PlanItem } from '@/types/plan';
 
 import NotchRows from './NotchRows';
@@ -22,7 +21,6 @@ interface EditModeItemProps {
 
 export default function EditModeItem({ item, draft, onChange, onRemove }: EditModeItemProps) {
   const { attributes, listeners } = useDragHandle();
-  const categoryLabel = item.placeCategory ? getPlaceCategoryLabel(item.placeCategory) : null;
 
   return (
     <div className='relative bg-white shadow-lg rounded-sm cursor-default'>
@@ -49,7 +47,6 @@ export default function EditModeItem({ item, draft, onChange, onRemove }: EditMo
             <p className='text-typo-base-bold text-brand-blue-700 whitespace-break-spaces w-full pr-10'>
               {item.placeName}
             </p>
-            {item.placeCategory && <p className='text-typo-description text-brand-gray-400'>{categoryLabel}</p>}
           </div>
 
           <div className='bg-brand-gray-100 border border-brand-gray-200 rounded-sm flex items-center gap-1 h-8 pl-2 py-1'>
