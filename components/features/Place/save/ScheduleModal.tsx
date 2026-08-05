@@ -7,7 +7,9 @@ import { createPortal } from 'react-dom';
 import ScheduleModalItem from '@/components/features/place/save/ScheduleModalItem';
 import { useGetUserPlans } from '@/hooks/plan/useGetUserPlans';
 import { addPlanItemWithTransit } from '@/lib/actions/planItem';
+import { getPlanStatus } from '@/lib/utils/getPlanStatus';
 import type { CorePlaceDetail } from '@/types/corePlace';
+import { PlanOverview } from '@/types/plan';
 
 import BottomButton from './modal-item/BottomButton';
 import ModalHeader from './modal-item/ModalHeader';
@@ -25,14 +27,24 @@ export default function AddToScheduleModal({ placeDetail, onClose }: AddToSchedu
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // 날짜 기준으로 현재/다가오는 여행 구분
-  const today = new Date().toISOString().slice(0, 10);
-  const currentPlans =
-    plans?.filter(
-      (p) =>
-        !p.isDateUndecided && p.arrivalDate && p.arrivalDate >= today && p.departureDate && p.departureDate <= today,
-    ) ?? [];
-  const upcomingPlans = plans?.filter((p) => p.isDateUndecided || !p.departureDate || p.departureDate > today) ?? [];
+  // 여행 상태에 따라 분류
+  const {
+    current: currentPlans,
+    upcoming: upcomingPlans,
+    last: lastPlans,
+  } = (plans ?? []).reduce(
+    (acc, plan) => {
+      const status = getPlanStatus({
+        departure: plan.departureDate,
+        arrival: plan.arrivalDate,
+        isDateUndecided: plan.isDateUndecided,
+        needCurrent: true,
+      });
+      acc[status].push(plan);
+      return acc;
+    },
+    { current: [], upcoming: [], last: [] } as Record<'upcoming' | 'last' | 'current', PlanOverview[]>,
+  );
 
   const handleSelectSchedule = (scheduleId: string) => {
     setSelectedScheduleIds((prev) => {
@@ -119,6 +131,21 @@ export default function AddToScheduleModal({ placeDetail, onClose }: AddToSchedu
             <div className='flex flex-col gap-2'>
               <p className='text-typo-description text-brand-gray-700'>다가오는 여행</p>
               {upcomingPlans.map((plan) => (
+                <ScheduleModalItem
+                  key={plan.id}
+                  plan={plan}
+                  selectedScheduleIds={selectedScheduleIds}
+                  onSelectSchedule={handleSelectSchedule}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* 지난 여행 */}
+          {lastPlans.length > 0 && (
+            <div className='flex flex-col gap-2'>
+              <p className='text-typo-description text-brand-gray-700'>지난 여행</p>
+              {lastPlans.map((plan) => (
                 <ScheduleModalItem
                   key={plan.id}
                   plan={plan}
