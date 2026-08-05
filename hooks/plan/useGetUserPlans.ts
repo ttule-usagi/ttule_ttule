@@ -1,4 +1,4 @@
-import { queryOptions, useQuery } from '@tanstack/react-query';
+import { queryOptions, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 
 import { RpcError, RpcErrorMessage, RpcErrorResponseBody } from '@/types/errors';
 import { PlanOverview } from '@/types/plan';
@@ -25,4 +25,9 @@ export const planListQueryOptions = () => {
 // 모달 진입용
 export const useGetUserPlans = () => {
   return useQuery(planListQueryOptions());
+};
+
+// 페이지 조회용
+export const useGetAllUserPlans = () => {
+  return useSuspenseQuery(planListQueryOptions());
 };
