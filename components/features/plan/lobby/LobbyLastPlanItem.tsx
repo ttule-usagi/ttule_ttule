@@ -1,9 +1,11 @@
 'use client';
 
-import { PlanOverview } from '@/hooks/plan/useGetUserPlans';
+import Link from 'next/link';
+
 import { Icon } from '@/components/common/Icon';
 import LobbyPlanActionMenu from '@/components/features/plan/lobby/LobbyPlanActionMenu';
-import Link from 'next/link';
+import { formatRelativeDate } from '@/lib/utils/date';
+import { PlanOverview } from '@/types/plan';
 
 export default function LobbyLastPlanItem({
   id,
@@ -12,6 +14,7 @@ export default function LobbyLastPlanItem({
   arrivalDate,
   title,
   updatedAt,
+  myRole,
 }: PlanOverview) {
   return (
     <Link
@@ -30,7 +33,10 @@ export default function LobbyLastPlanItem({
           }}
           className='flex items-center justify-center'
         >
-          <LobbyPlanActionMenu id={id} />
+          <LobbyPlanActionMenu
+            id={id}
+            myRole={myRole}
+          />
         </div>
       </div>
 
@@ -60,7 +66,7 @@ export default function LobbyLastPlanItem({
             name='Clock'
             size={16}
           />
-          <span className='flex-1'>{updatedAt}</span>
+          <span className='flex-1'>{formatRelativeDate(updatedAt)}</span>
         </div>
       </div>
     </Link>
