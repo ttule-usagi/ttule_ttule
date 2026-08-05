@@ -1,17 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
-import { RpcError, RpcErrorMessage, RpcErrorResponseBody } from '@/types/errors';
+import { queryOptions, useQuery } from '@tanstack/react-query';
 
-export interface PlanOverview {
-  id: string;
-  title: string;
-  destination: string;
-  departureDate: string | null;
-  arrivalDate: string | null;
-  isDateUndecided: boolean;
-  totalDays: number;
-  memberCount: number;
-  updatedAt: string;
-}
+import { RpcError, RpcErrorMessage, RpcErrorResponseBody } from '@/types/errors';
+import { PlanOverview } from '@/types/plan';
 
 const fetchUserPlans = async (): Promise<PlanOverview[]> => {
   const res = await fetch('/api/view/plan');
@@ -24,10 +14,15 @@ const fetchUserPlans = async (): Promise<PlanOverview[]> => {
   return res.json();
 };
 
-export const useGetUserPlans = () => {
-  return useQuery({
+export const planListQueryOptions = () => {
+  return queryOptions({
     queryKey: ['plan', 'list'],
     queryFn: fetchUserPlans,
     staleTime: 1000 * 60,
   });
+};
+
+// 모달 진입용
+export const useGetUserPlans = () => {
+  return useQuery(planListQueryOptions());
 };
