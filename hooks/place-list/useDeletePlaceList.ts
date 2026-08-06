@@ -1,7 +1,8 @@
-import { getErrorMessage, RpcError, RpcErrorMessage } from '@/types/errors';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { deletePlaceList } from '@/lib/actions/placeList';
 import { useModalStore } from '@/lib/store/modalStore';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { getErrorMessage, RpcError, RpcErrorMessage } from '@/types/errors';
 
 export const useDeletePlaceList = () => {
   const queryClient = useQueryClient();
@@ -24,7 +25,7 @@ export const useDeletePlaceList = () => {
       });
     },
     onError: (error) => {
-      console.error('❌ 참여 유저 삭제 실패');
+      console.error('❌ 장소 리스트 삭제 실패');
 
       const message =
         error instanceof RpcError
