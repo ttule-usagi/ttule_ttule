@@ -1,10 +1,11 @@
-import { ResourceParams } from '@/types/shareOption';
-import { useSetPublic } from './useSetPublic';
 import { useModalStore } from '@/lib/store/modalStore';
+import { ResourceParams } from '@/types/shareOption';
+
+import { useSetPublic } from './useSetPublic';
 
 export const useConfirmSetPublic = ({ id, resourceType }: ResourceParams) => {
   const { open } = useModalStore();
-  const { mutateAsync: setPublic, isPending } = useSetPublic({ id, resourceType });
+  const { mutateAsync: setPublic, isPending } = useSetPublic(resourceType);
 
   const handleConfirmSetPublic = (isPublic: boolean) => {
     open({

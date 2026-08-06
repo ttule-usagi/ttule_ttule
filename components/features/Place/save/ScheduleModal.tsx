@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import ScheduleModalItem from '@/components/features/place/save/ScheduleModalItem';
+import { useGetPlanStatus } from '@/hooks/plan/useGetPlanStatus';
 import { useGetUserPlans } from '@/hooks/plan/useGetUserPlans';
 import { addPlanItemWithTransit } from '@/lib/actions/planItem';
 import type { CorePlaceDetail } from '@/types/corePlace';
@@ -25,14 +26,8 @@ export default function AddToScheduleModal({ placeDetail, onClose }: AddToSchedu
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // 날짜 기준으로 현재/다가오는 여행 구분
-  const today = new Date().toISOString().slice(0, 10);
-  const currentPlans =
-    plans?.filter(
-      (p) =>
-        !p.isDateUndecided && p.arrivalDate && p.arrivalDate >= today && p.departureDate && p.departureDate <= today,
-    ) ?? [];
-  const upcomingPlans = plans?.filter((p) => p.isDateUndecided || !p.departureDate || p.departureDate > today) ?? [];
+  // 여행 상태에 따라 분류
+  const { currentPlans, upcomingPlans, lastPlans } = useGetPlanStatus(plans ?? []);
 
   const handleSelectSchedule = (scheduleId: string) => {
     setSelectedScheduleIds((prev) => {
@@ -119,6 +114,21 @@ export default function AddToScheduleModal({ placeDetail, onClose }: AddToSchedu
             <div className='flex flex-col gap-2'>
               <p className='text-typo-description text-brand-gray-700'>다가오는 여행</p>
               {upcomingPlans.map((plan) => (
+                <ScheduleModalItem
+                  key={plan.id}
+                  plan={plan}
+                  selectedScheduleIds={selectedScheduleIds}
+                  onSelectSchedule={handleSelectSchedule}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* 지난 여행 */}
+          {lastPlans.length > 0 && (
+            <div className='flex flex-col gap-2'>
+              <p className='text-typo-description text-brand-gray-700'>지난 여행</p>
+              {lastPlans.map((plan) => (
                 <ScheduleModalItem
                   key={plan.id}
                   plan={plan}

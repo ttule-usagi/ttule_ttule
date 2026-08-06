@@ -69,3 +69,16 @@ export const VEHICLE_TO_TRAVEL_MODE: Record<PlanTransitMode, string> = {
   driving: 'DRIVE',
   transit: 'TRANSIT',
 };
+
+export interface PlanOverview {
+  id: string;
+  title: string;
+  destination: string;
+  departureDate: string | null;
+  arrivalDate: string | null;
+  isDateUndecided: boolean;
+  totalDays: number;
+  updatedAt: string;
+  myRole: Role | null;
+  isPublic: boolean;
+}
