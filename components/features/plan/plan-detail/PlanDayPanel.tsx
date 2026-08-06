@@ -181,6 +181,9 @@ export default function PlanDayPanel({
 
         {/* 1. 패널 헤더 (고정 영역) */}
         <PanelHeader
+          plan={plan}
+          planId={planId}
+          schedules={schedules}
           schedule={schedule}
           myRole={myRole}
           hasSession={hasSession}

@@ -1,5 +1,6 @@
-import { ResourceType } from '@/types/invite';
 import { create } from 'zustand';
+
+import { ResourceType } from '@/types/invite';
 
 /**
  * 모달의 상태를 관리하는 Zustand 스토어
@@ -21,7 +22,11 @@ type ModalPayload =
       type: 'confirmAction';
       props: { description: string; confirmButtonText: string; onConfirm: () => void | Promise<void> };
     }
-  | { type: 'deletePlanItem'; props: { onConfirm: () => void } };
+  | { type: 'deletePlanItem'; props: { onConfirm: () => void } }
+  | {
+      type: 'deletePlanDate';
+      props: { onConfirm: () => void; dayNumber: number; type: 'deleteDayPlan' | 'deleteAllPlanItems' };
+    };
 
 interface ModalState {
   activeModal: ModalPayload | null;
