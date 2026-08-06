@@ -76,3 +76,26 @@ export async function createNewPlan(formData: {
     return { success: false, error: { message, code } };
   }
 }
+
+// 계획 삭제
+export async function deletePlan(planId: string): Promise<ActionResult<null>> {
+  try {
+    const supabase = await supabaseUser();
+    const { error } = await supabase.rpc('delete_plan', {
+      p_plan_id: planId,
+    });
+
+    if (error) {
+      console.error('❌ 계획 삭제 실패: ', error);
+      const message = SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR';
+      return { success: false, error: { message, code: error.code } };
+    }
+
+    return { success: true, data: null };
+  } catch (error: unknown) {
+    console.error('❌ 계획 삭제 실패: ', error);
+    const code = isPostgresError(error) ? error.code : undefined;
+    const message = ((code && SQLSTATE_TO_RPC_ERROR[code]) ?? 'INTERNAL_ERROR') as RpcErrorMessage;
+    return { success: false, error: { message, code } };
+  }
+}
