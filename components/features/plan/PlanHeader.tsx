@@ -2,13 +2,15 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useGetPlanDetail } from '@/hooks/plan/useGetPlanDetail';
+
 import { Icon } from '@/components/common/Icon';
-import LobbyPlanActionMenu from './lobby/LobbyPlanActionMenu';
-import { createViewLink } from '@/lib/utils/invite/createViewLink';
-import { useModalStore } from '@/lib/store/modalStore';
+import { useGetPlanDetail } from '@/hooks/plan/useGetPlanDetail';
 import { useGetPlanMyRole } from '@/hooks/plan/useGetPlanMyRole';
+import { useModalStore } from '@/lib/store/modalStore';
+import { createViewLink } from '@/lib/utils/invite/createViewLink';
 import { Role } from '@/types/shareOption';
+
+import LobbyPlanActionMenu from './lobby/LobbyPlanActionMenu';
 
 interface PlanHeaderProps {
   planId: string;
@@ -105,7 +107,9 @@ export default function PlanHeader({ planId, hasSession }: PlanHeaderProps) {
           {hasSession && (
             <LobbyPlanActionMenu
               id={planId}
+              type='detail'
               myRole={data.myRole}
+              planName={data.plan.title}
             />
           )}
           {!AUTHORIZED_ROLES.includes(myRole as Role) && (

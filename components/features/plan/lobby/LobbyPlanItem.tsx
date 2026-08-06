@@ -37,6 +37,7 @@ export default function LobbyPlanItem({
         <LobbyPlanActionMenu
           id={id}
           myRole={myRole}
+          planName={title}
         />
       </div>
 
