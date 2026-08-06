@@ -2,7 +2,7 @@ import { PlanOverview } from '@/types/plan';
 
 import LobbyLastPlanItem from './LobbyLastPlanItem';
 
-export default function LastTripList({ plans }: { plans: PlanOverview[] }) {
+export default function LastPlanList({ plans }: { plans: PlanOverview[] }) {
   return (
     <>
       {plans.length > 0 ? (

@@ -3,9 +3,9 @@ import { PlanOverview } from '@/types/plan';
 import CreateNewPlan from './CreateNewPlan';
 import LobbyPlanItem from './LobbyPlanItem';
 
-export default function UpcomingTripList({ plans }: { plans: PlanOverview[] }) {
+export default function PlanListWithTag({ plans }: { plans: PlanOverview[] }) {
   return (
-    <>
+    <div className='grid grid-cols-[repeat(auto-fill,275.76px)] gap-10.75'>
       {plans.length > 0 &&
         plans.map((plan, index) => (
           <div
@@ -16,6 +16,6 @@ export default function UpcomingTripList({ plans }: { plans: PlanOverview[] }) {
           </div>
         ))}
       <CreateNewPlan />
-    </>
+    </div>
   );
 }
