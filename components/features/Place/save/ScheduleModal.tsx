@@ -5,11 +5,10 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import ScheduleModalItem from '@/components/features/place/save/ScheduleModalItem';
+import { useGetPlanStatus } from '@/hooks/plan/useGetPlanStatus';
 import { useGetUserPlans } from '@/hooks/plan/useGetUserPlans';
 import { addPlanItemWithTransit } from '@/lib/actions/planItem';
-import { getPlanStatus } from '@/lib/utils/getPlanStatus';
 import type { CorePlaceDetail } from '@/types/corePlace';
-import { PlanOverview } from '@/types/plan';
 
 import BottomButton from './modal-item/BottomButton';
 import ModalHeader from './modal-item/ModalHeader';
@@ -28,23 +27,7 @@ export default function AddToScheduleModal({ placeDetail, onClose }: AddToSchedu
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // 여행 상태에 따라 분류
-  const {
-    current: currentPlans,
-    upcoming: upcomingPlans,
-    last: lastPlans,
-  } = (plans ?? []).reduce(
-    (acc, plan) => {
-      const status = getPlanStatus({
-        departure: plan.departureDate,
-        arrival: plan.arrivalDate,
-        isDateUndecided: plan.isDateUndecided,
-        needCurrent: true,
-      });
-      acc[status].push(plan);
-      return acc;
-    },
-    { current: [], upcoming: [], last: [] } as Record<'upcoming' | 'last' | 'current', PlanOverview[]>,
-  );
+  const { currentPlans, upcomingPlans, lastPlans } = useGetPlanStatus(plans ?? []);
 
   const handleSelectSchedule = (scheduleId: string) => {
     setSelectedScheduleIds((prev) => {
