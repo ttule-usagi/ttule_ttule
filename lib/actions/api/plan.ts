@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { PlanDetail, PlanItem, PlanSchedule } from '@/types/plan';
+
 import { RpcError, RpcErrorMessage } from '@/types/errors';
+import type { PlanDetail, PlanItem, PlanOverview, PlanSchedule } from '@/types/plan';
 
 export const getPlanDetail = async ({
   supabase,
@@ -59,4 +60,16 @@ export const getPlanSchedules = async ({
     throw new RpcError('NOT_FOUND');
   }
   return data as PlanSchedule[];
+};
+
+export const getAllPlanListOverview = async ({ supabase }: { supabase: SupabaseClient }): Promise<PlanOverview[]> => {
+  const { data, error } = await supabase.rpc('get_user_plans');
+
+  if (error) throw new RpcError(error.message as RpcErrorMessage, error.code);
+  if (!data) {
+    console.error('❌ 일정 전체 조회 실패: ', error);
+    throw new RpcError('NOT_FOUND');
+  }
+
+  return data ?? [];
 };

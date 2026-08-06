@@ -1,19 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabaseUser } from '@/lib/utils/supabase';
 
-export async function GET(request: NextRequest) {
+import { getAllPlanListOverview } from '@/lib/actions/api/plan';
+import { supabaseUser } from '@/lib/utils/supabase';
+import { RPC_ERROR_TO_STATUS, RpcError, RpcErrorMessage } from '@/types/errors';
+
+export async function GET(_request: NextRequest) {
   const supabase = await supabaseUser();
 
   try {
-    const { data, error } = await supabase.rpc('get_user_plans');
-
-    if (error) throw error;
+    const data = await getAllPlanListOverview({ supabase });
     return NextResponse.json(data);
-  } catch (error: any) {
-    console.error('❌ get_user_plans 에러:', error);
-    if (error.code === '42501') {
-      return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 });
+  } catch (error: unknown) {
+    console.error('❌ 일정 전체 조회 실패:', error);
+
+    if (error instanceof RpcError) {
+      return NextResponse.json(
+        { error: error.message },
+        { status: RPC_ERROR_TO_STATUS[error.message as RpcErrorMessage] ?? 500 },
+      );
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+
+    return NextResponse.json({ error: 'INTERNAL_ERROR' }, { status: 500 });
   }
 }

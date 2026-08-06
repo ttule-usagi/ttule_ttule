@@ -3,10 +3,9 @@
 
 import Link from 'next/link';
 
-import { useGetPlanMyRole } from '@/hooks/plan/useGetPlanMyRole';
-import { PlanOverview } from '@/hooks/plan/useGetUserPlans';
 import { formatRelativeDate } from '@/lib/utils/date';
 import { getDestinationDisplay } from '@/lib/utils/destinationDisplay';
+import { PlanOverview } from '@/types/plan';
 
 import LobbyPlanActionMenu from './LobbyPlanActionMenu';
 
@@ -17,13 +16,11 @@ export default function LobbyPlanItem({
   arrivalDate,
   isDateUndecided,
   title,
-  memberCount,
+  isPublic,
   updatedAt,
+  myRole,
 }: PlanOverview) {
-  const formattedUpdatedAt = formatRelativeDate(updatedAt);
   const { text, fontSize } = getDestinationDisplay(destination);
-
-  const { data: myRole } = useGetPlanMyRole(id);
 
   return (
     <Link
@@ -65,12 +62,12 @@ export default function LobbyPlanItem({
           {title ? title : 'Untitled'}
         </p>
         <p className='flex justify-between'>
-          <span>party</span>
-          {memberCount > 1 ? 'group' : 'single'}
+          <span>shared</span>
+          {isPublic ? 'public' : 'private'}
         </p>
         <p className='flex justify-between'>
           <span>updated</span>
-          {formattedUpdatedAt}
+          {formatRelativeDate(updatedAt)}
         </p>
       </div>
     </Link>
