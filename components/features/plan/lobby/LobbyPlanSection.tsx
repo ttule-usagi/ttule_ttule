@@ -12,11 +12,11 @@ import PlanListWithTag from './PlanListWithTag';
 import SectionHeader from './SectionHeader';
 
 export default function LobbyPlanSection() {
-  const { data } = useGetAllUserPlans();
+  const { data: plans } = useGetAllUserPlans();
   const session = useSession();
 
   // 여행 상태에 따라 분류
-  const { currentPlans, upcomingPlans, lastPlans } = useGetPlanStatus(data);
+  const { currentPlans, upcomingPlans, lastPlans } = useGetPlanStatus(plans);
 
   return (
     <>
