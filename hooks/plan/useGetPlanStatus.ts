@@ -16,7 +16,6 @@ export const useGetPlanStatus = (plans: PlanOverview[]) => {
             departure: plan.departureDate,
             arrival: plan.arrivalDate,
             isDateUndecided: plan.isDateUndecided,
-            needCurrent: true,
           });
           acc[status].push(plan);
           return acc;
