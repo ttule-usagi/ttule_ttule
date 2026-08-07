@@ -5,8 +5,7 @@ import { useState } from 'react';
 import { Icon } from '@/components/common/Icon';
 import type { PlanItem } from '@/types/plan';
 
-import NotchRows from '../NotchRows';
-
+import NotchRows from './NotchRows';
 import PlanMemoItemForm from './PlanMemoItemForm';
 import { useDragHandle } from './SortablePlanItem';
 

@@ -13,6 +13,8 @@ interface ChangeScheduleModalProps {
   onClose: () => void;
   onConfirm: (targetScheduleId: string) => void;
   isSubmitting?: boolean;
+  title?: string;
+  confirmLabel?: string;
 }
 
 function formatDateRange(departureDate: string | null, arrivalDate: string | null): string {
@@ -31,6 +33,8 @@ export default function ChangeScheduleModal({
   onClose,
   onConfirm,
   isSubmitting,
+  title,
+  confirmLabel = '변경하기',
 }: ChangeScheduleModalProps) {
   const [selectedScheduleId, setSelectedScheduleId] = useState<string | null>(null);
 
@@ -49,7 +53,7 @@ export default function ChangeScheduleModal({
         onClick={(e) => e.stopPropagation()}
       >
         <div className='flex flex-col gap-4 items-center w-full'>
-          <p className='text-typo-base-bold text-brand-gray-700 w-full'>일정 변경</p>
+          <p className='text-typo-base-bold text-brand-gray-700 w-full'>{title ?? '일정 변경'}</p>
 
           <div className='bg-brand-gray-50 flex flex-col gap-2 items-start px-3 py-2 w-full'>
             <div className='flex flex-col w-full'>
@@ -106,7 +110,7 @@ export default function ChangeScheduleModal({
               : 'bg-brand-gray-200 text-brand-gray-400 border-brand-gray-200 cursor-not-allowed'
           }`}
         >
-          {isSubmitting ? '변경 중...' : '변경하기'}
+          {isSubmitting ? '변경 중...' : (confirmLabel ?? '변경하기')}
         </button>
       </div>
     </div>,

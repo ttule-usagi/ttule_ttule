@@ -50,7 +50,7 @@ export default function LobbyPlanActionMenu({ planName, type = 'overview', id, m
           </DropDown.Trigger>
 
           <DropDown.Menu>
-            <DropDown.Item onClick={() => setSettingModalOpen(true)}>계획 속성 관리</DropDown.Item>
+            <DropDown.Item onClick={() => setSettingModalOpen(true)}>계획 설정</DropDown.Item>
             <DropDown.Item>계획 복제</DropDown.Item>
             {isMaster && (
               <DropDown.Item onClick={() => confirmDeletePlan(planName, id, type === 'detail')}>

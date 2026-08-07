@@ -1,13 +1,15 @@
 'use client';
 
-import { useModalStore } from '@/lib/store/modalStore';
-import EnterInviteLinkModal from '../../features/plan/EnterInviteLinkModal';
 import CancelSignupModal from '@/components/features/CancelSignupModal';
 import CancelNewPlaceModal from '@/components/features/new-place/CancelNewPlaceModal';
-import ShareLinkModal from '../ShareLinkModal';
-import ErrorModal from '../ErrorModal';
-import ConfirmActionModal from '../ConfirmActionModal';
+import DeletePlanDateModal from '@/components/features/plan/plan-detail/DeletePlanDateModal';
 import DeletePlanItemModal from '@/components/features/plan/plan-detail/DeletePlanItemModal';
+import { useModalStore } from '@/lib/store/modalStore';
+
+import EnterInviteLinkModal from '../../features/plan/EnterInviteLinkModal';
+import ConfirmActionModal from '../ConfirmActionModal';
+import ErrorModal from '../ErrorModal';
+import ShareLinkModal from '../ShareLinkModal';
 
 /**
  * 전역 모달 컴포넌트
@@ -53,6 +55,14 @@ export default function GlobalModal() {
         <DeletePlanItemModal
           onConfirm={activeModal.props.onConfirm}
           onCancel={close}
+        />
+      )}
+      {activeModal.type === 'deletePlanDate' && (
+        <DeletePlanDateModal
+          onConfirm={activeModal.props.onConfirm}
+          onCancel={close}
+          dayNumber={activeModal.props.dayNumber}
+          type={activeModal.props.type}
         />
       )}
     </div>

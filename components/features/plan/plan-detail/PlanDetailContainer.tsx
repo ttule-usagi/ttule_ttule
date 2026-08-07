@@ -29,7 +29,7 @@ import GoogleMapEmbed from '../../map/GoogleMapEmbed';
 import GoogleMapJS from '../../map/GoogleMapJS';
 import CorePlaceDetailContainer from '../../place/CorePlaceDetailContainer';
 
-import { PlanDragPreview } from './PlanDragPreview';
+import { PlanDragPreview } from './panelItemDetail/PlanDragPreview';
 
 interface PlanDetailContainerProps {
   planId: string;
@@ -42,7 +42,7 @@ export default function PlanDetailContainer({ planId, hasSession }: PlanDetailCo
   const { plan, schedules, items: firstScheduleItems } = data;
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const currentSchedule = schedules[currentIndex];
+  const currentSchedule = schedules[Math.min(currentIndex, schedules.length - 1)];
 
   const sensors = useSensors(
     useSensor(PointerSensor, {

@@ -99,3 +99,42 @@ export async function deletePlan(planId: string): Promise<ActionResult<null>> {
     return { success: false, error: { message, code } };
   }
 }
+export const clearScheduleItems = async (scheduleId: string): Promise<ActionResult<null>> => {
+  const supabase = await supabaseUser();
+  const { error } = await supabase.rpc('clear_schedule_items', { p_schedule_id: scheduleId });
+  if (error) {
+    return {
+      success: false,
+      error: { message: SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR', code: error.code },
+    };
+  }
+  return { success: true, data: null };
+};
+
+export const deletePlanSchedule = async (scheduleId: string): Promise<ActionResult<null>> => {
+  const supabase = await supabaseUser();
+  const { error } = await supabase.rpc('delete_plan_schedule', { p_schedule_id: scheduleId });
+  if (error) {
+    return {
+      success: false,
+      error: { message: SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR', code: error.code },
+    };
+  }
+  return { success: true, data: null };
+};
+
+export const reorderPlanSchedule = async (scheduleId: string, newDayNumber: number): Promise<ActionResult<null>> => {
+  const supabase = await supabaseUser();
+  const { error } = await supabase.rpc('reorder_plan_schedule', {
+    p_schedule_id: scheduleId,
+    p_new_day_number: newDayNumber,
+  });
+
+  if (error) {
+    return {
+      success: false,
+      error: { message: SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR', code: error.code },
+    };
+  }
+  return { success: true, data: null };
+};
