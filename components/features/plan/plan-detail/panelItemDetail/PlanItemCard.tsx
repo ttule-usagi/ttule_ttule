@@ -4,6 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import DropDown from '@/components/common/Dropdown';
 import { Icon } from '@/components/common/Icon';
+import AuthorityWrapper from '@/components/features/AuthorityWrapper';
 import { duplicatePlanItem, deletePlanItem } from '@/lib/actions/planItem';
 import { useModalStore } from '@/lib/store/modalStore';
 import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
@@ -13,9 +14,7 @@ import type { PlaceCategory } from '@/types/corePlace';
 import { PlanItem } from '@/types/plan';
 import { Role } from '@/types/shareOption';
 
-import AuthorityWrapper from '../../AuthorityWrapper';
-import NotchRows from '../NotchRows';
-
+import NotchRows from './NotchRows';
 import PlanDetailMemoContent from './PlanDetailMemoContent';
 
 interface PlanItemCardProps {

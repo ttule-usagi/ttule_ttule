@@ -38,6 +38,7 @@ export function SortablePlanItem({ id, children }: { id: string; children: React
         style={style}
         {...attributes}
         {...listeners}
+        suppressHydrationWarning
         className='flex flex-col gap-2 shrink-0 cursor-grab'
       >
         {children}
