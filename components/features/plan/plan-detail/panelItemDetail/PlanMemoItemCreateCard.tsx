@@ -22,9 +22,11 @@ export default function PlanMemoItemCreateCard({ onClose, onSave, isSaving }: Pl
   };
 
   return (
-    <div className='relative bg-white shadow-sm w-full'>
+    <div className='relative bg-white shadow-sm w-full rounded-sm'>
       <NotchRows count={1} />
-      <div className='pl-13 pr-12 py-4 flex flex-col gap-2'>
+
+      <div className='px-4 py-4 flex flex-col gap-2 '>
+        <h4 className='text-typo-description text-brand-gray-700'>신규 메모 아이템 생성</h4>
         <PlanMemoItemForm
           placeName={placeName}
           visitTime={visitTime}
