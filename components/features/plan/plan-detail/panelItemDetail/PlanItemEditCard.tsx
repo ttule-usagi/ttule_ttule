@@ -39,7 +39,7 @@ export default function PlanItemEditCard({ item, onClose, onSave, isSaving }: Pl
 
   const handleDuplicate = async () => {
     const result = await duplicatePlanItem(item);
-    if (!result.success) {
+    if (result.success) {
       await queryClient.invalidateQueries({
         predicate: (query) => query.queryKey.includes('items') && query.queryKey.includes(item.scheduleId),
         refetchType: 'active',
@@ -144,7 +144,7 @@ export default function PlanItemEditCard({ item, onClose, onSave, isSaving }: Pl
           >
             <Icon
               name='Copy'
-              size={32}
+              size={24}
               className='text-brand-gray-400'
             />
           </button>
