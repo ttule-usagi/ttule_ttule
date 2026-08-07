@@ -1,12 +1,14 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+
 import DropDown from '@/components/common/Dropdown';
 import { Icon } from '@/components/common/Icon';
-import { useState } from 'react';
-import PlanSettingModal from '../PlanSettingModal';
-import { usePathname } from 'next/navigation';
-import AuthorityWrapper from '../../AuthorityWrapper';
 import { Role } from '@/types/shareOption';
+
+import AuthorityWrapper from '../../AuthorityWrapper';
+import PlanSettingModal from '../PlanSettingModal';
 
 export default function LobbyPlanActionMenu({ id, myRole }: { id: string; myRole: Role | null }) {
   const [isSettingModalOpen, setSettingModalOpen] = useState(false);
@@ -39,7 +41,7 @@ export default function LobbyPlanActionMenu({ id, myRole }: { id: string; myRole
           </DropDown.Trigger>
 
           <DropDown.Menu>
-            <DropDown.Item onClick={() => setSettingModalOpen(true)}>계획 속성 관리</DropDown.Item>
+            <DropDown.Item onClick={() => setSettingModalOpen(true)}>계획 설정</DropDown.Item>
             <DropDown.Item>계획 복제</DropDown.Item>
             {isMaster && <DropDown.Item onClick={() => console.log(`계획 ${id} 삭제`)}>계획 삭제</DropDown.Item>}
           </DropDown.Menu>

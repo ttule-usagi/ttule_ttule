@@ -36,12 +36,25 @@ export default function DeletePlanDateModal({
       <ModalBox.ModalContent>
         {type === 'deleteDayPlan' ? (
           <div className='pt-8 pb-5'>
-            {dayNumber}일차 계획을 삭제하시겠어요? <br />({dayNumber}일차 계획과 일정이 모두 삭제됩니다.)
+            <p className='font-semibold mb-1'>
+              <span className='text-brand-blue-600'>{dayNumber}일차 일정표</span>를 삭제하시겠어요?{' '}
+            </p>
+            <p className='text-typo-description text-brand-gray-400'>
+              <span className='text-tag-red-text'>*</span>
+              {dayNumber}
+              일차 일정표와 일정이 모두 삭제됩니다.
+            </p>
           </div>
         ) : (
           <div className='pt-8 pb-5'>
-            {dayNumber}일차 계획에 포함된 전체 일정을 삭제하시겠어요? ({dayNumber}일차 계획은 유지되며, 일정만
-            삭제됩니다.)
+            <p className='font-semibold mb-1'>
+              <span className='text-brand-blue-500'>일정표</span>에 포함된 <span className='font-bold'>전체 일정</span>
+              을 삭제하시겠어요?
+            </p>
+            <p className='text-typo-description text-brand-gray-400'>
+              <span className='text-tag-red-text'>*</span>
+              일정표는 유지되며, 일정만 삭제됩니다.
+            </p>
           </div>
         )}
       </ModalBox.ModalContent>

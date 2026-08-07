@@ -66,13 +66,15 @@ export default function PanelHeader({
     deletePlanSchedule(schedule.id, {
       onError: (error) => {
         const message =
-          error instanceof RpcError
-            ? (error.message ?? getErrorMessage(error.message as RpcErrorMessage, { subject: '계획', action: '삭제' }))
-            : getErrorMessage('INTERNAL_ERROR', { subject: '계획', action: '삭제' });
+          error instanceof RpcError && error.code === '23505'
+            ? '여행 기간은 최소 1일 이상이어야 합니다.'
+            : error instanceof RpcError
+              ? getErrorMessage(error.message as RpcErrorMessage, { subject: '계획', action: '삭제' })
+              : getErrorMessage('INTERNAL_ERROR', { subject: '계획', action: '삭제' });
 
         open({
           type: 'error',
-          props: { title: '계획 삭제 실패', description: `${message}\n잠시 후 다시 시도해주세요.` },
+          props: { title: '일정표 삭제 실패', description: `${message}` },
         });
       },
     });
@@ -86,6 +88,20 @@ export default function PanelHeader({
     const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
     const weekday = weekdays[date.getDay()];
     return `${month}.${day}(${weekday})`;
+  }
+
+  function handleOpenChangeDay() {
+    if (schedules.length === 1) {
+      open({
+        type: 'error',
+        props: {
+          title: '날짜 변경 불가',
+          description: `여행 기간이 너무 짧습니다. \n 설정에서 여행 기간을 늘려주세요.`,
+        },
+      });
+    } else {
+      setIsChangingDay(true);
+    }
   }
 
   const dateStr = formatScheduleDate(schedule.scheduleDate);
@@ -146,7 +162,7 @@ export default function PanelHeader({
                   <DropDown.Menu>
                     <DropDown.Item onClick={onStartEdit}>일정 편집</DropDown.Item>
 
-                    <DropDown.Item onClick={() => setIsChangingDay(true)}>날짜 순서 변경</DropDown.Item>
+                    <DropDown.Item onClick={handleOpenChangeDay}>날짜 변경</DropDown.Item>
 
                     <DropDown.Item
                       onClick={() =>
@@ -172,7 +188,7 @@ export default function PanelHeader({
                       }
                       disabled={isDeletingDay}
                     >
-                      계획 삭제
+                      일정표 삭제
                     </DropDown.Item>
                   </DropDown.Menu>
                 </DropDown>
@@ -184,7 +200,7 @@ export default function PanelHeader({
 
       {isChangingDay && (
         <ChangeScheduleModal
-          title='날짜 순서 변경'
+          title='일정표 날짜 변경'
           confirmLabel='이동하기'
           plan={plan}
           schedules={schedules}
