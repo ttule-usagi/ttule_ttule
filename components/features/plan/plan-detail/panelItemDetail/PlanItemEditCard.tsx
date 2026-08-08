@@ -143,7 +143,7 @@ export default function PlanItemEditCard({ item, onClose, onSave, isSaving }: Pl
             className='cursor-pointer'
           >
             <Icon
-              name='Copy'
+              name='Duplicate'
               size={24}
               className='text-brand-gray-400'
             />
