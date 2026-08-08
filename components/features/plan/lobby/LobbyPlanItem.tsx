@@ -60,7 +60,7 @@ export default function LobbyPlanItem({
       <div className='mt-6 text-[12px] font-extralight text-brand-gray-800 w-full'>
         <p className='flex justify-between'>
           <span>plan name</span>
-          {title ? title : 'Untitled'}
+          <p className='max-w-42 truncate'>{title ? title : 'Untitled'}</p>
         </p>
         <p className='flex justify-between'>
           <span>shared</span>
