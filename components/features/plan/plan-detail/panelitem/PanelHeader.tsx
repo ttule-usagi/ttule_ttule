@@ -188,7 +188,7 @@ export default function PanelHeader({
                   <DropDown.Menu>
                     <DropDown.Item onClick={onStartEdit}>일정 편집</DropDown.Item>
                     <DropDown.Item onClick={() => setCopiedSchedule(schedule.id, schedule.dayNumber)}>
-                      일정 복사
+                      {schedule.dayNumber}일차 일정 복사
                     </DropDown.Item>
                     {copiedScheduleId && (
                       <DropDown.Item
