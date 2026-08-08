@@ -19,15 +19,10 @@ export const useDeletePlan = () => {
 
       return result;
     },
-    onSuccess: (_, planId) => {
-      // 삭제하려는 계획 캐시는 삭제
-      queryClient.removeQueries({
-        queryKey: ['plan', planId],
-      });
-
+    onSuccess: () => {
       // 목록 캐시 무효화
       queryClient.invalidateQueries({
-        queryKey: ['plan'],
+        queryKey: ['plan', 'list'],
       });
     },
     onError: (error: unknown) => {
