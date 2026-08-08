@@ -20,6 +20,7 @@ export const useDuplicatePlan = () => {
       return result;
     },
     onSuccess: () => {
+      // TODO: 복제 성공 시 toast 알림 필요(상세 페이지 내에 있을 때도 복제가 가능하므로)
       queryClient.invalidateQueries({
         queryKey: ['plan', 'list'],
       });
