@@ -45,6 +45,13 @@ export default function PlaceItemsEditView({ items, drafts, onChangeDraft, onRem
           </SortablePlanItem>
         ))}
       </SortableContext>
+      {items.length === 0 ? (
+        <div className='flex-1 flex items-center justify-center pb-10'>
+          <p className='text-typo-description text-white'>저장된 장소가 없습니다.</p>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 }
