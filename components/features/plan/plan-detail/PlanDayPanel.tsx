@@ -24,10 +24,11 @@ interface PlanDayPanelProps {
   schedules: PlanSchedule[];
   items: PlanItem[];
   isFetching: boolean;
-  totalDays: number;
-  currentIndex: number;
-  onPrev: () => void;
-  onNext: () => void;
+  variant?: 'floating' | 'stacked';
+  totalDays?: number;
+  currentIndex?: number;
+  onPrev?: () => void;
+  onNext?: () => void;
   onOpenPlaceDetail: (item: PlanItem) => void;
   hasSession: boolean;
 }
@@ -37,10 +38,11 @@ export default function PlanDayPanel({
   planId,
   schedule,
   schedules,
-  totalDays,
-  currentIndex,
+  totalDays = 1,
+  currentIndex = 0,
   onPrev,
   onNext,
+  variant,
   items,
   isFetching,
   hasSession,
@@ -50,6 +52,8 @@ export default function PlanDayPanel({
 
   const { data: myRole } = useGetPlanMyRole(planId);
   const { setNodeRef } = useDroppable({ id: schedule.id, data: { scheduleId: schedule.id } });
+
+  const isStacked = variant === 'stacked';
 
   const [isEditingAll, setIsEditingAll] = useState(false);
   const [drafts, setDrafts] = useState<Record<string, EditModeItemDraft>>({});
@@ -134,7 +138,7 @@ export default function PlanDayPanel({
       className='relative h-full w-full max-w-118'
     >
       {/* 이전 화살표 */}
-      {currentIndex > 0 && !isEditingAll && (
+      {!isStacked && currentIndex > 0 && !isEditingAll && (
         <button
           onClick={onPrev}
           className='absolute -left-5 top-1/2 -translate-y-1/2 z-10 size-8 flex items-center justify-center'
@@ -149,7 +153,7 @@ export default function PlanDayPanel({
       )}
 
       {/* 다음 화살표 */}
-      {currentIndex < totalDays - 1 && !isEditingAll && (
+      {!isStacked && currentIndex < totalDays - 1 && !isEditingAll && (
         <button
           onClick={onNext}
           onMouseEnter={handlePrefetchNext}
@@ -167,7 +171,9 @@ export default function PlanDayPanel({
 
       {/* 안쪽 파란 패널 — 이 블록 안에서 모든 레이아웃 흐름을 제어합니다 */}
 
-      <div className='absolute top-0 bottom-0 left-8 right-8 bg-line-pattern-blue rounded-lg shadow-xl flex flex-col overflow-hidden'>
+      <div
+        className={`absolute top-0 bottom-0 bg-line-pattern-blue rounded-lg shadow-xl flex flex-col overflow-hidden ${!isStacked ? 'left-8 right-8' : 'mr-5'}`}
+      >
         {/* 우표장식 (배경 느낌으로 absolute 띄움) */}
         <div className='absolute -top-[11px] right-7 pointer-events-none z-0'>
           <Image
@@ -201,6 +207,7 @@ export default function PlanDayPanel({
             drafts={drafts}
             onChangeDraft={handleChangeDraft}
             onRemoveItem={handleRemoveItemDraft}
+            scheduleId={schedule.id}
           />
         ) : (
           <PlaceItems

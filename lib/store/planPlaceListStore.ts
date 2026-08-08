@@ -1,13 +1,15 @@
 import { create } from 'zustand';
 
 interface PlanPlaceListStore {
-  shouldOpenPlaceList: boolean;
-  triggerOpenPlaceList: () => void;
-  resetOpenPlaceList: () => void;
+  isOpen: boolean;
+  open: () => void;
+  close: () => void;
+  toggle: () => void;
 }
 
 export const usePlanPlaceListStore = create<PlanPlaceListStore>((set) => ({
-  shouldOpenPlaceList: false,
-  triggerOpenPlaceList: () => set({ shouldOpenPlaceList: true }),
-  resetOpenPlaceList: () => set({ shouldOpenPlaceList: false }),
+  isOpen: false,
+  open: () => set({ isOpen: true }),
+  close: () => set({ isOpen: false }),
+  toggle: () => set((s) => ({ isOpen: !s.isOpen })),
 }));

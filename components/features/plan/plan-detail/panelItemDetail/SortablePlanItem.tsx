@@ -18,9 +18,18 @@ export function useDragHandle() {
   return context;
 }
 
-export function SortablePlanItem({ id, children }: { id: string; children: React.ReactNode }) {
+export function SortablePlanItem({
+  id,
+  scheduleId,
+  children,
+}: {
+  id: string;
+  scheduleId: string;
+  children: React.ReactNode;
+}) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id,
+    data: { scheduleId },
   });
 
   const style = {
@@ -38,6 +47,7 @@ export function SortablePlanItem({ id, children }: { id: string; children: React
         style={style}
         {...attributes}
         {...listeners}
+        data-drag-item
         suppressHydrationWarning
         className='flex flex-col gap-2 shrink-0 cursor-grab'
       >

@@ -114,6 +114,7 @@ export function PlaceItems({
                 <SortablePlanItem
                   key={item.id}
                   id={item.id}
+                  scheduleId={schedule.id}
                 >
                   {item.type === 'memo' ? (
                     editingItemId === item.id ? (

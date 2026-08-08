@@ -1,46 +1,47 @@
-import Luggage from '@/assets/icons/luggage.svg';
-import Bookmark from '@/assets/icons/bookmark.svg';
-import Camera from '@/assets/icons/camera.svg';
-import DotsHorizontal from '@/assets/icons/dots-horizontal.svg';
-import Calendar from '@/assets/icons/calendar.svg';
-import Clock from '@/assets/icons/clock.svg';
-import ArrowRight from '@/assets/icons/arrow-right.svg';
-import Copy from '@/assets/icons/copy.svg';
-import Link from '@/assets/icons/link.svg';
-import LinkThin from '@/assets/icons/link-thin.svg';
-import XClose from '@/assets/icons/x-close.svg';
-import Google from '@/assets/icons/google.svg';
-import Plus from '@/assets/icons/plus.svg';
-import Map from '@/assets/icons/map.svg';
-import ArrowLeft from '@/assets/icons/arrow-left.svg';
-import Search from '@/assets/icons/search.svg';
-import Share from '@/assets/icons/share.svg';
-import Edit from '@/assets/icons/edit.svg';
-import ChevronDown from '@/assets/icons/chevron-down.svg';
-import ChevronRight from '@/assets/icons/chevron-right.svg';
-import ChevronLeft from '@/assets/icons/chevron-left.svg';
-import Check from '@/assets/icons/check.svg';
-import Image from '@/assets/icons/image.svg';
-import RatingStar from '@/assets/icons/rating-star.svg';
-import Minus from '@/assets/icons/minus.svg';
 import AlertCircle from '@/assets/icons/alert-circle.svg';
 import Announcement from '@/assets/icons/announcement.svg';
-import Globe from '@/assets/icons/globe.svg';
-import CalendarPlus from '@/assets/icons/calendar-plus.svg';
-import ChevronUp from '@/assets/icons/chevron-up.svg';
+import ArrowLeft from '@/assets/icons/arrow-left.svg';
+import ArrowRight from '@/assets/icons/arrow-right.svg';
+import BookmarkCheck from '@/assets/icons/bookmark-check.svg';
+import Bookmark from '@/assets/icons/bookmark.svg';
 import BookmarkFilled from '@/assets/icons/bookmarked.svg';
+import CalendarPlus from '@/assets/icons/calendar-plus.svg';
+import Calendar from '@/assets/icons/calendar.svg';
+import Camera from '@/assets/icons/camera.svg';
+import CheckboxChecked from '@/assets/icons/check-square.svg';
+import Check from '@/assets/icons/check.svg';
+import ChevronDown from '@/assets/icons/chevron-down.svg';
+import ChevronLeft from '@/assets/icons/chevron-left.svg';
+import ChevronRight from '@/assets/icons/chevron-right.svg';
+import ChevronUp from '@/assets/icons/chevron-up.svg';
+import Clock from '@/assets/icons/clock.svg';
+import Columns from '@/assets/icons/columns.svg';
+import Copy from '@/assets/icons/copy.svg';
+import DotsHorizontal from '@/assets/icons/dots-horizontal.svg';
+import Edit from '@/assets/icons/edit.svg';
+import Globe from '@/assets/icons/globe.svg';
+import Google from '@/assets/icons/google.svg';
 import Hamburger from '@/assets/icons/hamburger.svg';
+import Image from '@/assets/icons/image.svg';
+import LayoutRight from '@/assets/icons/layout-right.svg';
+import LinkThin from '@/assets/icons/link-thin.svg';
+import Link from '@/assets/icons/link.svg';
+import Lock from '@/assets/icons/lock.svg';
+import Luggage from '@/assets/icons/luggage.svg';
+import Map from '@/assets/icons/map.svg';
 import MessageDots from '@/assets/icons/message-dots.svg';
+import Minus from '@/assets/icons/minus.svg';
+import Naver from '@/assets/icons/naver.svg';
 import PageLeft from '@/assets/icons/page-left.svg';
 import PageRight from '@/assets/icons/page-right.svg';
-import Columns from '@/assets/icons/columns.svg';
-import CheckboxChecked from '@/assets/icons/check-square.svg';
-import Setting from '@/assets/icons/settings.svg';
-import UserPlus from '@/assets/icons/user-plus.svg';
-import Lock from '@/assets/icons/lock.svg';
-import Naver from '@/assets/icons/naver.svg';
+import Plus from '@/assets/icons/plus.svg';
+import RatingStar from '@/assets/icons/rating-star.svg';
 import RoundStar from '@/assets/icons/round-star.svg';
-import BookmarkCheck from '@/assets/icons/bookmark-check.svg';
+import Search from '@/assets/icons/search.svg';
+import Setting from '@/assets/icons/settings.svg';
+import Share from '@/assets/icons/share.svg';
+import UserPlus from '@/assets/icons/user-plus.svg';
+import XClose from '@/assets/icons/x-close.svg';
 
 export const ICONS = {
   Luggage,
@@ -86,6 +87,7 @@ export const ICONS = {
   Naver,
   RoundStar,
   BookmarkCheck,
+  LayoutRight,
 } as const;
 
 export type IconName = keyof typeof ICONS;

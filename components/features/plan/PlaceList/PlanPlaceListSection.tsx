@@ -1,11 +1,12 @@
 'use client';
 
 import { memo, useState } from 'react';
-import { useGetAllPlaceLists } from '@/hooks/place-list/useGetAllPlaceLists';
-import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
-import { PlanPlaceListItem } from '@/components/features/plan/PlaceList/PlanPlaceListItem';
-import PlanPlaceListDetail from '@/components/features/plan/PlaceList/PlanPlaceListDetail';
+
 import Loader from '@/components/common/Loader';
+import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
+import PlanPlaceListDetail from '@/components/features/plan/PlaceList/PlanPlaceListDetail';
+import { PlanPlaceListItem } from '@/components/features/plan/PlaceList/PlanPlaceListItem';
+import { useGetAllPlaceLists } from '@/hooks/place-list/useGetAllPlaceLists';
 
 export const PlanPlaceListSection = memo(function PlanPlaceListSection({ planId }: { planId: string }) {
   const [selectedList, setSelectedList] = useState<{ id: string; title: string } | null>(null);
@@ -16,7 +17,7 @@ export const PlanPlaceListSection = memo(function PlanPlaceListSection({ planId 
   if (selectedList) {
     return (
       <QueryBoundary
-        fallback={
+        loadingFallback={
           <div className='pt-10'>
             <Loader />
           </div>

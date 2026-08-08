@@ -11,6 +11,11 @@ export const useDragScroll = <T extends HTMLElement>() => {
   const onMouseDown = useCallback((e: React.MouseEvent) => {
     // 현재 클릭된 값이 없으면 중단
     if (!ref.current) return;
+
+    // 드래그가 가능한 planitem 위에서는 허용X
+    const target = e.target as HTMLElement;
+    if (target.closest('[data-drag-item]')) return;
+
     // 클릭된 값이 있으면 드래그 시작 위치 저장(좌측에서 시작)
     isDragging.current = true;
     moveX.current = 0; // 드래그 시작할 때마다 임계값 초기화

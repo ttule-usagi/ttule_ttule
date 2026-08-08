@@ -13,9 +13,16 @@ interface PlaceItemsEditModeProps {
   drafts: Record<string, EditModeItemDraft>;
   onChangeDraft: (itemId: string, patch: Partial<EditModeItemDraft>) => void;
   onRemoveItem: (itemId: string) => void;
+  scheduleId: string;
 }
 
-export default function PlaceItemsEditView({ items, drafts, onChangeDraft, onRemoveItem }: PlaceItemsEditModeProps) {
+export default function PlaceItemsEditView({
+  items,
+  drafts,
+  onChangeDraft,
+  onRemoveItem,
+  scheduleId,
+}: PlaceItemsEditModeProps) {
   return (
     <div className='flex-1 min-h-0 overflow-y-auto no-scrollbar flex flex-col gap-2 mt-7 px-4 pb-4 z-10'>
       <SortableContext
@@ -26,6 +33,7 @@ export default function PlaceItemsEditView({ items, drafts, onChangeDraft, onRem
           <SortablePlanItem
             key={item.id}
             id={item.id}
+            scheduleId={scheduleId}
           >
             {item.type === 'memo' ? (
               <EditModeMemoItem

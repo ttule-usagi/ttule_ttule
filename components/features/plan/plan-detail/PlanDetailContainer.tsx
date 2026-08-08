@@ -171,6 +171,7 @@ export default function PlanDetailContainer({ planId, hasSession }: PlanDetailCo
               totalDays={schedules.length}
               onPrev={handlePrev}
               onNext={handleNext}
+              variant='floating'
               onOpenPlaceDetail={(item) => handleClickPlaceItem(item.placeId)}
               hasSession={hasSession}
             />

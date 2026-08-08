@@ -18,10 +18,9 @@ export default async function PlanLayout({
 }) {
   const { id } = await params;
   const session = await auth();
-  const queryClient = getSharedQueryClient();
-
   const hasSession = session;
 
+  const queryClient = getSharedQueryClient();
   await prefetchPlanDetail(queryClient, id);
 
   return (

@@ -1,6 +1,7 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
-import type { PlanItem } from '@/types/plan';
+
 import { RpcError, RpcErrorMessage, RpcErrorResponseBody } from '@/types/errors';
+import type { PlanItem } from '@/types/plan';
 
 const fetchScheduleItems = async (planId: string, scheduleId: string): Promise<PlanItem[]> => {
   const res = await fetch(`/api/view/plan/${planId}/items?scheduleId=${scheduleId}`);
@@ -18,9 +19,15 @@ export const scheduleItemsQueryOptions = (planId: string, scheduleId: string) =>
     queryFn: () => fetchScheduleItems(planId, scheduleId),
   });
 
-export const useGetScheduleItems = (planId: string, scheduleId: string, initialData?: PlanItem[]) => {
+export const useGetScheduleItems = (
+  planId: string,
+  scheduleId: string,
+  initialData?: PlanItem[],
+  enabled: boolean = true,
+) => {
   return useQuery({
     ...scheduleItemsQueryOptions(planId, scheduleId),
     initialData,
+    enabled,
   });
 };
