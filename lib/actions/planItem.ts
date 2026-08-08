@@ -349,3 +349,63 @@ export const updatePlanItem = async (params: UpdatePlanItemParams): Promise<Acti
     };
   return { success: true, data: null };
 };
+
+// 장소 붙여넣기
+export const pastePlanItems = async (
+  sourceScheduleId: string,
+  targetScheduleId: string,
+  transitMode: PlanTransitMode = 'transit',
+): Promise<ActionResult<null>> => {
+  const supabase = await supabaseUser();
+  const { data, error } = await supabase.rpc('paste_plan_items', {
+    p_source_schedule_id: sourceScheduleId,
+    p_target_schedule_id: targetScheduleId,
+  });
+
+  if (error) {
+    return {
+      success: false,
+      error: { message: SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR', code: error.code },
+    };
+  }
+
+  const result = (
+    data as {
+      last_existing_item_id: string | null;
+      last_existing_latitude: number | null;
+      last_existing_longitude: number | null;
+      last_existing_google_place_id: string | null;
+      first_pasted_latitude: number | null;
+      first_pasted_longitude: number | null;
+      first_pasted_google_place_id: string | null;
+    }[]
+  )[0];
+
+  // 기존 마지막 아이템 → 붙여넣은 첫 아이템, 경계 구간만 재계산
+  if (result.last_existing_item_id && result.first_pasted_latitude) {
+    const route = await getRouteDistance(
+      {
+        lat: result.last_existing_latitude!,
+        lng: result.last_existing_longitude!,
+        googlePlaceId: result.last_existing_google_place_id,
+      },
+      {
+        lat: result.first_pasted_latitude,
+        lng: result.first_pasted_longitude!,
+        googlePlaceId: result.first_pasted_google_place_id,
+      },
+      transitMode,
+    );
+
+    if (route) {
+      await supabase.rpc('update_plan_item_transit', {
+        p_item_id: result.last_existing_item_id,
+        p_transit_time: route.durationMinutes,
+        p_transit_distance: route.distanceMeters / 1000,
+        p_transit_mode: transitMode,
+      });
+    }
+  }
+
+  return { success: true, data: null };
+};
