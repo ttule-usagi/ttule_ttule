@@ -138,3 +138,17 @@ export const reorderPlanSchedule = async (scheduleId: string, newDayNumber: numb
   }
   return { success: true, data: null };
 };
+
+export const duplicatePlan = async (planId: string): Promise<ActionResult<{ id: string }>> => {
+  const supabase = await supabaseUser();
+  const { error, data } = await supabase.rpc('duplicate_plan', { p_plan_id: planId });
+
+  if (error) {
+    return {
+      success: false,
+      error: { message: SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR', code: error.code },
+    };
+  }
+
+  return { success: true, data: { id: data } };
+};
