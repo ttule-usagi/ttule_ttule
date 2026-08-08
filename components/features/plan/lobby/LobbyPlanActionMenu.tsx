@@ -6,6 +6,7 @@ import { useState } from 'react';
 import DropDown from '@/components/common/Dropdown';
 import { Icon } from '@/components/common/Icon';
 import { useConfirmDeletePlan } from '@/hooks/plan/useConfirmDeletePlan';
+import { useDuplicatePlan } from '@/hooks/plan/useDuplicatePlan';
 import { Role } from '@/types/shareOption';
 
 import AuthorityWrapper from '../../AuthorityWrapper';
@@ -22,6 +23,7 @@ export default function LobbyPlanActionMenu({ planName, type = 'overview', id, m
   const [isSettingModalOpen, setSettingModalOpen] = useState(false);
   const path = usePathname();
   const { confirmDeletePlan } = useConfirmDeletePlan();
+  const { mutate: duplicatePlan } = useDuplicatePlan();
 
   const shouldShowSettingIcon = !path.includes('/plan');
   const isMaster = myRole === 'master';
@@ -51,7 +53,7 @@ export default function LobbyPlanActionMenu({ planName, type = 'overview', id, m
 
           <DropDown.Menu>
             <DropDown.Item onClick={() => setSettingModalOpen(true)}>계획 설정</DropDown.Item>
-            <DropDown.Item>계획 복제</DropDown.Item>
+            {isMaster && <DropDown.Item onClick={() => duplicatePlan(id)}>계획 복제</DropDown.Item>}
             {isMaster && (
               <DropDown.Item onClick={() => confirmDeletePlan(planName, id, type === 'detail')}>
                 계획 삭제
