@@ -2,6 +2,7 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import Script from 'next/script';
 
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
+import PlanClipboardCleanup from '@/components/features/plan/PlanClipboardCleanup';
 import PlanHeader from '@/components/features/plan/PlanHeader';
 import CorePlaceSearchInput from '@/components/features/search/CorePlaceSearchInput';
 import { prefetchPlanDetail } from '@/lib/actions/api/prefetch/prefetchPlanDetail';
@@ -39,6 +40,7 @@ export default async function PlanLayout({
           />
         </QueryBoundary>
         {/* 모드별 컨텐츠 */}
+        <PlanClipboardCleanup />
         {children}
       </HydrationBoundary>
       {hasSession && (

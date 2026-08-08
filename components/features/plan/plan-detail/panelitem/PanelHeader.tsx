@@ -5,8 +5,10 @@ import { Icon } from '@/components/common/Icon';
 import AuthorityWrapper from '@/components/features/AuthorityWrapper';
 import { useClearScheduleItems } from '@/hooks/plan/useClearScheduleItems';
 import { useDeletePlanSchedule } from '@/hooks/plan/useDeletePlanSchedule';
+import { usePastePlanItems } from '@/hooks/plan/usePastePlanItems';
 import { useReorderPlanSchedule } from '@/hooks/plan/useReorderPlanSchedule';
 import { useModalStore } from '@/lib/store/modalStore';
+import { usePlanClipboardStore } from '@/lib/store/planClipboardStore';
 import { getErrorMessage, RpcError, RpcErrorMessage } from '@/types/errors';
 import { PlanInfo, PlanSchedule } from '@/types/plan';
 import { Role } from '@/types/shareOption';
@@ -44,6 +46,9 @@ export default function PanelHeader({
   const { mutate: clearScheduleItems, isPending: isClearing } = useClearScheduleItems({ planId });
   const { mutate: deletePlanSchedule, isPending: isDeletingDay } = useDeletePlanSchedule({ planId });
   const { mutate: reorderPlanSchedule, isPending: isReordering } = useReorderPlanSchedule({ planId });
+
+  const { copiedScheduleId, setCopiedSchedule } = usePlanClipboardStore();
+  const { mutate: pastePlanItems, isPending: isPasting } = usePastePlanItems({ planId });
 
   const handleDeleteAllPlanItems = () => {
     clearScheduleItems(schedule.id, {
@@ -104,6 +109,27 @@ export default function PanelHeader({
     }
   }
 
+  const handlePasteItems = () => {
+    if (!copiedScheduleId) return;
+
+    pastePlanItems(
+      { sourceScheduleId: copiedScheduleId, targetScheduleId: schedule.id },
+      {
+        onError: (error) => {
+          const message =
+            error instanceof RpcError
+              ? getErrorMessage(error.message as RpcErrorMessage, { subject: '일정', action: '붙여넣기' })
+              : getErrorMessage('INTERNAL_ERROR', { subject: '일정', action: '붙여넣기' });
+
+          open({
+            type: 'error',
+            props: { title: '일정 붙여넣기 실패', description: `${message}\n잠시 후 다시 시도해주세요.` },
+          });
+        },
+      },
+    );
+  };
+
   const dateStr = formatScheduleDate(schedule.scheduleDate);
   const dateNumber = schedule.dayNumber;
 
@@ -161,6 +187,17 @@ export default function PanelHeader({
 
                   <DropDown.Menu>
                     <DropDown.Item onClick={onStartEdit}>일정 편집</DropDown.Item>
+                    <DropDown.Item onClick={() => setCopiedSchedule(schedule.id, schedule.dayNumber)}>
+                      일정 복사
+                    </DropDown.Item>
+                    {copiedScheduleId && (
+                      <DropDown.Item
+                        onClick={handlePasteItems}
+                        disabled={isPasting}
+                      >
+                        복사한 일정 붙여넣기
+                      </DropDown.Item>
+                    )}
 
                     <DropDown.Item onClick={handleOpenChangeDay}>날짜 변경</DropDown.Item>
 
