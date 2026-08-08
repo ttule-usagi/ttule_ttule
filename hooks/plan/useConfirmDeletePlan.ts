@@ -21,10 +21,9 @@ export const useConfirmDeletePlan = () => {
           // TODO: 성공 토스트 알림 등 추가
           // toast.success('계획이 삭제되었습니다.')
 
-          const segments = pathname.split('/').filter(Boolean);
-          const isPlanDetailPage = segments[0] === 'plan' && segments.length === 2;
-
           if (routerBack) {
+            const segments = pathname.split('/').filter(Boolean);
+            const isPlanDetailPage = segments[0] === 'plan' && segments.length === 2;
             // 상세페이지에서 삭제 실행 시 이전페이지(목록 페이지)로 이동
             if (isPlanDetailPage) {
               router.back();
