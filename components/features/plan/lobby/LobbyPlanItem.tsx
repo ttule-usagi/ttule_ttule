@@ -58,10 +58,10 @@ export default function LobbyPlanItem({
 
       {/* 이외의 정보 */}
       <div className='mt-6 text-[12px] font-extralight text-brand-gray-800 w-full'>
-        <p className='flex justify-between'>
+        <div className='flex justify-between'>
           <span>plan name</span>
           <p className='max-w-42 truncate'>{title ? title : 'Untitled'}</p>
-        </p>
+        </div>
         <p className='flex justify-between'>
           <span>shared</span>
           {isPublic ? 'public' : 'private'}
