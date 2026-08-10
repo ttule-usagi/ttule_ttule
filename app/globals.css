@@ -319,6 +319,14 @@ input:-webkit-autofill:active {
     0 0;
 }
 
+@utility bg-blue-dot-pattern {
+  background-size: 42px 42px;
+  background-position: center center;
+  background-repeat: repeat;
+  background-color: #f9f9fb;
+  background-image: radial-gradient(circle, #adc6ff 1.6px, transparent 0.8px);
+}
+
 @utility no-scrollbar {
   -ms-overflow-style: none; /* 인터넷 익스플로러 */
   scrollbar-width: none; /* 파이어폭스 */

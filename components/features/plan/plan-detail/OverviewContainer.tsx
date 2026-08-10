@@ -220,7 +220,7 @@ export default function OverviewContainer({ planId, hasSession }: { planId: stri
         <div
           ref={dragScrollRef}
           {...dragHandler}
-          className={`flex flex-row pt-23 pb-6 overflow-x-auto h-screen ml-25 ${isPlaceListOpen && 'ml-110'}`}
+          className={`flex flex-row pt-23 pb-6 overflow-x-auto h-screen ml-23 ${isPlaceListOpen && 'ml-114'}`}
         >
           {schedules.map((schedule, index) => (
             <OverviewDayEntry
