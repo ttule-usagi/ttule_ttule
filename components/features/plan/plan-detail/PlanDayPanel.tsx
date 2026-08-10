@@ -172,7 +172,7 @@ export default function PlanDayPanel({
       {/* 안쪽 파란 패널 — 이 블록 안에서 모든 레이아웃 흐름을 제어합니다 */}
 
       <div
-        className={`absolute top-0 bottom-0 bg-line-pattern-blue rounded-lg shadow-xl flex flex-col overflow-hidden ${!isStacked ? 'left-8 right-8' : 'mr-5'}`}
+        className={`absolute top-0 bottom-0 bg-line-pattern-blue rounded-lg shadow-xl flex flex-col overflow-hidden ${!isStacked ? 'left-8 right-8' : 'min-w-97 mr-5'}`}
       >
         {/* 우표장식 (배경 느낌으로 absolute 띄움) */}
         <div className='absolute -top-[11px] right-7 pointer-events-none z-0'>

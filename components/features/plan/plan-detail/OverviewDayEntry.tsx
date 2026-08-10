@@ -9,6 +9,7 @@ interface OverviewDayEntryProps {
   plan: PlanInfo;
   schedule: PlanSchedule;
   schedules: PlanSchedule[];
+  previewItems?: PlanItem[];
   initialItems?: PlanItem[];
   hasSession: boolean;
   onOpenPlaceDetail: (item: PlanItem) => void;
@@ -20,6 +21,7 @@ export function OverviewDayEntry({
   plan,
   schedule,
   schedules,
+  previewItems,
   initialItems,
   hasSession,
   onOpenPlaceDetail,
@@ -32,6 +34,7 @@ export function OverviewDayEntry({
     initialItems,
     !!initialItems || inView, // enabled: 1일차는 항상, 나머지는 뷰포트 근처일 때만
   );
+  const displayedItems = previewItems ?? items;
 
   return (
     <div
@@ -44,7 +47,7 @@ export function OverviewDayEntry({
         plan={plan}
         schedule={schedule}
         schedules={schedules}
-        items={items}
+        items={displayedItems}
         isFetching={isFetching}
         hasSession={hasSession}
         onOpenPlaceDetail={onOpenPlaceDetail}

@@ -50,6 +50,8 @@ export const useDragScroll = <T extends HTMLElement>() => {
 
     // 마우스 휠 이벤트 추가
     const handleWheel = (e: WheelEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest('[data-vertical-scroll]')) return; // 안에서는 원래 세로 스크롤 그대로 둠
       e.preventDefault();
       // 휠 세로 이동량 계산 - 휠 내리면 오른쪽 스크롤, 휠 올리면 왼쪽 스크롤
       el.scrollLeft += e.deltaY;
