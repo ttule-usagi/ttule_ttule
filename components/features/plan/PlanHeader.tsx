@@ -100,7 +100,9 @@ export default function PlanHeader({ planId, hasSession }: PlanHeaderProps) {
           {hasSession && (
             <LobbyPlanActionMenu
               id={planId}
+              type='detail'
               myRole={data.myRole}
+              planName={data.plan.title}
             />
           )}
           {!AUTHORIZED_ROLES.includes(myRole as Role) && (

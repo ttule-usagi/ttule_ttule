@@ -1,6 +1,8 @@
-import { auth } from '@/lib/utils/auth';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+
+import { auth } from '@/lib/utils/auth';
+
 import { verifyInviteToken } from './lib/actions/invite';
 
 export { middleware as proxy };
@@ -60,6 +62,7 @@ export default async function middleware(request: NextRequest) {
   // 3. 보호된 경로 세션 체크
   const isProtectedRoute =
     pathname.startsWith('/lobby') ||
+    pathname.startsWith('/mypage') ||
     (pathname.startsWith('/places') && !pathname.match(/^\/places\/[^/]+$/)) ||
     (pathname.startsWith('/plan') && !pathname.match(/^\/plan\/[^/]+$/));
   if (isProtectedRoute && !session) {
