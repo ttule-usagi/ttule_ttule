@@ -166,6 +166,9 @@ input:-webkit-autofill:active {
   .modal-overlay {
     @apply fixed inset-0 h-full w-full bg-[rgba(38,38,38,0.5)] flex items-center justify-center z-1000;
   }
+  .modal-overlay-clear {
+    @apply fixed inset-0 h-full w-full  flex items-center justify-center z-1000;
+  }
   .modal-input {
     @apply flex flex-1 bg-brand-gray-100 py-3 px-4 gap-2.5 text-typo-description text-brand-gray-700 items-center rounded-sm border box-border border-gray-200 outline-none;
   }

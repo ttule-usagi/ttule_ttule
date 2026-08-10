@@ -18,6 +18,7 @@ import Clock from '@/assets/icons/clock.svg';
 import Columns from '@/assets/icons/columns.svg';
 import Copy from '@/assets/icons/copy.svg';
 import DotsHorizontal from '@/assets/icons/dots-horizontal.svg';
+import Duplicate from '@/assets/icons/duplicate.svg';
 import Edit from '@/assets/icons/edit.svg';
 import Globe from '@/assets/icons/globe.svg';
 import Google from '@/assets/icons/google.svg';
@@ -88,6 +89,7 @@ export const ICONS = {
   RoundStar,
   BookmarkCheck,
   LayoutRight,
+  Duplicate,
 } as const;
 
 export type IconName = keyof typeof ICONS;
