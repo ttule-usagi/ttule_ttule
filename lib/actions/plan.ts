@@ -77,6 +77,28 @@ export async function createNewPlan(formData: {
   }
 }
 
+// 계획 삭제
+export async function deletePlan(planId: string): Promise<ActionResult<null>> {
+  try {
+    const supabase = await supabaseUser();
+    const { error } = await supabase.rpc('delete_plan', {
+      p_plan_id: planId,
+    });
+
+    if (error) {
+      console.error('❌ 계획 삭제 실패: ', error);
+      const message = SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR';
+      return { success: false, error: { message, code: error.code } };
+    }
+
+    return { success: true, data: null };
+  } catch (error: unknown) {
+    console.error('❌ 계획 삭제 실패: ', error);
+    const code = isPostgresError(error) ? error.code : undefined;
+    const message = ((code && SQLSTATE_TO_RPC_ERROR[code]) ?? 'INTERNAL_ERROR') as RpcErrorMessage;
+    return { success: false, error: { message, code } };
+  }
+}
 export const clearScheduleItems = async (scheduleId: string): Promise<ActionResult<null>> => {
   const supabase = await supabaseUser();
   const { error } = await supabase.rpc('clear_schedule_items', { p_schedule_id: scheduleId });
@@ -115,4 +137,18 @@ export const reorderPlanSchedule = async (scheduleId: string, newDayNumber: numb
     };
   }
   return { success: true, data: null };
+};
+
+export const duplicatePlan = async (planId: string): Promise<ActionResult<{ id: string }>> => {
+  const supabase = await supabaseUser();
+  const { error, data } = await supabase.rpc('duplicate_plan', { p_plan_id: planId });
+
+  if (error) {
+    return {
+      success: false,
+      error: { message: SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR', code: error.code },
+    };
+  }
+
+  return { success: true, data: { id: data } };
 };

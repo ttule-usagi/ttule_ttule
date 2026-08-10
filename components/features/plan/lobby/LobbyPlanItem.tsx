@@ -37,6 +37,7 @@ export default function LobbyPlanItem({
         <LobbyPlanActionMenu
           id={id}
           myRole={myRole}
+          planName={title}
         />
       </div>
 
@@ -57,10 +58,10 @@ export default function LobbyPlanItem({
 
       {/* 이외의 정보 */}
       <div className='mt-6 text-[12px] font-extralight text-brand-gray-800 w-full'>
-        <p className='flex justify-between'>
+        <div className='flex justify-between'>
           <span>plan name</span>
-          {title ? title : 'Untitled'}
-        </p>
+          <p className='max-w-42 truncate'>{title ? title : 'Untitled'}</p>
+        </div>
         <p className='flex justify-between'>
           <span>shared</span>
           {isPublic ? 'public' : 'private'}

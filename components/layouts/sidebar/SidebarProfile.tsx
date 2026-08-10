@@ -1,10 +1,13 @@
 'use client';
 
-import DropDown from '@/components/common/Dropdown';
-import ProfileImage from '@/components/features/ProfileImage';
+import { useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 
+import DropDown from '@/components/common/Dropdown';
+import ProfileImage from '@/components/features/ProfileImage';
+
 export default function SidebarProfile() {
+  const router = useRouter();
   return (
     <div className='absolute bottom-5.5'>
       <DropDown>
@@ -12,7 +15,7 @@ export default function SidebarProfile() {
           <ProfileImage />
         </DropDown.Trigger>
         <DropDown.Menu>
-          <DropDown.Item>내 정보 관리</DropDown.Item>
+          <DropDown.Item onClick={() => router.push('/mypage')}>내 정보 관리</DropDown.Item>
           <DropDown.Item onClick={() => signOut({ callbackUrl: '/' })}>로그아웃</DropDown.Item>
         </DropDown.Menu>
       </DropDown>
