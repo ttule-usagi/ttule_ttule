@@ -2,17 +2,21 @@
 
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { Icon } from '../common/Icon';
+
 import { compressImage } from '@/lib/utils/compressImage';
+
+import { Icon } from '../common/Icon';
 
 interface ProfileImageUploaderProps {
   onUploadImage: (file: File | null) => void;
   initialImageURL?: string;
 }
 
+const DEFAULT_PROFILE_IMAGE = '/images/profile-blank-tomato.webp';
+
 export default function ProfileImageUploader({ onUploadImage, initialImageURL }: ProfileImageUploaderProps) {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const displayImage = previewImage || initialImageURL || null;
+  const displayImage = previewImage || initialImageURL || DEFAULT_PROFILE_IMAGE || null;
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
