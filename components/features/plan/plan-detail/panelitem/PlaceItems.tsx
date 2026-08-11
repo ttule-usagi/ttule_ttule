@@ -117,7 +117,7 @@ export function PlaceItems({
                 item.id.startsWith('__ghost__') ? (
                   <div
                     key={item.id}
-                    className='h-24 rounded-sm border-2 border-dashed border-white/50 bg-white/10'
+                    className='h-24 rounded-sm border-2 border-dashed border-white/50 bg-white/10 shrink-0'
                   />
                 ) : (
                   <SortablePlanItem

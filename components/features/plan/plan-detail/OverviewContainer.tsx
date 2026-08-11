@@ -207,6 +207,8 @@ export default function OverviewContainer({ planId, hasSession }: { planId: stri
   const isPlaceListOpen = usePlanPlaceListStore((s) => s.isOpen);
   const { ref: dragScrollRef, ...dragHandler } = useDragScroll<HTMLDivElement>();
 
+  const isSingleSchedule = schedules.length === 1;
+
   return (
     <>
       <DndContext
@@ -221,7 +223,11 @@ export default function OverviewContainer({ planId, hasSession }: { planId: stri
         <div
           ref={dragScrollRef}
           {...dragHandler}
-          className={`flex flex-row pt-23 pb-6 overflow-x-auto h-screen ml-23 ${isPlaceListOpen && 'ml-114'}`}
+          className={
+            isSingleSchedule
+              ? `flex flex-row ml-23 justify-start lg:justify-center lg:ml-0 pt-23 pb-6 h-screen overflow-x-auto ${isPlaceListOpen ? 'ml-98 xl:ml-114' : ''}`
+              : `flex flex-row pt-23 pb-6 h-screen overflow-x-auto ml-23 ${isPlaceListOpen ? 'ml-98 xl:ml-114' : ''}`
+          }
         >
           {schedules.map((schedule, index) => (
             <OverviewDayEntry
