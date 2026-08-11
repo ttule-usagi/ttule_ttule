@@ -94,7 +94,10 @@ export function PlaceItems({
   };
   return (
     <>
-      <div className='flex-1 min-h-0 overflow-y-auto no-scrollbar flex flex-col gap-2 mt-7 px-4 pb-4 z-10'>
+      <div
+        data-vertical-scroll
+        className='flex-1 min-h-0 overflow-y-auto no-scrollbar flex flex-col gap-2 mt-7 px-4 pb-4 z-10'
+      >
         {isFetching ? (
           <div className='flex flex-col gap-2'>
             {[1, 2, 3].map((i) => (
@@ -107,57 +110,65 @@ export function PlaceItems({
         ) : (
           <>
             <SortableContext
-              items={items.map((i) => i.id)}
+              items={items.filter((i) => !i.id.startsWith('__ghost__')).map((i) => i.id)}
               strategy={verticalListSortingStrategy}
             >
-              {items.map((item, index) => (
-                <SortablePlanItem
-                  key={item.id}
-                  id={item.id}
-                >
-                  {item.type === 'memo' ? (
-                    editingItemId === item.id ? (
-                      <PlanMemoItemEditCard
+              {items.map((item, index) =>
+                item.id.startsWith('__ghost__') ? (
+                  <div
+                    key={item.id}
+                    className='h-24 rounded-sm border-2 border-dashed border-white/50 bg-white/10 shrink-0'
+                  />
+                ) : (
+                  <SortablePlanItem
+                    key={item.id}
+                    id={item.id}
+                    scheduleId={schedule.id}
+                  >
+                    {item.type === 'memo' ? (
+                      editingItemId === item.id ? (
+                        <PlanMemoItemEditCard
+                          item={item}
+                          onClose={() => setEditingItemId(null)}
+                          onSave={(updated) => handleSaveExistingMemo(item, updated)}
+                          isSaving={isUpdating}
+                        />
+                      ) : (
+                        <PlanMemoItemCard
+                          item={item}
+                          onClick={() => setEditingItemId(item.id)}
+                          onChangeSchedule={() => setChangingScheduleItem(item)}
+                          hasSession={hasSession}
+                          myRole={myRole}
+                        />
+                      )
+                    ) : editingItemId === item.id ? (
+                      <PlanItemEditCard
                         item={item}
                         onClose={() => setEditingItemId(null)}
-                        onSave={(updated) => handleSaveExistingMemo(item, updated)}
+                        onSave={(updated) => handleSavePlaceItem(item, updated)}
                         isSaving={isUpdating}
                       />
                     ) : (
-                      <PlanMemoItemCard
+                      <PlanItemCard
                         item={item}
                         onClick={() => setEditingItemId(item.id)}
+                        onOpenDetail={() => onOpenPlaceDetail(item)}
                         onChangeSchedule={() => setChangingScheduleItem(item)}
                         hasSession={hasSession}
                         myRole={myRole}
                       />
-                    )
-                  ) : editingItemId === item.id ? (
-                    <PlanItemEditCard
-                      item={item}
-                      onClose={() => setEditingItemId(null)}
-                      onSave={(updated) => handleSavePlaceItem(item, updated)}
-                      isSaving={isUpdating}
-                    />
-                  ) : (
-                    <PlanItemCard
-                      item={item}
-                      onClick={() => setEditingItemId(item.id)}
-                      onOpenDetail={() => onOpenPlaceDetail(item)}
-                      onChangeSchedule={() => setChangingScheduleItem(item)}
-                      hasSession={hasSession}
-                      myRole={myRole}
-                    />
-                  )}
-                  {index < items.length - 1 && item.transitMode && items[index + 1].type !== 'memo' && (
-                    <TransitInfo
-                      mode={item.transitMode}
-                      time={item.transitTime}
-                      hasMemo={!!item.transitMemo}
-                    />
-                  )}
-                </SortablePlanItem>
-              ))}
+                    )}
+                    {index < items.length - 1 && item.transitMode && items[index + 1].type !== 'memo' && (
+                      <TransitInfo
+                        mode={item.transitMode}
+                        time={item.transitTime}
+                        hasMemo={!!item.transitMemo}
+                      />
+                    )}
+                  </SortablePlanItem>
+                ),
+              )}
             </SortableContext>
 
             {isNewMemoOpen && (

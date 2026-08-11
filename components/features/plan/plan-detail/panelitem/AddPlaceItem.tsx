@@ -16,7 +16,7 @@ export default function AddPlaceItem({
   OnOpenNewMemo: () => void;
 }) {
   const { triggerFocus } = usePlanSearchStore();
-  const { triggerOpenPlaceList } = usePlanPlaceListStore();
+  const { open } = usePlanPlaceListStore();
 
   return (
     <>
@@ -41,7 +41,7 @@ export default function AddPlaceItem({
               </DropDown.Trigger>
 
               <DropDown.Menu>
-                <DropDown.Item onClick={triggerOpenPlaceList}>리스트에서 장소 가져오기</DropDown.Item>
+                <DropDown.Item onClick={open}>리스트에서 장소 가져오기</DropDown.Item>
                 <DropDown.Item onClick={triggerFocus}>검색에서 장소 가져오기</DropDown.Item>
                 <DropDown.Item onClick={OnOpenNewMemo}>장소 없는 일정 만들기</DropDown.Item>
               </DropDown.Menu>

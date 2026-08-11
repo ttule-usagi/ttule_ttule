@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Icon } from '@/components/common/Icon';
 import dynamic from 'next/dynamic';
-import { usePlanPlaceListStore } from '@/lib/store/planPlaceListStore';
+
+import { Icon } from '@/components/common/Icon';
 import { useGetPlanMyRole } from '@/hooks/plan/useGetPlanMyRole';
+import { usePlanPlaceListStore } from '@/lib/store/planPlaceListStore';
+
 import AuthorityWrapper from '../../AuthorityWrapper';
 
 interface PlanPlaceListContainerProps {
@@ -23,16 +24,7 @@ const PlanPlaceListSection = dynamic(
 );
 
 export default function PlanPlaceListContainer({ planId }: PlanPlaceListContainerProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const { shouldOpenPlaceList, resetOpenPlaceList } = usePlanPlaceListStore();
-
-  useEffect(() => {
-    if (shouldOpenPlaceList) {
-      setIsOpen(true);
-      resetOpenPlaceList();
-    }
-  }, [shouldOpenPlaceList]);
-
+  const { isOpen, toggle } = usePlanPlaceListStore();
   const { data: myRole } = useGetPlanMyRole(planId);
 
   return (
@@ -52,7 +44,7 @@ export default function PlanPlaceListContainer({ planId }: PlanPlaceListContaine
             requiredRole='editor'
           >
             <button
-              onClick={() => setIsOpen((prev) => !prev)}
+              onClick={toggle}
               className='absolute top-1/2 -translate-y-1/2 left-full flex items-center justify-center h-13 bg-brand-blue-700 rounded-r-[8px] shadow-lg'
             >
               {!isOpen && (
