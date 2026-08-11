@@ -1,9 +1,11 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
 import { setGoogleAccount } from '@/lib/actions/auth';
 import { getProfileImageUrl } from '@/lib/actions/getProfileImageUrl';
 import { getErrorMessage, RpcError, RpcErrorMessage } from '@/types/errors';
+
+import { userInfoQueryOptions } from './useGetUserInfo';
 
 interface FieldError {
   field?: string;
@@ -11,6 +13,7 @@ interface FieldError {
 }
 
 export const useEditMyInfo = () => {
+  const queryClient = useQueryClient();
   const [fieldError, setFieldError] = useState<FieldError | null>(null);
 
   const mutation = useMutation({
@@ -36,6 +39,7 @@ export const useEditMyInfo = () => {
     onSuccess: () => {
       // TODO: 정보 수정 성공 시 toast 메시지 반환 필요
       setFieldError(null);
+      queryClient.invalidateQueries({ queryKey: userInfoQueryOptions().queryKey });
     },
     onMutate: () => {
       setFieldError(null);
