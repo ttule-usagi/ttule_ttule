@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 
 import CancelButton from '@/components/common/CancelButton';
@@ -7,6 +8,7 @@ import ConfirmButton from '@/components/common/ConfirmButton';
 import { useConfirmWithdraw } from '@/hooks/user/useConfirmWithdraw';
 import { useEditMyInfo } from '@/hooks/user/useEditMyInfo';
 import { useGetUserInfo } from '@/hooks/user/useGetUserInfo';
+import { DEFAULT_PROFILE_IMAGE } from '@/lib/constants/image';
 
 import ProfileImageUploader from '../ProfileImageUploader';
 
@@ -41,12 +43,22 @@ export default function EditInfoForm() {
 
   return (
     <div className='min-h-101.5 flex flex-col justify-center items-center mb-13.75'>
-      <ProfileImageUploader
-        key={isEdit ? 'editing' : 'viewing'}
-        onUploadImage={setNewProfileImage}
-        initialImageURL={initialUserInfo.profileImageUrl ?? ''}
-        viewer={!isEdit}
-      />
+      {isEdit ? (
+        <ProfileImageUploader
+          onUploadImage={setNewProfileImage}
+          initialImageURL={initialUserInfo.profileImageUrl ?? ''}
+        />
+      ) : (
+        <div className='w-34 h-34 rounded-full bg-brand-blue-100 box-border border border-brand-blue-700'>
+          <Image
+            src={initialUserInfo.profileImageUrl || DEFAULT_PROFILE_IMAGE}
+            alt='나의 프로필 이미지'
+            width={136}
+            height={136}
+            className='w-full h-full rounded-full object-cover'
+          />
+        </div>
+      )}
 
       <div className='max-w-3xs mt-5.75'>
         <div className='flex flex-col gap-1 font-light text-typo-base'>
