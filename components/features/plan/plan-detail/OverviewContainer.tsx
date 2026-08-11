@@ -16,6 +16,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import { Icon } from '@/components/common/Icon';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import { useOpenPlaceDetailModal } from '@/hooks/place/useOpenPlaceDetailModal';
 import { useGetPlanDetail } from '@/hooks/plan/useGetPlanDetail';
@@ -235,6 +236,13 @@ export default function OverviewContainer({ planId, hasSession }: { planId: stri
               onOpenPlaceDetail={(item) => handleClickPlaceItem(item.placeId)}
             />
           ))}
+          <div className='mr-5 self-center'>
+            <Icon
+              name='AddPlanDate'
+              size={56}
+              className='cursor-pointer text-neon-green hover:text-[#BCF259]'
+            />
+          </div>
         </div>
         {hasSession && <PlanPlaceListContainer planId={planId} />}
 

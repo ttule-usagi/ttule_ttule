@@ -1,3 +1,4 @@
+import AddPlanDate from '@/assets/icons/add-plan-date.svg';
 import AlertCircle from '@/assets/icons/alert-circle.svg';
 import Announcement from '@/assets/icons/announcement.svg';
 import ArrowLeft from '@/assets/icons/arrow-left.svg';
@@ -90,6 +91,7 @@ export const ICONS = {
   BookmarkCheck,
   LayoutRight,
   Duplicate,
+  AddPlanDate,
 } as const;
 
 export type IconName = keyof typeof ICONS;
