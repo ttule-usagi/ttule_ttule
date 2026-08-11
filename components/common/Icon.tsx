@@ -1,3 +1,4 @@
+import AddPlanDate from '@/assets/icons/add-plan-date.svg';
 import AlertCircle from '@/assets/icons/alert-circle.svg';
 import Announcement from '@/assets/icons/announcement.svg';
 import ArrowLeft from '@/assets/icons/arrow-left.svg';
@@ -24,6 +25,7 @@ import Globe from '@/assets/icons/globe.svg';
 import Google from '@/assets/icons/google.svg';
 import Hamburger from '@/assets/icons/hamburger.svg';
 import Image from '@/assets/icons/image.svg';
+import LayoutRight from '@/assets/icons/layout-right.svg';
 import LinkThin from '@/assets/icons/link-thin.svg';
 import Link from '@/assets/icons/link.svg';
 import Lock from '@/assets/icons/lock.svg';
@@ -87,7 +89,9 @@ export const ICONS = {
   Naver,
   RoundStar,
   BookmarkCheck,
+  LayoutRight,
   Duplicate,
+  AddPlanDate,
 } as const;
 
 export type IconName = keyof typeof ICONS;

@@ -11,6 +11,11 @@ export const useDragScroll = <T extends HTMLElement>() => {
   const onMouseDown = useCallback((e: React.MouseEvent) => {
     // 현재 클릭된 값이 없으면 중단
     if (!ref.current) return;
+
+    // 드래그가 가능한 planitem 위에서는 허용X
+    const target = e.target as HTMLElement;
+    if (target.closest('[data-drag-item]')) return;
+
     // 클릭된 값이 있으면 드래그 시작 위치 저장(좌측에서 시작)
     isDragging.current = true;
     moveX.current = 0; // 드래그 시작할 때마다 임계값 초기화
@@ -45,6 +50,8 @@ export const useDragScroll = <T extends HTMLElement>() => {
 
     // 마우스 휠 이벤트 추가
     const handleWheel = (e: WheelEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest('[data-vertical-scroll]')) return; // 안에서는 원래 세로 스크롤 그대로 둠
       e.preventDefault();
       // 휠 세로 이동량 계산 - 휠 내리면 오른쪽 스크롤, 휠 올리면 왼쪽 스크롤
       el.scrollLeft += e.deltaY;

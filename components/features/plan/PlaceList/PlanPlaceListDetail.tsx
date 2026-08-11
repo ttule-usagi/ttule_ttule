@@ -2,6 +2,8 @@ import { Icon } from '@/components/common/Icon';
 import PlanPlaceItem from '@/components/features/plan/PlaceList/PlanPlaceListDetailItem';
 import { useGetPlaceListPlaces } from '@/hooks/place-list/useGetPlaceListPlaces';
 
+import { DraggablePlaceListItem } from './DraggablePlaceListItem';
+
 interface PlanPlaceListDetailProps {
   listId: string;
   title: string;
@@ -9,7 +11,7 @@ interface PlanPlaceListDetailProps {
   onBack: () => void;
 }
 
-export default function PlanPlaceListDetail({ listId, title, planId, onBack }: PlanPlaceListDetailProps) {
+export default function PlanPlaceListDetail({ listId, title, onBack }: PlanPlaceListDetailProps) {
   const { data: places } = useGetPlaceListPlaces({ listId, sortBy: 'created_desc' });
 
   return (
@@ -34,11 +36,15 @@ export default function PlanPlaceListDetail({ listId, title, planId, onBack }: P
         </div>
       ) : (
         places.map((place) => (
-          <PlanPlaceItem
+          <DraggablePlaceListItem
             key={place.id}
             place={place}
-            planId={planId}
-          />
+          >
+            <PlanPlaceItem
+              key={place.id}
+              place={place}
+            />
+          </DraggablePlaceListItem>
         ))
       )}
     </div>

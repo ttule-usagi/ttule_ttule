@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 
 import ForbiddenRedirect from '@/components/features/invite/ForbiddenRedirect';
 import InviteEditorHandler from '@/components/features/invite/InviteEditorHandler';
+import OverviewContainer from '@/components/features/plan/plan-detail/OverviewContainer';
 import PlanDetailContainer from '@/components/features/plan/plan-detail/PlanDetailContainer';
 import { planDetailQueryOptions } from '@/hooks/plan/useGetPlanDetail';
 import { getPlanDetail } from '@/lib/actions/api/plan';
@@ -16,10 +17,10 @@ export default async function PlanDetail({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ invite_token?: string }>;
+  searchParams: Promise<{ invite_token?: string; view?: string }>;
 }) {
   const { id } = await params;
-  const { invite_token: inviteToken } = await searchParams;
+  const { invite_token: inviteToken, view } = await searchParams;
 
   const queryClient = getSharedQueryClient();
   const session = await auth();
@@ -50,10 +51,17 @@ export default async function PlanDetail({
       <Suspense fallback={null}>
         <InviteEditorHandler hasInviteToken={!!inviteToken} />
       </Suspense>
-      <PlanDetailContainer
-        planId={id}
-        hasSession={!!session}
-      />
+      {view === 'overview' ? (
+        <OverviewContainer
+          planId={id}
+          hasSession={!!session}
+        />
+      ) : (
+        <PlanDetailContainer
+          planId={id}
+          hasSession={!!session}
+        />
+      )}
     </>
   );
 }

@@ -3,6 +3,7 @@
 import { supabaseUser } from '@/lib/utils/supabase';
 import type { CorePlaceDetail } from '@/types/corePlace';
 import { ActionResult, SQLSTATE_TO_RPC_ERROR } from '@/types/errors';
+import { Place } from '@/types/placeList';
 import { PlanItem, PlanTransitMode } from '@/types/plan';
 
 import { getRouteDistance } from '../utils/googleRoutes';
@@ -58,31 +59,24 @@ export const duplicatePlanItem = async (item: PlanItem): Promise<ActionResult<st
 };
 
 // 일정 추가 + transit 계산
-export const addPlanItemWithTransit = async ({
-  scheduleId,
-  placeDetail,
-  transitMode = 'transit',
-}: {
+// 1. 공통 로직 — 원시 필드만 받음
+interface InsertPlanItemParams {
   scheduleId: string;
-  placeDetail: CorePlaceDetail;
+  corePlaceId: string;
+  thumbnail: string | null;
+  order?: number;
   transitMode?: PlanTransitMode;
-}): Promise<ActionResult<string>> => {
-  const { place, images } = placeDetail;
-  const mainImage = images.find((img) => img.isMain) ?? images[0];
-  const placeName = place.koreanName ?? place.originalName ?? place.englishName;
+}
 
+const insertPlanItemWithTransit = async (params: InsertPlanItemParams): Promise<ActionResult<string>> => {
+  const { scheduleId, corePlaceId, thumbnail, order, transitMode = 'transit' } = params;
   const supabase = await supabaseUser();
 
-  // 1. 아이템 추가 + 이전 아이템 정보 반환
   const { data, error } = await supabase.rpc('add_plan_item', {
     p_schedule_id: scheduleId,
-    p_place_id: place.id,
-    p_latitude: place.latitude,
-    p_longitude: place.longitude,
-    p_place_name: placeName,
-    p_place_category: place.category,
-    p_place_thumbnail: mainImage?.imgUrl ?? null,
-    p_google_place_id: place.googlePlaceId,
+    p_core_place_id: corePlaceId,
+    p_place_thumbnail: thumbnail,
+    p_order: order ?? null,
   });
 
   if (error) {
@@ -94,36 +88,98 @@ export const addPlanItemWithTransit = async ({
   const result = (
     data as {
       new_item_id: string;
+      current_latitude: number;
+      current_longitude: number;
+      current_google_place_id: string | null;
       prev_item_id: string | null;
       prev_latitude: number | null;
       prev_longitude: number | null;
       prev_google_place_id: string | null;
+      next_item_id: string | null;
+      next_latitude: number | null;
+      next_longitude: number | null;
+      next_google_place_id: string | null;
     }[]
   )[0];
 
-  // 2. 이전 장소 아이템 기준 transit 계산
   if (result.prev_item_id && result.prev_latitude && result.prev_longitude) {
     const route = await getRouteDistance(
       { lat: result.prev_latitude, lng: result.prev_longitude, googlePlaceId: result.prev_google_place_id },
-      { lat: place.latitude, lng: place.longitude, googlePlaceId: place.googlePlaceId },
+      { lat: result.current_latitude, lng: result.current_longitude, googlePlaceId: result.current_google_place_id },
       transitMode,
     );
-
     if (route) {
-      const { error: transitError } = await supabase.rpc('update_plan_item_transit', {
+      await supabase.rpc('update_plan_item_transit', {
         p_item_id: result.prev_item_id,
         p_transit_time: route.durationMinutes,
         p_transit_distance: route.distanceMeters / 1000,
         p_transit_mode: transitMode,
       });
+    }
+  }
 
-      if (transitError) {
-        console.error('❌ transit 업데이트 실패 (아이템 추가는 성공):', transitError);
-      }
+  if (result.next_item_id && result.next_latitude && result.next_longitude) {
+    const route = await getRouteDistance(
+      { lat: result.current_latitude, lng: result.current_longitude, googlePlaceId: result.current_google_place_id },
+      { lat: result.next_latitude, lng: result.next_longitude, googlePlaceId: result.next_google_place_id },
+      transitMode,
+    );
+    if (route) {
+      await supabase.rpc('update_plan_item_transit', {
+        p_item_id: result.new_item_id,
+        p_transit_time: route.durationMinutes,
+        p_transit_distance: route.distanceMeters / 1000,
+        p_transit_mode: transitMode,
+      });
     }
   }
 
   return { success: true, data: result.new_item_id };
+};
+
+// 2. 기존 — CorePlaceDetail용 (검색 결과에서 추가)
+export const addPlanItemWithTransit = async ({
+  scheduleId,
+  placeDetail,
+  order,
+  transitMode = 'transit',
+}: {
+  scheduleId: string;
+  placeDetail: CorePlaceDetail;
+  order?: number;
+  transitMode?: PlanTransitMode;
+}): Promise<ActionResult<string>> => {
+  const { place, images } = placeDetail;
+  const mainImage = images.find((img) => img.isMain) ?? images[0];
+
+  return insertPlanItemWithTransit({
+    scheduleId,
+    corePlaceId: place.id,
+    thumbnail: mainImage?.imgUrl ?? null,
+    order,
+    transitMode,
+  });
+};
+
+// 3. 신규 — Place(장소 리스트 아이템)용, 드래그로 추가할 때 사용
+export const addPlanItemFromPlaceListItem = async ({
+  scheduleId,
+  place,
+  order,
+  transitMode = 'transit',
+}: {
+  scheduleId: string;
+  place: Place;
+  order?: number;
+  transitMode?: PlanTransitMode;
+}): Promise<ActionResult<string>> => {
+  return insertPlanItemWithTransit({
+    scheduleId,
+    corePlaceId: place.corePlaceId,
+    thumbnail: place.thumbnail,
+    order,
+    transitMode,
+  });
 };
 
 // 일정 삭제 + 이전 장소 && 이후 장소가 있을 경우 transit 재계산

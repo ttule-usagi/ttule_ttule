@@ -171,7 +171,7 @@ export default function PanelHeader({
               <div className='flex gap-3 items-center'>
                 <button
                   onClick={onStartEdit}
-                  className='text-white text-typo-base'
+                  className='text-white text-typo-base cursor-pointer'
                 >
                   편집
                 </button>

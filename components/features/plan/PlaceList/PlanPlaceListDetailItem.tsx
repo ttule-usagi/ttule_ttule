@@ -1,18 +1,18 @@
 'use client';
 
-import { useState } from 'react';
-import { Place } from '@/types/placeList';
 import Image from 'next/image';
-import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
+import { useState } from 'react';
+
 import AddToScheduleModal from '@/components/features/place/save/ScheduleModal';
 import { useGetCorePlace } from '@/hooks/place/useGetCorePlace';
+import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
+import { Place } from '@/types/placeList';
 
 interface PlanPlaceItemProps {
   place: Place;
-  planId: string;
 }
 
-export default function PlanPlaceItem({ place, planId }: PlanPlaceItemProps) {
+export default function PlanPlaceItem({ place }: PlanPlaceItemProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: placeDetail } = useGetCorePlace(place.corePlaceId);
 

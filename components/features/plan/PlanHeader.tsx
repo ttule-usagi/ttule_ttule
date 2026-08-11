@@ -11,6 +11,7 @@ import { createViewLink } from '@/lib/utils/invite/createViewLink';
 import { Role } from '@/types/shareOption';
 
 import LobbyPlanActionMenu from './lobby/LobbyPlanActionMenu';
+import PlanViewToggle from './plan-detail/panelItemDetail/PlanViewToggle';
 
 interface PlanHeaderProps {
   planId: string;
@@ -49,15 +50,7 @@ export default function PlanHeader({ planId, hasSession }: PlanHeaderProps) {
             />
           </div>
         </Link>
-        <Link href={`/plan/${planId}/edit`}>
-          <div className='flex items-center justify-center size-12 rounded-lg bg-neon-green shadow-lg p-2'>
-            <Icon
-              name='Columns'
-              size={32}
-              className='text-brand-gray-700'
-            />
-          </div>
-        </Link>
+        <PlanViewToggle planId={planId} />
       </div>
 
       {/* 계획 정보 카드 */}
