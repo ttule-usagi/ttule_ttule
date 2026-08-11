@@ -79,10 +79,15 @@ export function getErrorMessage(code: RpcErrorMessage, { action, subject }: { ac
 // 조회 함수에서 사용하는 에러 클래스
 export class RpcError extends Error {
   code?: string;
-  constructor(message: RpcErrorMessage, code?: string) {
+  detail?: string;
+  field?: string;
+
+  constructor(message: RpcErrorMessage, code?: string, detail?: string, field?: string) {
     super(message);
     this.name = 'RpcError';
     this.code = code;
+    this.detail = detail;
+    this.field = field;
     Object.setPrototypeOf(this, RpcError.prototype);
   }
 }
@@ -90,7 +95,7 @@ export class RpcError extends Error {
 // 서버 액션('use server')에서 사용하는 반환 타입
 export type ActionResult<T> =
   | { success: true; data: T }
-  | { success: false; error: { message: RpcErrorMessage; code?: string } };
+  | { success: false; error: { message: RpcErrorMessage; code?: string; detail?: string; field?: string } };
 
 // 타입가드
 export function isPostgresError(error: unknown): error is { code: string; message: string } {
