@@ -188,7 +188,7 @@ export const withdraw = async (): Promise<ActionResult<null>> => {
   const cookieStore = await cookies();
   cookieStore.delete('is_new_google_user');
 
-  await signOut({ redirectTo: '/' });
+  await signOut({ redirect: false });
 
   return { success: true, data: null };
 };

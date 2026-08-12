@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 import { withdraw } from '@/lib/actions/auth';
 import { useModalStore } from '@/lib/store/modalStore';
@@ -6,6 +7,7 @@ import { RpcError } from '@/types/errors';
 
 export const useWithdraw = () => {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const { open } = useModalStore();
 
   return useMutation({
@@ -20,6 +22,7 @@ export const useWithdraw = () => {
     },
     onSuccess: () => {
       queryClient.clear();
+      router.replace('/');
     },
     onError: () => {
       // TODO: 상세한 탈퇴 메세지는 추후 논의(DB 구조 변경 필요)
