@@ -18,9 +18,6 @@ export default function PlanInfoContent({ id }: Props) {
   const { data } = useGetPlanDetail(id);
   const [selectOpen, setSelectOpen] = useState(false);
 
-  const { data: countries } = useCountries(selectOpen);
-  const { data: destinations } = useDestinations(selectOpen);
-
   const matchedDestination = DESTINATIONS.find((d) => d.city === data.plan.destination);
   const destinationValue = matchedDestination ? `${matchedDestination.countryCode}:${matchedDestination.city}` : '';
 
@@ -32,6 +29,9 @@ export default function PlanInfoContent({ id }: Props) {
     endDate: data.plan.arrivalDate ?? '',
     totalDays: data.plan.totalDays,
   });
+
+  const { data: countries } = useCountries(selectOpen || !!state.destination);
+  const { data: destinations } = useDestinations(selectOpen || !!state.destination);
 
   const groups = useMemo(() => {
     if (!countries || !destinations) return [];
