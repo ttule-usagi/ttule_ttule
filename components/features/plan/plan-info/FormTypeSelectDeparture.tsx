@@ -25,7 +25,7 @@ interface Props {
   onOpenChange?: (open: boolean) => void;
 }
 
-export default function FormTypeSelect({
+export default function FormTypeSelectDeparture({
   id,
   label,
   placeholder = '검색해주세요',
