@@ -1,16 +1,19 @@
 'use client';
 
-import { setGoogleAccount } from '@/lib/actions/auth';
-import { getProfileImageUrl } from '@/lib/actions/getProfileImageUrl';
 import { useRouter } from 'next/navigation';
+import { User } from 'next-auth';
 import { useState } from 'react';
-import NotePage from '../common/NotePage';
-import ProfileImageUploader from './ProfileImageUploader';
+
+import { useConfirmGoogleSignup } from '@/hooks/user/useConfirmGoogleSignup';
+import { useModalStore } from '@/lib/store/modalStore';
+import { validateUsername } from '@/lib/utils/validate';
+
 import CancelButton from '../common/CancelButton';
 import ConfirmButton from '../common/ConfirmButton';
-import { User } from 'next-auth';
+import NotePage from '../common/NotePage';
 import WithoutLineInput from '../common/WithoutLineInput';
-import { useModalStore } from '@/lib/store/modalStore';
+
+import ProfileImageUploader from './ProfileImageUploader';
 
 export default function SignUpWithGoogle({ user }: { user: User }) {
   const router = useRouter();
@@ -18,32 +21,30 @@ export default function SignUpWithGoogle({ user }: { user: User }) {
 
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [form, setForm] = useState({ nickname: user.name ?? '', profileImage: user.image ?? '' });
-  const [errorText, setErrorText] = useState('');
+  const { confirmGoogleSignup, isPending, fieldError, setFieldError } = useConfirmGoogleSignup();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.id]: e.target.value });
   };
 
-  const handleConfirm = async () => {
+  const handleConfirm = () => {
+    // 먼저 유효성 검사 후 확인모달 노출
     if (!form.nickname.trim()) {
-      setErrorText('닉네임을 입력해 주세요.');
+      setFieldError({ field: 'username', message: '닉네임을 입력해 주세요.' });
+      return;
+    }
+    if (!validateUsername(form.nickname)) {
+      setFieldError({ field: 'username', message: '닉네임은 공백 없이 2-20자의 한글, 영문, 숫자만 사용 가능합니다.' });
       return;
     }
 
-    try {
-      const finalImageUrl = profileImage ? await getProfileImageUrl(profileImage) : form.profileImage;
-      await setGoogleAccount(form.nickname, finalImageUrl);
-
-      router.push('/lobby');
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error(error);
-        setErrorText(error.message || '오류가 발생했습니다.');
-      } else {
-        console.error('알 수 없는 오류:', error);
-        setErrorText('알 수 없는 오류가 발생했습니다.');
-      }
-    }
+    confirmGoogleSignup({
+      email: user.email ?? '',
+      username: form.nickname,
+      newProfileImage: profileImage,
+      currentProfileImage: form.profileImage ?? '',
+      onSuccess: () => router.replace('/lobby'),
+    });
   };
 
   return (
@@ -62,10 +63,10 @@ export default function SignUpWithGoogle({ user }: { user: User }) {
         <WithoutLineInput
           id='nickname'
           label='닉네임'
-          placeholder='닉네임을 입력해 주세요'
+          placeholder='뚤레 닉네임 입력'
           value={form.nickname}
           onChange={handleChange}
-          errorText={errorText}
+          errorText={fieldError?.field === 'username' ? fieldError.message : ''}
         />
       </div>
 
@@ -73,10 +74,12 @@ export default function SignUpWithGoogle({ user }: { user: User }) {
         <CancelButton
           text='취소'
           onClick={() => open({ type: 'cancelSignup' })}
+          disabled={isPending}
         />
         <ConfirmButton
-          text='확인'
+          text={isPending ? '가입중...' : '확인'}
           onClick={handleConfirm}
+          disabled={isPending}
         />
       </div>
     </NotePage>
