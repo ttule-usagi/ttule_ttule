@@ -1,6 +1,5 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
-import NotePage from '@/components/common/NotePage';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import EditInfoForm from '@/components/features/user/EditInfoForm';
 import { prefetchUserInfo } from '@/lib/actions/api/prefetch/prefetchUserInfo';
@@ -12,11 +11,9 @@ export default async function MyPage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <NotePage title='내 정보'>
-        <QueryBoundary subject='내 정보'>
-          <EditInfoForm />
-        </QueryBoundary>
-      </NotePage>
+      <QueryBoundary subject='내 정보'>
+        <EditInfoForm />
+      </QueryBoundary>
     </HydrationBoundary>
   );
 }
