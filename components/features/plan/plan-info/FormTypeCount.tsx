@@ -41,17 +41,17 @@ export default function FormTypeCount({ id, label, value, onChange, min = 1, max
           onClick={handleDecrease}
           disabled={min !== undefined && value <= min}
           className='w-9 h-9 flex flex-1 items-center justify-center rounded-lg 
-          bg-brand-blue-100 text-brand-gray-700 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:bg-brand-blue-50'
+          bg-brand-gray-100 text-brand-gray-700 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:bg-brand-blue-100'
         >
           <Icon
             name='Minus'
             size={20}
           />
         </button>
-        <div className='flex flex-1 items-center justify-center bg-brand-blue-50 text-brand-gray-600 rounded-lg h-9'>
+        <div className='flex flex-5 items-center justify-center bg-brand-gray-0 border border-brand-gray-200 text-brand-gray-600 rounded-lg h-9'>
           <span
             id={id}
-            className='text-center text-typo-description'
+            className='text-center text-typo-base text-brand-gray-500'
           >
             {value}
           </span>
@@ -61,7 +61,7 @@ export default function FormTypeCount({ id, label, value, onChange, min = 1, max
           onClick={handleIncrease}
           disabled={max !== undefined && value >= max}
           className='w-9 h-9 flex flex-1 items-center justify-center rounded-lg 
-          bg-brand-blue-100 text-brand-gray-700 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:bg-brand-blue-50'
+          bg-brand-gray-100 text-brand-gray-700 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:bg-brand-blue-100'
         >
           <Icon
             name='Plus'

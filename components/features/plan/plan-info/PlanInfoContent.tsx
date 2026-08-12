@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { useGetPlanDetail } from '@/hooks/plan/useGetPlanDetail';
 import { useUpdatePlanInfoForm } from '@/hooks/plan/useUpdatePlanInfoForm';
 import { useCountries, useDestinations } from '@/hooks/useStaticData';
+import { DESTINATIONS } from '@/lib/utils/destinations';
 
 import FormTypeText from '../../new-place/form-inputs/FormTypeText';
 
@@ -15,19 +16,22 @@ interface Props {
 
 export default function PlanInfoContent({ id }: Props) {
   const { data } = useGetPlanDetail(id);
+  const [selectOpen, setSelectOpen] = useState(false);
+
+  const { data: countries } = useCountries(selectOpen);
+  const { data: destinations } = useDestinations(selectOpen);
+
+  const matchedDestination = DESTINATIONS.find((d) => d.city === data.plan.destination);
+  const destinationValue = matchedDestination ? `${matchedDestination.countryCode}:${matchedDestination.city}` : '';
 
   const { state, dispatch } = useUpdatePlanInfoForm({
     planName: data.plan.title,
-    destination: data.plan.destination,
+    destination: destinationValue,
     scheduleMode: data.plan.isDateUndecided ? 'undecided' : 'date',
     startDate: data.plan.departureDate ?? '',
     endDate: data.plan.arrivalDate ?? '',
     totalDays: data.plan.totalDays,
   });
-  const [selectOpen, setSelectOpen] = useState(false);
-
-  const { data: countries } = useCountries(selectOpen);
-  const { data: destinations } = useDestinations(selectOpen);
 
   const groups = useMemo(() => {
     if (!countries || !destinations) return [];
@@ -54,7 +58,6 @@ export default function PlanInfoContent({ id }: Props) {
         placeholder='계획 이름을 입력해주세요'
         value={state.planName}
         onChange={(value) => dispatch({ type: 'SET_PLAN_NAME', value })}
-        required
       />
       <FormTypeSelectDeparture
         id='destination'

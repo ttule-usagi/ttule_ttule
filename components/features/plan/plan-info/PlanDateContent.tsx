@@ -1,5 +1,6 @@
 'use client';
 
+import { Icon } from '@/components/common/Icon';
 import { ScheduleMode } from '@/hooks/new-plan/useNewPlanForm';
 
 import FormTypeCalendar from './FormTypeCalendar';
@@ -31,12 +32,13 @@ export default function PlanDateContent({
   onTotalDaysChange,
 }: Props) {
   return (
-    <div className='flex flex-col gap-2 self-end'>
-      <div className='flex gap-2'>
+    <div className='flex flex-col gap-2 self-end mt-10'>
+      <h4 className='text-typo-base text-brand-gray-600 mb-1'>여행 일정</h4>
+      <div className='flex gap-2 mb-1'>
         <button
           type='button'
           onClick={() => onModeChange('date')}
-          className={`rounded-lg px-2 py-2 text-typo-description border ${
+          className={`rounded-sm px-2 py-2 text-typo-description border ${
             mode === 'date'
               ? 'bg-brand-gray-0 text-brand-blue-500 border-brand-blue-500'
               : 'bg-brand-gray-50 text-brand-gray-400 border-brand-gray-300'
@@ -47,10 +49,10 @@ export default function PlanDateContent({
         <button
           type='button'
           onClick={() => onModeChange('undecided')}
-          className={`rounded-lg px-2 py-2 text-typo-description border ${
+          className={`rounded-sm px-2 py-2 text-typo-description border ${
             mode === 'undecided'
               ? 'bg-brand-gray-0 text-brand-blue-500 border-brand-blue-500'
-              : 'bg-brand-gray-100 text-brand-gray-400 border-brand-gray-300'
+              : 'bg-brand-gray-50 text-brand-gray-400 border-brand-gray-300'
           }`}
         >
           일정미정
@@ -59,29 +61,39 @@ export default function PlanDateContent({
 
       {mode === 'date' ? (
         <>
-          <FormTypeCalendar
-            id='start_date'
-            label='출발날짜'
-            value={startDate}
-            onChange={onStartDateChange}
-            min={getToday()}
-          />
-          <FormTypeCalendar
-            id='end_date'
-            label='도착날짜'
-            value={endDate}
-            onChange={onEndDateChange}
-            min={startDate || getToday()}
-          />
+          <div className='flex flex-row gap-2 items-center'>
+            <FormTypeCalendar
+              id='start_date'
+              value={startDate}
+              onChange={onStartDateChange}
+              min={getToday()}
+            />{' '}
+            <Icon
+              name='ArrowRightCirle'
+              size={24}
+              className='shrink-0'
+            />
+            <FormTypeCalendar
+              id='end_date'
+              value={endDate}
+              onChange={onEndDateChange}
+              min={startDate || getToday()}
+            />
+          </div>
         </>
       ) : (
         <>
-          <FormTypeCount
-            id='total_days'
-            value={totalDays}
-            onChange={onTotalDaysChange}
-          />
-          <p>여행 예정이에요.</p>
+          <div
+            className='flex flex-row items-center gap-2
+        '
+          >
+            <FormTypeCount
+              id='total_days'
+              value={totalDays}
+              onChange={onTotalDaysChange}
+            />
+            <p className='shrink-0 text-brand-gray-500'>일 일정</p>
+          </div>
         </>
       )}
     </div>

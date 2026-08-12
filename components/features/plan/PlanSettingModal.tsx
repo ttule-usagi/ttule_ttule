@@ -46,7 +46,9 @@ export default function PlanSettingModal({ id, onClose }: { id: string; onClose:
         </nav>
         {tab === 'info' && (
           <div className='flex-1 min-h-0 overflow-y-auto'>
-            <PlanInfoContent id={id} />
+            <QueryBoundary>
+              <PlanInfoContent id={id} />
+            </QueryBoundary>
           </div>
         )}
         {tab === 'shareOption' && (
