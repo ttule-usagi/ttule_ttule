@@ -20,7 +20,7 @@ export default function PlanSettingModal({ id, onClose }: { id: string; onClose:
       }}
     >
       <div
-        className='flex flex-col bg-white rounded-lg relative pt-7 px-6 pb-6 min-h-100 h-187 max-h-[80vh] min-w-140'
+        className='relative flex flex-col bg-white rounded-lg relative pt-7 px-6 pb-6 min-h-100 h-187 max-h-[80vh] min-w-140'
         onClick={(e) => e.stopPropagation()}
       >
         <header className='flex justify-between items-center shrink-0 mb-4'>
@@ -47,7 +47,10 @@ export default function PlanSettingModal({ id, onClose }: { id: string; onClose:
         {tab === 'info' && (
           <div className='flex-1 min-h-0 overflow-y-auto'>
             <QueryBoundary>
-              <PlanInfoContent id={id} />
+              <PlanInfoContent
+                id={id}
+                onClose={onClose}
+              />
             </QueryBoundary>
           </div>
         )}

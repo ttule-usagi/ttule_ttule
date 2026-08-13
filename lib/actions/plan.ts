@@ -4,6 +4,7 @@ import { auth } from '@/lib/utils/auth';
 import { supabaseUser } from '@/lib/utils/supabase';
 import { ActionResult, isPostgresError, RpcErrorMessage, SQLSTATE_TO_RPC_ERROR } from '@/types/errors';
 
+// 새로운 계획 생성
 export async function createNewPlan(formData: {
   title: string;
   destination: string;
@@ -99,6 +100,38 @@ export async function deletePlan(planId: string): Promise<ActionResult<null>> {
     return { success: false, error: { message, code } };
   }
 }
+
+// 계획 정보 업데이트
+export const updatePlanInfo = async (params: {
+  planId: string;
+  title: string;
+  destination: string;
+  departureDate: string | null;
+  arrivalDate: string | null;
+  isDateUndecided: boolean;
+  totalDays: number;
+}): Promise<ActionResult<null>> => {
+  const supabase = await supabaseUser();
+  const { error } = await supabase.rpc('update_plan_info', {
+    p_plan_id: params.planId,
+    p_title: params.title,
+    p_destination: params.destination,
+    p_departure_date: params.departureDate,
+    p_arrival_date: params.arrivalDate,
+    p_is_date_undecided: params.isDateUndecided,
+    p_total_days: params.totalDays,
+  });
+
+  if (error) {
+    return {
+      success: false,
+      error: { message: SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR', code: error.code },
+    };
+  }
+  return { success: true, data: null };
+};
+
+// 일정표 기준 전체 일정 리셋
 export const clearScheduleItems = async (scheduleId: string): Promise<ActionResult<null>> => {
   const supabase = await supabaseUser();
   const { error } = await supabase.rpc('clear_schedule_items', { p_schedule_id: scheduleId });
@@ -111,6 +144,7 @@ export const clearScheduleItems = async (scheduleId: string): Promise<ActionResu
   return { success: true, data: null };
 };
 
+// 계획 일정표 삭제
 export const deletePlanSchedule = async (scheduleId: string): Promise<ActionResult<null>> => {
   const supabase = await supabaseUser();
   const { error } = await supabase.rpc('delete_plan_schedule', { p_schedule_id: scheduleId });
@@ -123,6 +157,7 @@ export const deletePlanSchedule = async (scheduleId: string): Promise<ActionResu
   return { success: true, data: null };
 };
 
+// 계획 일정표 날짜 옮김
 export const reorderPlanSchedule = async (scheduleId: string, newDayNumber: number): Promise<ActionResult<null>> => {
   const supabase = await supabaseUser();
   const { error } = await supabase.rpc('reorder_plan_schedule', {
@@ -139,6 +174,7 @@ export const reorderPlanSchedule = async (scheduleId: string, newDayNumber: numb
   return { success: true, data: null };
 };
 
+// 계획 일정표 복제
 export const duplicatePlan = async (planId: string): Promise<ActionResult<{ id: string }>> => {
   const supabase = await supabaseUser();
   const { error, data } = await supabase.rpc('duplicate_plan', { p_plan_id: planId });
