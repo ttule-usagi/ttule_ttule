@@ -84,14 +84,14 @@ export default function PlanInfoContent({ id }: Props) {
             onTotalDaysChange={(value) => dispatch({ type: 'SET_TOTAL_DAYS', value })}
           />{' '}
         </form>
-        <div className='absolute left-0 bottom-0 w-full px-6 py-5 bg-brand-gray-200 rounded-b-lg'>
+        <div className='absolute left-0 bottom-0 w-full px-6 py-5 bg-brand-gray-200 rounded-b-lg flex flex-row justify-end gap-3'>
           {error && (
-            <p
+            <span
               role='alert'
-              className='absolute right-5 bottom-22 text-red-500 text-typo-description text-right mb-2'
+              className='text-red-500 text-typo-description text-right'
             >
               {error}
-            </p>
+            </span>
           )}
           <button
             className='float-right py-3 px-9 typo-text-base-bold text-white bg-brand-blue-700 rounded-sm hover:bg-brand-blue-800 cursor-pointer'
