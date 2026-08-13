@@ -1,9 +1,12 @@
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
+
 import { Icon } from '@/components/common/Icon';
 import ShareOptionContent from '@/components/common/ShareOption/ShareOptionContent';
 import TabButton from '@/components/common/TabButton';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
-import { useState } from 'react';
-import { createPortal } from 'react-dom';
+
+import PlanInfoContent from './plan-info/PlanInfoContent';
 
 export default function PlanSettingModal({ id, onClose }: { id: string; onClose: () => void }) {
   const [tab, setTab] = useState<'info' | 'shareOption'>('info');
@@ -17,7 +20,7 @@ export default function PlanSettingModal({ id, onClose }: { id: string; onClose:
       }}
     >
       <div
-        className='flex flex-col bg-white rounded-lg relative pt-7 px-6 pb-6 min-h-100 h-187 max-h-[80vh] min-w-140'
+        className='relative flex flex-col bg-white rounded-lg relative pt-7 px-6 pb-6 min-h-100 h-187 max-h-[80vh] min-w-140'
         onClick={(e) => e.stopPropagation()}
       >
         <header className='flex justify-between items-center shrink-0 mb-4'>
@@ -41,7 +44,13 @@ export default function PlanSettingModal({ id, onClose }: { id: string; onClose:
             activated={tab === 'shareOption'}
           />
         </nav>
-        {tab === 'info' && <div className='flex-1 min-h-0 overflow-y-auto'>계획 정보 탭</div>}
+        {tab === 'info' && (
+          <div className='flex-1 min-h-0 overflow-y-auto pb-11 mb-10'>
+            <QueryBoundary>
+              <PlanInfoContent id={id} />
+            </QueryBoundary>
+          </div>
+        )}
         {tab === 'shareOption' && (
           <QueryBoundary>
             <ShareOptionContent
