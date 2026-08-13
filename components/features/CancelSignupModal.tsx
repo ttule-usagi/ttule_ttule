@@ -1,11 +1,13 @@
 'use client';
 
+import { usePathname, useRouter } from 'next/navigation';
+
+import { withdraw } from '@/lib/actions/auth';
+import { useModalStore } from '@/lib/store/modalStore';
+
 import CancelButton from '../common/CancelButton';
 import ConfirmButton from '../common/ConfirmButton';
 import ModalBox from '../common/Modal/ModalBox';
-import { useModalStore } from '@/lib/store/modalStore';
-import { usePathname, useRouter } from 'next/navigation';
-import { withdraw } from '@/lib/actions/auth';
 
 export default function CancelSignupModal() {
   const { close } = useModalStore();
@@ -16,6 +18,7 @@ export default function CancelSignupModal() {
     if (pathname.includes('google')) {
       try {
         await withdraw();
+        router.replace('/');
       } catch (error: unknown) {
         if (error instanceof Error) {
           console.error(error);
@@ -24,7 +27,7 @@ export default function CancelSignupModal() {
         }
       }
     } else {
-      router.push('/');
+      router.replace('/');
     }
     close();
   };

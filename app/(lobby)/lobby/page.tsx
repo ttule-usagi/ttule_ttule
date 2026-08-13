@@ -3,11 +3,12 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import LobbyPlanSection from '@/components/features/plan/lobby/LobbyPlanSection';
 import { prefetchLobbyPlanList } from '@/lib/actions/api/prefetch/prefetchLobbyPlanList';
+import { prefetchUserInfo } from '@/lib/actions/api/prefetch/prefetchUserInfo';
 import { getQueryClient } from '@/lib/utils/getQueryClient';
 
 export default async function Page() {
   const queryClient = getQueryClient();
-  await prefetchLobbyPlanList(queryClient);
+  await Promise.all([prefetchLobbyPlanList(queryClient), prefetchUserInfo(queryClient)]);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

@@ -1,9 +1,8 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
-
 import { useGetPlanStatus } from '@/hooks/plan/useGetPlanStatus';
 import { useGetAllUserPlans } from '@/hooks/plan/useGetUserPlans';
+import { useGetUserInfo } from '@/hooks/user/useGetUserInfo';
 
 import JoinPlanButton from '../../JoinPlanButton';
 
@@ -13,7 +12,7 @@ import SectionHeader from './SectionHeader';
 
 export default function LobbyPlanSection() {
   const { data: plans } = useGetAllUserPlans();
-  const session = useSession();
+  const { data: user } = useGetUserInfo();
 
   // 여행 상태에 따라 분류
   const { currentPlans, upcomingPlans, lastPlans } = useGetPlanStatus(plans);
@@ -22,9 +21,7 @@ export default function LobbyPlanSection() {
     <>
       <header className='flex items-center justify-between mt-10'>
         <div className='flex flex-col gap-0'>
-          <p className='text-typo-big-title font-semibold text-brand-blue-700'>
-            환영해요 {session.data?.user.username}님!
-          </p>
+          <p className='text-typo-big-title font-semibold text-brand-blue-700'>환영해요 {user.username}님!</p>
           <p className='text-typo-sub-title font-medium text-brand-gray-400'>
             {upcomingPlans.length}개의 다가오는 여행이 있어요
           </p>
