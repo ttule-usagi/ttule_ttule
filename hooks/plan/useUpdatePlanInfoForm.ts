@@ -73,12 +73,26 @@ function reducer(state: UpdatePlanInfoState, action: UpdatePlanInfoAction): Upda
 }
 
 const validate = (state: UpdatePlanInfoState): string | null => {
+  const start = new Date(state.endDate);
+  const end = new Date(state.startDate);
+
   if (!state.planName) {
     return '계획 이름을 입력해주세요.';
   }
   if (!state.destination) {
     return '목적지를 선택해주세요.';
   }
+
+  if (state.scheduleMode === 'date') {
+    if (!state.endDate || !state.startDate) {
+      return '출발 혹은 도착 날짜를 지정해주세요';
+    }
+  }
+
+  if (start < end) {
+    return '도착일자는 시작일자보다 앞설 수 없습니다.';
+  }
+
   return null;
 };
 
@@ -139,7 +153,7 @@ export function useUpdatePlanInfoForm(planId: string, initial?: Partial<UpdatePl
       open({
         type: 'confirmAction',
         props: {
-          description: `여행 기간이 줄어들면 초과되는 일차의 일정이 모두 삭제돼요.\n계속하시겠어요?`,
+          description: `여행 기간이 줄어들면 \n 초과되는 일차의 일정이 모두 삭제돼요.\n계속하시겠어요?`,
           confirmButtonText: '계속하기',
           onConfirm: submitToServer,
         },

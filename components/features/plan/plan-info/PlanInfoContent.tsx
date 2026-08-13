@@ -53,53 +53,55 @@ export default function PlanInfoContent({ id }: Props) {
   return (
     <>
       {' '}
-      <form
-        id='UpdatePlanInfoForm'
-        onSubmit={(e) => e.preventDefault()}
-      >
-        <FormTypeText
-          id='plan_name'
-          label='계획 이름'
-          placeholder='계획 이름을 입력해주세요'
-          value={state.planName}
-          onChange={(value) => dispatch({ type: 'SET_PLAN_NAME', value })}
-        />
-        <FormTypeSelectDeparture
-          id='destination'
-          placeholder='여행할 지역을 검색해주세요'
-          value={state.destination}
-          onChange={(value) => dispatch({ type: 'SET_DESTINATION', value })}
-          groups={groups}
-          onOpenChange={setSelectOpen}
-        />
-        <PlanDateContent
-          mode={state.scheduleMode}
-          onModeChange={(value) => dispatch({ type: 'SET_SCHEDULE_MODE', value })}
-          startDate={state.startDate}
-          endDate={state.endDate}
-          onStartDateChange={(value) => dispatch({ type: 'SET_START_DATE', value })}
-          onEndDateChange={(value) => dispatch({ type: 'SET_END_DATE', value })}
-          totalDays={state.totalDays}
-          onTotalDaysChange={(value) => dispatch({ type: 'SET_TOTAL_DAYS', value })}
-        />{' '}
-      </form>
-      <div className='absolute left-0 bottom-0 w-full px-6 py-5 bg-brand-gray-200 rounded-b-lg'>
-        {error && (
-          <p
-            role='alert'
-            className='absolute right-5 bottom-22 text-red-500 text-typo-description text-right mb-2'
-          >
-            {error}
-          </p>
-        )}
-        <button
-          className='float-right py-3 px-9 typo-text-base-bold text-white bg-brand-blue-700 rounded-sm hover:bg-brand-blue-800 cursor-pointer'
-          form='UpdatePlanInfoForm'
-          type='button'
-          onClick={handleSubmit}
+      <div>
+        <form
+          id='UpdatePlanInfoForm'
+          onSubmit={(e) => e.preventDefault()}
         >
-          {isPending ? '저장 중...' : '저장하기'}
-        </button>
+          <FormTypeText
+            id='plan_name'
+            label='계획 이름'
+            placeholder='계획 이름을 입력해주세요'
+            value={state.planName}
+            onChange={(value) => dispatch({ type: 'SET_PLAN_NAME', value })}
+          />
+          <FormTypeSelectDeparture
+            id='destination'
+            placeholder='여행할 지역을 검색해주세요'
+            value={state.destination}
+            onChange={(value) => dispatch({ type: 'SET_DESTINATION', value })}
+            groups={groups}
+            onOpenChange={setSelectOpen}
+          />
+          <PlanDateContent
+            mode={state.scheduleMode}
+            onModeChange={(value) => dispatch({ type: 'SET_SCHEDULE_MODE', value })}
+            startDate={state.startDate}
+            endDate={state.endDate}
+            onStartDateChange={(value) => dispatch({ type: 'SET_START_DATE', value })}
+            onEndDateChange={(value) => dispatch({ type: 'SET_END_DATE', value })}
+            totalDays={state.totalDays}
+            onTotalDaysChange={(value) => dispatch({ type: 'SET_TOTAL_DAYS', value })}
+          />{' '}
+        </form>
+        <div className='absolute left-0 bottom-0 w-full px-6 py-5 bg-brand-gray-200 rounded-b-lg'>
+          {error && (
+            <p
+              role='alert'
+              className='absolute right-5 bottom-22 text-red-500 text-typo-description text-right mb-2'
+            >
+              {error}
+            </p>
+          )}
+          <button
+            className='float-right py-3 px-9 typo-text-base-bold text-white bg-brand-blue-700 rounded-sm hover:bg-brand-blue-800 cursor-pointer'
+            form='UpdatePlanInfoForm'
+            type='button'
+            onClick={handleSubmit}
+          >
+            {isPending ? '저장 중...' : '저장하기'}
+          </button>
+        </div>
       </div>
     </>
   );
