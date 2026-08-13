@@ -1,7 +1,7 @@
 import { FormInputProps } from '@/types/input';
 
 interface WithoutLineInputProps extends FormInputProps {
-  errorText: string;
+  errorText?: string;
 }
 
 export default function WithoutLineInput({
