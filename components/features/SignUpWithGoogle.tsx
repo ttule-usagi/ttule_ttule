@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 import { useConfirmGoogleSignup } from '@/hooks/user/useConfirmGoogleSignup';
 import { useModalStore } from '@/lib/store/modalStore';
-import { validateUsername } from '@/lib/utils/validate';
+import { getUsernameErrorMessage, validateUsername } from '@/lib/utils/validate';
 
 import CancelButton from '../common/CancelButton';
 import ConfirmButton from '../common/ConfirmButton';
@@ -34,7 +34,10 @@ export default function SignUpWithGoogle({ user }: { user: User }) {
       return;
     }
     if (!validateUsername(form.nickname)) {
-      setFieldError({ field: 'username', message: '닉네임은 공백 없이 2-20자의 한글, 영문, 숫자만 사용 가능합니다.' });
+      setFieldError({
+        field: 'username',
+        message: getUsernameErrorMessage(form.nickname) ?? '닉네임 형식이 올바르지 않습니다.',
+      });
       return;
     }
 
@@ -58,7 +61,7 @@ export default function SignUpWithGoogle({ user }: { user: User }) {
         </div>
 
         <div className='w-full flex gap-3 text-typo-base font-light justify-self-stretch items-start'>
-          <span className='text-brand-blue-700 w-16'>이메일:</span>
+          <span className='text-brand-blue-700 shrink-0'>이메일:</span>
           <p className='flex-1 min-w-0 max-h-6 text-brand-gray-400 truncate'>{user.email}</p>
         </div>
 
@@ -69,6 +72,7 @@ export default function SignUpWithGoogle({ user }: { user: User }) {
             placeholder='뚤레 닉네임 입력'
             value={form.nickname}
             onChange={handleChange}
+            maxLength={9}
           />
         </div>
         <p className='text-left text-typo-caption text-tag-red-text min-h-4.5 -mt-3 -mr-11'>{fieldError?.message}</p>

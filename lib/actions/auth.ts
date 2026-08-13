@@ -7,7 +7,7 @@ import { AuthError as NextAuthError } from 'next-auth';
 import { auth } from '@/lib/utils/auth';
 import { signIn, signOut } from '@/lib/utils/auth';
 import { supabaseAdmin } from '@/lib/utils/supabase';
-import { validateEmail, validatePassword, validateUsername } from '@/lib/utils/validate';
+import { getUsernameErrorMessage, validateEmail, validatePassword, validateUsername } from '@/lib/utils/validate';
 import { ActionResult, AuthError, SQLSTATE_TO_RPC_ERROR } from '@/types/errors';
 
 // 유저 닉네임 업데이트
@@ -37,7 +37,7 @@ export const setGoogleAccount = async (nickname: string, profileImage: string | 
       error: {
         message: 'VALIDATION_ERROR',
         field: 'username',
-        detail: '닉네임은 2-20자의 한글, 영문, 숫자만 사용 가능합니다.',
+        detail: getUsernameErrorMessage(nickname) ?? '닉네임 형식이 올바르지 않습니다.',
       },
     };
   }

@@ -95,7 +95,7 @@ export default function EditInfoForm() {
               <input
                 id='username'
                 type='text'
-                maxLength={20}
+                maxLength={9}
                 placeholder={'뚤레 닉네임 입력'}
                 value={userInfo.username}
                 onChange={(e) => setUserInfo((prev) => ({ ...prev, username: e.target.value }))}
