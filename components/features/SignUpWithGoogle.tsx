@@ -49,38 +49,42 @@ export default function SignUpWithGoogle({ user }: { user: User }) {
 
   return (
     <NotePage title='뚤레뚤레 가입하기'>
-      <ProfileImageUploader
-        onUploadImage={setProfileImage}
-        initialImageURL={form.profileImage}
-      />
-
-      <div className='flex flex-col gap-5 font-light text-typo-base mt-7.75'>
-        <div className='flex gap-3'>
-          <span className='text-brand-blue-700 w-16'>이메일:</span>
-          <span className='text-brand-gray-400'>{user.email}</span>
+      <div className='grid grid-cols-[16rem] grid-rows-[repeat(13,44px)] content-start h-full justify-center items-center relative'>
+        <div className='row-span-6 flex justify-center'>
+          <ProfileImageUploader
+            onUploadImage={setProfileImage}
+            initialImageURL={form.profileImage}
+          />
         </div>
 
-        <WithoutLineInput
-          id='nickname'
-          label='닉네임'
-          placeholder='뚤레 닉네임 입력'
-          value={form.nickname}
-          onChange={handleChange}
-          errorText={fieldError?.field === 'username' ? fieldError.message : ''}
-        />
-      </div>
+        <div className='w-full flex gap-3 text-typo-base font-light justify-self-stretch items-start'>
+          <span className='text-brand-blue-700 w-16'>이메일:</span>
+          <p className='flex-1 min-w-0 max-h-6 text-brand-gray-400 truncate'>{user.email}</p>
+        </div>
 
-      <div className='flex gap-4 mt-18.25'>
-        <CancelButton
-          text='취소'
-          onClick={() => open({ type: 'cancelSignup' })}
-          disabled={isPending}
-        />
-        <ConfirmButton
-          text={isPending ? '가입중...' : '확인'}
-          onClick={handleConfirm}
-          disabled={isPending}
-        />
+        <div className='flex flex-col w-full justify-self-stretch'>
+          <WithoutLineInput
+            id='nickname'
+            label='닉네임'
+            placeholder='뚤레 닉네임 입력'
+            value={form.nickname}
+            onChange={handleChange}
+          />
+        </div>
+        <p className='text-left text-typo-caption text-tag-red-text min-h-4.5 -mt-3 -mr-11'>{fieldError?.message}</p>
+
+        <div className='row-span-5 w-full flex gap-4 justify-self-stretch'>
+          <CancelButton
+            text='취소'
+            onClick={() => open({ type: 'cancelSignup' })}
+            disabled={isPending}
+          />
+          <ConfirmButton
+            text={isPending ? '가입중...' : '확인'}
+            onClick={handleConfirm}
+            disabled={isPending}
+          />
+        </div>
       </div>
     </NotePage>
   );
