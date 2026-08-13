@@ -13,6 +13,7 @@ export const useUpdatePlanInfo = () => {
     },
     onSuccess: (_, { planId }) => {
       queryClient.invalidateQueries({ queryKey: ['plan', planId] });
+      queryClient.invalidateQueries({ queryKey: ['plan', 'list'] });
     },
   });
 };
