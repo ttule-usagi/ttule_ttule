@@ -12,10 +12,9 @@ import PlanDateContent from './PlanDateContent';
 
 interface Props {
   id: string;
-  onClose: () => void;
 }
 
-export default function PlanInfoContent({ id, onClose }: Props) {
+export default function PlanInfoContent({ id }: Props) {
   const { data } = useGetPlanDetail(id);
   const [selectOpen, setSelectOpen] = useState(false);
 
@@ -50,10 +49,6 @@ export default function PlanInfoContent({ id, onClose }: Props) {
     }
     return Array.from(grouped.values());
   }, [countries, destinations]);
-
-  const handleClose = () => {
-    onClose();
-  };
 
   return (
     <>
@@ -92,7 +87,7 @@ export default function PlanInfoContent({ id, onClose }: Props) {
         {error && (
           <p
             role='alert'
-            className='text-red-500 text-typo-description'
+            className='absolute right-5 bottom-22 text-red-500 text-typo-description text-right mb-2'
           >
             {error}
           </p>
@@ -104,13 +99,6 @@ export default function PlanInfoContent({ id, onClose }: Props) {
           onClick={handleSubmit}
         >
           {isPending ? '저장 중...' : '저장하기'}
-        </button>
-        <button
-          className=' float-right py-3 px-11 mr-4 text-typo-base-bold text-brand-gray-500 rounded-sm cursor-pointer hover:bg-gray-300'
-          type='button'
-          onClick={handleClose}
-        >
-          취소
         </button>
       </div>
     </>

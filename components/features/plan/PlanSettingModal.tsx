@@ -47,10 +47,7 @@ export default function PlanSettingModal({ id, onClose }: { id: string; onClose:
         {tab === 'info' && (
           <div className='flex-1 min-h-0 overflow-y-auto'>
             <QueryBoundary>
-              <PlanInfoContent
-                id={id}
-                onClose={onClose}
-              />
+              <PlanInfoContent id={id} />
             </QueryBoundary>
           </div>
         )}
