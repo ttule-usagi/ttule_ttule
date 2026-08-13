@@ -1,18 +1,19 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
-import PlaceListHeader from '@/components/features/place-list/detail/PlaceListHeader';
-import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
-import InviteEditorHandler from '@/components/features/invite/InviteEditorHandler';
-import { prefetchPlaceListDetail } from '@/lib/actions/api/prefetch/prefetchPlaceListDetail';
 import { Suspense } from 'react';
-import { getQueryClient } from '@/lib/utils/getQueryClient';
-import { placeListDetailQueryOptions } from '@/hooks/place-list/useGetPlaceListDetail';
+
+import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import ForbiddenRedirect from '@/components/features/invite/ForbiddenRedirect';
-import { auth } from '@/lib/utils/auth';
-import { handleInviteAccess } from '@/lib/utils/invite/handleInviteAcess';
+import InviteEditorHandler from '@/components/features/invite/InviteEditorHandler';
+import PlaceListContent from '@/components/features/place-list/detail/PlaceListContent';
+import PlaceListHeader from '@/components/features/place-list/detail/PlaceListHeader';
+import { placeListDetailQueryOptions } from '@/hooks/place-list/useGetPlaceListDetail';
 import { getPlaceListDetail } from '@/lib/actions/api/placeList';
+import { prefetchPlaceListDetail } from '@/lib/actions/api/prefetch/prefetchPlaceListDetail';
+import { auth } from '@/lib/utils/auth';
+import { getQueryClient } from '@/lib/utils/getQueryClient';
+import { handleInviteAccess } from '@/lib/utils/invite/handleInviteAcess';
 import { supabaseUser } from '@/lib/utils/supabase';
 import { RpcError } from '@/types/errors';
-import PlaceListContent from '@/components/features/place-list/detail/PlaceListContent';
 
 export default async function PlaceListDetail({
   params,
@@ -56,12 +57,8 @@ export default async function PlaceListDetail({
       </Suspense>
       <div className='flex flex-col gap-5.5'>
         <QueryBoundary subject='리스트 상세정보'>
-          <PlaceListHeader
-            listId={listId}
-            hasSession={!!session}
-          />
+          <PlaceListHeader listId={listId} />
         </QueryBoundary>
-
         <PlaceListContent listId={listId} />
       </div>
     </HydrationBoundary>

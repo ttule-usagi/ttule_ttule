@@ -1,28 +1,45 @@
 'use server';
 
-import { supabaseAdmin } from '@/lib/utils/supabase';
-import { auth } from '@/lib/utils/auth';
-import { AuthError as NextAuthError } from 'next-auth';
-import { cookies } from 'next/headers';
-import { validateEmail, validatePassword, validateUsername } from '@/lib/utils/validate';
-import { signIn, signOut } from '@/lib/utils/auth';
-import { AuthError } from '@/types/errors';
 import bcrypt from 'bcrypt';
+import { cookies } from 'next/headers';
+import { AuthError as NextAuthError } from 'next-auth';
+
+import { auth } from '@/lib/utils/auth';
+import { signIn, signOut } from '@/lib/utils/auth';
+import { supabaseAdmin } from '@/lib/utils/supabase';
+import { validateEmail, validatePassword, validateUsername } from '@/lib/utils/validate';
+import { ActionResult, AuthError, SQLSTATE_TO_RPC_ERROR } from '@/types/errors';
 
 // 유저 닉네임 업데이트
-export const setGoogleAccount = async (nickname: string, profileImage: string | null) => {
+export const setGoogleAccount = async (nickname: string, profileImage: string | null): Promise<ActionResult<null>> => {
   const session = await auth();
 
   if (!session?.user?.id) {
-    throw new Error('인증 정보가 없습니다.');
+    // throw new Error('인증 정보가 없습니다.');
+    return {
+      success: false,
+      error: { message: 'UNAUTHORIZED', code: '42501' },
+    };
   }
 
   if (!nickname || nickname.trim().length === 0) {
-    throw new Error('닉네임을 입력해주세요.');
+    // throw new Error('닉네임을 입력해주세요.');
+    return {
+      success: false,
+      error: { message: 'VALIDATION_ERROR', field: 'username', detail: '닉네임을 입력해주세요.' },
+    };
   }
 
   if (!validateUsername(nickname)) {
-    throw new Error('닉네임은 2-20자의 한글, 영문, 숫자만 사용 가능합니다.');
+    // throw new Error('닉네임은 2-20자의 한글, 영문, 숫자만 사용 가능합니다.');
+    return {
+      success: false,
+      error: {
+        message: 'VALIDATION_ERROR',
+        field: 'username',
+        detail: '닉네임은 2-20자의 한글, 영문, 숫자만 사용 가능합니다.',
+      },
+    };
   }
 
   // DB 업데이트
@@ -32,15 +49,16 @@ export const setGoogleAccount = async (nickname: string, profileImage: string | 
     .eq('id', session.user.id);
 
   if (error) {
-    console.error('DB Update Error:', error);
-    throw new Error('닉네임 저장 중 오류가 발생했습니다.');
+    console.error('❌ 닉네임 수정 실패: ', error);
+    const message = SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR';
+    return { success: false, error: { message, code: error.code } };
   }
 
   // httpOnly 쿠키는 서버에서만 삭제 가능
   const cookieStore = await cookies();
   cookieStore.delete('is_new_google_user');
 
-  return { success: true, message: '닉네임 설정 완료!' };
+  return { success: true, data: null };
 };
 
 // 이메일 회원가입을 위한 서버액션
@@ -147,20 +165,30 @@ export const loginWithEmail = async ({
 };
 
 // 탈퇴 기능
-export const withdraw = async () => {
+export const withdraw = async (): Promise<ActionResult<null>> => {
   const session = await auth();
   const userId = session?.user.id;
 
-  if (!userId) return { error: '인증 정보가 없습니다.' };
+  if (!userId) {
+    console.error('❌ 탈퇴 실패: 인증되지 않은 요청');
+    return {
+      success: false,
+      error: { message: 'UNAUTHORIZED', code: '42501' },
+    };
+  }
 
   const { error } = await supabaseAdmin.schema('next_auth').from('users').delete().eq('id', userId);
 
-  if (error) return { error: '회원탈퇴 중 오류가 발생했습니다.' };
+  if (error) {
+    console.error('❌ 탈퇴 실패: ', error);
+    const message = SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR';
+    return { success: false, error: { message, code: error.code } };
+  }
 
   const cookieStore = await cookies();
   cookieStore.delete('is_new_google_user');
 
-  await signOut({ redirectTo: '/' });
+  await signOut({ redirect: false });
 
-  return { success: true };
+  return { success: true, data: null };
 };

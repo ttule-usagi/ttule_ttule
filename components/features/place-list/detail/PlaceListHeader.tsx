@@ -1,13 +1,15 @@
 'use client';
 
 import { Icon } from '@/components/common/Icon';
-import PlaceListDropdownMenu from '../PlaceListDropdwonMenu';
 import { useGetPlaceListDetail } from '@/hooks/place-list/useGetPlaceListDetail';
 import { useModalStore } from '@/lib/store/modalStore';
 import { createViewLink } from '@/lib/utils/invite/createViewLink';
+
+import PlaceListDropdownMenu from '../PlaceListDropdwonMenu';
+
 import ParticipantsImages from './ParticipantsImages';
 
-export default function PlaceListHeader({ listId, hasSession }: { listId: string; hasSession: boolean }) {
+export default function PlaceListHeader({ listId }: { listId: string }) {
   const { data } = useGetPlaceListDetail(listId);
   const { open } = useModalStore();
 
@@ -26,7 +28,7 @@ export default function PlaceListHeader({ listId, hasSession }: { listId: string
               open({ type: 'shareLink', props: { type: 'VIEW', link: createViewLink(listId, 'place_list') } })
             }
           />
-          {hasSession && (
+          {data.myRole && (
             <PlaceListDropdownMenu
               id={listId}
               type='detail'
