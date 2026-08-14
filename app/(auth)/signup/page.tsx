@@ -1,5 +1,7 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import CancelButton from '@/components/common/CancelButton';
 import ConfirmButton from '@/components/common/ConfirmButton';
 import NotePage from '@/components/common/NotePage';
@@ -9,6 +11,7 @@ import { useConfirmEmailSignup } from '@/hooks/auth/useConfirmEmailSignup';
 import { useModalStore } from '@/lib/store/modalStore';
 
 export default function SignUpEmail() {
+  const router = useRouter();
   const { open } = useModalStore();
   const { confirmEmailSignup, state, handleChange, handleImageChange } = useConfirmEmailSignup();
 
@@ -72,6 +75,17 @@ export default function SignUpEmail() {
         </div>
 
         <p className='text-left text-typo-caption text-tag-red-text min-h-4.5 -mr-11 justify-self-stretch'>
+          {state.error?.field === 'login' && (
+            <>
+              <span className='whitespace-pre-line'>{state.error.message} </span>
+              <button
+                className='underline'
+                onClick={() => router.replace('/login')}
+              >
+                로그인 페이지로 이동
+              </button>
+            </>
+          )}
           {!state.error?.field && state.error.message}
         </p>
 
@@ -81,7 +95,7 @@ export default function SignUpEmail() {
             onClick={() => open({ type: 'cancelSignup' })}
           />
           <ConfirmButton
-            text={'회원가입'}
+            text={state.loading ? '가입중...' : '회원가입'}
             onClick={confirmEmailSignup}
             disabled={state.loading}
           />

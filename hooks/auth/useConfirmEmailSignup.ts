@@ -1,4 +1,5 @@
 import { isRedirectError } from 'next/dist/client/components/redirect-error';
+import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 
 import { signUpAction } from '@/lib/actions/auth';
@@ -19,6 +20,7 @@ const initialState = {
 };
 
 export const useConfirmEmailSignup = () => {
+  const router = useRouter();
   const { open } = useModalStore();
   const { state, dispatch, handleChange, handleImageChange } = useSignupForm(initialState);
 
@@ -110,10 +112,33 @@ export const useConfirmEmailSignup = () => {
           // TODO: 성공 토스트 알림 등 추가
           // toast.success('회원가입 성공!')
 
-          // 가입 성공 시 자동 로그인 처리
-          if (isSuccess) {
-            await signIn('credentials', { email: state.email, password: state.password, redirectTo: '/lobby' });
+          if (!isSuccess) {
+            return;
           }
+
+          // TEMP: 테스트용, 확인 후 반드시 제거
+          // const signInResult = { error: 'CredentialsSignin', ok: false, status: 401, url: null };
+
+          // 가입 성공 시 자동 로그인 처리
+          const signInResult = await signIn('credentials', {
+            email: state.email,
+            password: state.password,
+            redirect: false,
+          });
+
+          // 로그인 실패 시 처리
+          if (!signInResult || signInResult.error) {
+            dispatch({
+              type: 'SET_ERROR',
+              error: {
+                field: 'login',
+                message: '회원가입은 완료되었으나, 자동 로그인에 실패했습니다.\n로그인 페이지에서 다시 로그인해주세요.',
+              },
+            });
+            return;
+          }
+
+          router.replace('/lobby');
         },
       },
     });
