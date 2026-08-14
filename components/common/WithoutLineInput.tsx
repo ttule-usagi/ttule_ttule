@@ -17,7 +17,7 @@ export default function WithoutLineInput({
 }: WithoutLineInputProps) {
   return (
     <div className='flex flex-col'>
-      <div className='w-full flex gap-3 py-2 text-typo-base font-light min-w-87.5'>
+      <div className='w-full flex gap-3 py-2 text-typo-base font-light'>
         <label htmlFor={id}>
           <div className='text-brand-blue-700 shrink-0'>{`${label} :`}</div>
         </label>
@@ -28,7 +28,7 @@ export default function WithoutLineInput({
           value={value}
           onChange={onChange}
           maxLength={maxLength}
-          className='w-full max-h-6 border-none focus:outline-none placeholder:text-brand-gray-400 flex-1'
+          className='inline-block min-w-0 w-full max-h-6 border-none focus:outline-none placeholder:text-brand-gray-400 flex-1'
         />
       </div>
       {errorText && <p className='text-left w-full mt-1 text-typo-caption text-tag-red-text'>{errorText}</p>}
