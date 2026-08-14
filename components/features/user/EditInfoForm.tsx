@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import { Icon } from '@/components/common/Icon';
 import NotePage from '@/components/common/NotePage';
-import { useConfirmWithdraw } from '@/hooks/user/useConfirmWithdraw';
+import { useConfirmWithdraw } from '@/hooks/auth/useConfirmWithdraw';
 import { useEditMyInfo } from '@/hooks/user/useEditMyInfo';
 import { useGetUserInfo } from '@/hooks/user/useGetUserInfo';
 import { DEFAULT_PROFILE_IMAGE } from '@/lib/constants/image';

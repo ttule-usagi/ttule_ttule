@@ -1,6 +1,6 @@
 import { useModalStore } from '@/lib/store/modalStore';
 
-import { useEditMyInfo } from './useEditMyInfo';
+import { useEditMyInfo } from '../user/useEditMyInfo';
 
 interface ConfirmGoogleSignupProps {
   email: string;

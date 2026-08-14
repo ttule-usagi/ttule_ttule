@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { User } from 'next-auth';
 import { useState } from 'react';
 
-import { useConfirmGoogleSignup } from '@/hooks/user/useConfirmGoogleSignup';
+import { useConfirmGoogleSignup } from '@/hooks/auth/useConfirmGoogleSignup';
 import { useModalStore } from '@/lib/store/modalStore';
 import { getUsernameErrorMessage } from '@/lib/utils/validate';
 
