@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 import { useConfirmGoogleSignup } from '@/hooks/user/useConfirmGoogleSignup';
 import { useModalStore } from '@/lib/store/modalStore';
-import { getUsernameErrorMessage, validateUsername } from '@/lib/utils/validate';
+import { getUsernameErrorMessage } from '@/lib/utils/validate';
 
 import CancelButton from '../common/CancelButton';
 import ConfirmButton from '../common/ConfirmButton';
@@ -29,14 +29,11 @@ export default function SignUpWithGoogle({ user }: { user: User }) {
 
   const handleConfirm = () => {
     // 먼저 유효성 검사 후 확인모달 노출
-    if (!form.nickname.trim()) {
-      setFieldError({ field: 'username', message: '닉네임을 입력해 주세요.' });
-      return;
-    }
-    if (!validateUsername(form.nickname)) {
+    const usernameError = getUsernameErrorMessage(form.nickname);
+    if (usernameError) {
       setFieldError({
         field: 'username',
-        message: getUsernameErrorMessage(form.nickname) ?? '닉네임 형식이 올바르지 않습니다.',
+        message: usernameError,
       });
       return;
     }
@@ -53,11 +50,16 @@ export default function SignUpWithGoogle({ user }: { user: User }) {
   return (
     <NotePage title='뚤레뚤레 가입하기'>
       <div className='grid grid-cols-[16rem] grid-rows-[repeat(13,44px)] content-start h-full justify-center items-center relative'>
-        <div className='row-span-6 flex justify-center'>
+        <div className='row-span-6 flex justify-center relative'>
           <ProfileImageUploader
             onUploadImage={setProfileImage}
             initialImageURL={form.profileImage}
           />
+          {fieldError?.field === 'image' && (
+            <p className='absolute left-0 -bottom-7 text-typo-caption text-tag-red-text whitespace-nowrap bg-white/70'>
+              {fieldError.message}
+            </p>
+          )}
         </div>
 
         <div className='w-full flex gap-3 text-typo-base font-light justify-self-stretch items-start'>
@@ -75,7 +77,9 @@ export default function SignUpWithGoogle({ user }: { user: User }) {
             maxLength={9}
           />
         </div>
-        <p className='text-left text-typo-caption text-tag-red-text min-h-4.5 -mt-3 -mr-11'>{fieldError?.message}</p>
+        <p className='text-left text-typo-caption text-tag-red-text min-h-4.5 -mt-3 -mr-11'>
+          {fieldError?.field !== 'image' && fieldError?.message}
+        </p>
 
         <div className='row-span-5 w-full flex gap-4 justify-self-stretch'>
           <CancelButton

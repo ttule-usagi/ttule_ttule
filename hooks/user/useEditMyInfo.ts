@@ -26,7 +26,21 @@ export const useEditMyInfo = () => {
       newProfileImage: File | null;
       currentProfileImage: string | null;
     }) => {
-      const finalImageUrl = newProfileImage ? await getProfileImageUrl(newProfileImage) : (currentProfileImage ?? '');
+      let finalImageUrl = currentProfileImage ?? '';
+
+      if (newProfileImage) {
+        try {
+          finalImageUrl = await getProfileImageUrl(newProfileImage);
+        } catch (uploadError) {
+          console.error('❌ 프로필 이미지 업로드 실패:', uploadError);
+          throw new RpcError(
+            'VALIDATION_ERROR' as RpcErrorMessage,
+            undefined,
+            '이미지 파일을 다시 확인해주세요.',
+            'image',
+          );
+        }
+      }
 
       const result = await setGoogleAccount(username, finalImageUrl);
 
@@ -46,9 +60,9 @@ export const useEditMyInfo = () => {
     },
     onError: (error: unknown) => {
       // 닉네임 유효성 검증 오류는 우선적으로 인라인으로 처리
-      if (error instanceof RpcError && error.field && error.field === 'username') {
+      if (error instanceof RpcError && error.field) {
         const message =
-          error.detail ?? getErrorMessage(error.message as RpcErrorMessage, { subject: '닉네임', action: '수정' });
+          error.detail ?? getErrorMessage(error.message as RpcErrorMessage, { subject: '정보', action: '수정' });
         setFieldError({ field: error.field, message });
         return;
       }

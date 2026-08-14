@@ -4,6 +4,7 @@ export interface SignupState {
   email: string;
   password: string;
   username: string;
+  image?: File | null;
   error: {
     field?: string;
     message: string;
