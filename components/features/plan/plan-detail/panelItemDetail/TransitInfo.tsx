@@ -9,28 +9,18 @@ interface TransitInfoProps {
   mode: string;
   time: number | null;
   hasMemo?: boolean;
+  onOpenRouteModal: () => void;
 }
 
-// function CategoryIcon({ category }: { category: string | null }) {
-//   const color = category ? (CATEGORY_COLORS[category as PlaceCategory] ?? '#C0C8E0') : '#C0C8E0';
-//   const emoji = category ? (CATEGORY_EMOJI[category as PlaceCategory] ?? '📍') : '📍';
-
-//   return (
-//     <div
-//       className='flex items-center justify-center rounded-full size-[26px] shrink-0'
-//       style={{ backgroundColor: color }}
-//     >
-//       <span className='font-mona12 text-emoji-sm pl-0.5 pb-0.5'>{emoji}</span>
-//     </div>
-//   );
-// }
-
-export default function TransitInfo({ mode, time, hasMemo }: TransitInfoProps) {
+export default function TransitInfo({ mode, time, hasMemo, onOpenRouteModal }: TransitInfoProps) {
   const modeLabel = TRANSIT_MODE_LABELS[mode as PlanTransitMode] ?? mode;
   const emoji = mode ? (TRANSFORT_EMOJI[mode as PlanTransitMode] ?? '📍') : '📍';
 
   return (
-    <div className='flex gap-2 items-center justify-center'>
+    <div
+      className='flex gap-2 items-center justify-center cursor-pointer'
+      onClick={onOpenRouteModal}
+    >
       <span className='font-mona12 text-emoji-sm pl-0.5 pb-0.5'>{emoji}</span>
 
       <p className='text-typo-description text-white font-light'>

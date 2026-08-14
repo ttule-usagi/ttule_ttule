@@ -1,3 +1,5 @@
+'use server';
+
 import { PlanTransitMode, VEHICLE_TO_TRAVEL_MODE } from '@/types/plan';
 
 export interface RouteResult {

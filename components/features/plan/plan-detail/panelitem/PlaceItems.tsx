@@ -1,7 +1,6 @@
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useState } from 'react';
 
-import PlanItemCard from '@/components/features/plan/plan-detail/panelItemDetail/PlanItemCard';
 import { useAddPlanMemoItem } from '@/hooks/plan/useAddPlanMemoItem';
 import { useMovePlanItem } from '@/hooks/plan/useMovePlanItem';
 import { useUpdatePlanItem } from '@/hooks/plan/useUpdatePlanItem';
@@ -10,14 +9,12 @@ import { PlanInfo, PlanItem, PlanSchedule } from '@/types/plan';
 import { Role } from '@/types/shareOption';
 
 import ChangeScheduleModal from '../panelItemDetail/ChangeScheduleModal';
-import PlanItemEditCard from '../panelItemDetail/PlanItemEditCard';
-import PlanMemoItemCard from '../panelItemDetail/PlanMemoItemCard';
 import PlanMemoItemCreateCard from '../panelItemDetail/PlanMemoItemCreateCard';
-import PlanMemoItemEditCard from '../panelItemDetail/PlanMemoItemEditCard';
 import { SortablePlanItem } from '../panelItemDetail/SortablePlanItem';
-import TransitInfo from '../panelItemDetail/TransitInfo';
+import PlanRouteMemoModal from '../PlanRouteMemoModal';
 
 import AddPlaceItem from './AddPlaceItem';
+import PlanScheduleItemRow from './PlanScheduleItemRow';
 
 interface PlanDayPanelProps {
   plan: Pick<PlanInfo, 'title' | 'departureDate' | 'arrivalDate'>;
@@ -46,6 +43,7 @@ export function PlaceItems({
   const [isNewMemoOpen, setIsNewMemoOpen] = useState(false);
   const [changingScheduleItem, setChangingScheduleItem] = useState<PlanItem | null>(null);
   const { mutate: moveToSchedule, isPending: isMoving } = useMovePlanItem({ planId });
+  const [routeModalItemId, setRouteModalItemId] = useState<string | null>(null);
 
   // 장소/메모 수정 훅
   const { addMemoItem, isSubmitting: isAdding } = useAddPlanMemoItem();
@@ -92,6 +90,7 @@ export function PlaceItems({
     const result = await addMemoItem({ scheduleId: schedule.id, ...updated });
     if (result?.success) setIsNewMemoOpen(false);
   };
+
   return (
     <>
       <div
@@ -125,47 +124,22 @@ export function PlaceItems({
                     id={item.id}
                     scheduleId={schedule.id}
                   >
-                    {item.type === 'memo' ? (
-                      editingItemId === item.id ? (
-                        <PlanMemoItemEditCard
-                          item={item}
-                          onClose={() => setEditingItemId(null)}
-                          onSave={(updated) => handleSaveExistingMemo(item, updated)}
-                          isSaving={isUpdating}
-                        />
-                      ) : (
-                        <PlanMemoItemCard
-                          item={item}
-                          onClick={() => setEditingItemId(item.id)}
-                          onChangeSchedule={() => setChangingScheduleItem(item)}
-                          hasSession={hasSession}
-                          myRole={myRole}
-                        />
-                      )
-                    ) : editingItemId === item.id ? (
-                      <PlanItemEditCard
-                        item={item}
-                        onClose={() => setEditingItemId(null)}
-                        onSave={(updated) => handleSavePlaceItem(item, updated)}
-                        isSaving={isUpdating}
-                      />
-                    ) : (
-                      <PlanItemCard
-                        item={item}
-                        onClick={() => setEditingItemId(item.id)}
-                        onOpenDetail={() => onOpenPlaceDetail(item)}
-                        onChangeSchedule={() => setChangingScheduleItem(item)}
-                        hasSession={hasSession}
-                        myRole={myRole}
-                      />
-                    )}
-                    {index < items.length - 1 && item.transitMode && items[index + 1].type !== 'memo' && (
-                      <TransitInfo
-                        mode={item.transitMode}
-                        time={item.transitTime}
-                        hasMemo={!!item.transitMemo}
-                      />
-                    )}
+                    <PlanScheduleItemRow
+                      item={item}
+                      hasNextPlaceItem={index < items.length - 1 && items[index + 1].type === 'place'}
+                      showTransitInfo={index < items.length - 1 && items[index + 1].type !== 'memo'}
+                      isEditing={editingItemId === item.id}
+                      hasSession={hasSession}
+                      myRole={myRole}
+                      isUpdating={isUpdating}
+                      onStartEdit={() => setEditingItemId(item.id)}
+                      onCloseEdit={() => setEditingItemId(null)}
+                      onSavePlace={(updated) => handleSavePlaceItem(item, updated)}
+                      onSaveMemo={(updated) => handleSaveExistingMemo(item, updated)}
+                      onOpenDetail={() => onOpenPlaceDetail(item)}
+                      onChangeSchedule={() => setChangingScheduleItem(item)}
+                      onOpenRouteModal={() => setRouteModalItemId(item.id)}
+                    />
                   </SortablePlanItem>
                 ),
               )}
@@ -201,6 +175,14 @@ export function PlaceItems({
                   );
                 }}
                 isSubmitting={isMoving}
+              />
+            )}
+
+            {routeModalItemId && (
+              <PlanRouteMemoModal
+                planId={planId}
+                item={items.find((i) => i.id === routeModalItemId)!}
+                onClose={() => setRouteModalItemId(null)}
               />
             )}
           </>
