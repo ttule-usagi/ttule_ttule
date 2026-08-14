@@ -52,7 +52,7 @@ export const setGoogleAccount = async (nickname: string, profileImage: string | 
   return { success: true, data: null };
 };
 
-// 이메일 회원가입을 위한 서버액션
+// 이메일 회원가입
 export async function signUpAction(formData: {
   email: string;
   password: string;
@@ -119,7 +119,7 @@ export async function signUpAction(formData: {
   }
 
   // 로그인 처리
-  await signIn('credentials', { email, password, redirectTo: '/lobby' });
+  // await signIn('credentials', { email, password, redirectTo: '/lobby' });
 
   return { success: true, data: { userId } };
 }
