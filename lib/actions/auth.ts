@@ -7,37 +7,28 @@ import { AuthError as NextAuthError } from 'next-auth';
 import { auth } from '@/lib/utils/auth';
 import { signIn, signOut } from '@/lib/utils/auth';
 import { supabaseAdmin } from '@/lib/utils/supabase';
-import { getUsernameErrorMessage, validateEmail, validatePassword, validateUsername } from '@/lib/utils/validate';
-import { ActionResult, AuthError, SQLSTATE_TO_RPC_ERROR } from '@/types/errors';
+import { getEmailErrorMessage, getPasswordErrorMessage, getUsernameErrorMessage } from '@/lib/utils/validate';
+import { ActionResult, SQLSTATE_TO_RPC_ERROR } from '@/types/errors';
 
 // 유저 닉네임 업데이트
 export const setGoogleAccount = async (nickname: string, profileImage: string | null): Promise<ActionResult<null>> => {
   const session = await auth();
 
   if (!session?.user?.id) {
-    // throw new Error('인증 정보가 없습니다.');
     return {
       success: false,
       error: { message: 'UNAUTHORIZED', code: '42501' },
     };
   }
 
-  if (!nickname || nickname.trim().length === 0) {
-    // throw new Error('닉네임을 입력해주세요.');
-    return {
-      success: false,
-      error: { message: 'VALIDATION_ERROR', field: 'username', detail: '닉네임을 입력해주세요.' },
-    };
-  }
-
-  if (!validateUsername(nickname)) {
-    // throw new Error('닉네임은 2-20자의 한글, 영문, 숫자만 사용 가능합니다.');
+  const usernameError = getUsernameErrorMessage(nickname);
+  if (usernameError) {
     return {
       success: false,
       error: {
         message: 'VALIDATION_ERROR',
         field: 'username',
-        detail: getUsernameErrorMessage(nickname) ?? '닉네임 형식이 올바르지 않습니다.',
+        detail: usernameError,
       },
     };
   }
@@ -62,27 +53,52 @@ export const setGoogleAccount = async (nickname: string, profileImage: string | 
 };
 
 // 이메일 회원가입을 위한 서버액션
-export async function signUpAction(formData: { email: string; password: string; username: string }) {
-  const { email, password, username } = formData;
+export async function signUpAction(formData: {
+  email: string;
+  password: string;
+  username: string;
+  profileImageUrl?: string;
+}): Promise<ActionResult<{ userId: string }>> {
+  const { email, password, username, profileImageUrl } = formData;
 
   // 유효성 검사
-  if (!validateEmail(email)) {
-    return { error: '유효하지 않은 이메일 형식입니다.' };
+  const emailError = getEmailErrorMessage(email);
+  if (emailError) {
+    return {
+      success: false,
+      error: { message: 'VALIDATION_ERROR', field: 'email', detail: emailError },
+    };
   }
 
-  if (!validatePassword(password)) {
-    return { error: '비밀번호는 8자 이상, 대문자와 특수문자를 포함해야 합니다.' };
+  const passwordError = getPasswordErrorMessage(password);
+  if (passwordError) {
+    return {
+      success: false,
+      error: {
+        message: 'VALIDATION_ERROR',
+        field: 'password',
+        detail: passwordError,
+      },
+    };
   }
 
-  if (!validateUsername(username)) {
-    return { error: '닉네임은 2-20자의 한글, 영문, 숫자만 사용 가능합니다.' };
+  const usernameError = getUsernameErrorMessage(username);
+  if (usernameError) {
+    return {
+      success: false,
+      error: {
+        message: 'VALIDATION_ERROR',
+        field: 'username',
+        detail: usernameError,
+      },
+    };
   }
 
   // 이메일 중복 확인
   const { data: existingProfile } = await supabaseAdmin.from('profiles').select('id').eq('email', email).maybeSingle();
 
   if (existingProfile) {
-    return { error: '이미 사용중인 이메일입니다.' };
+    return { success: false, error: { message: 'CONFLICT', detail: '이미 사용중인 이메일입니다.', field: 'email' } };
   }
 
   // 비밀번호 해싱
@@ -93,47 +109,20 @@ export async function signUpAction(formData: { email: string; password: string; 
     p_email: email,
     p_username: username,
     p_hashed_password: hashedPassword,
+    p_profile_image_url: profileImageUrl || null,
   });
 
   if (error) {
-    return { error: '회원가입 중 오류가 발생했습니다.' };
+    console.error('❌ 이메일 회원가입 실패: ', error);
+    const message = SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR';
+    return { success: false, error: { message, code: error.code } };
   }
 
-  return { success: true, userId };
+  // 로그인 처리
+  await signIn('credentials', { email, password, redirectTo: '/lobby' });
+
+  return { success: true, data: { userId } };
 }
-
-// 이메일 회원가입
-// auth.js에서 회원가입을 지원하지 않는 관계로 next_auth.users에 직접 유저 insert요청
-export const signUpWithEmail = async ({
-  email,
-  password,
-  username,
-  profile_image_url,
-}: {
-  email: string;
-  password: string;
-  username: string;
-  profile_image_url?: string;
-}) => {
-  const res = await fetch('/api/auth/signup', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password, username, profile_image_url }),
-  });
-
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw new AuthError(data.error, data.field);
-  }
-
-  // 가입 성공 후 자동 로그인
-  await signIn('credentials', {
-    email,
-    password,
-    redirectTo: '/lobby',
-  });
-};
 
 // 이메일 로그인
 export const loginWithEmail = async ({
