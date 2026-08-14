@@ -35,7 +35,7 @@ export default function Login() {
         return;
       }
 
-      router.push('/lobby');
+      router.replace('/lobby');
     } catch (e: unknown) {
       if (e instanceof Error) {
         dispatch({ type: 'SET_ERROR', error: e.message });
