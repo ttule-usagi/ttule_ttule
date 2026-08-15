@@ -1,19 +1,22 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Icon } from '@/components/common/Icon';
-import { createNewPlan } from '@/lib/actions/plan';
-import { useCountries, useDestinations } from '@/hooks/useStaticData';
-import PlanQuestion from './plan-question/PlanQuestion';
-import DestinationAnswer from './plan-answer/DestinationAnswer';
-import ScheduleAnswer from './plan-answer/ScheduleAnswer';
-import PlanNameAnswer from './plan-answer/PlanNameAnswer';
-import SkipButton from './plan-answer/SkipButton';
+import { useEffect, useMemo, useRef, useState } from 'react';
+
 import FadeUp from '@/components/common/FadeUp';
-import { useNewPlanForm } from '@/hooks/new-plan/useNewPlanForm';
+import { Icon } from '@/components/common/Icon';
 import { useGetOrRefreshEditToken } from '@/hooks/invite-member/useGetOrRefreshEditToken';
+import { useNewPlanForm } from '@/hooks/new-plan/useNewPlanForm';
+import { useCountries, useDestinations } from '@/hooks/useStaticData';
+import { createNewPlan } from '@/lib/actions/plan';
 import { RESOURCE_ROUTE } from '@/lib/constants/ResourceType';
+import { getErrorMessage, RpcError, RpcErrorMessage } from '@/types/errors';
+
+import DestinationAnswer from './plan-answer/DestinationAnswer';
+import PlanNameAnswer from './plan-answer/PlanNameAnswer';
+import ScheduleAnswer from './plan-answer/ScheduleAnswer';
+import SkipButton from './plan-answer/SkipButton';
+import PlanQuestion from './plan-question/PlanQuestion';
 
 export default function NewPlanContainer() {
   const { state, dispatch } = useNewPlanForm();
@@ -57,7 +60,7 @@ export default function NewPlanContainer() {
   const submitPlan = async (title: string) => {
     if (state.planId || state.isPending) return;
 
-    const [countryCode, city] = state.destination.split(':');
+    const [, city] = state.destination.split(':');
     dispatch({ type: 'SUBMIT_START' });
 
     const res = await createNewPlan({
@@ -69,13 +72,10 @@ export default function NewPlanContainer() {
       total_days: state.scheduleMode === 'undecided' ? state.totalDays : null,
     });
 
-    if (res.error) {
-      dispatch({ type: 'SUBMIT_ERROR', error: res.error });
+    if (!res.success) {
+      dispatch({ type: 'SUBMIT_ERROR', error: res.error.message });
       return;
     }
-
-    if (!res.data) return;
-
     refreshToken(
       { id: res.data.planId, type: 'plan' },
       {
@@ -96,8 +96,13 @@ export default function NewPlanContainer() {
           });
           nextStep(3);
         },
-        onError: () => {
-          dispatch({ type: 'SUBMIT_ERROR', error: '초대 링크 생성에 실패했습니다.' });
+        onError: (error) => {
+          const message =
+            error instanceof RpcError
+              ? (error.detail ??
+                getErrorMessage(error.message as RpcErrorMessage, { subject: '초대 링크', action: '생성' }))
+              : getErrorMessage('INTERNAL_ERROR', { subject: '초대 링크', action: '생성' });
+          dispatch({ type: 'SUBMIT_ERROR', error: message });
         },
       },
     );
@@ -138,7 +143,7 @@ export default function NewPlanContainer() {
             <Icon
               name='ArrowLeft'
               size={32}
-              className='text-brand-gray-700'
+              className='text-brand-gray-700 hover:text-brand-blue-500'
             />
           </button>
           <p className='text-typo-sub-title text-brand-blue-800 tracking-[-0.6px]'>새로운 계획 생성하기</p>

@@ -1,9 +1,10 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import { Icon } from '@/components/common/Icon';
 import CountrySelect from '@/components/features/CountrySelect';
 import { type Country } from '@/lib/utils/countries';
-import { useRouter } from 'next/navigation';
 
 interface GoogleSearchFormProps {
   query: string;
@@ -29,7 +30,7 @@ export default function GoogleSearchForm({
     <>
       <div className='relative flex-shrink-0 flex flex-row items-center gap-4'>
         <Icon
-          className='shrink-0 text-brand-blue-700 cursor-pointer'
+          className='shrink-0 text-brand-blue-700 cursor-pointer hover:text-brand-blue-500'
           name='ArrowLeft'
           size={32}
           onClick={() => router.back()}
@@ -43,7 +44,7 @@ export default function GoogleSearchForm({
             value={query}
             onChange={(e) => onQueryChange(e.target.value)}
             placeholder='구글 장소 검색'
-            className=' flex-1 px-4 py-2 border-2 border-brand-blue-700 rounded-full outline-none focus:border-blue-500 bg-brand-gray-0 text-typo-base'
+            className=' flex-1 px-4 py-2 border-2 border-brand-blue-700 rounded-full outline-none focus:border-blue-500 bg-brand-gray-0 text-typo-base hover:bg-brand-gray-50'
           />
           <div className='absolute top-[5px] right-3 rounded-lg flex items-center'>
             {query !== '' && (
@@ -69,7 +70,7 @@ export default function GoogleSearchForm({
               className='pl-1'
             >
               <Icon
-                className='text-brand-gray-300 hover:text-brand-blue-700 cursor-pointer'
+                className='text-brand-gray-300 hover:text-brand-blue-700 cursor-pointer hover:text-brand-blue-500'
                 name='Search'
                 size={32}
               />

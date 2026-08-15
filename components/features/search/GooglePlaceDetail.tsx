@@ -67,7 +67,7 @@ export default function GooglePlaceDetail({ place, addNewPlace, onClose }: Props
           {place.additionalData?.primaryTypeDisplayName?.text}
         </span>
         <Icon
-          className='absolute top-5 right-4 text-brand-gray-600 cursor-pointer'
+          className='absolute top-5 right-4 text-brand-gray-600 cursor-pointer hover:bg-brand-gray-100 rounded-full'
           name='XClose'
           size={30}
           onClick={onClose}

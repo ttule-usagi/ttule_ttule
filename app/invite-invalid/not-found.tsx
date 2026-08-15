@@ -1,9 +1,10 @@
 'use client';
 
-import { Icon } from '@/components/common/Icon';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+
+import { Icon } from '@/components/common/Icon';
 
 export default function NotFound() {
   const router = useRouter();
@@ -34,7 +35,7 @@ export default function NotFound() {
             <Icon
               name='ArrowLeft'
               size={20}
-              className='text-[#A4A7AE]'
+              className='text-[#A4A7AE] hover:text-brand-blue-500'
             />{' '}
             뒤로가기
           </button>

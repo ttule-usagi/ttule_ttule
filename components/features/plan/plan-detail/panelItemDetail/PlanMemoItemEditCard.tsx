@@ -40,13 +40,13 @@ export default function PlanMemoItemEditCard({ item, isSaving, onClose, onSave }
       <div className='absolute left-4 top-5'>
         <button
           onClick={onClose}
-          className='flex items-center justify-center size-6.5 rounded-full bg-brand-gray-200 cursor-pointer'
+          className='flex items-center justify-center size-6.5 rounded-full cursor-pointer hover:bg-brand-gray-100'
           aria-label='닫기'
         >
           <Icon
             name='XClose'
             size={26}
-            className='text-brand-gray-600'
+            className='text-brand-gray-600 '
           />
         </button>
       </div>
