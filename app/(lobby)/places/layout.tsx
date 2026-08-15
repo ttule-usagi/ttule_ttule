@@ -1,6 +1,6 @@
 import Script from 'next/script';
 
-import ScrollToTop from '@/components/common/ScrollTopTop';
+import ScrollToTop from '@/components/common/ScrollToTop';
 import PlaceListMap from '@/components/features/place-list/map/PlaceListMap';
 import CorePlaceSearchInput from '@/components/features/search/CorePlaceSearchInput';
 import { auth } from '@/lib/utils/auth';
