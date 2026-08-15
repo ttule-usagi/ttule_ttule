@@ -57,10 +57,10 @@ export interface PlanDetail {
 export type PlanTransitMode = 'walking' | 'cycling' | 'driving' | 'transit';
 
 export const TRANSIT_MODE_LABELS: Record<PlanTransitMode, string> = {
+  transit: '대중교통',
   walking: '도보',
   cycling: '자전거',
-  driving: '자가용',
-  transit: '대중교통',
+  driving: '자동차',
 };
 
 export const VEHICLE_TO_TRAVEL_MODE: Record<PlanTransitMode, string> = {
