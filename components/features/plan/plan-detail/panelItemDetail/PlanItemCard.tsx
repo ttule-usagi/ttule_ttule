@@ -22,8 +22,10 @@ interface PlanItemCardProps {
   onClick: () => void;
   onOpenDetail: () => void;
   onChangeSchedule: () => void;
+  onOpenRouteModal: () => void;
   hasSession: boolean;
   myRole: Role | null;
+  hasNextPlaceItem: boolean;
 }
 
 function CategoryIcon({ category }: { category: string | null }) {
@@ -50,8 +52,10 @@ export default function PlanItemCard({
   onClick,
   onOpenDetail,
   onChangeSchedule,
+  onOpenRouteModal,
   hasSession,
   myRole,
+  hasNextPlaceItem,
 }: PlanItemCardProps) {
   const { open } = useModalStore();
   const queryClient = useQueryClient();
@@ -138,7 +142,7 @@ export default function PlanItemCard({
               {/* 실제로 열릴 드롭다운 메뉴 */}
               <DropDown.Menu>
                 <DropDown.Item onClick={onClick}>일정 편집</DropDown.Item>
-
+                {hasNextPlaceItem && <DropDown.Item onClick={onOpenRouteModal}>이동 정보 관리</DropDown.Item>}
                 <DropDown.Item>
                   {' '}
                   <a
@@ -150,7 +154,9 @@ export default function PlanItemCard({
                     구글 지도에서 보기
                   </a>
                 </DropDown.Item>
+
                 <DropDown.Item onClick={onChangeSchedule}>다른 날짜로 변경</DropDown.Item>
+                <hr className='border-brand-gray-200' />
                 <DropDown.Item onClick={handleDuplicate}>일정 복제</DropDown.Item>
 
                 <DropDown.Item

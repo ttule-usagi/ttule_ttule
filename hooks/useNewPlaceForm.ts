@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useReducer } from 'react';
-import { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
-import { useCreatePlace } from './new-place/useCreatePlace';
+
 import { sanitizeBusinessStatus, type PlaceCategory } from '@/types/corePlace';
+import { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
+
+import { useCreatePlace } from './new-place/useCreatePlace';
 
 export interface NewPlaceFormState {
   korean_name: string;
@@ -60,7 +62,13 @@ const getInitialState = (place: SelectedGooglePlace): NewPlaceFormState => {
   };
 };
 
-export const checkIsKorean = (lat: number, lng: number) => lat >= 33 && lat <= 39 && lng >= 124 && lng <= 132;
+export const checkIsKorean = (lat: number, lng: number) => {
+  // 후쿠오카/대마도 등 일본 서남부 지역 명시적 제외
+  const isKyushuArea = lat >= 33.0 && lat <= 34.0 && lng >= 129.5 && lng <= 131.0;
+  if (isKyushuArea) return false;
+
+  return lat >= 33 && lat <= 39 && lng >= 124 && lng <= 132;
+};
 
 // 검증
 const validate = (state: NewPlaceFormState, isKorean: boolean): string | null => {

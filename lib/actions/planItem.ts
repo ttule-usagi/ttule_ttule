@@ -465,3 +465,34 @@ export const pastePlanItems = async (
 
   return { success: true, data: null };
 };
+
+interface UpdatePlanItemTransitMemoProps {
+  placeId: string;
+  transitMode: PlanTransitMode;
+  transitDistance: number | null;
+  transitTime: number | null;
+  transitMemo: string | null;
+}
+
+export const updatePlanItemTransitMemo = async (
+  params: UpdatePlanItemTransitMemoProps,
+): Promise<ActionResult<null>> => {
+  const { placeId, transitMode, transitDistance, transitTime, transitMemo } = params;
+  const supabase = await supabaseUser();
+
+  const { error } = await supabase.rpc('update_plan_item_transit_memo', {
+    p_item_id: placeId,
+    p_transit_time: transitTime,
+    p_transit_distance: transitDistance !== null ? transitDistance / 1000 : null,
+    p_transit_mode: transitMode,
+    p_transit_memo: transitMemo,
+  });
+
+  if (error) {
+    return {
+      success: false,
+      error: { message: SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR', code: error.code },
+    };
+  }
+  return { success: true, data: null };
+};
