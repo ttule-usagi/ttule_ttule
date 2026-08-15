@@ -129,7 +129,7 @@ export default function FormTypeSelectDeparture({
               handleOpenChange(true);
               inputRef.current?.focus();
             }}
-            className='grid w-full cursor-text grid-cols-1 rounded-lg bg-white py-2 px-3 text-left text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600 sm:text-sm text-typo-base'
+            className='grid w-full cursor-text grid-cols-1 rounded-lg bg-white py-2 px-3 text-left text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600 sm:text-sm text-typo-base hover:bg-brand-gray-50'
           >
             <input
               ref={inputRef}

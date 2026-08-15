@@ -18,7 +18,7 @@ export default function TransitInfo({ mode, time, hasMemo, onOpenRouteModal }: T
 
   return (
     <div
-      className='flex gap-2 items-center justify-center cursor-pointer'
+      className='flex gap-2 items-center justify-center cursor-pointer hover:bg-brand-blue-800/50 transition-colors'
       onClick={onOpenRouteModal}
     >
       <span className='font-mona12 text-emoji-sm pl-0.5 pb-0.5'>{emoji}</span>

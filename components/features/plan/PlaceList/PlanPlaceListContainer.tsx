@@ -45,7 +45,7 @@ export default function PlanPlaceListContainer({ planId }: PlanPlaceListContaine
           >
             <button
               onClick={toggle}
-              className='absolute top-1/2 -translate-y-1/2 left-full flex items-center justify-center h-13 bg-brand-blue-700 rounded-r-[8px] shadow-lg'
+              className='absolute top-1/2 -translate-y-1/2 left-full flex items-center justify-center h-13 bg-brand-blue-700 rounded-r-[8px] shadow-lg hover:bg-brand-blue-800'
             >
               {!isOpen && (
                 <Icon

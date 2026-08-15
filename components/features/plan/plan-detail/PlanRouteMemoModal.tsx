@@ -165,12 +165,12 @@ export default function PlanRouteMemoModal({ planId, item, onClose }: PlanRouteM
                         type='button'
                         onClick={() => handleChangeTransitMode(mode)}
                         disabled={isCalculating || isDisabled}
-                        className={`flex items-center justify-center px-3 py-1.5 rounded-sm border text-typo-description whitespace-nowrap ${
+                        className={`flex items-center justify-center px-3 py-1.5 rounded-sm border text-typo-description whitespace-nowrap  ${
                           state.transitMode === mode
-                            ? 'bg-brand-blue-50 border-brand-blue-200 text-brand-blue-500'
+                            ? 'bg-brand-blue-50 border-brand-blue-200 text-brand-blue-500 hover:bg-brand-blue-100 cursor-pointer'
                             : isDisabled
                               ? 'bg-brand-gray-200 border-brand-gray-200 text-brand-gray-500 cursor-not-allowed'
-                              : 'bg-white border-brand-gray-300 text-brand-gray-500'
+                              : 'bg-white border-brand-gray-300 text-brand-gray-500 hover:bg-brand-gray-100 cursor-pointer'
                         }`}
                       >
                         {state.transitMode === mode && (
@@ -197,13 +197,13 @@ export default function PlanRouteMemoModal({ planId, item, onClose }: PlanRouteM
             {/* 이동 메모 */}
             <div className='flex flex-col gap-2'>
               <p className='text-typo-description text-brand-gray-700'>이동 메모</p>
-              <div className='bg-brand-gray-100 border border-brand-gray-200 rounded-sm px-3 py-2 min-h-18 max-h-30'>
+              <div className='bg-brand-gray-100 hover:bg-brand-gray-200 border border-brand-gray-200 rounded-sm px-3 py-2 min-h-18 max-h-30'>
                 <textarea
                   value={state.transitMemo ?? ''}
                   onChange={(e) => dispatch({ type: 'SET_TRANSIT_MEMO', value: e.target.value })}
                   placeholder='메모를 입력하세요'
                   maxLength={100}
-                  className='bg-transparent text-typo-description text-brand-gray-600 w-full outline-none field-sizing-content resize-none placeholder:text-brand-gray-400 min-h-14'
+                  className='bg-transparent text-typo-description text-brand-gray-600 w-full outline-none field-sizing-content resize-none placeholder:text-brand-gray-400 min-h-14 '
                 />
               </div>
             </div>
@@ -222,7 +222,7 @@ export default function PlanRouteMemoModal({ planId, item, onClose }: PlanRouteM
             <button
               onClick={onClose}
               className={
-                'flex-1 rounded-sm text-center text-brand-gray-500 border text-typo-base-bold border-brand-gray-200 cursor-pointer '
+                'flex-1 rounded-sm text-center text-brand-gray-500 border text-typo-base-bold border-brand-gray-200 cursor-pointer hover:bg-brand-gray-50 '
               }
             >
               취소

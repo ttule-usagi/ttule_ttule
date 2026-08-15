@@ -42,7 +42,7 @@ export default function PlanHeader({ planId, hasSession }: PlanHeaderProps) {
       {/* 홈/레이아웃 모드 전환 버튼 */}
       <div className='flex gap-3 items-center shrink-0'>
         <Link href='/lobby'>
-          <div className='flex items-center justify-center size-12 rounded-lg bg-brand-blue-400 shadow-lg p-2'>
+          <div className='flex items-center justify-center size-12 rounded-lg bg-brand-blue-400 hover:bg-brand-blue-700 shadow-lg p-2'>
             <Icon
               name='Luggage'
               size={32}
@@ -109,7 +109,7 @@ export default function PlanHeader({ planId, hasSession }: PlanHeaderProps) {
             <Icon
               name='Share'
               size={32}
-              className='cursor-pointer'
+              className='cursor-pointer hover:bg-brand-gray-100 '
               onClick={() => open({ type: 'shareLink', props: { type: 'VIEW', link: createViewLink(planId, 'plan') } })}
             />
           )}
