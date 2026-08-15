@@ -13,7 +13,6 @@ import { useGooglePlaceDetail } from '@/hooks/google-search/useGooglePlaceDetail
 import { useGoogleSearch } from '@/hooks/google-search/useGoogleSearch';
 import { useModalStore } from '@/lib/store/modalStore';
 import { COUNTRIES, type Country } from '@/lib/utils/countries';
-import { PlaceSearchResult } from '@/types/corePlace';
 import { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
 
 export default function SearchGoogle() {
@@ -95,7 +94,7 @@ export default function SearchGoogle() {
               submittedQuery={submittedQuery}
               results={results}
             />
-            {results?.map((place: PlaceSearchResult) => (
+            {results?.map((place: SelectedGooglePlace) => (
               <GoogleSearchResultListItem
                 key={place.id}
                 place={place}

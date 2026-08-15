@@ -119,7 +119,7 @@ export function useNewPlaceForm(place: SelectedGooglePlace, options?: UseNewPlac
         onSuccess: (result) => {
           if (result.success) {
             const placeName = state.korean_name || state.english_name || state.original_name;
-            options?.onSuccess?.(result.placeId, placeName);
+            options?.onSuccess?.(result.data.placeId, placeName);
           }
         },
       },
