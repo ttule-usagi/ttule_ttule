@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { updatePlanItemTransitMemo } from '@/lib/actions/planItem';
 import { ActionResult, RpcError } from '@/types/errors';
+import { PlanItem } from '@/types/plan';
 
 import { scheduleItemsQueryOptions } from './useGetScheduleItems';
 
@@ -14,8 +15,23 @@ export const useUpdateRouteMemo = ({ planId, scheduleId }: { planId: string; sch
       if (!result.success) throw new RpcError(result.error.message, result.error.code);
       return result;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: scheduleItemsQueryOptions(planId, scheduleId).queryKey });
+    onSuccess: (_, variables) => {
+      const queryKey = scheduleItemsQueryOptions(planId, scheduleId).queryKey;
+
+      queryClient.setQueryData<PlanItem[]>(queryKey, (old) => {
+        if (!old) return old;
+        return old.map((item) =>
+          item.id === variables.placeId
+            ? {
+                ...item,
+                transitMode: variables.transitMode,
+                transitDistance: variables.transitDistance,
+                transitTime: variables.transitTime,
+                transitMemo: variables.transitMemo,
+              }
+            : item,
+        );
+      });
     },
   });
 };
