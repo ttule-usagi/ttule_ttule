@@ -1,10 +1,12 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { supabaseAdmin, supabaseUser } from '@/lib/utils/supabase/index';
+
 import { auth } from '@/lib/utils/auth';
+import { supabaseAdmin, supabaseUser } from '@/lib/utils/supabase/index';
 import type { CreatePlacePayload } from '@/types/corePlace';
 import { CorePlaceDetail } from '@/types/corePlace';
+import { ActionResult, SQLSTATE_TO_RPC_ERROR } from '@/types/errors';
 
 // 이미 등록한 장소인지 체크
 export async function checkPlaceExists(googlePlaceId: string) {
@@ -18,23 +20,12 @@ export async function checkPlaceExists(googlePlaceId: string) {
 }
 
 // 새로운 Core Place 장소 생성
-interface CreatePlaceSuccess {
-  success: true;
-  placeId: string;
-}
 
-interface CreatePlaceError {
-  success: false;
-  error: string;
-}
-
-type CreatePlaceResult = CreatePlaceSuccess | CreatePlaceError;
-
-export async function createNewPlace(payload: CreatePlacePayload): Promise<CreatePlaceResult> {
+export async function createNewPlace(payload: CreatePlacePayload): Promise<ActionResult<{ placeId: string }>> {
   // 1. 인증
   const session = await auth();
   if (!session?.user?.id) {
-    return { success: false, error: '로그인이 필요합니다.' };
+    return { success: false, error: { message: 'UNAUTHORIZED' } };
   }
 
   // 2. RPC 호출 (트랜잭션)
@@ -55,16 +46,16 @@ export async function createNewPlace(payload: CreatePlacePayload): Promise<Creat
   });
 
   if (error) {
-    if (error.code === '23505') {
-      return { success: false, error: '이미 등록된 장소입니다.' };
-    }
+    const message = SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR';
+    const detail = message === 'CONFLICT' ? '이미 등록된 장소예요. 검색창에서 다시 검색해주세요.' : undefined;
+
     console.error('createNewPlace RPC error:', error);
-    return { success: false, error: '장소 등록 중 오류가 발생했습니다.' };
+    return { success: false, error: { message, code: error.code, detail } };
   }
-  // 4. 캐시 무효화
+
   revalidatePath('/places');
 
-  return { success: true, placeId };
+  return { success: true, data: { placeId } };
 }
 
 interface AddPlaceToListProps {

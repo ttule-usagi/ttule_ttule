@@ -1,5 +1,6 @@
-import { Icon } from '@/components/common/Icon';
 import Link from 'next/link';
+
+import { Icon } from '@/components/common/Icon';
 
 interface RegisterNewPlaceBannerProps {
   keyword: string;
@@ -11,7 +12,7 @@ export default function RegisterNewPlaceBanner({ keyword }: RegisterNewPlaceBann
       <p className='text-typo-description text-brand-gray-600 font-light'>찾는 장소가 없나요?</p>
       <Link
         href={`/google-search?query=${encodeURIComponent(keyword)}`}
-        className='w-full py-3 flex gap-1 items-center justify-center bg-brand-blue-700 text-white rounded-sm'
+        className='w-full py-3 flex gap-1 items-center justify-center bg-brand-blue-700 text-white rounded-sm hover:bg-brand-blue-500 transition-colors'
       >
         <Icon
           name='Plus'

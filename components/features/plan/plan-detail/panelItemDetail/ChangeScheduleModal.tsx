@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { Icon } from '@/components/common/Icon';
+import ModalHeader from '@/components/features/place/save/modal-item/ModalHeader';
 import type { PlanInfo, PlanSchedule } from '@/types/plan';
 
 interface ChangeScheduleModalProps {
@@ -33,7 +34,6 @@ export default function ChangeScheduleModal({
   onClose,
   onConfirm,
   isSubmitting,
-  title,
   confirmLabel = '변경하기',
 }: ChangeScheduleModalProps) {
   const [selectedScheduleId, setSelectedScheduleId] = useState<string | null>(null);
@@ -53,7 +53,10 @@ export default function ChangeScheduleModal({
         onClick={(e) => e.stopPropagation()}
       >
         <div className='flex flex-col gap-4 items-center w-full'>
-          <p className='text-typo-base-bold text-brand-gray-700 w-full'>{title ?? '일정 변경'}</p>
+          <ModalHeader
+            title='일정표 날짜 변경'
+            onClose={onClose}
+          />
 
           <div className='bg-brand-gray-50 flex flex-col gap-2 items-start px-3 py-2 w-full'>
             <div className='flex flex-col w-full'>
@@ -74,8 +77,8 @@ export default function ChangeScheduleModal({
                       onClick={() => setSelectedScheduleId(schedule.id)}
                       className={
                         isSelected
-                          ? 'bg-brand-blue-50 border border-brand-blue-100 flex gap-1 items-center justify-center px-3 py-1.75 rounded-xs'
-                          : 'bg-white border border-brand-gray-300 flex gap-1 items-center justify-center px-2.5 py-1.75 rounded-xs'
+                          ? 'bg-brand-blue-50 border border-brand-blue-100 flex gap-1 items-center justify-center px-3 py-1.75 rounded-sm hover:border-brand-blue-400'
+                          : 'bg-white border border-brand-gray-300 flex gap-1 items-center justify-center px-2.5 py-1.75 rounded-sm hover:bg-brand-gray-50'
                       }
                     >
                       {isSelected && (
@@ -106,7 +109,7 @@ export default function ChangeScheduleModal({
           disabled={!selectedScheduleId || isSubmitting}
           className={`w-full py-2 rounded-xs text-typo-base-bold text-center border ${
             selectedScheduleId && !isSubmitting
-              ? 'bg-brand-blue-700 text-white border-brand-gray-300'
+              ? 'bg-brand-blue-700 text-white border-brand-gray-300 hover:bg-brand-blue-800'
               : 'bg-brand-gray-200 text-brand-gray-400 border-brand-gray-200 cursor-not-allowed'
           }`}
         >

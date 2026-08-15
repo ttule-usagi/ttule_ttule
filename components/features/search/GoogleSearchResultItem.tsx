@@ -1,6 +1,8 @@
+import { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
+
 interface Props {
-  place: any;
-  onClick: (place: any) => void;
+  place: SelectedGooglePlace;
+  onClick: (place: SelectedGooglePlace) => void;
 }
 
 export default function GoogleSearchResultListItem({ place, onClick }: Props) {

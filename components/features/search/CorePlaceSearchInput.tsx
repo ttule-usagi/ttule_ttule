@@ -33,14 +33,13 @@ export default function CorePlaceSearchInput() {
   // 검색 결과 페이지에 URL로 직접 진입(또는 새로고침)했을 때 query 파라미터로 입력값을 채우고,
   // 검색 결과 페이지를 벗어나면 입력값을 리셋
   useEffect(() => {
-    isUserTypingRef.current = false;
-
-    if (isSearchResultPage) {
-      setValue(searchParams.get('query') ?? '');
+    if (isUserTypingRef.current) {
+      isUserTypingRef.current = false;
       return;
     }
 
-    setValue('');
+    const nextValue = isSearchResultPage ? (searchParams.get('query') ?? '') : '';
+    setValue((prev) => (prev === nextValue ? prev : nextValue));
   }, [isSearchResultPage, searchParams]);
 
   const { data } = useAutoCompleteSearch(debounced);

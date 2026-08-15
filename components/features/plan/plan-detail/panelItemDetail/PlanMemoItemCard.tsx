@@ -59,7 +59,7 @@ export default function PlanMemoItemCard({
   };
 
   return (
-    <div className='relative flex bg-white shadow-sm cursor-pointer w-full rounded-sm'>
+    <div className='relative flex bg-white hover:bg-brand-gray-50 shadow-sm cursor-pointer w-full rounded-sm'>
       <NotchRows count={1} />
       {/* 왼쪽 방문 시간 */}
       {item.visitTime && (
@@ -94,7 +94,7 @@ export default function PlanMemoItemCard({
                 <Icon
                   name='DotsHorizontal'
                   size={24}
-                  className='text-brand-gray-400 mr-4'
+                  className='text-brand-gray-400 mr-4 hover:text-brand-blue-800 hover:bg-brand-gray-100 rounded-sm'
                 />
               </DropDown.Trigger>
 

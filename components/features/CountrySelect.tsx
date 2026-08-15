@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+
 import { Icon } from '@/components/common/Icon';
 import { COUNTRIES, type Country } from '@/lib/utils/countries';
 
@@ -79,7 +80,7 @@ export default function CountrySelect({ value, onChange }: Props) {
           setIsOpen(true);
           inputRef.current?.focus();
         }}
-        className='grid w-full cursor-text grid-cols-1 rounded-full bg-white py-1.5 pr-2 pl-3 text-left text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600 sm:text-sm'
+        className='grid w-full cursor-text grid-cols-1 rounded-full bg-white hover:bg-brand-gray-50 py-1.5 pr-2 pl-3 text-left text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600 sm:text-sm'
       >
         <input
           ref={inputRef}
@@ -93,7 +94,7 @@ export default function CountrySelect({ value, onChange }: Props) {
           onFocus={() => setIsOpen(true)}
           onKeyDown={handleKeyDown}
           placeholder={isOpen ? value.label : ''}
-          className='col-start-1 row-start-1 bg-transparent outline-none pr-6 truncate'
+          className='col-start-1 row-start-1 bg-transparent outline-none pr-6 truncate text-typo-base'
         />
         <Icon
           className='absolute top-2 right-3 text-brand-gray-500 pointer-events-none'
@@ -113,9 +114,9 @@ export default function CountrySelect({ value, onChange }: Props) {
                 key={nation.countryCode}
                 onClick={() => handleSelect(nation)}
                 onMouseEnter={() => setHighlightIndex(index)}
-                className={`relative cursor-default py-2 pr-9 pl-3 select-none ${
+                className={`relative cursor-default py-2 pr-9 pl-3 select-none text-typo-description ${
                   index === highlightIndex ? 'bg-brand-blue-50 text-brand-blue-700' : ''
-                } ${value.countryCode === nation.countryCode ? 'font-semibold' : 'font-normal'}`}
+                } ${value.countryCode === nation.countryCode ? 'font-semibold text-brand-blue-800' : 'font-normal'}`}
               >
                 {nation.label}
                 {value.countryCode === nation.countryCode && (

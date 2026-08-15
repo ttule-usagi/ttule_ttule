@@ -147,7 +147,7 @@ export default function PlanDayPanel({
           <Icon
             name='PageLeft'
             size={42}
-            className='text-brand-gray-600'
+            className='text-neon-green hover:text-neon-hover'
           />
         </button>
       )}
@@ -164,7 +164,7 @@ export default function PlanDayPanel({
           <Icon
             name='PageRight'
             size={42}
-            className='text-brand-gray-600'
+            className='text-neon-green hover:text-neon-hover'
           />
         </button>
       )}

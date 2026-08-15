@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+
 import { Icon } from '@/components/common/Icon';
 
 interface Option {
@@ -63,7 +64,7 @@ export default function FormTypeSelect({
           id={id}
           type='button'
           onClick={() => setIsOpen(!isOpen)}
-          className='grid w-full cursor-pointer grid-cols-1 rounded-lg bg-white py-2.5 pr-2 pl-3.5 text-left outline outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 text-typo-base font-light'
+          className='grid w-full cursor-pointer grid-cols-1 rounded-lg bg-white py-2.5 pr-2 pl-3.5 text-left outline outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 text-typo-base font-light hover:bg-brand-gray-50'
         >
           <span className='col-start-1 row-start-1 flex items-center gap-3 pr-6'>
             <span className={`block truncate ${selectedOption ? 'text-brand-gray-900' : 'text-login-placeholder'}`}>

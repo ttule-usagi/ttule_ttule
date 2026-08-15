@@ -9,7 +9,7 @@ interface ConfirmButtonProps {
 export default function ConfirmButton({ text, onClick, disabled }: ConfirmButtonProps) {
   return (
     <button
-      className='btn-small bg-brand-blue-700 text-brand-gray-0 border'
+      className='btn-small bg-brand-blue-700 text-brand-gray-0 border hover:bg-brand-blue-800 '
       onClick={onClick}
       disabled={disabled}
     >

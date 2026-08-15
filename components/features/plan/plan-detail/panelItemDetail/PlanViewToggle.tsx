@@ -18,7 +18,7 @@ export default function PlanViewToggle({ planId }: PlanViewToggleProps) {
     <div className='flex gap-2'>
       {isOverview ? (
         <Link href={pathname}>
-          <div className='flex items-center justify-center size-12 rounded-lg bg-neon-green shadow-lg p-2'>
+          <div className='flex items-center justify-center size-12 rounded-lg bg-neon-green hover:bg-neon-hover shadow-lg p-2'>
             <Icon
               name='LayoutRight'
               size={32}
@@ -27,7 +27,7 @@ export default function PlanViewToggle({ planId }: PlanViewToggleProps) {
         </Link>
       ) : (
         <Link href={`/plan/${planId}?view=overview`}>
-          <div className='flex items-center justify-center size-12 rounded-lg bg-neon-green shadow-lg p-2'>
+          <div className='flex items-center justify-center size-12 rounded-lg bg-neon-green hover:bg-neon-hover  shadow-lg p-2'>
             <Icon
               name='Columns'
               size={32}

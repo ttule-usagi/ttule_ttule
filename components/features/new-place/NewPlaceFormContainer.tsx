@@ -1,14 +1,16 @@
 'use client';
 
-import { Icon } from '@/components/common/Icon';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+import { Icon } from '@/components/common/Icon';
 import { useNewPlaceForm } from '@/hooks/useNewPlaceForm';
-import FormBasicKorean from './FormBasicKorean';
-import FormBasicGlobal from './FormBasicGlobal';
-import FormDetail from './FormDetail';
-import type { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
 import { deleteImage } from '@/lib/actions/storage';
+import type { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
+
+import FormBasicGlobal from './FormBasicGlobal';
+import FormBasicKorean from './FormBasicKorean';
+import FormDetail from './FormDetail';
 
 interface Props {
   place: SelectedGooglePlace;
@@ -47,6 +49,7 @@ export default function NewPlaceFormContainer({ place, onClose, onCancelClose }:
               type='button'
               onClick={handleClose}
               aria-label='닫기'
+              className='hover:bg-brand-gray-100 rounded-full'
             >
               <Icon
                 name='XClose'
@@ -56,16 +59,16 @@ export default function NewPlaceFormContainer({ place, onClose, onCancelClose }:
             </button>
           </div>
 
-          <div className='mt-6 flex flex-shrink-0 gap-4 items-start text-typo-base text-brand-gray-500'>
+          <div className='mt-6 flex flex-shrink-0 gap-4 items-start text-typo-base text-brand-gray-500 '>
             <button
               onClick={() => setTab('basic')}
-              className={tab === 'basic' ? 'text-brand-blue-700 border-b-2 border-brand-blue-700 pb-2' : ''}
+              className={`border-b-2  ${tab === 'basic' ? 'text-brand-blue-700 border-b-2 border-brand-blue-700 pb-2' : ' border-brand-gray-0 hover:border-brand-gray-400 pb-2'}`}
             >
               기본 정보
             </button>
             <button
               onClick={() => setTab('detail')}
-              className={tab === 'detail' ? 'text-brand-blue-700  border-b-2 border-brand-blue-700 pb-2' : ''}
+              className={`border-b-2  ${tab === 'detail' ? 'text-brand-blue-700 border-b-2 border-brand-blue-700 pb-2' : 'border-brand-gray-0 hover:border-brand-gray-400 pb-2'}`}
             >
               세부 정보
             </button>
@@ -109,7 +112,7 @@ export default function NewPlaceFormContainer({ place, onClose, onCancelClose }:
             )}
 
             <button
-              className='float-right py-3 px-9 typo-text-base-bold text-white bg-brand-blue-700 rounded-sm hover:bg-brand-blue-800 cursor-pointer'
+              className='float-right py-3 px-9 typo-text-base-bold text-white bg-brand-blue-700 rounded-sm hover:bg-brand-blue-800  cursor-pointer'
               form='newPlaceForm'
               type='submit'
               disabled={isPending}

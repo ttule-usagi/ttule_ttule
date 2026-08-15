@@ -152,9 +152,9 @@ export default function PanelHeader({
         >
           <div className='flex gap-3 items-center'>
             {isEditingAll ? (
-              <div className='flex gap-4 items-center'>
+              <div className='flex gap-0.5 items-center'>
                 <button
-                  className='text-white text-typo-base'
+                  className='text-white text-typo-base hover:bg-brand-blue-800/50 px-3 py-2'
                   onClick={onCancel}
                 >
                   취소
@@ -162,7 +162,7 @@ export default function PanelHeader({
                 <button
                   onClick={onSave}
                   disabled={isSaving}
-                  className='text-brand-blue-700 text-typo-base-bold bg-white px-3 py-2 rounded-sm ml-2'
+                  className='text-brand-blue-700 text-typo-base-bold bg-white px-3 py-2 rounded-sm ml-2 hover:bg-brand-gray-100'
                 >
                   {isSaving ? '저장 중...' : '저장하기'}
                 </button>
@@ -171,18 +171,20 @@ export default function PanelHeader({
               <div className='flex gap-3 items-center'>
                 <button
                   onClick={onStartEdit}
-                  className='text-white text-typo-base cursor-pointer'
+                  className='text-white text-typo-base cursor-pointer hover:bg-brand-blue-800/50 p-1 rounded-sm '
                 >
                   편집
                 </button>
 
                 <DropDown>
                   <DropDown.Trigger>
-                    <Icon
-                      name='DotsHorizontal'
-                      size={32}
-                      className='text-white'
-                    />
+                    <div className='hover:bg-brand-blue-800/50 rounded-sm'>
+                      <Icon
+                        name='DotsHorizontal'
+                        size={32}
+                        className='text-white'
+                      />
+                    </div>
                   </DropDown.Trigger>
 
                   <DropDown.Menu>

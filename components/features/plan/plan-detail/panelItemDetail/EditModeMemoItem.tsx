@@ -35,13 +35,13 @@ export default function EditModeMemoItem({ item, draft, onChange, onRemove }: Ed
       <div className='absolute left-4 top-5'>
         <button
           onClick={onRemove}
-          className='flex items-center justify-center size-6.5 rounded-full bg-brand-gray-200 cursor-pointer'
+          className='flex items-center justify-center size-6.5 rounded-full  cursor-pointer hover:bg-brand-gray-100'
           aria-label='항목 삭제'
         >
           <Icon
             name='XClose'
             size={26}
-            className='text-brand-gray-600'
+            className='text-brand-gray-600  hover:text-brand-blue-700'
           />
         </button>
       </div>
@@ -55,7 +55,7 @@ export default function EditModeMemoItem({ item, draft, onChange, onRemove }: Ed
         <Icon
           name='Hamburger'
           size={32}
-          className='text-brand-gray-400'
+          className='text-brand-gray-400 hover:text-brand-blue-600'
         />
       </button>
     </div>

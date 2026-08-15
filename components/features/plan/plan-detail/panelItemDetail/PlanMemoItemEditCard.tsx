@@ -40,13 +40,13 @@ export default function PlanMemoItemEditCard({ item, isSaving, onClose, onSave }
       <div className='absolute left-4 top-5'>
         <button
           onClick={onClose}
-          className='flex items-center justify-center size-6.5 rounded-full bg-brand-gray-200 cursor-pointer'
+          className='flex items-center justify-center size-6.5 rounded-full cursor-pointer hover:bg-brand-gray-100'
           aria-label='닫기'
         >
           <Icon
             name='XClose'
             size={26}
-            className='text-brand-gray-600'
+            className='text-brand-gray-600 hover:text-brand-blue-700'
           />
         </button>
       </div>
@@ -65,14 +65,14 @@ export default function PlanMemoItemEditCard({ item, isSaving, onClose, onSave }
         <div className='flex gap-2'>
           <button
             onClick={onClose}
-            className='flex-1 flex items-center justify-center py-2 border border-brand-gray-200 rounded-1'
+            className='flex-1 flex items-center justify-center py-2 border border-brand-gray-200 hover:bg-brand-gray-100 rounded-1'
           >
             <span className='text-typo-description text-brand-gray-500'>취소</span>
           </button>
           <button
             onClick={handleSave}
             disabled={!placeName.trim() || isSaving}
-            className='flex-1 flex items-center justify-center py-2 bg-brand-blue-700 rounded-sm text-brand-gray-50'
+            className='flex-1 flex items-center justify-center py-2 bg-brand-blue-700 rounded-sm text-brand-gray-50 hover:bg-brand-blue-800 '
           >
             <span>{isSaving ? '저장 중...' : '저장'}</span>
           </button>
@@ -89,7 +89,7 @@ export default function PlanMemoItemEditCard({ item, isSaving, onClose, onSave }
         <Icon
           name='Hamburger'
           size={32}
-          className='text-brand-gray-400'
+          className='text-brand-gray-400 hover:text-brand-blue-600'
         />
       </button>
     </div>

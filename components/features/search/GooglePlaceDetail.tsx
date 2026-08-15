@@ -1,6 +1,11 @@
-import { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
-import { Icon } from '../../common/Icon';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
+import { useCheckCorePlaceExists } from '@/hooks/new-place/useCheckCorePlaceRegistered';
+import { useModalStore } from '@/lib/store/modalStore';
+import { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
+
+import { Icon } from '../../common/Icon';
 
 interface Props {
   place: SelectedGooglePlace;
@@ -9,6 +14,26 @@ interface Props {
 }
 
 export default function GooglePlaceDetail({ place, addNewPlace, onClose }: Props) {
+  const router = useRouter();
+  const { open } = useModalStore();
+  const { data: existingCorePlaceId } = useCheckCorePlaceExists(place.id);
+
+  const handleClickAddButton = () => {
+    if (existingCorePlaceId) {
+      open({
+        type: 'confirmAction',
+        props: {
+          description: '이미 등록되어 있는 장소예요. \n 해당 장소로 이동하시겠어요?',
+          confirmButtonText: '이동하기',
+          onConfirm: () => router.push(`/places/detail/${existingCorePlaceId}`),
+        },
+      });
+      return;
+    }
+
+    addNewPlace();
+  };
+
   const getBusinessStatus = (status?: string) => {
     switch (status) {
       case 'OPERATIONAL':
@@ -42,7 +67,7 @@ export default function GooglePlaceDetail({ place, addNewPlace, onClose }: Props
           {place.additionalData?.primaryTypeDisplayName?.text}
         </span>
         <Icon
-          className='absolute top-5 right-4 text-brand-gray-600 cursor-pointer'
+          className='absolute top-5 right-4 text-brand-gray-600 cursor-pointer hover:bg-brand-gray-100 rounded-full'
           name='XClose'
           size={30}
           onClick={onClose}
@@ -83,7 +108,7 @@ export default function GooglePlaceDetail({ place, addNewPlace, onClose }: Props
         </Link>
         <div
           className='flex flex-row gap-[6px] items-center justify-center m-auto h-10 r-2 text-typo-description font-medium text-white bg-brand-blue-700 rounded-lg size-full hover:bg-brand-blue-800 cursor-pointer'
-          onClick={addNewPlace}
+          onClick={handleClickAddButton}
         >
           이 장소로 등록하기
         </div>

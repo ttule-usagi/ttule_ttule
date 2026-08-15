@@ -84,7 +84,7 @@ export default function PlanItemCard({
   };
 
   return (
-    <div className='relative bg-white rounded-2 shadow-lg  overflow-hidden rounded-sm'>
+    <div className='relative bg-white hover:bg-brand-gray-50 rounded-2 shadow-lg  overflow-hidden rounded-sm'>
       <NotchRows />
       {/* 왼쪽 색상 바- 추후 가장 최근 수정된 컴포넌트 표기 적용예정 */}
       {/* <div
@@ -135,7 +135,7 @@ export default function PlanItemCard({
                 <Icon
                   name='DotsHorizontal'
                   size={24}
-                  className='text-brand-gray-400'
+                  className='text-brand-gray-400  hover:text-brand-blue-800 hover:bg-brand-gray-100 rounded-sm'
                 />
               </DropDown.Trigger>
 

@@ -43,11 +43,13 @@ export default function LobbyPlanActionMenu({ planName, type = 'overview', id, m
                 className='self-end text-brand-blue-700'
               />
             ) : (
-              <Icon
-                name='Setting'
-                size={32}
-                className='text-brand-blue-600'
-              />
+              <div className='hover:bg-brand-blue-50 rounded-full'>
+                <Icon
+                  name='Setting'
+                  size={32}
+                  className='text-brand-blue-600'
+                />
+              </div>
             )}
           </DropDown.Trigger>
 

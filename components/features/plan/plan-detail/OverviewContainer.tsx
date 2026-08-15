@@ -246,7 +246,7 @@ export default function OverviewContainer({ planId, hasSession }: { planId: stri
             <Icon
               name='AddPlanDate'
               size={56}
-              className='cursor-pointer text-neon-green hover:text-[#BCF259]'
+              className='cursor-pointer text-neon-green hover:text-neon-hover'
             />
           </div>
         </div>
