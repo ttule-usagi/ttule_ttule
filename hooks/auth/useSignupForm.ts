@@ -4,6 +4,7 @@ export interface SignupState {
   email: string;
   password: string;
   username: string;
+  image?: File | null;
   error: {
     field?: string;
     message: string;
@@ -12,13 +13,16 @@ export interface SignupState {
 }
 
 type SignupAction =
-  | { type: 'SET_FIELD'; field: keyof SignupState; value: string }
+  | { type: 'SET_FIELD'; field: Exclude<keyof SignupState, 'image'>; value: string }
+  | { type: 'SET_IMAGE'; field: 'image'; value: File | null }
   | { type: 'SET_ERROR'; error: { field?: string; message: string } }
   | { type: 'SET_LOADING'; loading: boolean };
 
 const reducer = (state: SignupState, action: SignupAction): SignupState => {
   switch (action.type) {
     case 'SET_FIELD':
+      return { ...state, [action.field]: action.value };
+    case 'SET_IMAGE':
       return { ...state, [action.field]: action.value };
     case 'SET_ERROR':
       return { ...state, error: action.error };
@@ -34,12 +38,17 @@ export const useSignupForm = (initialState: SignupState) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    dispatch({ type: 'SET_FIELD', field: id as keyof SignupState, value });
+    dispatch({ type: 'SET_FIELD', field: id as Exclude<keyof SignupState, 'image'>, value });
+  };
+
+  const handleImageChange = (file: File | null) => {
+    dispatch({ type: 'SET_IMAGE', field: 'image', value: file });
   };
 
   return {
     state,
     dispatch,
     handleChange,
+    handleImageChange,
   };
 };

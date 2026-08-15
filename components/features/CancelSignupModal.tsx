@@ -7,6 +7,7 @@ import { useModalStore } from '@/lib/store/modalStore';
 
 import CancelButton from '../common/CancelButton';
 import ConfirmButton from '../common/ConfirmButton';
+import { Icon } from '../common/Icon';
 import ModalBox from '../common/Modal/ModalBox';
 
 export default function CancelSignupModal() {
@@ -37,8 +38,18 @@ export default function CancelSignupModal() {
       isCloseIcon={false}
       width={320}
     >
+      <div className='w-full flex items-center justify-center -mb-2.5'>
+        <div className='w-12 h-12 bg-brand-blue-50 rounded-full flex items-center justify-center'>
+          <Icon
+            name='AlertCircle'
+            size={24}
+            className='text-brand-blue-700'
+          />
+        </div>
+      </div>
+
       <ModalBox.ModalContent>
-        <div className='pt-8 pb-5'>
+        <div className='font-light'>
           회원가입을 중단하시겠어요? <br />
           지금까지 입력한 내용은 저장되지 않습니다.
         </div>

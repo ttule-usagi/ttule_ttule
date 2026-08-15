@@ -106,4 +106,6 @@ export function isPostgresError(error: unknown): error is { code: string; messag
 export interface RpcErrorResponseBody {
   error: RpcErrorMessage;
   code?: string;
+  detail?: string;
+  field?: string;
 }

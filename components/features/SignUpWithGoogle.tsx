@@ -1,16 +1,19 @@
 'use client';
 
-import { setGoogleAccount } from '@/lib/actions/auth';
-import { getProfileImageUrl } from '@/lib/actions/getProfileImageUrl';
 import { useRouter } from 'next/navigation';
+import { User } from 'next-auth';
 import { useState } from 'react';
-import NotePage from '../common/NotePage';
-import ProfileImageUploader from './ProfileImageUploader';
+
+import { useConfirmGoogleSignup } from '@/hooks/auth/useConfirmGoogleSignup';
+import { useModalStore } from '@/lib/store/modalStore';
+import { getUsernameErrorMessage } from '@/lib/utils/validate';
+
 import CancelButton from '../common/CancelButton';
 import ConfirmButton from '../common/ConfirmButton';
-import { User } from 'next-auth';
+import NotePage from '../common/NotePage';
 import WithoutLineInput from '../common/WithoutLineInput';
-import { useModalStore } from '@/lib/store/modalStore';
+
+import ProfileImageUploader from './ProfileImageUploader';
 
 export default function SignUpWithGoogle({ user }: { user: User }) {
   const router = useRouter();
@@ -18,66 +21,78 @@ export default function SignUpWithGoogle({ user }: { user: User }) {
 
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [form, setForm] = useState({ nickname: user.name ?? '', profileImage: user.image ?? '' });
-  const [errorText, setErrorText] = useState('');
+  const { confirmGoogleSignup, isPending, fieldError, setFieldError } = useConfirmGoogleSignup();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.id]: e.target.value });
   };
 
-  const handleConfirm = async () => {
-    if (!form.nickname.trim()) {
-      setErrorText('닉네임을 입력해 주세요.');
+  const handleConfirm = () => {
+    // 먼저 유효성 검사 후 확인모달 노출
+    const usernameError = getUsernameErrorMessage(form.nickname);
+    if (usernameError) {
+      setFieldError({
+        field: 'username',
+        message: usernameError,
+      });
       return;
     }
 
-    try {
-      const finalImageUrl = profileImage ? await getProfileImageUrl(profileImage) : form.profileImage;
-      await setGoogleAccount(form.nickname, finalImageUrl);
-
-      router.push('/lobby');
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error(error);
-        setErrorText(error.message || '오류가 발생했습니다.');
-      } else {
-        console.error('알 수 없는 오류:', error);
-        setErrorText('알 수 없는 오류가 발생했습니다.');
-      }
-    }
+    confirmGoogleSignup({
+      email: user.email ?? '',
+      username: form.nickname,
+      newProfileImage: profileImage,
+      currentProfileImage: form.profileImage ?? '',
+      onSuccess: () => router.replace('/lobby'),
+    });
   };
 
   return (
     <NotePage title='뚤레뚤레 가입하기'>
-      <ProfileImageUploader
-        onUploadImage={setProfileImage}
-        initialImageURL={form.profileImage}
-      />
-
-      <div className='flex flex-col gap-5 font-light text-typo-base mt-7.75'>
-        <div className='flex gap-3'>
-          <span className='text-brand-blue-700 w-16'>이메일:</span>
-          <span className='text-brand-gray-400'>{user.email}</span>
+      <div className='grid grid-cols-[16rem] grid-rows-[repeat(13,44px)] content-start h-full justify-center items-center relative'>
+        <div className='row-span-6 flex justify-center relative'>
+          <ProfileImageUploader
+            onUploadImage={setProfileImage}
+            initialImageURL={form.profileImage}
+          />
+          {fieldError?.field === 'image' && (
+            <p className='absolute left-0 -bottom-7 text-typo-caption text-tag-red-text whitespace-nowrap bg-white/70'>
+              {fieldError.message}
+            </p>
+          )}
         </div>
 
-        <WithoutLineInput
-          id='nickname'
-          label='닉네임'
-          placeholder='닉네임을 입력해 주세요'
-          value={form.nickname}
-          onChange={handleChange}
-          errorText={errorText}
-        />
-      </div>
+        <div className='w-full flex gap-3 text-typo-base font-light justify-self-stretch items-start'>
+          <span className='text-brand-blue-700 shrink-0'>이메일:</span>
+          <p className='flex-1 min-w-0 max-h-6 text-brand-gray-400 truncate'>{user.email}</p>
+        </div>
 
-      <div className='flex gap-4 mt-18.25'>
-        <CancelButton
-          text='취소'
-          onClick={() => open({ type: 'cancelSignup' })}
-        />
-        <ConfirmButton
-          text='확인'
-          onClick={handleConfirm}
-        />
+        <div className='flex flex-col w-full justify-self-stretch'>
+          <WithoutLineInput
+            id='nickname'
+            label='닉네임'
+            placeholder='뚤레 닉네임 입력'
+            value={form.nickname}
+            onChange={handleChange}
+            maxLength={9}
+          />
+        </div>
+        <p className='text-left text-typo-caption text-tag-red-text min-h-4.5 -mt-3 -mr-11'>
+          {fieldError?.field !== 'image' && fieldError?.message}
+        </p>
+
+        <div className='row-span-5 w-full flex gap-4 justify-self-stretch'>
+          <CancelButton
+            text='취소'
+            onClick={() => open({ type: 'cancelSignup' })}
+            disabled={isPending}
+          />
+          <ConfirmButton
+            text={isPending ? '가입중...' : '확인'}
+            onClick={handleConfirm}
+            disabled={isPending}
+          />
+        </div>
       </div>
     </NotePage>
   );

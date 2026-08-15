@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import { Icon } from '@/components/common/Icon';
 import NotePage from '@/components/common/NotePage';
-import { useConfirmWithdraw } from '@/hooks/user/useConfirmWithdraw';
+import { useConfirmWithdraw } from '@/hooks/auth/useConfirmWithdraw';
 import { useEditMyInfo } from '@/hooks/user/useEditMyInfo';
 import { useGetUserInfo } from '@/hooks/user/useGetUserInfo';
 import { DEFAULT_PROFILE_IMAGE } from '@/lib/constants/image';
@@ -52,7 +52,7 @@ export default function EditInfoForm() {
         />
       )}
       <div className='grid grid-cols-[16rem] grid-rows-[repeat(13,44px)] content-start h-full justify-center items-center relative'>
-        <div className='row-span-6 flex justify-center'>
+        <div className='row-span-6 flex justify-center relative'>
           {isEdit ? (
             <ProfileImageUploader
               onUploadImage={setNewProfileImage}
@@ -68,6 +68,11 @@ export default function EditInfoForm() {
                 className='w-full h-full rounded-full object-cover'
               />
             </div>
+          )}
+          {fieldError?.field === 'image' && (
+            <p className='absolute left-0 -bottom-7 text-typo-caption text-tag-red-text whitespace-nowrap bg-white/70'>
+              {fieldError.message}
+            </p>
           )}
         </div>
 
@@ -95,7 +100,7 @@ export default function EditInfoForm() {
               <input
                 id='username'
                 type='text'
-                maxLength={20}
+                maxLength={9}
                 placeholder={'뚤레 닉네임 입력'}
                 value={userInfo.username}
                 onChange={(e) => setUserInfo((prev) => ({ ...prev, username: e.target.value }))}
@@ -113,7 +118,10 @@ export default function EditInfoForm() {
           </div>
         </div>
         {/* 에러 - 필드/폼 레벨 통합 */}
-        <p className='text-left text-typo-caption text-tag-red-text min-h-4.5 -mt-3 -mr-11'>{fieldError?.message}</p>
+        <p className='text-left text-typo-caption text-tag-red-text min-h-4.5 -mt-4 -mr-11'>
+          {' '}
+          {fieldError?.field !== 'image' && fieldError?.message}
+        </p>
 
         <button
           onClick={confirmWithdraw}
