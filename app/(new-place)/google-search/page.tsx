@@ -1,18 +1,20 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
+import React, { useState } from 'react';
+
+import GoogleMapEmbed from '@/components/features/map/GoogleMapEmbed';
 import NewPlaceFormContainer from '@/components/features/new-place/NewPlaceFormContainer';
 import GooglePlaceDetail from '@/components/features/search/GooglePlaceDetail';
-import SearchInteraction from '@/components/features/search/SearchInteraction';
-import GoogleSearchResultListItem from '@/components/features/search/GoogleSearchResultItem';
-import { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
-import React, { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { useGoogleSearch } from '@/hooks/google-search/useGoogleSearch';
-import { useGooglePlaceDetail } from '@/hooks/google-search/useGooglePlaceDetail';
-import { COUNTRIES, type Country } from '@/lib/utils/countries';
-import { useModalStore } from '@/lib/store/modalStore';
 import SearchForm from '@/components/features/search/GoogleSearchForm';
-import GoogleMapEmbed from '@/components/features/map/GoogleMapEmbed';
+import GoogleSearchResultListItem from '@/components/features/search/GoogleSearchResultItem';
+import SearchInteraction from '@/components/features/search/SearchInteraction';
+import { useGooglePlaceDetail } from '@/hooks/google-search/useGooglePlaceDetail';
+import { useGoogleSearch } from '@/hooks/google-search/useGoogleSearch';
+import { useModalStore } from '@/lib/store/modalStore';
+import { COUNTRIES, type Country } from '@/lib/utils/countries';
+import { PlaceSearchResult } from '@/types/corePlace';
+import { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
 
 export default function SearchGoogle() {
   const searchParams = useSearchParams();
@@ -28,13 +30,10 @@ export default function SearchGoogle() {
   const { open } = useModalStore();
 
   // 검색 mutation
-  const {
-    data: searchData,
-    isFetching: isSearching,
-    isSuccess: hasSearched,
-    status,
-    fetchStatus,
-  } = useGoogleSearch({ query: submittedQuery, languageCode: country.languageCode });
+  const { data: searchData, isFetching: isSearching } = useGoogleSearch({
+    query: submittedQuery,
+    languageCode: country.languageCode,
+  });
 
   const results = searchData?.places ?? [];
 
@@ -57,7 +56,7 @@ export default function SearchGoogle() {
   };
 
   // 장소 클릭
-  const handlePlaceClick = (place: any) => {
+  const handlePlaceClick = (place: SelectedGooglePlace) => {
     setSelectedPlace(place);
     setIsDetailModalOpen(true);
   };
@@ -96,7 +95,7 @@ export default function SearchGoogle() {
               submittedQuery={submittedQuery}
               results={results}
             />
-            {results?.map((place: any) => (
+            {results?.map((place: PlaceSearchResult) => (
               <GoogleSearchResultListItem
                 key={place.id}
                 place={place}
