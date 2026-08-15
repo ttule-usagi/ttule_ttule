@@ -186,7 +186,8 @@ export default function PlanRouteMemoModal({ planId, item, onClose }: PlanRouteM
                   })}
                 </div>
                 <p className='text-typo-caption text-brand-gray-600 textwrap'>
-                  *한국에서는 대중교통 경로만 제공되며, 출발지와 목적지에 따라 경로가 제공되지 않을 수 있습니다.
+                  *한국에서는 대중교통 경로만 제공되며, 출발지와 목적지의 거리 또는 국가에 따라 경로가 제공되지 않을 수
+                  있습니다.
                 </p>
               </div>
             </div>
