@@ -3,6 +3,7 @@
 import { useState, useReducer } from 'react';
 
 import { sanitizeBusinessStatus, type PlaceCategory } from '@/types/corePlace';
+import { getErrorMessage, RpcError, RpcErrorMessage } from '@/types/errors';
 import { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
 
 import { useCreatePlace } from './new-place/useCreatePlace';
@@ -132,6 +133,11 @@ export function useNewPlaceForm(place: SelectedGooglePlace, options?: UseNewPlac
     isKorean,
     handleSubmit,
     isPending,
-    error: validationError ?? mutationError?.message ?? null,
+    error:
+      validationError ??
+      (mutationError instanceof RpcError
+        ? (mutationError.detail ??
+          getErrorMessage(mutationError.message as RpcErrorMessage, { subject: '장소', action: '등록' }))
+        : (mutationError?.message ?? null)),
   };
 }

@@ -47,7 +47,7 @@ export async function createNewPlace(payload: CreatePlacePayload): Promise<Actio
 
   if (error) {
     const message = SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR';
-    const detail = message === 'CONFLICT' ? '이미 등록된 장소예요.' : undefined;
+    const detail = message === 'CONFLICT' ? '이미 등록된 장소예요. 검색창에서 다시 검색해주세요.' : undefined;
 
     console.error('createNewPlace RPC error:', error);
     return { success: false, error: { message, code: error.code, detail } };
