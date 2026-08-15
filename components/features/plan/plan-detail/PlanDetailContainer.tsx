@@ -2,6 +2,7 @@
 
 import {
   DndContext,
+  DragOverEvent,
   DragOverlay,
   DragStartEvent,
   PointerSensor,
@@ -21,13 +22,16 @@ import { useOpenPlaceDetailModal } from '@/hooks/place/useOpenPlaceDetailModal';
 import { useGetPlanDetail } from '@/hooks/plan/useGetPlanDetail';
 import { scheduleItemsQueryOptions, useGetScheduleItems } from '@/hooks/plan/useGetScheduleItems';
 import { useMovePlanItem } from '@/hooks/plan/useMovePlanItem';
+import { addPlanItemFromPlaceListItem } from '@/lib/actions/planItem';
 import { DESTINATIONS } from '@/lib/utils/destinations';
 import { PlaceCategory } from '@/types/corePlace';
+import { Place } from '@/types/placeList';
 import { PlanItem } from '@/types/plan';
 
 import GoogleMapEmbed from '../../map/GoogleMapEmbed';
 import GoogleMapJS from '../../map/GoogleMapJS';
 import CorePlaceDetailContainer from '../../place/CorePlaceDetailContainer';
+import { PlaceListDragPreview } from '../PlaceList/PlaceListDragPreview';
 
 import { PlanDragPreview } from './panelItemDetail/PlanDragPreview';
 
@@ -46,11 +50,19 @@ export default function PlanDetailContainer({ planId, hasSession }: PlanDetailCo
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
-      activationConstraint: { delay: 500, tolerance: 5 },
+      activationConstraint: {
+        delay: 500,
+        tolerance: {
+          x: 5,
+          y: 5,
+        },
+      },
     }),
   );
   const { mutate: movePlanItem } = useMovePlanItem({ planId });
-  const [activeItem, setActiveItem] = useState<PlanItem | null>(null);
+
+  type ActiveDrag = { type: 'plan-item'; item: PlanItem } | { type: 'place-list-item'; place: Place };
+  const [activeDrag, setActiveDrag] = useState<ActiveDrag | null>(null);
   const { isOpenPlaceModal, selectedId, handleClickPlaceItem, handleClosePlaceDetailModal } = useOpenPlaceDetailModal();
 
   const { data: items = [], isFetching } = useGetScheduleItems(
@@ -75,6 +87,7 @@ export default function PlanDetailContainer({ planId, hasSession }: PlanDetailCo
   const [prevScheduleId, setPrevScheduleId] = useState(currentSchedule.id);
   const [prevItemsSignature, setPrevItemsSignature] = useState(() => items.map((i) => i.id).join(','));
   const [stableCoordinates, setStableCoordinates] = useState(coordinates);
+  const [placeListPreview, setPlaceListPreview] = useState<PlanItem[] | null>(null);
 
   const scheduleChanged = currentSchedule.id !== prevScheduleId;
   const itemsSignature = items.map((i) => i.id).join(',');
@@ -114,13 +127,41 @@ export default function PlanDetailContainer({ planId, hasSession }: PlanDetailCo
   };
 
   const handleDragStart = (event: DragStartEvent) => {
+    const activeData = event.active.data.current;
+    if (activeData?.type === 'place-list-item') {
+      setActiveDrag({ type: 'place-list-item', place: activeData.place });
+      return;
+    }
     const item = items.find((i) => i.id === event.active.id);
-    setActiveItem(item ?? null);
+    setActiveDrag(item ? { type: 'plan-item', item } : null);
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
+    setActiveDrag(null);
+    setPlaceListPreview(null);
     if (!over || active.id === over.id) return;
+
+    const activeType = active.data.current?.type;
+
+    // 1. 장소 리스트에서 일정 추가
+    if (activeType === 'place-list-item') {
+      const overIndex = items.findIndex((i) => i.id === over.id);
+      const insertIndex = overIndex === -1 ? items.length : overIndex;
+      const newOrder = calculateNewOrder(items, insertIndex);
+      const place = active.data.current?.place as Place;
+
+      addPlanItemFromPlaceListItem({
+        scheduleId: currentSchedule.id,
+        place,
+        order: newOrder,
+      }).then((result) => {
+        if (result.success) {
+          queryClient.invalidateQueries({ queryKey: scheduleItemsQueryOptions(planId, currentSchedule.id).queryKey });
+        }
+      });
+      return;
+    }
 
     const activeIndex = items.findIndex((item) => item.id === active.id);
     const overIndex = items.findIndex((item) => item.id === over.id);
@@ -137,11 +178,34 @@ export default function PlanDetailContainer({ planId, hasSession }: PlanDetailCo
     });
   };
 
+  const handleDragOver = (event: DragOverEvent) => {
+    const { active, over } = event;
+    if (!over || active.data.current?.type !== 'place-list-item') {
+      setPlaceListPreview(null);
+      return;
+    }
+
+    const overIndex = items.findIndex((i) => i.id === over.id);
+    const insertIndex = overIndex === -1 ? items.length : overIndex;
+
+    const ghost = { id: '__ghost__place-list' /* PlanItem 형태를 맞추기 위한 최소 더미 필드 */ } as PlanItem;
+    const preview = [...items];
+    preview.splice(insertIndex, 0, ghost);
+    setPlaceListPreview(preview);
+  };
+
+  const handleDragCancel = () => {
+    setActiveDrag(null);
+    setPlaceListPreview(null);
+  };
+
   return (
     <DndContext
       sensors={sensors}
       onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
+      onDragCancel={handleDragCancel}
     >
       <div className='relative h-screen w-full overflow-hidden'>
         {stableCoordinates.length > 0 ? (
@@ -165,7 +229,7 @@ export default function PlanDetailContainer({ planId, hasSession }: PlanDetailCo
               planId={planId}
               schedule={currentSchedule}
               schedules={schedules}
-              items={items}
+              items={placeListPreview ?? items}
               isFetching={isFetching}
               currentIndex={currentIndex}
               totalDays={schedules.length}
@@ -200,7 +264,10 @@ export default function PlanDetailContainer({ planId, hasSession }: PlanDetailCo
           </div>,
           document.body,
         )}
-      <DragOverlay>{activeItem ? <PlanDragPreview item={activeItem} /> : null}</DragOverlay>
+      <DragOverlay>
+        {activeDrag?.type === 'plan-item' ? <PlanDragPreview item={activeDrag.item} /> : null}
+        {activeDrag?.type === 'place-list-item' ? <PlaceListDragPreview place={activeDrag.place} /> : null}
+      </DragOverlay>
     </DndContext>
   );
 }

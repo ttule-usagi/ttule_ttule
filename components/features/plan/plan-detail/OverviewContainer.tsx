@@ -163,11 +163,6 @@ export default function OverviewContainer({ planId, hasSession }: { planId: stri
       return;
     }
 
-    if (active.data.current?.type === 'place-list-item') {
-      setCrossDayPreview(null);
-      return;
-    }
-
     const sourceScheduleId = active.data.current?.scheduleId as string | undefined;
     const targetScheduleId = over.data.current?.scheduleId as string | undefined;
 
