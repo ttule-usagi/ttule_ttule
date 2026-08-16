@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Icon } from '@/components/common/Icon';
 import { useConfirmDeletePlace } from '@/hooks/place-list/useConfirmDeletePlace';
@@ -39,7 +39,7 @@ export default function PlaceItem({
 
   return (
     <div
-      className='w-full flex gap-3.25 bg-brand-gray-0 p-3 rounded-sm border border-brand-blue-700 items-start cursor-pointer'
+      className={`w-full flex gap-3.25 bg-brand-gray-0 p-3 rounded-sm border border-brand-blue-700 items-start ${!isEdit && 'hover:bg-brand-gray-100 cursor-pointer'}`}
       onClick={(e) => {
         e.stopPropagation();
         if (!isEdit) onClickItem(place.corePlaceId);
