@@ -6,7 +6,8 @@ import { PlanOverview } from '@/types/plan';
 export const useGetPlanStatus = (plans: PlanOverview[]) => {
   const {
     current: currentPlans,
-    upcoming: upcomingPlans,
+    upcomingDecided: upcomingDecidedPlans,
+    upcomingUndecided: upcomingUndecidedPlans,
     last: lastPlans,
   } = useMemo(
     () =>
@@ -20,14 +21,14 @@ export const useGetPlanStatus = (plans: PlanOverview[]) => {
           acc[status].push(plan);
           return acc;
         },
-        { current: [], upcoming: [], last: [] } as Record<PlanStatus, PlanOverview[]>,
+        { current: [], upcomingDecided: [], upcomingUndecided: [], last: [] } as Record<PlanStatus, PlanOverview[]>,
       ),
     [plans],
   );
 
   return {
     currentPlans,
-    upcomingPlans,
+    upcomingPlans: [...upcomingDecidedPlans, ...upcomingUndecidedPlans],
     lastPlans,
   };
 };

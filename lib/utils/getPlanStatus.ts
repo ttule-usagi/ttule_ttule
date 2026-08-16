@@ -1,4 +1,4 @@
-export type PlanStatus = 'upcoming' | 'last' | 'current';
+export type PlanStatus = 'upcomingDecided' | 'upcomingUndecided' | 'last' | 'current';
 interface GetPlanStatusProps {
   departure: string | null;
   arrival: string | null;
@@ -11,11 +11,11 @@ interface GetPlanStatusProps {
  * @param props.departure 출발일
  * @param props.arrival 도착일
  * @param props.isDateUndecided 날짜 미정 여부 — true면 무조건 'upcoming' 반환
- * @returns 'upcoming' | 'last' | 'current' 중 하나
+ * @returns 'upcomingDecided' | 'upcomingUndecided' | 'last' | 'current' 중 하나
  */
 export function getPlanStatus({ departure, arrival, isDateUndecided }: GetPlanStatusProps): PlanStatus {
   // 일정 미정이면 => 다가오는 여행
-  if (isDateUndecided || !departure || !arrival) return 'upcoming';
+  if (isDateUndecided || !departure || !arrival) return 'upcomingUndecided';
 
   const today = new Date();
   const departureDate = new Date(departure);
@@ -26,7 +26,7 @@ export function getPlanStatus({ departure, arrival, isDateUndecided }: GetPlanSt
   if (today >= departureDate && today <= arrivalDate) return 'current';
 
   // 출발일이 오늘 뒤면 => 다가오는 여행
-  if (departureDate > today) return 'upcoming';
+  if (departureDate > today) return 'upcomingDecided';
 
   // 나머지는 지난 여행
   return 'last';
