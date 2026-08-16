@@ -1,9 +1,11 @@
 'use client';
 
-import { PlaceListOverview } from '@/types/placeList';
 import Link from 'next/link';
-import PlaceListDropdownMenu from './PlaceListDropdwonMenu';
+
 import { Icon } from '@/components/common/Icon';
+import { PlaceListOverview } from '@/types/placeList';
+
+import PlaceListDropdownMenu from './PlaceListDropdownMenu';
 
 export default function PlaceListItem({ place }: { place: PlaceListOverview }) {
   return (

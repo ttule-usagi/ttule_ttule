@@ -5,7 +5,7 @@ import { useGetPlaceListDetail } from '@/hooks/place-list/useGetPlaceListDetail'
 import { useModalStore } from '@/lib/store/modalStore';
 import { createViewLink } from '@/lib/utils/invite/createViewLink';
 
-import PlaceListDropdownMenu from '../PlaceListDropdwonMenu';
+import PlaceListDropdownMenu from '../PlaceListDropdownMenu';
 
 import ParticipantsImages from './ParticipantsImages';
 
