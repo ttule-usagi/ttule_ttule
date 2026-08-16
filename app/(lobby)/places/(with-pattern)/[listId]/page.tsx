@@ -1,11 +1,9 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { Suspense } from 'react';
 
-import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import ForbiddenRedirect from '@/components/features/invite/ForbiddenRedirect';
 import InviteEditorHandler from '@/components/features/invite/InviteEditorHandler';
-import PlaceListContent from '@/components/features/place-list/detail/PlaceListContent';
-import PlaceListHeader from '@/components/features/place-list/detail/PlaceListHeader';
+import PlaceListDetailWrapper from '@/components/features/place-list/detail/PlaceListDetailWrapper';
 import { placeListDetailQueryOptions } from '@/hooks/place-list/useGetPlaceListDetail';
 import { getPlaceListDetail } from '@/lib/actions/api/placeList';
 import { prefetchPlaceListDetail } from '@/lib/actions/api/prefetch/prefetchPlaceListDetail';
@@ -55,12 +53,7 @@ export default async function PlaceListDetail({
       <Suspense fallback={null}>
         <InviteEditorHandler hasInviteToken={!!inviteToken} />
       </Suspense>
-      <div className='flex flex-col gap-5.5'>
-        <QueryBoundary subject='리스트 상세정보'>
-          <PlaceListHeader listId={listId} />
-        </QueryBoundary>
-        <PlaceListContent listId={listId} />
-      </div>
+      <PlaceListDetailWrapper listId={listId} />
     </HydrationBoundary>
   );
 }
