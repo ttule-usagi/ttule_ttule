@@ -260,13 +260,14 @@ export default function OverviewContainer({ planId, hasSession }: { planId: stri
               onClick={handleClosePlaceDetailModal}
             >
               <div
-                className='fixed w-90 rounded-lg overflow-y-auto max-h-[90vh] top-1/2 -translate-y-1/2 overscroll-contain'
+                className='fixed w-90 rounded-lg overflow-hidden flex flex-col max-h-[90vh] top-1/2 -translate-y-1/2 overscroll-contain'
                 onClick={(e) => e.stopPropagation()}
               >
                 <QueryBoundary>
                   <CorePlaceDetailContainer
                     placeId={selectedId}
                     onClose={handleClosePlaceDetailModal}
+                    isPadding={false}
                   />
                 </QueryBoundary>
               </div>
