@@ -28,7 +28,7 @@ export default function CoreSearchContainer({ keyword }: CoreSearchContainerProp
 
   return (
     <>
-      <div className=' h-screen'>
+      <div className='px-4 pb-7 h-full overflow-y-auto'>
         {/* 지도 */}
         <div className='absolute inset-0 ml-118'>
           <GoogleMapEmbed

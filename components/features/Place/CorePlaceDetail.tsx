@@ -18,16 +18,23 @@ interface CorePlaceDetailProps {
   onAddToSchedule?: () => void;
   onSave?: () => void;
   onWriteReview?: () => void;
+  isPadding?: boolean;
 }
 
-export default function CorePlaceDetail({ data, onClose, onAddToSchedule, onSave }: CorePlaceDetailProps) {
+export default function CorePlaceDetail({
+  data,
+  onClose,
+  onAddToSchedule,
+  onSave,
+  isPadding = true,
+}: CorePlaceDetailProps) {
   const { place, images, savedLists } = data;
 
   const savedListNames = savedLists.map((l) => `'${l.title}'`).join(', ');
   const isSaved = savedLists.length > 0;
 
   return (
-    <div className='bg-white w-full relative'>
+    <div className={`bg-white w-full relative h-full overflow-y-auto ${isPadding ? 'px-4' : ''} `}>
       {/* 닫기 버튼 */}
       {onClose && (
         <div className='sticky top-4 z-20 h-0 flex justify-end pr-4'>

@@ -61,6 +61,7 @@ export default function PlaceListPlaces({ listId, sortBy }: { listId: string; so
               <CorePlaceDetailContainer
                 placeId={selectedId}
                 onClose={handleClosePlaceDetailModal}
+                isPadding={false}
               />
             </QueryBoundary>
           </div>,

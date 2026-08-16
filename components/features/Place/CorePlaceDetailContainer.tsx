@@ -8,7 +8,15 @@ import SaveToListModal from '@/components/features/place/save/ListModal';
 import AddToScheduleModal from '@/components/features/place/save/ScheduleModal';
 import { useGetCorePlace } from '@/hooks/place/useGetCorePlace';
 
-export default function CorePlaceDetailContainer({ placeId, onClose }: { placeId: string; onClose?: () => void }) {
+export default function CorePlaceDetailContainer({
+  placeId,
+  onClose,
+  isPadding = true,
+}: {
+  placeId: string;
+  onClose?: () => void;
+  isPadding?: boolean;
+}) {
   const { data } = useGetCorePlace(placeId);
   const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
   const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
@@ -20,6 +28,7 @@ export default function CorePlaceDetailContainer({ placeId, onClose }: { placeId
         onClose={onClose}
         onSave={() => setIsSaveModalOpen(true)}
         onAddToSchedule={() => setIsScheduleModalOpen(true)}
+        isPadding={isPadding}
       />
       {isSaveModalOpen && (
         <QueryBoundary>

@@ -74,8 +74,8 @@ export default function PlaceListEditForm({
   };
 
   return (
-    <div className='pb-12'>
-      <header className='flex items-center sticky top-22 bg-brand-gray-0 pb-6'>
+    <div className='flex flex-col h-full gap-6'>
+      <header className='px-4 flex items-center flex-none'>
         <p className='flex-1 text-typo-big-title text-brand-blue-700'>장소 리스트 관리</p>
         <button
           onClick={handleSave}
@@ -85,7 +85,7 @@ export default function PlaceListEditForm({
         </button>
       </header>
 
-      <div className='flex flex-col gap-6'>
+      <div className='px-4 pb-12 flex flex-col gap-6 overflow-y-auto'>
         {/* 리스트 개요 */}
         <EditableOverviewField
           title={title}
