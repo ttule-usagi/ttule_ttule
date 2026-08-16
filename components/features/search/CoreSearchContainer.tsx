@@ -28,7 +28,7 @@ export default function CoreSearchContainer({ keyword }: CoreSearchContainerProp
 
   return (
     <>
-      <div className=' h-screen'>
+      <div className='px-4 pb-7 h-full overflow-y-auto'>
         {/* 지도 */}
         <div className='absolute inset-0 ml-118'>
           <GoogleMapEmbed
@@ -53,11 +53,12 @@ export default function CoreSearchContainer({ keyword }: CoreSearchContainerProp
       {isOpenPlaceModal &&
         selectedId &&
         createPortal(
-          <div className='absolute left-120 w-90 rounded-lg overflow-y-auto max-h-[90vh] top-1/2 -translate-y-1/2 overscroll-contain'>
+          <div className='absolute left-120 w-90 rounded-lg overflow-hidden flex flex-col max-h-[90vh] top-1/2 -translate-y-1/2 overscroll-contain'>
             <QueryBoundary>
               <CorePlaceDetailContainer
                 placeId={selectedPlace?.id ?? ''}
                 onClose={handleClosePlaceDetailModal}
+                isPadding={false}
               />
             </QueryBoundary>
           </div>,

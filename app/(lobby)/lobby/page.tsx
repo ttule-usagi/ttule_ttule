@@ -12,7 +12,7 @@ export default async function Page() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className='min-h-full max-w-350 min-w-230 mx-auto mt-5.5 pl-16 pr-16 pb-40'>
+      <div className='h-full max-w-350 min-w-230 mx-auto pl-16 pr-16 pb-40 overflow-y-auto'>
         {/* 공지 - 2차 */}
         {/* <NoticeHeader /> */}
 

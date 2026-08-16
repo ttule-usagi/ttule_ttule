@@ -1,6 +1,5 @@
 'use client';
 
-import { Icon } from '@/components/common/Icon';
 import { getGoogleLink, getNaverLink } from '@/lib/utils/getExternalLink';
 import type { CorePlaceDetail } from '@/types/corePlace';
 
@@ -14,37 +13,19 @@ import WebsiteUri from './detail/info/WebsiteUri';
 
 interface CorePlaceDetailProps {
   data: CorePlaceDetail;
-  onClose?: () => void;
   onAddToSchedule?: () => void;
   onSave?: () => void;
   onWriteReview?: () => void;
 }
 
-export default function CorePlaceDetail({ data, onClose, onAddToSchedule, onSave }: CorePlaceDetailProps) {
+export default function CorePlaceDetail({ data, onAddToSchedule, onSave }: CorePlaceDetailProps) {
   const { place, images, savedLists } = data;
 
   const savedListNames = savedLists.map((l) => `'${l.title}'`).join(', ');
   const isSaved = savedLists.length > 0;
 
   return (
-    <div className='bg-white w-full relative'>
-      {/* 닫기 버튼 */}
-      {onClose && (
-        <div className='sticky top-4 z-20 h-0 flex justify-end pr-4'>
-          <button
-            onClick={onClose}
-            className='bg-white rounded-full size-8 flex items-center justify-center cursor-pointer'
-            aria-label='닫기'
-          >
-            <Icon
-              name='XClose'
-              size={24}
-              className='text-brand-gray-600'
-            />
-          </button>
-        </div>
-      )}
-
+    <>
       {/* 커버 이미지 */}
       <PlaceImage
         images={images}
@@ -109,6 +90,6 @@ export default function CorePlaceDetail({ data, onClose, onAddToSchedule, onSave
         reviews={reviews}
         onWriteReview={onWriteReview}
       /> */}
-    </div>
+    </>
   );
 }

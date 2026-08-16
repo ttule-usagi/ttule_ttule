@@ -1,9 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
-import { Icon } from './Icon';
 import Link from 'next/link';
+import { useState } from 'react';
+
+import { DEFAULT_PROFILE_IMAGE } from '@/lib/constants/image';
+
+import { Icon } from './Icon';
 
 export default function LoginButtonProfile() {
   const [showTooltip, setShowTooltip] = useState(true);
@@ -55,7 +58,7 @@ export default function LoginButtonProfile() {
           className='inline-block w-12 h-12 rounded-full'
         >
           <Image
-            src={'/images/ellipse.png'}
+            src={DEFAULT_PROFILE_IMAGE}
             alt='placeholder-image'
             width={48}
             height={48}

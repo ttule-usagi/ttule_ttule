@@ -56,11 +56,12 @@ export default function PlaceListPlaces({ listId, sortBy }: { listId: string; so
       {isOpenPlaceModal &&
         selectedId &&
         createPortal(
-          <div className='absolute left-120 w-90 rounded-lg overflow-y-auto max-h-[90vh] top-1/2 -translate-y-1/2 overscroll-contain'>
+          <div className='absolute left-120 w-90 rounded-lg overflow-hidden flex flex-col max-h-[90vh] top-1/2 -translate-y-1/2 overscroll-contain'>
             <QueryBoundary>
               <CorePlaceDetailContainer
                 placeId={selectedId}
                 onClose={handleClosePlaceDetailModal}
+                isPadding={false}
               />
             </QueryBoundary>
           </div>,

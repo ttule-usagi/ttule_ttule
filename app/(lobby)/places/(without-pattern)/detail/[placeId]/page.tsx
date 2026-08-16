@@ -27,8 +27,11 @@ export default async function PlaceDetailPage({ params }: { params: Promise<{ pl
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <QueryBoundary>
-        <div className='-mx-4 -mt-5'>
-          <CorePlaceDetailContainer placeId={placeId} />
+        <div className='-mx-4 h-full px-4'>
+          <CorePlaceDetailContainer
+            placeId={placeId}
+            isPadding={false}
+          />
         </div>
       </QueryBoundary>
       <div className='absolute inset-0 ml-118'>

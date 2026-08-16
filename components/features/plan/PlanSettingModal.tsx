@@ -20,7 +20,7 @@ export default function PlanSettingModal({ id, onClose }: { id: string; onClose:
       }}
     >
       <div
-        className='relative flex flex-col bg-white rounded-lg relative pt-7 px-6 pb-6 min-h-100 h-187 max-h-[80vh] min-w-140'
+        className='relative flex flex-col bg-white rounded-lg pt-7 px-6 pb-6 min-h-100 h-187 max-h-[80vh] min-w-126'
         onClick={(e) => e.stopPropagation()}
       >
         <header className='flex justify-between items-center shrink-0 mb-4'>

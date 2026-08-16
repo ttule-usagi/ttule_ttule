@@ -41,8 +41,8 @@ export default function CreatePlace() {
   };
 
   return (
-    <div className='flex flex-col gap-6'>
-      <header className='flex items-center'>
+    <div className='h-full flex flex-col'>
+      <header className='px-4 flex items-center flex-none pb-6'>
         <p className='flex-1 text-typo-big-title text-brand-blue-700'>장소 리스트 생성</p>
         <button
           onClick={handleSubmit}
@@ -52,15 +52,17 @@ export default function CreatePlace() {
         </button>
       </header>
 
-      <EditableOverviewField
-        title={title}
-        onTitleChange={setTitle}
-        icon={selectIcon}
-        onSelectIcon={setSelectedIcon}
-        description={description}
-        onDescriptionChange={setDescription}
-        error={error}
-      />
+      <div className='px-4 flex flex-col gap-6 pb-12 overflow-y-auto'>
+        <EditableOverviewField
+          title={title}
+          onTitleChange={setTitle}
+          icon={selectIcon}
+          onSelectIcon={setSelectedIcon}
+          description={description}
+          onDescriptionChange={setDescription}
+          error={error}
+        />
+      </div>
     </div>
   );
 }

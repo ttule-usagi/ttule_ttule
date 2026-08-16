@@ -45,7 +45,7 @@ export default function ShareButton({ placeId }: { placeId: string }) {
 
       <button
         onClick={handleCopyPlaceLink}
-        className='flex items-center justify-center p-2 border border-brand-gray-200 rounded-lg bg-white cursor-pointer'
+        className='flex items-center justify-center p-2 border border-brand-gray-200 rounded-lg bg-white cursor-pointer hover:bg-brand-gray-100'
         aria-label='공유'
       >
         <Icon

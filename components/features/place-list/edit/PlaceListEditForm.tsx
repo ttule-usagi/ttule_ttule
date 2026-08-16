@@ -74,8 +74,8 @@ export default function PlaceListEditForm({
   };
 
   return (
-    <div className='flex flex-col gap-6 pb-12'>
-      <header className='flex items-center'>
+    <div className='flex flex-col h-full gap-6'>
+      <header className='px-4 flex items-center flex-none'>
         <p className='flex-1 text-typo-big-title text-brand-blue-700'>장소 리스트 관리</p>
         <button
           onClick={handleSave}
@@ -85,31 +85,33 @@ export default function PlaceListEditForm({
         </button>
       </header>
 
-      {/* 리스트 개요 */}
-      <EditableOverviewField
-        title={title}
-        onTitleChange={setTitle}
-        description={description}
-        onDescriptionChange={setDescription}
-        icon={selectIcon}
-        onSelectIcon={setSelectedIcon}
-        error={error}
-      />
+      <div className='px-4 pb-12 flex flex-col gap-6 overflow-y-auto'>
+        {/* 리스트 개요 */}
+        <EditableOverviewField
+          title={title}
+          onTitleChange={setTitle}
+          description={description}
+          onDescriptionChange={setDescription}
+          icon={selectIcon}
+          onSelectIcon={setSelectedIcon}
+          error={error}
+        />
 
-      {/* 저장된 장소 */}
-      <div className='flex flex-col gap-4 mt-6'>
-        {places.length > 0 ? (
-          places.map((p) => (
-            <EditPlace
-              key={p.id}
-              place={p}
-              onMemoChange={handlePlaceMemoChange}
-              onDeletePlace={confirmDeletePlaceList}
-            />
-          ))
-        ) : (
-          <EmptyState message='저장된 장소가 아직 없습니다.' />
-        )}
+        {/* 저장된 장소 */}
+        <div className='flex flex-col gap-4 mt-6'>
+          {places.length > 0 ? (
+            places.map((p) => (
+              <EditPlace
+                key={p.id}
+                place={p}
+                onMemoChange={handlePlaceMemoChange}
+                onDeletePlace={confirmDeletePlaceList}
+              />
+            ))
+          ) : (
+            <EmptyState message='저장된 장소가 아직 없습니다.' />
+          )}
+        </div>
       </div>
     </div>
   );
