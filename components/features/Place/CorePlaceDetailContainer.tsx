@@ -42,7 +42,7 @@ export default function CorePlaceDetailContainer({
               <Icon
                 name='XClose'
                 size={24}
-                className='text-brand-gray-600'
+                className='text-brand-gray-600 hover:text-brand-blue-700'
               />
             </button>
           </div>
