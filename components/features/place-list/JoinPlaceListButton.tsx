@@ -7,7 +7,7 @@ export default function JoinPlaceListButton() {
   const { open } = useModalStore();
   return (
     <button
-      className='flex gap-0.5 px-2.5 py-1.75 text-brand-blue-700 text-typo-description bg-neon-green border border-[#AFE40E] box-border cursor-pointer h-full rounded-sm items-center justify-center'
+      className='flex gap-0.5 px-2.5 py-1.75 text-brand-blue-700 text-typo-description bg-neon-green border border-[#AFE40E] box-border cursor-pointer h-full rounded-sm items-center justify-center hover:bg-neon-hover'
       onClick={() => open({ type: 'enterInviteLink', props: { type: 'place_list' } })}
     >
       <Icon

@@ -46,7 +46,7 @@ export default function CreatePlace() {
         <p className='flex-1 text-typo-big-title text-brand-blue-700'>장소 리스트 생성</p>
         <button
           onClick={handleSubmit}
-          className='rounded-lg box-border font-light px-3 py-2 text-brand-gray-0 bg-brand-blue-700 flex items-center justify-center cursor-pointer'
+          className='rounded-lg box-border font-light px-3 py-2 text-brand-gray-0 bg-brand-blue-700 flex items-center justify-center cursor-pointer hover:bg-brand-blue-800'
         >
           저장하기
         </button>

@@ -23,7 +23,7 @@ export default function PlaceListHeader({ listId }: { listId: string }) {
           <Icon
             name='Share'
             size={32}
-            className='cursor-pointer'
+            className='text-brand-blue-700 cursor-pointer rounded-sm hover:bg-black/5 hover:text-brand-blue-800'
             onClick={() =>
               open({ type: 'shareLink', props: { type: 'VIEW', link: createViewLink(listId, 'place_list') } })
             }

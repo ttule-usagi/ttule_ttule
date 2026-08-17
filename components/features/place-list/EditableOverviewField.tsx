@@ -99,7 +99,7 @@ export default function EditableOverviewField({
                 <button
                   type='button'
                   onClick={() => onSelectIcon(null)}
-                  className='bg-tag-red-text text-brand-gray-0 rounded-sm px-2 w-14 cursor-pointer font-light'
+                  className='bg-tag-red-text text-brand-gray-0 rounded-sm px-2 w-14 cursor-pointer font-light hover:bg-[#da4b46]'
                 >
                   제거
                 </button>

@@ -40,7 +40,7 @@ export default function LobbyPlanActionMenu({ planName, type = 'overview', id, m
               <Icon
                 name='DotsHorizontal'
                 size={24}
-                className='self-end text-brand-blue-700'
+                className='self-end text-brand-blue-700 rounded-sm hover:bg-black/5'
               />
             ) : (
               <div className='hover:bg-brand-blue-50 rounded-full'>

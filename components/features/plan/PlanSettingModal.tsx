@@ -28,7 +28,7 @@ export default function PlanSettingModal({ id, onClose }: { id: string; onClose:
           <Icon
             name='XClose'
             size={32}
-            className='text-brand-gray-500 cursor-pointer'
+            className='text-brand-gray-500 rounded-full cursor-pointer hover:bg-brand-gray-100 hover:text-brand-blue-700'
             onClick={onClose}
           />
         </header>

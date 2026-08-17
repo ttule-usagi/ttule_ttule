@@ -39,7 +39,7 @@ export default function PlaceItem({
 
   return (
     <div
-      className={`w-full flex gap-3.25 bg-brand-gray-0 p-3 rounded-sm border border-brand-blue-700 items-start ${!isEdit && 'hover:bg-brand-gray-100 cursor-pointer'}`}
+      className={`w-full flex gap-3.25 bg-brand-gray-0 p-3 rounded-sm border border-brand-blue-700 items-start ${!isEdit && 'hover:bg-brand-gray-50 cursor-pointer'}`}
       onClick={(e) => {
         e.stopPropagation();
         if (!isEdit) onClickItem(place.corePlaceId);
@@ -63,7 +63,7 @@ export default function PlaceItem({
             <Icon
               name='XClose'
               size={26}
-              className='cursor-pointer text-brand-gray-400 mr-0.5'
+              className='cursor-pointer text-brand-gray-400 rounded-full mr-1 hover:bg-brand-gray-100 hover:text-brand-blue-700'
               onClick={() => confirmDeletePlaceList(place.customName, place.id)}
             />
           )}
@@ -73,11 +73,10 @@ export default function PlaceItem({
               role={myRole}
               requiredRole='editor'
             >
-              <div className='flex flex-col items-center justify-center my-0.5 ml-1.5 self-start'>
+              <div className='flex flex-col items-center justify-center my-0.5 ml-1.5 self-start text-brand-gray-300 hover:text-brand-blue-700 cursor-pointer'>
                 <Icon
                   name={'Edit'}
                   size={26}
-                  className='cursor-pointer text-brand-gray-300'
                   onClick={(e) => {
                     e.stopPropagation();
                     handleOpenEdit();
@@ -113,19 +112,19 @@ export default function PlaceItem({
             <textarea
               placeholder='메모 추가'
               value={memo ?? ''}
-              className='bg-brand-gray-100 min-h-16 text-typo-base px-3 py-2 text-brand-gray-600 border border-brand-gray-200 outline-none rounded-sm w-full resize-none field-sizing-content'
+              className='bg-brand-gray-100 hover:bg-brand-gray-200 min-h-16 text-typo-base px-3 py-2 text-brand-gray-600 border border-brand-gray-200 outline-none rounded-sm w-full resize-none field-sizing-content'
               onChange={(e) => setMemo(e.target.value)}
             />
 
-            <div className='text-typo-base flex gap-4 font-light'>
+            <div className='text-typo-base flex gap-1.5 font-light'>
               <button
-                className='w-16 text-brand-gray-500 cursor-pointer'
+                className='py-2 px-4 text-brand-gray-500 cursor-pointer rounded-sm hover:bg-brand-gray-100'
                 onClick={() => setIsEdit(!isEdit)}
               >
                 취소
               </button>
               <button
-                className='flex-1 bg-brand-blue-700 text-brand-gray-0 rounded-sm py-2 cursor-pointer'
+                className='flex-1 bg-brand-blue-700 text-brand-gray-0 rounded-sm py-2 cursor-pointer hover:bg-brand-blue-800'
                 onClick={handleEdit}
               >
                 저장하기

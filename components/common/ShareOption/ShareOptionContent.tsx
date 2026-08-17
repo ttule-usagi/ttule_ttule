@@ -1,15 +1,18 @@
 'use client';
 
-import { ResourceParams } from '@/types/shareOption';
-import { Icon } from '../Icon';
-import { MemberList } from './MemberList';
+import { useSession } from 'next-auth/react';
+
+import { useShareEditLink } from '@/hooks/invite-member/useShareEditLink';
+import { useConfirmDeleteMember } from '@/hooks/shareOption/useConfirmDeleteMember';
 import { useGetMembers } from '@/hooks/shareOption/useGetMembers';
 import { useModalStore } from '@/lib/store/modalStore';
-import { useShareEditLink } from '@/hooks/invite-member/useShareEditLink';
 import { createViewLink } from '@/lib/utils/invite/createViewLink';
+import { ResourceParams } from '@/types/shareOption';
+
+import { Icon } from '../Icon';
+
+import { MemberList } from './MemberList';
 import { PublicStateSelector } from './PublicStateSelector';
-import { useSession } from 'next-auth/react';
-import { useConfirmDeleteMember } from '@/hooks/shareOption/useConfirmDeleteMember';
 
 export default function ShareOptionContent({ id, resourceType }: ResourceParams) {
   const { open } = useModalStore();
@@ -28,7 +31,7 @@ export default function ShareOptionContent({ id, resourceType }: ResourceParams)
       <div className='flex flex-col gap-3'>
         <span className='text-typo-base font-light text-brand-gray-600'>공유 링크</span>
         <button
-          className='flex items-center gap-2 rounded-sm border border-brand-gray-300 px-4 py-1.5 max-w-60.75'
+          className='flex items-center gap-2 rounded-sm border border-brand-gray-300 px-4 py-1.5 max-w-60.75 hover:bg-brand-gray-50 cursor-pointer'
           disabled={isPending}
           onClick={() => createShareLink(id, resourceType)}
         >
@@ -51,7 +54,7 @@ export default function ShareOptionContent({ id, resourceType }: ResourceParams)
         />
         {/* 보기 링크 공유 버튼 */}
         <button
-          className='flex self-start items-center justify-center gap-2 rounded-sm border border-brand-gray-300 px-4 py-1.5 w-fit'
+          className='flex self-start items-center justify-center gap-2 rounded-sm border border-brand-gray-300 px-4 py-1.5 w-fit hover:bg-brand-gray-50 cursor-pointer'
           onClick={() => {
             open({ type: 'shareLink', props: { type: 'VIEW', link: createViewLink(id, resourceType) } });
           }}
