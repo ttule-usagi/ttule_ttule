@@ -14,10 +14,10 @@ export default function PlaceListShareOptionModal({ id, onClose }: { id: string;
       }}
     >
       <div
-        className='flex flex-col gap-7 bg-white rounded-lg relative pt-7 px-6 pb-6 min-h-100 max-h-[80vh] min-w-126'
+        className='flex flex-col gap-1 bg-white rounded-lg relative pt-7 min-h-100 max-h-[80vh] min-w-126'
         onClick={(e) => e.stopPropagation()}
       >
-        <header className='flex justify-between items-center shrink-0'>
+        <header className='flex justify-between items-center shrink-0 px-6'>
           <p className='text-typo-title font-medium text-brand-blue-800'>장소 리스트 공유 설정</p>
           <Icon
             name='XClose'
@@ -30,6 +30,7 @@ export default function PlaceListShareOptionModal({ id, onClose }: { id: string;
           <ShareOptionContent
             id={id}
             resourceType='place_list'
+            padding='p-6'
           />
         </QueryBoundary>
       </div>

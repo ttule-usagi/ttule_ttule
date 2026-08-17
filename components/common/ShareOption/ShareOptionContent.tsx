@@ -14,7 +14,7 @@ import { Icon } from '../Icon';
 import { MemberList } from './MemberList';
 import { PublicStateSelector } from './PublicStateSelector';
 
-export default function ShareOptionContent({ id, resourceType }: ResourceParams) {
+export default function ShareOptionContent({ id, resourceType, padding }: ResourceParams & { padding?: string }) {
   const { open } = useModalStore();
   const { createShareLink, isPending } = useShareEditLink();
   const { data: members } = useGetMembers({ id, resourceType });
@@ -26,7 +26,7 @@ export default function ShareOptionContent({ id, resourceType }: ResourceParams)
   const isMaster = myRole === 'master';
 
   return (
-    <div className='w-full flex flex-col gap-10 flex-1 min-h-0 overflow-y-auto no-scrollbar'>
+    <div className={`w-full flex flex-col gap-10 flex-1 min-h-0 overflow-y-auto ${padding ? padding : ''}`}>
       {/* 수정 권한 초대 버튼 */}
       <div className='flex flex-col gap-3'>
         <span className='text-typo-base font-light text-brand-gray-600'>공유 링크</span>
