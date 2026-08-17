@@ -41,7 +41,7 @@ export default function EditModeMemoItem({ item, draft, onChange, onRemove }: Ed
           <Icon
             name='XClose'
             size={26}
-            className='text-brand-gray-600  hover:text-brand-blue-700'
+            className='text-brand-gray-600 hover:text-brand-blue-700'
           />
         </button>
       </div>

@@ -89,7 +89,7 @@ export default function PlanHeader({ planId, hasSession }: PlanHeaderProps) {
         </div>
 
         {/* 체크/설정 버튼 */}
-        <div className='flex gap-[12px] items-center shrink-0'>
+        <div className='flex gap-3 items-center shrink-0'>
           {/* <button aria-label='체크'>
             <Icon
               name='CheckboxChecked'
@@ -109,7 +109,7 @@ export default function PlanHeader({ planId, hasSession }: PlanHeaderProps) {
             <Icon
               name='Share'
               size={32}
-              className='cursor-pointer hover:bg-brand-gray-100 '
+              className='text-brand-blue-700 rounded-sm cursor-pointer hover:bg-brand-gray-100 '
               onClick={() => open({ type: 'shareLink', props: { type: 'VIEW', link: createViewLink(planId, 'plan') } })}
             />
           )}
