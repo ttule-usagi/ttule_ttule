@@ -47,7 +47,7 @@ export default function ProfileImageUploader({ onUploadImage, initialImageURL }:
   }, [previewImage]);
 
   return (
-    <div className='w-34 h-34 bg-brand-blue-100 border border-brand-blue-700 rounded-full box-border relative'>
+    <div className='w-34 h-34 bg-white border border-brand-blue-700 rounded-full box-border relative'>
       <label
         htmlFor='previewImage'
         className='cursor-pointer block w-full h-full'

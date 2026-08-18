@@ -61,7 +61,7 @@ export default function EditInfoForm() {
               initialImageURL={initialUserInfo.profileImageUrl ?? ''}
             />
           ) : (
-            <div className='w-34 h-34 rounded-full bg-brand-blue-100 box-border border border-brand-blue-700'>
+            <div className='w-34 h-34 rounded-full bg-white box-border border border-brand-blue-700'>
               <Image
                 src={initialUserInfo.profileImageUrl || DEFAULT_PROFILE_IMAGE}
                 alt='나의 프로필 이미지'
