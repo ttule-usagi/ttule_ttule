@@ -1,9 +1,10 @@
 'use client';
 
+import { useState } from 'react';
+
 import { Icon } from '@/components/common/Icon';
 import ModalBox from '@/components/common/Modal/ModalBox';
 import { ShareType } from '@/types/invite';
-import { useState } from 'react';
 
 const MODAL_CONTENT = {
   VIEW: {
@@ -44,7 +45,7 @@ export default function ShareLinkModal({ type, link }: { type: ShareType; link: 
       <div className='flex flex-col gap-1'>
         <p className='text-typo-caption text-brand-gray-400'>{modalText.inputLabel}</p>
 
-        <ModalBox.ModalBottomContent>
+        <ModalBox.ModalBottomContent classname='flex flex-col gap-2 xl:flex-row lg:gap-2.5'>
           <input
             className='modal-input min-w-0'
             value={link}
@@ -52,7 +53,7 @@ export default function ShareLinkModal({ type, link }: { type: ShareType; link: 
             onClick={(e) => e.currentTarget.select()}
           />
           <button
-            className='modal-button px-5 shrink-0 min-w-30.25'
+            className='modal-button xl:w-32'
             onClick={handleCopy}
           >
             {!isCopied ? (

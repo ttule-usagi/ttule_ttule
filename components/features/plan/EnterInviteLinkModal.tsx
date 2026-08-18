@@ -1,14 +1,15 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import React, { useState } from 'react';
+
 import ModalBox from '@/components/common/Modal/ModalBox';
 import { setInviteRedirectCookie, verifyInviteToken } from '@/lib/actions/invite';
 import { INVITE_ERROR_MESSAGES, InviteErrorCode } from '@/lib/constants/inviteErrorMessage';
 import { useModalStore } from '@/lib/store/modalStore';
 import { validateInviteLink } from '@/lib/utils/invite/verifyValidInviteLink';
 import { ResourceType } from '@/types/invite';
-import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
-import { useSession } from 'next-auth/react';
 
 export default function EnterInviteLinkModal({ type }: { type: ResourceType }) {
   const router = useRouter();
@@ -76,16 +77,16 @@ export default function EnterInviteLinkModal({ type }: { type: ResourceType }) {
       <div className='flex flex-col gap-1'>
         <p className='text-typo-caption text-brand-gray-400'>초대 링크</p>
 
-        <ModalBox.ModalBottomContent>
+        <ModalBox.ModalBottomContent classname='flex flex-col gap-2 xl:flex-row lg:gap-2.5'>
           <input
-            className='modal-input min-w-0'
+            className='w-full modal-input min-w-0'
             placeholder='링크 입력하기'
             value={link}
             onChange={(e) => setLink(e.target.value)}
             onKeyDown={handleKeyDown}
           />
           <button
-            className='modal-button px-5 shrink-0 min-w-32'
+            className='modal-button xl:w-32'
             onClick={() => handleSubmit(link)}
             disabled={isSubmitting}
           >
