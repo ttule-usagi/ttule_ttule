@@ -12,14 +12,16 @@ export default async function Page() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className='h-full max-w-350 min-w-230 mx-auto pl-16 pr-16 pb-40 overflow-y-auto'>
-        {/* 공지 - 2차 */}
-        {/* <NoticeHeader /> */}
+      <div className='h-full w-full overflow-y-auto'>
+        <div className='max-w-350 min-w-230 mx-auto pl-16 pr-16 pb-40 overflow-y-auto'>
+          {/* 공지 - 2차 */}
+          {/* <NoticeHeader /> */}
 
-        {/* 헤더 및 여행 아이템 섹션 */}
-        <QueryBoundary subject='여행 목록'>
-          <LobbyPlanSection />
-        </QueryBoundary>
+          {/* 헤더 및 여행 아이템 섹션 */}
+          <QueryBoundary subject='여행 목록'>
+            <LobbyPlanSection />
+          </QueryBoundary>
+        </div>
       </div>
     </HydrationBoundary>
   );
