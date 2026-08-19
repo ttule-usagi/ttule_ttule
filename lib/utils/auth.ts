@@ -8,7 +8,6 @@ import Google from 'next-auth/providers/google';
 import { supabaseAdmin } from '@/lib/utils/supabase';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  debug: true,
   providers: [
     Google({
       clientId: process.env.AUTH_GOOGLE_ID,
@@ -60,6 +59,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     url: process.env.NEXT_PUBLIC_SUPABASE_URL! as string,
     secret: process.env.SUPABASE_SERVICE_ROLE_KEY! as string,
   }),
+  trustHost: process.env.AUTH_TRUST_HOST === 'true',
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60,
