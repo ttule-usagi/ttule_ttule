@@ -11,14 +11,14 @@ export default async function PlaceLayout({
   const paddingTop = await getPlacesLayoutPaddingTop();
 
   return (
-    <div className={`w-102 flex flex-col bg-brand-gray-0 ${paddingTop}`}>
+    <div className={`h-full w-102 flex flex-col bg-brand-gray-0 ${paddingTop}`}>
       {session && (
         <div className='z-20 px-4 pt-5 flex-none'>
           <CorePlaceSearchInput />
         </div>
       )}
 
-      <section className='flex-1 min-h-0'>{children}</section>
+      <section className='flex-1 min-h-0 overflow-hidden'>{children}</section>
     </div>
   );
 }

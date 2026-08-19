@@ -16,7 +16,7 @@ export default function SortingDropdownButton({
       placement='bottom'
       offsetValue={4}
     >
-      <DropDown.Trigger className='flex gap-1 px-3 py-1.5 rounded-[40px] bg-brand-gray-200 items-center text-brand-gray-600'>
+      <DropDown.Trigger className='flex gap-1 px-3 py-1.5 rounded-[40px] bg-brand-gray-200 items-center text-brand-gray-600 hover:bg-[#d8dce2]'>
         {sortBy === 'created_desc' ? '최근등록' : '과거등록'}
         <Icon
           name='ChevronDown'

@@ -174,12 +174,12 @@ input:-webkit-autofill:active {
     @apply flex flex-1 bg-brand-gray-100 py-3 px-4 gap-2.5 text-typo-description text-brand-gray-700 items-center rounded-sm border box-border border-gray-200 outline-none;
   }
   .modal-button {
-    @apply flex items-center justify-center bg-brand-blue-700 text-typo-base text-brand-gray-0 max-w-32 px-12.5 py-3 gap-2 rounded-sm cursor-pointer;
+    @apply flex items-center justify-center bg-brand-blue-700 text-typo-base text-brand-gray-0 py-3 gap-2 rounded-sm cursor-pointer hover:bg-brand-blue-800;
   }
 
   /* 장소 리스트 생성 input 스타일*/
   .create-place-input {
-    @apply flex items-center box-border w-full rounded-sm px-3 py-2 bg-brand-gray-100 border border-brand-gray-200 text-brand-gray-700 outline-none placeholder-brand-gray-400;
+    @apply flex items-center box-border w-full rounded-sm px-3 py-2 bg-brand-gray-100 border focus:outline-none focus:bg-brand-gray-0 focus:border-brand-blue-400 border-brand-gray-200 shadow-xs hover:bg-brand-gray-200 text-brand-gray-700 placeholder-brand-gray-400;
   }
 
   .wobbly-box {

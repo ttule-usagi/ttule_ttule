@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { Icon } from '@/components/common/Icon';
+import Loader from '@/components/common/Loader';
 import ShareOptionContent from '@/components/common/ShareOption/ShareOptionContent';
 import TabButton from '@/components/common/TabButton';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
@@ -20,19 +21,19 @@ export default function PlanSettingModal({ id, onClose }: { id: string; onClose:
       }}
     >
       <div
-        className='relative flex flex-col bg-white rounded-lg pt-7 px-6 pb-6 min-h-100 h-187 max-h-[80vh] min-w-126'
+        className='relative flex flex-col bg-white rounded-lg min-h-100 h-187 max-h-[80vh] min-w-126 overflow-hidden'
         onClick={(e) => e.stopPropagation()}
       >
-        <header className='flex justify-between items-center shrink-0 mb-4'>
+        <header className='flex justify-between items-center shrink-0 mb-4 pt-7 px-6'>
           <p className='text-typo-title font-medium text-brand-blue-800'>계획 설정</p>
           <Icon
             name='XClose'
             size={32}
-            className='text-brand-gray-500 cursor-pointer'
+            className='text-brand-gray-500 rounded-full cursor-pointer hover:bg-brand-gray-100 hover:text-brand-blue-700'
             onClick={onClose}
           />
         </header>
-        <nav className='flex items-center gap-4 border-b border-brand-gray-100 -mx-6 px-6 mb-6 shrink-0'>
+        <nav className='flex items-center gap-4 border-b border-brand-gray-100 px-6 shrink-0'>
           <TabButton
             buttonText='계획 정보'
             onSetTab={() => setTab('info')}
@@ -45,19 +46,36 @@ export default function PlanSettingModal({ id, onClose }: { id: string; onClose:
           />
         </nav>
         {tab === 'info' && (
-          <div className='flex-1 min-h-0 overflow-y-auto pb-11 mb-10'>
-            <QueryBoundary>
-              <PlanInfoContent id={id} />
+          <div className='flex flex-col min-h-0 flex-1'>
+            <QueryBoundary
+              loadingFallback={
+                <div className='h-full flex flex-col items-center justify-center flex-1 min-h-0'>
+                  <Loader />
+                </div>
+              }
+            >
+              <div className='flex-1 min-h-0 overflow-y-auto pb-17 mb-10 pt-6 px-6'>
+                <PlanInfoContent id={id} />
+              </div>
             </QueryBoundary>
           </div>
         )}
         {tab === 'shareOption' && (
-          <QueryBoundary>
-            <ShareOptionContent
-              id={id}
-              resourceType='plan'
-            />
-          </QueryBoundary>
+          <div className='flex flex-col min-h-0 flex-1'>
+            <QueryBoundary
+              loadingFallback={
+                <div className='h-full flex flex-col items-center justify-center flex-1 min-h-0'>
+                  <Loader />
+                </div>
+              }
+            >
+              <ShareOptionContent
+                id={id}
+                resourceType='plan'
+                padding='p-6'
+              />
+            </QueryBoundary>
+          </div>
         )}
       </div>
     </div>,

@@ -20,7 +20,7 @@ export default async function Page() {
         <div className='flex-1 px-4 overflow-y-auto pb-7'>
           <Link
             href='/places/create'
-            className='w-full max-h-19 flex justify-center items-center py-5.5 text-brand-gray-400 text-typo-sub-title font-medium mb-3 gap-2 wobbly-box'
+            className='w-full max-h-19 flex justify-center items-center py-5.5 text-brand-gray-400 text-typo-sub-title font-medium mb-3 gap-2 wobbly-box hover:text-brand-blue-700'
           >
             <Icon
               name='Plus'

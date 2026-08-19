@@ -1,17 +1,20 @@
 'use client';
 
-import { ResourceParams } from '@/types/shareOption';
-import { Icon } from '../Icon';
-import { MemberList } from './MemberList';
+import { useSession } from 'next-auth/react';
+
+import { useShareEditLink } from '@/hooks/invite-member/useShareEditLink';
+import { useConfirmDeleteMember } from '@/hooks/shareOption/useConfirmDeleteMember';
 import { useGetMembers } from '@/hooks/shareOption/useGetMembers';
 import { useModalStore } from '@/lib/store/modalStore';
-import { useShareEditLink } from '@/hooks/invite-member/useShareEditLink';
 import { createViewLink } from '@/lib/utils/invite/createViewLink';
-import { PublicStateSelector } from './PublicStateSelector';
-import { useSession } from 'next-auth/react';
-import { useConfirmDeleteMember } from '@/hooks/shareOption/useConfirmDeleteMember';
+import { ResourceParams } from '@/types/shareOption';
 
-export default function ShareOptionContent({ id, resourceType }: ResourceParams) {
+import { Icon } from '../Icon';
+
+import { MemberList } from './MemberList';
+import { PublicStateSelector } from './PublicStateSelector';
+
+export default function ShareOptionContent({ id, resourceType, padding }: ResourceParams & { padding?: string }) {
   const { open } = useModalStore();
   const { createShareLink, isPending } = useShareEditLink();
   const { data: members } = useGetMembers({ id, resourceType });
@@ -23,12 +26,12 @@ export default function ShareOptionContent({ id, resourceType }: ResourceParams)
   const isMaster = myRole === 'master';
 
   return (
-    <div className='w-full flex flex-col gap-10 flex-1 min-h-0 overflow-y-auto no-scrollbar'>
+    <div className={`w-full flex flex-col gap-10 flex-1 min-h-0 overflow-y-auto ${padding ? padding : ''}`}>
       {/* 수정 권한 초대 버튼 */}
       <div className='flex flex-col gap-3'>
         <span className='text-typo-base font-light text-brand-gray-600'>공유 링크</span>
         <button
-          className='flex items-center gap-2 rounded-sm border border-brand-gray-300 px-4 py-1.5 max-w-60.75'
+          className='flex items-center gap-2 rounded-sm border border-brand-gray-300 px-4 py-1.5 max-w-60.75 hover:bg-brand-gray-50 cursor-pointer'
           disabled={isPending}
           onClick={() => createShareLink(id, resourceType)}
         >
@@ -51,7 +54,7 @@ export default function ShareOptionContent({ id, resourceType }: ResourceParams)
         />
         {/* 보기 링크 공유 버튼 */}
         <button
-          className='flex self-start items-center justify-center gap-2 rounded-sm border border-brand-gray-300 px-4 py-1.5 w-fit'
+          className='flex self-start items-center justify-center gap-2 rounded-sm border border-brand-gray-300 px-4 py-1.5 w-fit hover:bg-brand-gray-50 cursor-pointer'
           onClick={() => {
             open({ type: 'shareLink', props: { type: 'VIEW', link: createViewLink(id, resourceType) } });
           }}

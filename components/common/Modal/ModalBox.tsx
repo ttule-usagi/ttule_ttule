@@ -1,9 +1,10 @@
+import { useModalStore } from '@/lib/store/modalStore';
+
 import { Icon } from '../Icon';
 
-import ModalTitle from './ModalTitle';
-import ModalContent from './ModalContent';
 import ModalBottomContent from './ModalBottomContent';
-import { useModalStore } from '@/lib/store/modalStore';
+import ModalContent from './ModalContent';
+import ModalTitle from './ModalTitle';
 
 interface ModalBoxProps {
   children: React.ReactNode;
@@ -24,7 +25,7 @@ export default function ModalBox({ children, isCloseIcon = true, width = 560, ba
         <Icon
           name='XClose'
           size={32}
-          className='absolute top-3 right-3 text-brand-gray-500 cursor-pointer'
+          className='absolute top-3 right-3 text-brand-gray-500 cursor-pointer rounded-full hover:bg-brand-gray-100 hover:text-brand-blue-700'
           onClick={close}
         />
       )}

@@ -107,7 +107,7 @@ export default function Login() {
             <button
               type='submit'
               disabled={state.loading}
-              className='mt-6 w-full bg-brand-blue-700 text-white py-2.5 rounded-sm cursor-pointer'
+              className='mt-6 w-full bg-brand-blue-700 text-white py-2.5 rounded-sm cursor-pointer hover:bg-brand-blue-800'
             >
               로그인
             </button>

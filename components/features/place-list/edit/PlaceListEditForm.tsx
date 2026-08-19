@@ -79,7 +79,7 @@ export default function PlaceListEditForm({
         <p className='flex-1 text-typo-big-title text-brand-blue-700'>장소 리스트 관리</p>
         <button
           onClick={handleSave}
-          className='rounded-lg box-border font-light px-3 py-2 text-brand-gray-0 bg-brand-blue-700 flex items-center justify-center cursor-pointer'
+          className='rounded-lg box-border font-light px-3 py-2 text-brand-gray-0 bg-brand-blue-700 flex items-center justify-center cursor-pointer hover:bg-brand-blue-800'
         >
           저장하기
         </button>

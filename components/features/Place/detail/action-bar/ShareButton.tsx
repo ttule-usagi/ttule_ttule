@@ -51,6 +51,7 @@ export default function ShareButton({ placeId }: { placeId: string }) {
         <Icon
           name={showTooltip ? 'Check' : 'Share'}
           size={24}
+          className='text-brand-blue-700'
         />
       </button>
     </div>

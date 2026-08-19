@@ -16,7 +16,7 @@ export default function JoinPlanButton({ variant = 'primary' }: JoinPlanButtonPr
 
   return (
     <button
-      className={`font-normal rounded-lg bg-neon-green text-brand-blue-700 ${variantStyle[variant]} cursor-pointer`}
+      className={`font-normal rounded-lg bg-neon-green text-brand-blue-700 ${variantStyle[variant]} cursor-pointer hover:bg-neon-hover`}
       onClick={() => open({ type: 'enterInviteLink', props: { type: 'plan' } })}
     >
       여행 계획에 참여하기

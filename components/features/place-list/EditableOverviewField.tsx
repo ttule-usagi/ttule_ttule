@@ -1,6 +1,7 @@
 import { Suspense, useState } from 'react';
 
 import { Icon } from '@/components/common/Icon';
+import Loader from '@/components/common/Loader';
 import { IconType } from '@/lib/emoji';
 
 import EmojiPicker from './create/EmojiPicker';
@@ -75,7 +76,7 @@ export default function EditableOverviewField({
                 aria-haspopup='true'
                 aria-expanded={isOpenIconMenu}
                 onClick={() => setIsOpenIconMenu(!isOpenIconMenu)}
-                className={`flex-1 min-w-0 create-place-input gap-2.5 cursor-pointer ${icon ? 'text-brand-gray-700' : 'text-brand-gray-400'}`}
+                className={`flex-1 min-w-0 flex items-center box-border w-full rounded-sm px-3 py-2 bg-brand-gray-100 border focus-within:outline-2 focus-within:-outline-offset-2 focus:bg-brand-gray-0 focus-within:outline-indigo-600 border-brand-gray-200 shadow-xs hover:bg-brand-gray-200 placeholder-brand-gray-400 gap-2.5 cursor-pointer ${icon ? 'text-brand-gray-700' : 'text-brand-gray-400'}`}
               >
                 <span className='font-mona12 text-typo-base'>
                   {icon ? (
@@ -99,7 +100,7 @@ export default function EditableOverviewField({
                 <button
                   type='button'
                   onClick={() => onSelectIcon(null)}
-                  className='bg-tag-red-text text-brand-gray-0 rounded-sm px-2 w-14 cursor-pointer font-light'
+                  className='bg-tag-red-text text-brand-gray-0 rounded-sm px-2 w-14 cursor-pointer font-light hover:bg-[#da4b46]'
                 >
                   제거
                 </button>
@@ -108,7 +109,13 @@ export default function EditableOverviewField({
 
             {isOpenIconMenu && (
               <div className='w-full'>
-                <Suspense fallback={<div className='w-full text-brand-gray-400 text-center'>Loading...</div>}>
+                <Suspense
+                  fallback={
+                    <div className='w-full text-brand-gray-400 text-center py-6'>
+                      <Loader />
+                    </div>
+                  }
+                >
                   <EmojiPicker onClick={(icon) => handleSelectIcon(icon)} />
                 </Suspense>
               </div>

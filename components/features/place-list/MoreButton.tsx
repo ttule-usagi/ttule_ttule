@@ -9,7 +9,7 @@ interface MoreButtonProps {
 export default function MoreButton({ onClick }: MoreButtonProps) {
   return (
     <button
-      className='flex px-4 py-2 gap-1 rounded-[28px] border box-border border-brand-blue-700 text-brand-blue-700 cursor-pointer items-center justify-center'
+      className='flex px-4 py-2 gap-1 rounded-[28px] border box-border border-brand-blue-700 text-brand-blue-700 cursor-pointer items-center justify-center hover:bg-brand-blue-700 hover:text-brand-gray-0'
       onClick={onClick}
     >
       <Icon

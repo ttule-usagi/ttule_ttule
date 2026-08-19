@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import { useState } from 'react';
 
+import CancelButton from '@/components/common/CancelButton';
+import ConfirmButton from '@/components/common/ConfirmButton';
 import { Icon } from '@/components/common/Icon';
 import NotePage from '@/components/common/NotePage';
 import { useConfirmWithdraw } from '@/hooks/auth/useConfirmWithdraw';
@@ -47,7 +49,7 @@ export default function EditInfoForm() {
         <Icon
           name='Setting'
           size={32}
-          className='absolute top-24.5 right-8 cursor-pointer'
+          className=' absolute top-24.5 right-8 cursor-pointer text-brand-blue-600 hover:bg-brand-blue-50 rounded-full'
           onClick={() => setIsEdit(true)}
         />
       )}
@@ -59,7 +61,7 @@ export default function EditInfoForm() {
               initialImageURL={initialUserInfo.profileImageUrl ?? ''}
             />
           ) : (
-            <div className='w-34 h-34 rounded-full bg-brand-blue-100 box-border border border-brand-blue-700'>
+            <div className='w-34 h-34 rounded-full bg-white box-border border border-brand-blue-700'>
               <Image
                 src={initialUserInfo.profileImageUrl || DEFAULT_PROFILE_IMAGE}
                 alt='나의 프로필 이미지'
@@ -104,7 +106,7 @@ export default function EditInfoForm() {
                 placeholder={'뚤레 닉네임 입력'}
                 value={userInfo.username}
                 onChange={(e) => setUserInfo((prev) => ({ ...prev, username: e.target.value }))}
-                className='inline-block w-full min-w-0 flex-1 h-8 py-2 box-border focus:outline-none placeholder:text-brand-gray-400 border rounded-sm bg-brand-gray-100 border-brand-gray-200 px-2'
+                className='inline-block w-full min-w-0 flex-1 h-8 py-2 box-border focus:outline-none placeholder:text-brand-gray-400 border rounded-sm bg-brand-gray-100 border-brand-gray-200 px-2 hover:bg-brand-gray-200'
                 disabled={!isEdit}
               />
             ) : (
@@ -125,7 +127,7 @@ export default function EditInfoForm() {
 
         <button
           onClick={confirmWithdraw}
-          className='hover:underline text-brand-gray-500 font-light text-left justify-self-start'
+          className='hover:underline text-brand-gray-500 font-light text-left justify-self-start cursor-pointer'
         >
           탈퇴하기
         </button>
@@ -133,20 +135,16 @@ export default function EditInfoForm() {
         <div className='row-span-2 w-full flex gap-4 justify-self-stretch'>
           {isEdit && (
             <>
-              <button
-                className='flex-1 h-12 rounded-sm text-typo-base box-border font-medium bg-brand-gray-50 text-brand-gray-400 border border-brand-gray-200'
+              <CancelButton
+                text='취소'
                 onClick={handleCancel}
                 disabled={isPending}
-              >
-                취소
-              </button>
-              <button
-                className='flex-1 h-12 rounded-sm text-typo-base box-border font-medium bg-brand-blue-700 text-brand-gray-0 border border-transparent'
+              />
+              <ConfirmButton
+                text={isPending ? '수정 중...' : '수정하기'}
                 onClick={handleSubmit}
                 disabled={isPending}
-              >
-                {isPending ? '수정 중...' : '수정하기'}
-              </button>
+              />
             </>
           )}
         </div>

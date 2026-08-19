@@ -20,11 +20,11 @@ export function IconButtonText({
   return (
     <button
       className={`
-        flex flex-col items-center rounded-sm border p-5.5 flex-1
+        flex flex-col items-center rounded-sm border p-5.5 flex-1 cursor-pointer
         ${
           isSelected
             ? 'border-brand-blue-600 bg-brand-blue-50 text-brand-blue-700'
-            : 'border-brand-gray-200 text-brand-gray-600'
+            : 'border-brand-gray-200 text-brand-gray-600 hover:bg-brand-gray-50'
         }
       `}
       disabled={disabled}

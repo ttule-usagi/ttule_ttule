@@ -1,9 +1,11 @@
+import { useState } from 'react';
+
 import { useModalStore } from '@/lib/store/modalStore';
-import ModalBox from './Modal/ModalBox';
-import { Icon } from './Icon';
+
 import CancelButton from './CancelButton';
 import ConfirmButton from './ConfirmButton';
-import { useState } from 'react';
+import { Icon } from './Icon';
+import ModalBox from './Modal/ModalBox';
 
 interface ConfirmActioinModalProps {
   description: string;

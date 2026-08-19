@@ -1,16 +1,19 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
 import DropDown from '@/components/common/Dropdown';
 import { Icon } from '@/components/common/Icon';
 import { useShareEditLink } from '@/hooks/invite-member/useShareEditLink';
 import { useConfirmDeletePlaceList } from '@/hooks/place-list/useConfirmDeletePlaceList';
 import { useModalStore } from '@/lib/store/modalStore';
 import { createViewLink } from '@/lib/utils/invite/createViewLink';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import PlaceListShareOptionModal from './PlaceListShareOptionModal';
 import { Role } from '@/types/shareOption';
+
 import AuthorityWrapper from '../AuthorityWrapper';
+
+import PlaceListShareOptionModal from './PlaceListShareOptionModal';
 
 interface PlaceListDropdownMenuProps {
   id: string;
@@ -39,7 +42,7 @@ export default function PlaceListDropdownMenu({ id, type = 'overview', listName,
           <Icon
             name='DotsHorizontal'
             size={32}
-            className='cursor-pointer text-brand-blue-700'
+            className={`cursor-pointer rounded-sm text-brand-blue-700 hover:text-brand-blue-800 ${type === 'overview' ? 'hover:bg-brand-gray-100' : 'hover:bg-black/5'}`}
           />
         </DropDown.Trigger>
 

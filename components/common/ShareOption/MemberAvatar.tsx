@@ -11,7 +11,7 @@ export function MemberAvatar({ name, size = 36, profileImage }: MemberAvatarProp
 
   return (
     <div
-      className='rounded-full bg-brand-blue-100 box-border shrink-0'
+      className='rounded-full bg-white box-border shrink-0'
       style={{ width: size, height: size }}
     >
       {profileImage ? (

@@ -1,7 +1,9 @@
 'use client';
 
 import { Member } from '@/types/shareOption';
+
 import { Icon } from '../Icon';
+
 import { MemberAvatar } from './MemberAvatar';
 
 interface MemberListProps {
@@ -16,13 +18,13 @@ export function MemberList({ members, onRemove, onInvite, isMaster }: MemberList
   const editors = members.filter((m) => m.role !== 'master');
 
   return (
-    <div className='flex flex-col gap-3'>
+    <div className='flex flex-col gap-2.5'>
       {/* 섹션 헤더 */}
       <div className='flex items-center justify-between'>
         <span className='text-typo-base font-light text-brand-gray-600'>수정할 수 있는 사람</span>
         <button
           onClick={onInvite}
-          className='text-typo-base text-brand-blue-700'
+          className='text-typo-base text-brand-blue-700 cursor-pointer px-1 py-0.5 hover:text-brand-blue-800 rounded-sm hover:bg-brand-gray-100'
         >
           초대하기
         </button>
@@ -63,7 +65,7 @@ export function MemberList({ members, onRemove, onInvite, isMaster }: MemberList
               {isMaster && (
                 <button
                   onClick={() => onRemove(member.id)}
-                  className='flex h-6 w-6 items-center justify-center text-brand-gray-700'
+                  className='flex h-6 w-6 items-center justify-center rounded-full text-brand-gray-700 cursor-pointer hover:bg-brand-gray-200 hover:text-brand-blue-800'
                 >
                   <Icon
                     name='XClose'
