@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { Icon } from '@/components/common/Icon';
+import Loader from '@/components/common/Loader';
 import ShareOptionContent from '@/components/common/ShareOption/ShareOptionContent';
 import TabButton from '@/components/common/TabButton';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
@@ -45,15 +46,29 @@ export default function PlanSettingModal({ id, onClose }: { id: string; onClose:
           />
         </nav>
         {tab === 'info' && (
-          <div className='flex-1 min-h-0 overflow-y-auto pb-17 mb-10 pt-6 px-6'>
-            <QueryBoundary>
-              <PlanInfoContent id={id} />
+          <div className='flex flex-col min-h-0 flex-1'>
+            <QueryBoundary
+              loadingFallback={
+                <div className='h-full flex flex-col items-center justify-center flex-1 min-h-0'>
+                  <Loader />
+                </div>
+              }
+            >
+              <div className='flex-1 min-h-0 overflow-y-auto pb-17 mb-10 pt-6 px-6'>
+                <PlanInfoContent id={id} />
+              </div>
             </QueryBoundary>
           </div>
         )}
         {tab === 'shareOption' && (
           <div className='flex flex-col min-h-0 flex-1'>
-            <QueryBoundary>
+            <QueryBoundary
+              loadingFallback={
+                <div className='h-full flex flex-col items-center justify-center flex-1 min-h-0'>
+                  <Loader />
+                </div>
+              }
+            >
               <ShareOptionContent
                 id={id}
                 resourceType='plan'
