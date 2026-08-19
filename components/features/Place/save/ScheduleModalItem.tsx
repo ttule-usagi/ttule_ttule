@@ -4,8 +4,7 @@ import { useState } from 'react';
 
 import { Icon } from '@/components/common/Icon';
 import { useGetPlanSchedules } from '@/hooks/plan/useGetPlanSchedules';
-import type { PlanOverview } from '@/hooks/plan/useGetUserPlans';
-
+import type { PlanOverview } from '@/types/plan';
 interface PlanItemProps {
   plan: PlanOverview;
   selectedScheduleIds: Set<string>;

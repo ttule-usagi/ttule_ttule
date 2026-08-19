@@ -1,5 +1,6 @@
 import { Icon } from '@/components/common/Icon';
-import { CorePlaceReview } from '@/types/CorePlace';
+import { CorePlaceReview } from '@/types/corePlace';
+
 import Review from './Review';
 
 interface ReviewContainerProps {

@@ -1,6 +1,6 @@
 import { Icon } from '@/components/common/Icon';
 import { formatRelativeTime } from '@/lib/utils/date';
-import { CorePlaceReview } from '@/types/CorePlace';
+import { CorePlaceReview } from '@/types/corePlace';
 
 export default function Review({ review }: { review: CorePlaceReview }) {
   return (
