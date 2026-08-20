@@ -7,8 +7,8 @@ interface InfoSlideBodyProps {
 
 export default function InfoSlideBody({ media, description, features, upcomingFeatures }: InfoSlideBodyProps) {
   return (
-    <div className='flex flex-col gap-4 items-start w-full overflow-y-hidden overflow-x-hidden'>
-      <div className='w-full h-36 rounded-lg overflow-hidden border border-brand-gray-200'>{media}</div>
+    <div className='flex flex-col gap-4 items-start w-full overflow-y-auto'>
+      <div className='w-full h-36 rounded-lg border border-brand-gray-200'>{media}</div>
 
       <div className='text-brand-gray-700 text-typo-base-bold w-full mt-1'>{description}</div>
 
@@ -29,7 +29,7 @@ export default function InfoSlideBody({ media, description, features, upcomingFe
           <hr className='w-full border-brand-gray-200' />
           <div className='flex flex-col gap-3 w-full'>
             <p className='text-brand-gray-700 text-typo-base-bold'>추가 예정 기능</p>
-            <ul className='flex flex-col gap-2 text-brand-gray-600 text-typo-description'>
+            <ul className='flex flex-col gap-2 text-brand-gray-600 text-typo-description mb-4'>
               {upcomingFeatures.map((feature, i) => (
                 <li
                   key={i}
