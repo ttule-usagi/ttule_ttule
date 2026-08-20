@@ -51,7 +51,7 @@ export default function InfoContainerModal({ onClose }: InfoModalProps) {
           </button>
         )}
         <div
-          className='bg-white rounded-sm w-95 min-h-100 max-h-[75vh] flex flex-col items-center gap-4 px-5 pt-4 overflow-x-visible'
+          className='bg-white rounded-sm w-95 min-h-100 h-150 max-h-[75vh] flex flex-col items-center gap-4 p-5 pt-4 overflow-x-visible'
           onClick={(e) => e.stopPropagation()}
         >
           <ModalHeader

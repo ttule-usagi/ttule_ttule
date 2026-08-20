@@ -29,8 +29,8 @@ export const InfoSteps: InfoStep[] = [
         }
         features={[
           <>
-            지도와 함께 보는 <strong className='font-bold'>단일 뷰</strong>, 일정을 모아 보는{' '}
-            <strong className='font-bold'>전체 뷰</strong> 를 지원해요
+            지도와 함께 보는 <strong className='font-bold'>단일 뷰</strong>, 일정을 모아 보는
+            <strong className='font-bold'>전체 뷰</strong>를 지원해요
           </>,
           '여행 기간을 자유롭게 설정할 수 있어요(일정 미정 가능)',
 

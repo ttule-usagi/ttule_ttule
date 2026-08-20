@@ -17,16 +17,20 @@ export default function Home() {
 
   return (
     <div className='bg-brand-blue-50 w-screen h-screen relative overflow-hidden'>
+      <h1 className='absolute top-4 right-4 text-white text-typo-base z-999'>@뚤레뚤레</h1>
       <div className='w-full h-full flex flex-col items-center justify-center'>
         <div className='flex flex-col gap-2.5 items-center justify-center z-10 relative'>
           <p className='text-typo-title text-brand-gray-200 font-normal text-[25px]'>함께 떠나기 좋은 여행 플래너</p>
-          <h1 className='sr-only'>뚤레뚤레 — 함께 떠나기 좋은 여행 플래너</h1>
           <Image
             src='/images/logo.svg'
             width={280}
             height={94}
             alt='뚤레뚤레 logo'
           />
+          <div className='flex flex-col items-center  mt-2'>
+            <p className='text-typo-description text-brand-gray-200'>나만의 여행 위시리스트와 계획을 만들고,</p>
+            <p className='text-typo-description text-brand-gray-200'>친구와 함께 편집할 수 있어요.</p>
+          </div>
           <Image
             src='/images/clip.svg'
             width={97.54}
