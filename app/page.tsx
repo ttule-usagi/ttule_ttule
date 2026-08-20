@@ -1,10 +1,16 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 
+import InfoContainerModal from '@/components/features/info/InfoContainerModal';
+import InfoTomato from '@/components/features/info/InfoTomato';
 import JoinPlanButton from '@/components/features/JoinPlanButton';
 import LoginButton from '@/components/features/LoginButton';
 
 export default function Home() {
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   return (
     <div className='bg-brand-blue-50 w-screen h-screen relative overflow-hidden'>
       <div className='w-full h-full flex flex-col items-center justify-center'>
@@ -24,7 +30,8 @@ export default function Home() {
             className='absolute bottom-[-36%] right-[-31.5%]'
           />
         </div>
-        <div className='flex flex-col gap-2.5 z-10 mt-66'>
+        <div className='flex flex-col gap-2.5 z-10 mt-43'>
+          <InfoTomato onClick={() => setIsInfoModalOpen(true)} />
           <JoinPlanButton variant='primary' />
           <LoginButton />
         </div>
@@ -77,6 +84,8 @@ export default function Home() {
         alt='glasses'
         className='absolute w-[38vw] h-auto right-[2%] bottom-0 z-1'
       />
+
+      {isInfoModalOpen && <InfoContainerModal onClose={() => setIsInfoModalOpen(false)} />}
     </div>
   );
 }

@@ -236,6 +236,36 @@ input:-webkit-autofill:active {
     background: var(--page-bg, #3862b8); /* 카드 뒤 배경색과 동일하게 */
   }
 
+  .blue-tomato-flag {
+    animation: tomato-info-spin 2.5s ease-in-out infinite;
+
+    transform-origin: center center;
+  }
+
+  @keyframes tomato-info-spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(20deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  @keyframes tomato-info-goAround {
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(30deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
   /* Tomato loading animation */
   .tomato-loader {
     --size: 24px;

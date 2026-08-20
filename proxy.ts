@@ -11,13 +11,13 @@ export default async function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
   const session = await auth();
 
-  console.log('--------------------------------------------------');
-  console.log(`🚀 [PROXY CHECK] 경로: ${pathname}`);
-  console.log(`세션 상태: ${session ? '✅ 로그인됨' : '❌ 미인증'}`);
-  if (session?.user) {
-    console.log(`유저 정보: ${session.user.email} (${session.user.username || '닉네임 없음'}) ${session.user.role}`);
-  }
-  console.log('--------------------------------------------------');
+  // console.log('--------------------------------------------------');
+  // console.log(`🚀 [PROXY CHECK] 경로: ${pathname}`);
+  // console.log(`세션 상태: ${session ? '✅ 로그인됨' : '❌ 미인증'}`);
+  // if (session?.user) {
+  //   console.log(`유저 정보: ${session.user.email} (${session.user.username || '닉네임 없음'}) ${session.user.role}`);
+  // }
+  // console.log('--------------------------------------------------');
 
   const isNewGoogleUser = request.cookies.get('is_new_google_user');
 
