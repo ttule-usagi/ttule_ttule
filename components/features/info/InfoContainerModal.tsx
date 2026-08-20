@@ -17,7 +17,7 @@ export default function InfoContainerModal({ onClose }: InfoModalProps) {
   const total = InfoSteps.length;
   const current = InfoSteps[currentIndex];
 
-  const isMounted = useIsMounted(); // 여기서만 필요 — document 참조를 서버에서 막기 위함
+  const isMounted = useIsMounted();
   if (!isMounted) return null;
 
   const handleNext = (e: React.MouseEvent<HTMLButtonElement>) => {

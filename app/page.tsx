@@ -90,7 +90,7 @@ export default function Home() {
         className='absolute w-[38vw] h-auto right-[2%] bottom-0 z-1'
       />
 
-      {isInfoModalOpen && <InfoContainerModal onClose={() => setIsModalClosedByUser(false)} />}
+      {isInfoModalOpen && <InfoContainerModal onClose={() => setIsModalClosedByUser(true)} />}
     </div>
   );
 }
