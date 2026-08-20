@@ -23,18 +23,18 @@ export default function PlanMemoItemForm({
   return (
     <div className='flex flex-col gap-2'>
       {/* 제목 입력 */}
-      <div className='bg-brand-gray-100 hover:bg-brand-gray-200 border border-brand-gray-200 rounded-sm px-3 py-2 h-10 flex items-center'>
+      <div className='bg-brand-gray-100 border border-brand-gray-200 rounded-sm px-3 py-2 h-10 flex items-center'>
         <input
           type='text'
           value={placeName}
           onChange={(e) => onPlaceNameChange(e.target.value)}
           placeholder='제목을 입력하세요'
-          className='bg-transparent text-typo-base-bold text-brand-gray-600 w-full outline-none placeholder:text-brand-gray-400'
+          className='bg-transparent text-typo-base-bold text-brand-gray-600 w-full outline-none placeholder:text-brand-gray-300'
         />
       </div>
 
       {/* 방문 시간 입력 */}
-      <div className='bg-brand-gray-100 hover:bg-brand-gray-200 border border-brand-gray-200 rounded-sm pl-2 py-1 h-8 flex items-center gap-1'>
+      <div className='bg-brand-gray-100  border border-brand-gray-200 rounded-sm pl-2 py-1 h-8 flex items-center gap-1'>
         <Icon
           name='Clock'
           size={16}
@@ -45,12 +45,12 @@ export default function PlanMemoItemForm({
           step={300}
           value={visitTime}
           onChange={(e) => onVisitTimeChange(e.target.value)}
-          className='bg-transparent text-typo-description text-brand-gray-600 w-full outline-none placeholder:text-brand-gray-400'
+          className='bg-transparent text-typo-description text-brand-gray-600 w-full outline-none placeholder:text-brand-gray-300'
         />
       </div>
 
       {/* 메모 입력 */}
-      <div className='bg-brand-gray-100 hover:bg-brand-gray-200 border border-brand-gray-200 rounded-sm px-3 py-2 min-h-18 max-h-30'>
+      <div className='bg-brand-gray-100 border border-brand-gray-200 rounded-sm px-3 py-2 min-h-18 max-h-30'>
         <textarea
           value={memoContent}
           onChange={(e) => onMemoContentChange(e.target.value)}

@@ -40,7 +40,7 @@ export default function PlanDateContent({
           onClick={() => onModeChange('date')}
           className={`rounded-sm px-2 py-2 text-typo-description border ${
             mode === 'date'
-              ? 'bg-brand-blue-50 text-brand-blue-500 border-brand-blue-500 hover:bg-brand-blue-50'
+              ? 'bg-brand-gray-0 text-brand-blue-500 border-brand-blue-500 hover:bg-brand-blue-50'
               : 'bg-brand-gray-50 text-brand-gray-400 border-brand-gray-300 hover:bg-brand-gray-100'
           }`}
         >
