@@ -40,7 +40,7 @@ export default function PlanMemoItemEditCard({ item, isSaving, onClose, onSave }
       <div className='absolute left-4 top-5'>
         <button
           onClick={onClose}
-          className='flex items-center justify-center size-6.5 rounded-full cursor-pointer hover:bg-brand-gray-100'
+          className='flex items-center justify-center size-6.5 rounded-full cursor-pointer hover:bg-brand-gray-50'
           aria-label='닫기'
         >
           <Icon
@@ -65,7 +65,7 @@ export default function PlanMemoItemEditCard({ item, isSaving, onClose, onSave }
         <div className='flex gap-2'>
           <button
             onClick={onClose}
-            className='flex-1 flex items-center justify-center py-2 border border-brand-gray-200 hover:bg-brand-gray-100 rounded-1'
+            className='flex-1 flex items-center justify-center py-2 border border-brand-gray-200 hover:bg-brand-gray-50 rounded-1'
           >
             <span className='text-typo-description text-brand-gray-500'>취소</span>
           </button>

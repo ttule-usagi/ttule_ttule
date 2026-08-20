@@ -93,7 +93,7 @@ export default function PlanItemEditCard({ item, onClose, onSave, isSaving }: Pl
           </div>
 
           {/* 방문 시간 입력 */}
-          <div className='bg-brand-gray-100 hover:bg-brand-gray-200 border border-brand-gray-200 rounded-sm flex items-center gap-1 h-8 pl-2 py-1'>
+          <div className='bg-brand-gray-100  border border-brand-gray-200 rounded-sm flex items-center gap-1 h-8 pl-2 py-1'>
             <Icon
               name='Clock'
               size={16}
@@ -104,7 +104,7 @@ export default function PlanItemEditCard({ item, onClose, onSave, isSaving }: Pl
               step={300}
               value={visitTime}
               onChange={(e) => setVisitTime(e.target.value)}
-              className='bg-transparent text-typo-description text-brand-gray-600 w-full outline-none placeholder:text-brand-gray-400'
+              className='bg-transparent text-typo-description text-brand-gray-600 w-full outline-none placeholder:text-brand-gray-300'
             />
           </div>
 
@@ -114,14 +114,14 @@ export default function PlanItemEditCard({ item, onClose, onSave, isSaving }: Pl
             onChange={(e) => setMemoContent(e.target.value)}
             placeholder='메모를 입력하세요'
             rows={3}
-            className='bg-brand-gray-100 hover:bg-brand-gray-200 border border-brand-gray-200 rounded-sm px-3 py-2 text-typo-desciption text-brand-gray-600 w-full outline-none resize-y placeholder:text-brand-gray-400 min-h-18'
+            className='bg-brand-gray-100 border border-brand-gray-200 rounded-sm px-3 py-2 text-typo-desciption text-brand-gray-600 w-full outline-none resize-y placeholder:text-brand-gray-400 min-h-18'
           />
 
           {/* 취소/저장 버튼 */}
           <div className='flex gap-2'>
             <button
               onClick={onClose}
-              className='flex-1 flex items-center justify-center py-2 border border-brand-gray-200 hover:bg-brand-gray-100 rounded-sm'
+              className='flex-1 flex items-center justify-center py-2 border border-brand-gray-200 hover:bg-brand-gray-50 rounded-sm'
             >
               <span className='text-typo-description text-brand-gray-500'>취소</span>
             </button>

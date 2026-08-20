@@ -41,7 +41,7 @@ export default function FormTypeCount({ id, label, value, onChange, min = 1, max
           onClick={handleDecrease}
           disabled={min !== undefined && value <= min}
           className='w-9 h-9 flex flex-1 items-center justify-center rounded-lg 
-          bg-brand-gray-100 text-brand-gray-700 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:bg-brand-blue-100'
+          bg-brand-gray-100 text-brand-gray-700 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:bg-brand-gray-200'
         >
           <Icon
             name='Minus'
@@ -61,7 +61,7 @@ export default function FormTypeCount({ id, label, value, onChange, min = 1, max
           onClick={handleIncrease}
           disabled={max !== undefined && value >= max}
           className='w-9 h-9 flex flex-1 items-center justify-center rounded-lg 
-          bg-brand-gray-100 text-brand-gray-700 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:bg-brand-blue-100'
+          bg-brand-gray-100 text-brand-gray-700 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer hover:bg-brand-gray-200'
         >
           <Icon
             name='Plus'
