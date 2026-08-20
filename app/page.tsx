@@ -33,7 +33,7 @@ export default function Home() {
           />
         </div>
         <div className='flex flex-col gap-2.5 z-10 mt-43'>
-          <InfoTomato onClick={() => setIsInfoModalOpen(false)} />
+          <InfoTomato onClick={() => setIsInfoModalOpen(true)} />
           <JoinPlanButton variant='primary' />
           <LoginButton />
         </div>
