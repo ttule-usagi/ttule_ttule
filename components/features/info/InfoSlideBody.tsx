@@ -7,7 +7,7 @@ interface InfoSlideBodyProps {
 
 export default function InfoSlideBody({ media, description, features, upcomingFeatures }: InfoSlideBodyProps) {
   return (
-    <div className='flex flex-col gap-4 items-start w-full overflow-y-auto [scrollbar-gutter:stable]'>
+    <div className='flex flex-col gap-4 items-start w-full overflow-y-auto pr-2'>
       <div className='w-full h-36 rounded-lg border border-brand-gray-200'>{media}</div>
 
       <div className='text-brand-gray-700 text-typo-base-bold w-full mt-1'>{description}</div>
