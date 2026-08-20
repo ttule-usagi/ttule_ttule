@@ -10,7 +10,8 @@ import JoinPlanButton from '@/components/features/JoinPlanButton';
 import LoginButton from '@/components/features/LoginButton';
 
 export default function Home() {
-  const [isInfoModalOpen, setIsInfoModalOpen] = useState(true);
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+
   return (
     <div className='bg-brand-blue-50 w-screen h-screen relative overflow-hidden'>
       <div className='w-full h-full flex flex-col items-center justify-center'>
@@ -32,7 +33,7 @@ export default function Home() {
           />
         </div>
         <div className='flex flex-col gap-2.5 z-10 mt-43'>
-          <InfoTomato onClick={() => setIsInfoModalOpen(true)} />
+          <InfoTomato onClick={() => setIsInfoModalOpen(false)} />
           <JoinPlanButton variant='primary' />
           <LoginButton />
         </div>

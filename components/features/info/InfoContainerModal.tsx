@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 
 import { Icon } from '@/components/common/Icon';
 import ModalHeader from '@/components/features/place/save/modal-item/ModalHeader';
+import { useIsMounted } from '@/hooks/useIsMounted';
 
 import { InfoSteps } from './InfoSteps';
 
@@ -15,6 +16,10 @@ export default function InfoContainerModal({ onClose }: InfoModalProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const total = InfoSteps.length;
   const current = InfoSteps[currentIndex];
+
+  const isMounted = useIsMounted();
+
+  if (!isMounted) return null;
 
   const handleNext = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
