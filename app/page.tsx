@@ -10,17 +10,18 @@ import JoinPlanButton from '@/components/features/JoinPlanButton';
 import LoginButton from '@/components/features/LoginButton';
 
 export default function Home() {
-  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(true);
   return (
     <div className='bg-brand-blue-50 w-screen h-screen relative overflow-hidden'>
       <div className='w-full h-full flex flex-col items-center justify-center'>
         <div className='flex flex-col gap-2.5 items-center justify-center z-10 relative'>
           <p className='text-typo-title text-brand-gray-200 font-normal text-[25px]'>함께 떠나기 좋은 여행 플래너</p>
+          <h1 className='sr-only'>뚤레뚤레 — 함께 떠나기 좋은 여행 플래너</h1>
           <Image
             src='/images/logo.svg'
             width={280}
             height={94}
-            alt='logo'
+            alt='뚤레뚤레 logo'
           />
           <Image
             src='/images/clip.svg'
