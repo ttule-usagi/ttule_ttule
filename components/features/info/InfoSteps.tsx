@@ -16,7 +16,7 @@ export const InfoSteps: InfoStep[] = [
           <Image
             src='/images/info_plan.jpg'
             alt='로비 화면'
-            className='w-full h-full object-cover'
+            className='w-full h-full object-cover rounded-lg'
             height={144}
             width={340}
           />
@@ -61,7 +61,7 @@ export const InfoSteps: InfoStep[] = [
           <Image
             src='/images/info_list.jpg'
             alt='장소 리스트 화면'
-            className='w-full h-full object-cover'
+            className='w-full h-full object-cover rounded-lg'
             height={144}
             width={340}
           />
@@ -101,9 +101,9 @@ export const InfoSteps: InfoStep[] = [
       <InfoSlideBody
         media={
           <Image
-            src='/images/info_list.jpg'
+            src='/images/info_search.jpg'
             alt='장소 검색 화면'
-            className='w-full h-full object-cover'
+            className='w-full h-full object-cover rounded-lg'
             height={144}
             width={340}
           />
@@ -138,7 +138,7 @@ export const InfoSteps: InfoStep[] = [
           <Image
             src='/images/info_lobby.jpg'
             alt='로비 화면'
-            className='w-full h-full object-cover'
+            className='w-full h-full object-cover rounded-lg'
             height={144}
             width={340}
           />

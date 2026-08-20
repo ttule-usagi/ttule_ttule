@@ -8,9 +8,13 @@ import InfoContainerModal from '@/components/features/info/InfoContainerModal';
 import InfoTomato from '@/components/features/info/InfoTomato';
 import JoinPlanButton from '@/components/features/JoinPlanButton';
 import LoginButton from '@/components/features/LoginButton';
+import { useIsMounted } from '@/hooks/useIsMounted';
 
 export default function Home() {
-  const [isInfoModalOpen, setIsInfoModalOpen] = useState(true);
+  const isMounted = useIsMounted();
+  const [isModalClosedByUser, setIsModalClosedByUser] = useState(false);
+  const isInfoModalOpen = isMounted && !isModalClosedByUser;
+
   return (
     <div className='bg-brand-blue-50 w-screen h-screen relative overflow-hidden'>
       <div className='w-full h-full flex flex-col items-center justify-center'>
@@ -32,7 +36,7 @@ export default function Home() {
           />
         </div>
         <div className='flex flex-col gap-2.5 z-10 mt-43'>
-          <InfoTomato onClick={() => setIsInfoModalOpen(true)} />
+          <InfoTomato onClick={() => setIsModalClosedByUser(false)} />
           <JoinPlanButton variant='primary' />
           <LoginButton />
         </div>
@@ -86,7 +90,7 @@ export default function Home() {
         className='absolute w-[38vw] h-auto right-[2%] bottom-0 z-1'
       />
 
-      {isInfoModalOpen && <InfoContainerModal onClose={() => setIsInfoModalOpen(false)} />}
+      {isInfoModalOpen && <InfoContainerModal onClose={() => setIsModalClosedByUser(true)} />}
     </div>
   );
 }
