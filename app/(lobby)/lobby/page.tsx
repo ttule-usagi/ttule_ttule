@@ -2,6 +2,7 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import LobbyPlanSection from '@/components/features/plan/lobby/LobbyPlanSection';
+import Footer from '@/components/layouts/Footer';
 import { prefetchLobbyPlanList } from '@/lib/actions/api/prefetch/prefetchLobbyPlanList';
 import { prefetchUserInfo } from '@/lib/actions/api/prefetch/prefetchUserInfo';
 import { getQueryClient } from '@/lib/utils/getQueryClient';
@@ -22,6 +23,7 @@ export default async function Page() {
             <LobbyPlanSection />
           </QueryBoundary>
         </div>
+        <Footer />
       </div>
     </HydrationBoundary>
   );

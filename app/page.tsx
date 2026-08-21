@@ -55,6 +55,21 @@ export default function Home() {
         </p>
       </div>
 
+      <footer className='absolute bottom-2 left-2 z-30 flex gap-2 text-typo-description bg-brand-blue-50 p-4'>
+        <Link
+          href='/service?tab=terms'
+          className='text-brand-gray-400 hover:opacity-80 transition-opacity'
+        >
+          이용약관
+        </Link>
+        <Link
+          href='/service?tab=privacy'
+          className='text-brand-gray-400 hover:opacity-80 transition-opacity'
+        >
+          개인정보처리방침
+        </Link>
+      </footer>
+
       {/* 배경 아이템 */}
       <div className='fixed top-0 right-0 z-1'>
         <Image
