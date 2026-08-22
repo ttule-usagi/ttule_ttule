@@ -40,20 +40,20 @@ export default async function ServicePage({ searchParams }: { searchParams: Prom
           <div className='flex gap-4 items-center justify-start'>
             <Link
               href='/service?tab=terms'
-              className={`border-box py-3 px-4 ${
+              className={`border-box py-3 px-4 border-b-2 ${
                 currentTab === 'terms'
-                  ? 'border-b-2 border-brand-blue-700 text-brand-blue-800 font-medium'
-                  : 'text-brand-gray-500'
+                  ? 'border-brand-blue-700 text-brand-blue-800 font-medium'
+                  : 'text-brand-gray-500 border-transparent'
               }`}
             >
               이용약관
             </Link>
             <Link
               href='/service?tab=privacy'
-              className={`border-box py-3 px-4 ${
+              className={`border-box py-3 px-4 border-b-2 ${
                 currentTab === 'privacy'
-                  ? 'border-b-2 border-brand-blue-700 text-brand-blue-800 font-medium'
-                  : 'text-brand-gray-500'
+                  ? 'border-brand-blue-700 text-brand-blue-800 font-medium'
+                  : 'text-brand-gray-500 border-transparent'
               }`}
             >
               개인정보처리방침
