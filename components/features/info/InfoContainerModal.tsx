@@ -78,7 +78,7 @@ export default function InfoContainerModal({ onClose }: InfoModalProps) {
           {InfoSteps.map((_, i) => (
             <span
               key={i}
-              className={`size-1.5 rounded-full ${i === currentIndex ? 'bg-brand-blue-700' : 'bg-brand-gray-200'}`}
+              className={`size-1.5 rounded-full ${i === currentIndex ? 'bg-brand-blue-400' : 'bg-brand-gray-200'}`}
             />
           ))}
         </div>

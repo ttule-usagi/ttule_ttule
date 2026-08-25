@@ -4,20 +4,26 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
+import { Icon } from '@/components/common/Icon';
 import InfoContainerModal from '@/components/features/info/InfoContainerModal';
 import InfoTomato from '@/components/features/info/InfoTomato';
 import JoinPlanButton from '@/components/features/JoinPlanButton';
 import LoginButton from '@/components/features/LoginButton';
-import { useIsMounted } from '@/hooks/useIsMounted';
 
 export default function Home() {
-  const isMounted = useIsMounted();
-  const [isModalClosedByUser, setIsModalClosedByUser] = useState(false);
-  const isInfoModalOpen = isMounted && !isModalClosedByUser;
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
 
   return (
     <div className='bg-brand-blue-50 w-screen h-screen relative overflow-hidden'>
-      <h1 className='absolute top-4 right-4 text-white text-typo-base z-999'>@뚤레뚤레</h1>
+      <h1 className='absolute top-4 left-4 text-brand-blue-100 text-typo-base z-10 2xl:text-brand-gray-400'>
+        @뚤레뚤레
+      </h1>
+      <Icon
+        name='HelpCircle'
+        size={32}
+        onClick={() => setIsInfoModalOpen(true)}
+        className='absolute top-4 right-4 text-brand-blue-100/50 z-10 hover:text-brand-blue-100 transition-colors cursor-pointer'
+      />
       <div className='w-full h-full flex flex-col items-center justify-center'>
         <div className='flex flex-col gap-2.5 items-center justify-center z-10 relative'>
           <p className='text-typo-title text-brand-gray-200 font-normal text-[25px]'>함께 떠나기 좋은 여행 플래너</p>
@@ -27,9 +33,10 @@ export default function Home() {
             height={94}
             alt='뚤레뚤레 logo'
           />
-          <div className='flex flex-col items-center  mt-2'>
-            <p className='text-typo-description text-brand-gray-200'>나만의 여행 위시리스트와 계획을 만들고,</p>
-            <p className='text-typo-description text-brand-gray-200'>친구와 함께 편집할 수 있어요.</p>
+          <div className='flex flex-col items-center  mt-1'>
+            <p className='text-typo-description text-brand-gray-200'>
+              나만의 여행 위시리스트와 계획을 편리하게 공유·관리
+            </p>
           </div>
           <Image
             src='/images/clip.svg'
@@ -40,7 +47,7 @@ export default function Home() {
           />
         </div>
         <div className='flex flex-col gap-2.5 z-10 mt-43'>
-          <InfoTomato onClick={() => setIsModalClosedByUser(false)} />
+          <InfoTomato onClick={() => setIsInfoModalOpen(true)} />
           <JoinPlanButton variant='primary' />
           <LoginButton />
         </div>
@@ -55,7 +62,7 @@ export default function Home() {
         </p>
       </div>
 
-      <footer className='absolute bottom-2 left-2 z-30 flex gap-2 text-typo-description p-4'>
+      <footer className='absolute bottom-2 left-2 z-10 flex gap-2 text-typo-description p-4'>
         <Link
           href='/service?tab=terms'
           className='text-brand-gray-400 hover:opacity-80 transition-opacity'
@@ -71,13 +78,18 @@ export default function Home() {
       </footer>
 
       {/* 배경 아이템 */}
-      <div className='fixed top-0 right-0 z-1'>
+      <div
+        className='fixed -top-14 -left-4 xl:left-auto xl:right-0 z-1 
+      transition-all delay-150 duration-300 ease-in-out'
+      >
         <Image
-          src='/images/blue-checker-board.png'
+          src='/images/blue-checker-board.webp'
           width={1550}
           height={922}
+          sizes='100vw'
           alt='background blue checker board'
-          className='max-w-none'
+          className='max-w-none h-lg:min-w-[100vw] h-lg:h-[100vh] h-lg:w-auto'
+          quality={75}
         />
       </div>
       <Image
@@ -85,31 +97,35 @@ export default function Home() {
         width={269.68}
         height={351.24}
         alt='clips'
-        className='absolute w-[14vw] h-auto top-[5%] left-[2%] z-1'
+        className='absolute w-60 h-auto top-18 -left-8 z-1 drop-shadow-lg transition-all delay-150 duration-300
+         ease-in-out lg:left-4 '
       />
       <Image
         src='/images/pen.svg'
         width={507.15}
         height={769.01}
         alt='pen'
-        className='absolute w-[26vw] h-auto rotate-[154.98deg] top-[-26%] left-[54%] z-1'
+        className='absolute w-100 h-auto rotate-[154.98deg] -top-55 left-1/2 z-1 drop-shadow-lg transition-all 
+        delay-100 duration-500 ease-in-out lg:translate-x-1/4 lg:-top-50 lg:scale-[1.05]'
       />
       <Image
         src='/images/pencil.svg'
         width={710.38}
         height={291.75}
         alt='pencil'
-        className='absolute w-[40vw] h-auto bottom-[5%] left-[-17%] rotate-[-25.02deg] z-1'
+        className='absolute w-130 h-auto bottom-20 -left-60 rotate-[-42deg] z-1 drop-shadow-lg transition-all delay-100 
+        duration-700 ease-in-out lg:rotate-[-25deg] lg:-left-40 lg:bottom-30'
       />
       <Image
         src='/images/glasses.svg'
         width={735.32}
         height={588.83}
         alt='glasses'
-        className='absolute w-[38vw] h-auto right-[2%] bottom-0 z-1'
+        className='absolute w-160 h-auto -bottom-10 rotate-[-5deg] z-1 drop-shadow-lg transition-all delay-100 
+        duration-700 ease-in-out left-1/2 translate-x-35 lg:translate-x-50'
       />
 
-      {isInfoModalOpen && <InfoContainerModal onClose={() => setIsModalClosedByUser(true)} />}
+      {isInfoModalOpen && <InfoContainerModal onClose={() => setIsInfoModalOpen(false)} />}
     </div>
   );
 }
