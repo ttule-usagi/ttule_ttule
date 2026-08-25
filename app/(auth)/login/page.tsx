@@ -96,12 +96,12 @@ export default function Login() {
               >
                 회원가입
               </Link>
-              <Link
+              {/* <Link
                 href='/reset-password'
                 className='cursor-pointer'
               >
                 비밀번호 변경
-              </Link>
+              </Link> */}
             </div>
 
             <button
