@@ -134,8 +134,8 @@
   --animate-fade-out: fade-out 1s ease-out forwards;
 }
 
-@custom-variant h-sm (@media (max-height: 919px));
-@custom-variant h-lg (@media (min-height: 920px));
+@custom-variant h-sm (@media (max-height: 939px));
+@custom-variant h-lg (@media (min-height: 940px));
 
 @media (prefers-color-scheme: dark) {
   :root {

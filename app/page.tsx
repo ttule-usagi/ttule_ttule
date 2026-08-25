@@ -88,7 +88,7 @@ export default function Home() {
           height={922}
           sizes='100vw'
           alt='background blue checker board'
-          className='max-w-none h-lg:min-w-[100vw] h-lg:h-[100vh] h-lg:w-auto'
+          className='max-w-none h-lg:h-[100vh] h-lg:w-auto h-lg:max-w-[168vh]'
           quality={75}
         />
       </div>
