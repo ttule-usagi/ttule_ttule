@@ -115,7 +115,7 @@ export default function Home() {
           />
           {isInfoModalOpen && <InfoContainerModal onClose={() => setIsInfoModalOpen(false)} />}
         </div>
-        <footer className='left-0 -bottom-2 bg-brand-blue-50 flex gap-2 text-typo-description p-4 rounded-full z-10'>
+        <footer className='left-0 -bottom-2 bg-brand-blue-50 flex gap-2 text-typo-description p-4 z-10'>
           <Link
             href='/service?tab=terms'
             className='text-brand-gray-400 hover:opacity-80 transition-opacity'
