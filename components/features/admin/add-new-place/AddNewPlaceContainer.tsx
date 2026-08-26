@@ -31,7 +31,7 @@ export function AddNewPlaceContainer() {
   }
 
   return (
-    <div className='max-w-xl mx-auto px-4 py-10 space-y-8 w-100 bg-brand-gray-50 h-screen'>
+    <div className='max-w-100 w-screen mx-auto px-4 py-10 space-y-8 w-80 bg-brand-gray-50 h-screen '>
       <div>
         <p className='text-xs font-medium text-muted uppercase tracking-widest mb-1'>Admin</p>
         <h1 className='text-xl font-medium text-primary'>장소 등록</h1>
