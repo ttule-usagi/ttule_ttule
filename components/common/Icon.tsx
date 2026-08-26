@@ -25,6 +25,7 @@ import Edit from '@/assets/icons/edit.svg';
 import Globe from '@/assets/icons/globe.svg';
 import Google from '@/assets/icons/google.svg';
 import Hamburger from '@/assets/icons/hamburger.svg';
+import HelpCircle from '@/assets/icons/help-circle.svg';
 import Image from '@/assets/icons/image.svg';
 import LayoutRight from '@/assets/icons/layout-right.svg';
 import LinkThin from '@/assets/icons/link-thin.svg';
@@ -94,6 +95,7 @@ export const ICONS = {
   Duplicate,
   AddPlanDate,
   ArrowRightCirle,
+  HelpCircle,
 } as const;
 
 export type IconName = keyof typeof ICONS;
