@@ -24,7 +24,7 @@ export default function LobbyPlanItem({
 
   return (
     <Link
-      className="max-w-[275.76px] aspect-[275.76/397.69] bg-[url('/images/lobby-plan.svg')] bg-center bg-cover px-4 pt-19.25 pb-6 flex flex-col drop-shadow-lg"
+      className="max-w-[275.76px] aspect-[275.76/397.69] bg-[url('/images/lobby-plan.svg')] dark:bg-[url('/images/lobby-plan-dark.svg')] bg-center bg-cover px-4 pt-19.25 pb-6 flex flex-col drop-shadow-lg"
       href={`/plan/${id}`}
     >
       <div
