@@ -18,7 +18,7 @@ export default function LobbyLastPlanItem({
 }: PlanOverview) {
   return (
     <Link
-      className="bg-[url('/images/lobby-plan-folder.svg')] bg-cover bg-center min-w-85 aspect-340/252 px-7 flex flex-col"
+      className="bg-[url('/images/lobby-plan-folder.svg')] dark:bg-[url('/images/lobby-plan-folder-dark.svg')] bg-cover bg-center min-w-85 aspect-340/252 px-7 flex flex-col"
       href={`/plan/${id}`}
     >
       {/* 여행지 */}

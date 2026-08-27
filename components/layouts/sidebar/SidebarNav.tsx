@@ -20,7 +20,7 @@ export default function SidebarNav() {
           href={icon.href}
         >
           <button
-            className={`flex items-center justify-center p-2.5 rounded-lg cursor-pointer ${pathname.startsWith(icon.href) ? 'bg-brand-blue-500 text-white' : 'text-brand-blue-300'}`}
+            className={`flex items-center justify-center p-2.5 rounded-lg cursor-pointer ${pathname.startsWith(icon.href) ? 'bg-brand-blue-500 text-white hover:bg-brand-blue-400' : 'text-brand-blue-300 hover:bg-brand-blue-800/50'}`}
           >
             <Icon
               name={icon.name as 'Luggage' | 'Bookmark'}
