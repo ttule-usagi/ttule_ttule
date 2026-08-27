@@ -2,7 +2,7 @@
 
 import { useState, useReducer } from 'react';
 
-import { sanitizeBusinessStatus, type PlaceCategory } from '@/types/corePlace';
+import { mapPrimaryTypeToCategory, sanitizeBusinessStatus, type PlaceCategory } from '@/types/corePlace';
 import { getErrorMessage, RpcError, RpcErrorMessage } from '@/types/errors';
 import { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
 
@@ -56,7 +56,7 @@ const getInitialState = (place: SelectedGooglePlace): NewPlaceFormState => {
     korean_name: isKoreanText ? primaryText : '',
     english_name: englishText,
     original_name: !isKoreanText && !isEnglishText ? primaryText : '',
-    category: '',
+    category: mapPrimaryTypeToCategory(place.primaryType ?? ''),
     website_uri: '',
     phone_number: '',
     imageUrl: null,

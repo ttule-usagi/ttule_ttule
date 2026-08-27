@@ -15,5 +15,6 @@ export interface SelectedGooglePlace {
   displayName: { text: string; languageCode: string };
   formattedAddress: string;
   location: GooglePlaceLocation;
+  primaryType: string;
   additionalData?: GooglePlaceDetail;
 }
