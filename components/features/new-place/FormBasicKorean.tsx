@@ -1,10 +1,11 @@
 'use client';
 
-import FormTypeText from './form-inputs/FormTypeText';
-import FormTypeSelect from './form-inputs/FormTypeSelect';
 import type { NewPlaceFormState, Action } from '@/hooks/useNewPlaceForm';
-import type { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
 import { PLACE_CATEGORIES, PlaceCategory } from '@/types/corePlace';
+import type { SelectedGooglePlace } from '@/types/googleSearchApiDetail';
+
+import FormTypeSelect from './form-inputs/FormTypeSelect';
+import FormTypeText from './form-inputs/FormTypeText';
 
 interface Props {
   state: NewPlaceFormState;
