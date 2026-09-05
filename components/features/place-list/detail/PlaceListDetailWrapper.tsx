@@ -13,6 +13,19 @@ import SortingDropdownButton from './SortingDropdownButton';
 
 export default function PlaceListDetailWrapper({ listId }: { listId: string }) {
   const [sortBy, setSortBy] = useState<SortType>('created_desc');
+  const [activeTagIds, setActiveTagIds] = useState<Set<string>>(new Set());
+
+  const handleToggleTag = (id: string) => {
+    setActiveTagIds((prev) => {
+      const updated = new Set(prev);
+      if (prev.has(id)) {
+        updated.delete(id);
+      } else {
+        updated.add(id);
+      }
+      return updated;
+    });
+  };
 
   return (
     <div className='flex flex-col gap-2.5 h-full'>
@@ -28,7 +41,11 @@ export default function PlaceListDetailWrapper({ listId }: { listId: string }) {
             onSortChange={setSortBy}
           />
           <QueryBoundary subject='태그'>
-            <TagList listId={listId} />
+            <TagList
+              listId={listId}
+              activeTagIds={activeTagIds}
+              onToggleTag={handleToggleTag}
+            />
           </QueryBoundary>
         </div>
       </div>
@@ -39,6 +56,7 @@ export default function PlaceListDetailWrapper({ listId }: { listId: string }) {
           <PlaceListPlaces
             listId={listId}
             sortBy={sortBy}
+            activeTagIds={activeTagIds}
           />
         </QueryBoundary>
       </div>
