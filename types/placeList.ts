@@ -1,9 +1,10 @@
+import { TagColor } from '@/lib/constants/tag';
+
 import { PlaceCategory } from './corePlace';
 import { Role } from './shareOption';
 
 //장소 리스트 유형 - 공유된, 저장된 리스트로 구분해서 볼 때 사용
 export type ListType = 'all' | 'owned' | 'shared';
-export type TagColor = 'red' | 'hotpink' | 'yellow' | 'green' | 'blue' | 'purple' | 'grey';
 
 // 저장된 장소 정렬 타입 - 최근 등록순, 과거 등록순, 최근 수정순
 export type SortType = 'created_desc' | 'created_asc';
@@ -17,6 +18,14 @@ export type PageParam = {
 // 장소 태그
 export interface Tag {
   id: string;
+  name: string;
+  color: TagColor;
+}
+
+// 태그 편집 파라미터
+export interface TagRowParams {
+  key: string;
+  id?: string;
   name: string;
   color: TagColor;
 }
