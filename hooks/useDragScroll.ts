@@ -53,6 +53,11 @@ export const useDragScroll = <T extends HTMLElement>() => {
       const target = e.target as HTMLElement;
       if (target.closest('[data-vertical-scroll]')) return; // 안에서는 원래 세로 스크롤 그대로 둠
 
+      // 맥 좌우 스와이프 유지
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        return;
+      }
+
       if (e.deltaY !== 0) {
         e.preventDefault();
         // 휠 세로 이동량 계산 - 휠 내리면 오른쪽 스크롤, 휠 올리면 왼쪽 스크롤
