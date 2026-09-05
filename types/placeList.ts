@@ -90,7 +90,7 @@ export interface UpdatePlaceParams {
   listId: string;
   placeId: string;
   memo: string | null;
-  //  tags: Tag[]
+  tags: string[];
 }
 
 // 저장된 장소 호출 파라미터

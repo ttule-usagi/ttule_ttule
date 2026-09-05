@@ -91,13 +91,14 @@ export const deletePlace = async ({
 };
 
 // 단일 장소 편집
-export const updatePlace = async ({ listId, placeId, memo }: UpdatePlaceParams): Promise<ActionResult<null>> => {
+export const updatePlace = async ({ listId, placeId, memo, tags }: UpdatePlaceParams): Promise<ActionResult<null>> => {
   try {
     const supabase = await supabaseUser();
     const { error } = await supabase.rpc('update_place', {
       p_list_id: listId,
       p_place_id: placeId,
       p_memo: memo,
+      p_tag_ids: tags,
     });
 
     if (error) {
