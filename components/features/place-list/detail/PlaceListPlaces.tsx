@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import { useOpenPlaceDetailModal } from '@/hooks/place/useOpenPlaceDetailModal';
 import { useGetPlaceListPlaces } from '@/hooks/place-list/useGetPlaceListPlaces';
+import { useGetPlaceListTags } from '@/hooks/place-list/useGetPlaceListTags';
 import { SortType } from '@/types/placeList';
 
 import EmptyState from '../../../common/EmptyState';
@@ -13,12 +14,28 @@ import CorePlaceDetailContainer from '../../place/CorePlaceDetailContainer';
 
 import PlaceItem from './PlaceItem';
 
-export default function PlaceListPlaces({ listId, sortBy }: { listId: string; sortBy: SortType }) {
+export default function PlaceListPlaces({
+  listId,
+  sortBy,
+  activeTagIds,
+}: {
+  listId: string;
+  sortBy: SortType;
+  activeTagIds: Set<string>;
+}) {
   const { data, isFetchingNextPage, hasNextPage, fetchNextPage, isFetchNextPageError } = useGetPlaceListPlaces({
     listId,
     sortBy,
   });
+
+  // 태그 필터링
+  const filteredPlaces = useMemo(() => {
+    if (activeTagIds.size === 0) return data;
+    return data.filter((place) => place.tags.some((tag) => activeTagIds.has(tag.id)));
+  }, [activeTagIds, data]);
+
   const { isOpenPlaceModal, selectedId, handleClickPlaceItem, handleClosePlaceDetailModal } = useOpenPlaceDetailModal();
+  const { data: tags } = useGetPlaceListTags(listId);
 
   const observerTargetRef = useRef<HTMLDivElement | null>(null);
 
@@ -45,12 +62,13 @@ export default function PlaceListPlaces({ listId, sortBy }: { listId: string; so
 
   return (
     <>
-      {data.map((item) => (
+      {filteredPlaces.map((item) => (
         <PlaceItem
           key={item.id}
           place={item}
           listId={listId}
           onClickItem={handleClickPlaceItem}
+          listTags={tags}
         />
       ))}
       {isOpenPlaceModal &&
