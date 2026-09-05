@@ -1,12 +1,16 @@
 'use client';
 
-import TagListItem from './TagListItem';
 import { useState } from 'react';
-import { useDragScroll } from '@/hooks/useDragScroll';
+
 import { useGetPlaceListTags } from '@/hooks/place-list/useGetPlaceListTags';
+import { useDragScroll } from '@/hooks/useDragScroll';
+import { useModalStore } from '@/lib/store/modalStore';
+
+import TagListItem from './TagListItem';
 
 // 장소 리스트에 포함된 태그를 보여주는 태그 리스트 컴포넌트(상단에 위치)
 export default function TagList({ listId }: { listId: string }) {
+  const { open } = useModalStore();
   const { data } = useGetPlaceListTags(listId);
   const { ref, ...dragHandler } = useDragScroll<HTMLDivElement>();
   const [activeIds, setActiveIds] = useState<string[]>([]);
@@ -29,7 +33,12 @@ export default function TagList({ listId }: { listId: string }) {
           onClick={() => handleToggleTag(item.id)}
         />
       ))}
-      <button className='px-3 py-1.75 text-brand-blue-700 shrink-0'>태그 수정</button>
+      <button
+        className='px-3 py-1.75 text-brand-blue-700 shrink-0 hover:bg-black/5 rounded-full cursor-pointer'
+        onClick={() => open({ type: 'tag', props: { listId } })}
+      >
+        태그 수정
+      </button>
     </div>
   );
 }
