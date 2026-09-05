@@ -8,21 +8,25 @@ import { useConfirmDeletePlace } from '@/hooks/place-list/useConfirmDeletePlace'
 import { useGetMyRole } from '@/hooks/place-list/useGetMyRole';
 import { useUpdatePlace } from '@/hooks/place-list/useUpdatePlace';
 import { getPlaceCategoryLabel } from '@/lib/utils/categoryLabel';
-import { Place } from '@/types/placeList';
+import { Place, Tag } from '@/types/placeList';
 
 import AuthorityWrapper from '../../AuthorityWrapper';
+import PlaceTag from '../tag/PlaceTag';
 
 export default function PlaceItem({
   place,
   listId,
   onClickItem,
+  listTags,
 }: {
   place: Place;
   listId: string;
   onClickItem: (id: string) => void;
+  listTags: Tag[];
 }) {
   const [isEdit, setIsEdit] = useState(false);
   const [memo, setMemo] = useState<string | null>(place.memoContent);
+  const [tags, setTags] = useState<Set<string>>(() => new Set(place.tags.map((tag) => tag.id)));
   const { confirmDeletePlaceList } = useConfirmDeletePlace(listId);
   const { data: myRole } = useGetMyRole(listId);
   const { mutate: updatePlace } = useUpdatePlace(listId);
@@ -34,7 +38,19 @@ export default function PlaceItem({
   };
 
   const handleEdit = () => {
-    updatePlace({ placeId: place.id, memo }, { onSuccess: () => setIsEdit(false) });
+    updatePlace({ placeId: place.id, memo, tags: Array.from(tags) }, { onSuccess: () => setIsEdit(false) });
+  };
+
+  const handleToggleTag = (id: string) => {
+    setTags((prev) => {
+      const update = new Set(prev);
+      if (update.has(id)) {
+        update.delete(id);
+      } else {
+        update.add(id);
+      }
+      return update;
+    });
   };
 
   return (
@@ -96,8 +112,7 @@ export default function PlaceItem({
               <p className='text-brand-gray-600 text-typo-description whitespace-pre-wrap'>{place.memoContent}</p>
             )}
 
-            {/* TODO: 2차 MVP 때 태그 적용 */}
-            {/* <div className='flex gap-1 items-center overflow flex-wrap'>
+            <div className='flex gap-1 items-center overflow flex-wrap'>
               {place.tags.map((item) => (
                 <PlaceTag
                   key={item.id}
@@ -105,16 +120,28 @@ export default function PlaceItem({
                   isRounded={true}
                 />
               ))}
-            </div> */}
+            </div>
           </>
         ) : (
-          <div>
+          <div className='flex flex-col gap-2'>
             <textarea
               placeholder='메모 추가'
               value={memo ?? ''}
               className='bg-brand-gray-100 hover:bg-brand-gray-200 min-h-16 text-typo-base px-3 py-2 text-brand-gray-600 border border-brand-gray-200 outline-none rounded-sm w-full resize-none field-sizing-content'
               onChange={(e) => setMemo(e.target.value)}
             />
+
+            <div className='flex gap-1 items-center overflow flex-wrap'>
+              {listTags.map((item) => (
+                <PlaceTag
+                  key={item.id}
+                  tag={item}
+                  isEdit={true}
+                  isSelected={tags.has(item.id)}
+                  onClick={() => handleToggleTag(item.id)}
+                />
+              ))}
+            </div>
 
             <div className='text-typo-base flex gap-1.5 font-light'>
               <button
