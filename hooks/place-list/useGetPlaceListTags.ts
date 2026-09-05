@@ -1,6 +1,7 @@
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
+
 import { RpcError, RpcErrorMessage, RpcErrorResponseBody } from '@/types/errors';
 import { Tag } from '@/types/placeList';
-import { queryOptions, useSuspenseQuery } from '@tanstack/react-query';
 
 const fetchPlaceListTags = async (listId: string): Promise<Tag[]> => {
   const res = await fetch(`/api/view/place-list/${listId}/tags`);

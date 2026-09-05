@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import { SortType } from '@/types/placeList';
 
+import TagList from '../tag/TagList';
+
 import PlaceListHeader from './PlaceListHeader';
 import PlaceListPlaces from './PlaceListPlaces';
 import SortingDropdownButton from './SortingDropdownButton';
@@ -25,9 +27,9 @@ export default function PlaceListDetailWrapper({ listId }: { listId: string }) {
             sortBy={sortBy}
             onSortChange={setSortBy}
           />
-          {/* <QueryBoundary subject='태그'>
-                <TagList listId={listId} />
-              </QueryBoundary> */}
+          <QueryBoundary subject='태그'>
+            <TagList listId={listId} />
+          </QueryBoundary>
         </div>
       </div>
 
