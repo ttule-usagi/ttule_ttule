@@ -76,13 +76,7 @@ export default function TagModal({ listId }: { listId: string }) {
   };
 
   return (
-    <div
-      className='modal-overlay'
-      onClick={(e) => {
-        e.stopPropagation();
-        close();
-      }}
-    >
+    <>
       <div
         className='relative flex flex-col bg-white rounded-lg min-h-100 h-187 max-h-[80vh] min-w-126 overflow-hidden pt-7 px-6'
         onClick={(e) => e.stopPropagation()}
@@ -147,6 +141,6 @@ export default function TagModal({ listId }: { listId: string }) {
           </button>
         </div>
       </div>
-    </div>
+    </>
   );
 }
