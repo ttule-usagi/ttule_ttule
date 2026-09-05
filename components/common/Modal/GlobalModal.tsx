@@ -5,6 +5,7 @@ import CancelNewPlaceModal from '@/components/features/new-place/CancelNewPlaceM
 import TagModal from '@/components/features/place-list/tag/TagModal';
 import DeletePlanDateModal from '@/components/features/plan/plan-detail/DeletePlanDateModal';
 import DeletePlanItemModal from '@/components/features/plan/plan-detail/DeletePlanItemModal';
+import { useModalControl } from '@/hooks/useModalControl';
 import { useModalStore } from '@/lib/store/modalStore';
 
 import EnterInviteLinkModal from '../../features/plan/EnterInviteLinkModal';
@@ -22,13 +23,15 @@ import ShareLinkModal from '../ShareLinkModal';
 
 export default function GlobalModal() {
   const { activeModal, close } = useModalStore();
+  const { handleMouseDown, handleMouseUp } = useModalControl(close);
 
   if (!activeModal) return null;
 
   return (
     <div
       className='modal-overlay'
-      onClick={close}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
     >
       {activeModal.type === 'enterInviteLink' && <EnterInviteLinkModal type={activeModal.props.type} />}
       {activeModal.type === 'cancelSignup' && <CancelSignupModal />}
