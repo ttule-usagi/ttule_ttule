@@ -26,6 +26,10 @@ type ModalPayload =
   | {
       type: 'deletePlanDate';
       props: { onConfirm: () => void; dayNumber: number; type: 'deleteDayPlan' | 'deleteAllPlanItems' };
+    }
+  | {
+      type: 'tag';
+      props: { listId: string };
     };
 
 interface ModalState {

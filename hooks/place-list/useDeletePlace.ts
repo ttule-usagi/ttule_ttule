@@ -1,7 +1,10 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { deletePlace } from '@/lib/actions/placeList';
 import { useModalStore } from '@/lib/store/modalStore';
 import { getErrorMessage, RpcError, RpcErrorMessage } from '@/types/errors';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { placeListDetailQueryOptions } from './useGetPlaceListDetail';
 
 export const useDeletePlace = (listId: string) => {
   const queryClient = useQueryClient();
@@ -22,6 +25,7 @@ export const useDeletePlace = (listId: string) => {
       queryClient.invalidateQueries({
         queryKey: ['place-list', listId, 'places'],
       });
+      queryClient.invalidateQueries({ queryKey: placeListDetailQueryOptions(listId).queryKey });
     },
     onError: (error) => {
       console.error('❌ 단일 장소 삭제 실패');

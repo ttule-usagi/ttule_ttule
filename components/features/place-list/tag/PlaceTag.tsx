@@ -1,36 +1,35 @@
 import { Icon } from '@/components/common/Icon';
+import { PLACE_TAG_COLOR } from '@/lib/constants/tag';
 import { Tag } from '@/types/placeList';
-
-// 단일 장소 아이템, 장소 리스트 관리 페이지 안 태그에 사용될 색상 태그 컴포넌트
-const colorVariant = {
-  red: 'text-tag-red-text bg-tag-red-fill border-tag-red-stroke',
-  hotpink: 'text-tag-hotpink-text bg-tag-hotpink-fill border-tag-hotpink-stroke',
-  blue: 'text-brand-blue-500 border-brand-blue-100 bg-brand-blue-50',
-  yellow: 'text-tag-yellow-text bg-tag-yellow-fill border-tag-yellow-stroke',
-  green: 'text-tag-green-text bg-tag-green-fill border-tag-green-stroke',
-  purple: 'text-tag-purple-text bg-tag-purple-fill border-tag-purple-stroke',
-  grey: 'text-brand-gray-500 bg-brand-gray-50 border-brand-gray-100',
-};
 
 interface PlaceTagProps {
   tag: Tag;
+  isEdit?: boolean;
+  isSelected?: boolean;
   onClick?: () => void;
   isRounded?: boolean;
 }
 
-export default function PlaceTag({ tag, onClick, isRounded = false }: PlaceTagProps) {
+export default function PlaceTag({ tag, onClick, isRounded = false, isEdit = false, isSelected }: PlaceTagProps) {
   return (
-    <div
-      className={`block shrink-0 text-typo-caption box-border ${isRounded ? 'rounded-[28px]' : 'rounded-sm'} border px-2 py-1 ${colorVariant[tag.color]}`}
+    <button
+      className={`shrink-0  flex gap-1 items-center justify-center box-border ${isRounded ? 'rounded-[28px]' : 'rounded-sm'} border ${isEdit && !isSelected ? 'border-brand-gray-300 text-brand-gray-500' : PLACE_TAG_COLOR[tag.color]} ${isEdit ? 'text-typo-description px-3 py-1.5' : 'text-typo-caption px-2 py-1'}`}
       onClick={onClick}
+      aria-pressed={isEdit ? isSelected : undefined}
     >
-      {onClick && (
-        <Icon
-          name='Check'
-          size={18}
-        />
-      )}
+      {isEdit &&
+        (isSelected ? (
+          <Icon
+            name='Check'
+            size={18}
+          />
+        ) : (
+          <Icon
+            name='Plus'
+            size={18}
+          />
+        ))}
       {tag.name}
-    </div>
+    </button>
   );
 }
