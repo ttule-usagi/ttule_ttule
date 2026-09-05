@@ -1,9 +1,6 @@
 import { useRef } from 'react';
 
-import { useModalStore } from '@/lib/store/modalStore';
-
-export const useModalControl = () => {
-  const { close } = useModalStore();
+export const useModalControl = (onClose: () => void) => {
   const isClickOverlay = useRef<boolean>(false);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -12,7 +9,7 @@ export const useModalControl = () => {
 
   const handleMouseUp = (e: React.MouseEvent<HTMLDivElement>) => {
     if (isClickOverlay.current && e.target === e.currentTarget) {
-      close();
+      onClose();
     }
     isClickOverlay.current = false;
   };
