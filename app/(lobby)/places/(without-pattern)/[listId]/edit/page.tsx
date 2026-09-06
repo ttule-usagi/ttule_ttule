@@ -40,7 +40,7 @@ export default async function PlaceListDetail({ params }: { params: Promise<{ li
     id: p.id,
     customName: p.customName,
     memoContent: p.memoContent,
-    tags: p.tags,
+    tagIds: p.tags.map((tag) => tag.id),
   }));
 
   return (
