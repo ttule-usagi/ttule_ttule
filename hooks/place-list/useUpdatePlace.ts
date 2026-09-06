@@ -24,10 +24,10 @@ export const useUpdatePlace = (listId: string) => {
     onSuccess: (_, variables) => {
       // 화면에 태그를 완전히 그리기 위해 리스트 태그 캐시에서 id로 역참조
       const listTags = queryClient.getQueryData(placeListTagsQueryOptions(listId).queryKey) ?? [];
-      const tagMap = new Map(listTags.map((tag) => [tag.id, tag]));
+      const selectedIds = new Set(variables.tags);
 
-      // 삭제된 태그가 섞여 있을 경우를 대비해 undefined 필터링
-      const resolvedTags = variables.tags.map((id) => tagMap.get(id)).filter((tag) => tag !== undefined);
+      // 이미 order로 정렬된 리스트 태그 기준으로 선택된 것만 필터링
+      const resolvedTags = listTags.filter((tag) => selectedIds.has(tag.id));
 
       queryClient.setQueriesData(
         { queryKey: ['place-list', listId, 'places', 'list'] },
