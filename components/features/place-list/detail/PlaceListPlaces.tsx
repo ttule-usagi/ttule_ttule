@@ -62,15 +62,19 @@ export default function PlaceListPlaces({
 
   return (
     <>
-      {filteredPlaces.map((item) => (
-        <PlaceItem
-          key={item.id}
-          place={item}
-          listId={listId}
-          onClickItem={handleClickPlaceItem}
-          listTags={tags}
-        />
-      ))}
+      {filteredPlaces.length > 0 ? (
+        filteredPlaces.map((item) => (
+          <PlaceItem
+            key={item.id}
+            place={item}
+            listId={listId}
+            onClickItem={handleClickPlaceItem}
+            listTags={tags}
+          />
+        ))
+      ) : (
+        <EmptyState message='저장된 장소가 아직 없습니다.' />
+      )}
       {isOpenPlaceModal &&
         selectedId &&
         createPortal(
