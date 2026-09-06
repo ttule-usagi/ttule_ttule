@@ -52,9 +52,17 @@ export const useDragScroll = <T extends HTMLElement>() => {
     const handleWheel = (e: WheelEvent) => {
       const target = e.target as HTMLElement;
       if (target.closest('[data-vertical-scroll]')) return; // 안에서는 원래 세로 스크롤 그대로 둠
-      e.preventDefault();
-      // 휠 세로 이동량 계산 - 휠 내리면 오른쪽 스크롤, 휠 올리면 왼쪽 스크롤
-      el.scrollLeft += e.deltaY;
+
+      // 맥 좌우 스와이프 유지
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        return;
+      }
+
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        // 휠 세로 이동량 계산 - 휠 내리면 오른쪽 스크롤, 휠 올리면 왼쪽 스크롤
+        el.scrollLeft += e.deltaY;
+      }
     };
 
     el.addEventListener('mousemove', handleMouseMove, { passive: false });
@@ -67,8 +75,8 @@ export const useDragScroll = <T extends HTMLElement>() => {
   }, []);
 
   const onClick = useCallback((e: React.MouseEvent) => {
-    // 5px 이상 움직였다면(드래그중이면) 클릭 무시
-    if (Math.abs(moveX.current) > 5) {
+    // 8px 이상 움직였다면(드래그중이면) 클릭 무시
+    if (Math.abs(moveX.current) > 8) {
       e.stopPropagation();
     }
   }, []);

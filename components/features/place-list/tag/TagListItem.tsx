@@ -14,6 +14,7 @@ export default function TagListItem({ tag, isActivated, onClick }: TagListItemPr
     <button
       className={`flex items-center justify-center shrink-0 box-border px-3 py-1.5 rounded-[40px] cursor-pointer border border-brand-blue-700 ${isActivated ? 'text-brand-gray-50 bg-brand-blue-700' : 'text-brand-blue-700'}`}
       onClick={onClick}
+      data-drag-item
     >
       {tag.name}
     </button>

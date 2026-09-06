@@ -1,8 +1,10 @@
+import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { placeListTagsQueryOptions } from '@/hooks/place-list/useGetPlaceListTags';
 import { updatePlace } from '@/lib/actions/placeList';
 import { useModalStore } from '@/lib/store/modalStore';
 import { getErrorMessage, RpcError, RpcErrorMessage } from '@/types/errors';
 import { Place } from '@/types/placeList';
-import { InfiniteData, useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const useUpdatePlace = (listId: string) => {
   const queryClient = useQueryClient();
@@ -10,8 +12,8 @@ export const useUpdatePlace = (listId: string) => {
   const { open } = useModalStore();
 
   return useMutation({
-    mutationFn: async ({ placeId, memo }: { placeId: string; memo: string | null }) => {
-      const result = await updatePlace({ listId, placeId, memo });
+    mutationFn: async ({ placeId, memo, tags }: { placeId: string; memo: string | null; tags: string[] }) => {
+      const result = await updatePlace({ listId, placeId, memo, tags });
 
       if (!result.success) {
         throw new RpcError(result.error.message, result.error.code);
@@ -20,6 +22,13 @@ export const useUpdatePlace = (listId: string) => {
       return result;
     },
     onSuccess: (_, variables) => {
+      // 화면에 태그를 완전히 그리기 위해 리스트 태그 캐시에서 id로 역참조
+      const listTags = queryClient.getQueryData(placeListTagsQueryOptions(listId).queryKey) ?? [];
+      const selectedIds = new Set(variables.tags);
+
+      // 이미 order로 정렬된 리스트 태그 기준으로 선택된 것만 필터링
+      const resolvedTags = listTags.filter((tag) => selectedIds.has(tag.id));
+
       queryClient.setQueriesData(
         { queryKey: ['place-list', listId, 'places', 'list'] },
         (old: InfiniteData<Place[]> | undefined) => {
@@ -27,7 +36,9 @@ export const useUpdatePlace = (listId: string) => {
           return {
             ...old,
             pages: old.pages.map((page) =>
-              page.map((p) => (p.id === variables.placeId ? { ...p, memoContent: variables.memo } : p)),
+              page.map((p) =>
+                p.id === variables.placeId ? { ...p, memoContent: variables.memo, tags: resolvedTags } : p,
+              ),
             ),
           };
         },

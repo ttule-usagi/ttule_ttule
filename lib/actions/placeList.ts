@@ -1,7 +1,7 @@
 'use server';
 
 import { ActionResult, isPostgresError, RpcErrorMessage, SQLSTATE_TO_RPC_ERROR } from '@/types/errors';
-import { UpdatePlaceListParams, UpdatePlaceParams } from '@/types/placeList';
+import { Tag, TagRowParams, UpdatePlaceListParams, UpdatePlaceParams } from '@/types/placeList';
 
 import { auth } from '../utils/auth';
 import { supabaseAdmin, supabaseUser } from '../utils/supabase';
@@ -91,13 +91,14 @@ export const deletePlace = async ({
 };
 
 // 단일 장소 편집
-export const updatePlace = async ({ listId, placeId, memo }: UpdatePlaceParams): Promise<ActionResult<null>> => {
+export const updatePlace = async ({ listId, placeId, memo, tags }: UpdatePlaceParams): Promise<ActionResult<null>> => {
   try {
     const supabase = await supabaseUser();
     const { error } = await supabase.rpc('update_place', {
       p_list_id: listId,
       p_place_id: placeId,
       p_memo: memo,
+      p_tag_ids: tags,
     });
 
     if (error) {
@@ -136,6 +137,36 @@ export const updatePlaceList = async ({ params }: { params: UpdatePlaceListParam
     return { success: true, data: null };
   } catch (error: unknown) {
     console.error('❌ 장소 리스트 편집 실패: ', error);
+    const code = isPostgresError(error) ? error.code : undefined;
+    const message = ((code && SQLSTATE_TO_RPC_ERROR[code]) ?? 'INTERNAL_ERROR') as RpcErrorMessage;
+    return { success: false, error: { message, code } };
+  }
+};
+
+// 태그 편집(생성, 수정, 삭제)
+export const updateTags = async ({
+  listId,
+  tags,
+}: {
+  listId: string;
+  tags: TagRowParams[];
+}): Promise<ActionResult<Tag[]>> => {
+  try {
+    const supabase = await supabaseUser();
+    const { error, data } = await supabase.rpc('update_tags', {
+      p_list_id: listId,
+      p_tags: tags,
+    });
+
+    if (error) {
+      console.error('❌ 태그 편집 실패: ', error);
+      const message = SQLSTATE_TO_RPC_ERROR[error.code] ?? 'INTERNAL_ERROR';
+      return { success: false, error: { message, code: error.code } };
+    }
+
+    return { success: true, data };
+  } catch (error: unknown) {
+    console.error('❌ 태그 편집 실패: ', error);
     const code = isPostgresError(error) ? error.code : undefined;
     const message = ((code && SQLSTATE_TO_RPC_ERROR[code]) ?? 'INTERNAL_ERROR') as RpcErrorMessage;
     return { success: false, error: { message, code } };

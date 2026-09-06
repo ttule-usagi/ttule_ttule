@@ -47,6 +47,10 @@ export default function PlaceListDropdownMenu({ id, type = 'overview', listName,
         </DropDown.Trigger>
 
         <DropDown.Menu>
+          {type === 'detail' && (
+            <DropDown.Item onClick={() => router.push(`/places/${id}/edit`)}>리스트 편집</DropDown.Item>
+          )}
+          <DropDown.Item onClick={() => setShareOptionModalOpen(true)}>공유 옵션 관리</DropDown.Item>
           <DropDown.Item
             onClick={() => {
               open({ type: 'shareLink', props: { type: 'VIEW', link: createViewLink(id, 'place_list') } });
@@ -60,10 +64,6 @@ export default function PlaceListDropdownMenu({ id, type = 'overview', listName,
           >
             수정할 수 있도록 초대
           </DropDown.Item>
-          <DropDown.Item onClick={() => setShareOptionModalOpen(true)}>공유 옵션 관리</DropDown.Item>
-          {type === 'detail' && (
-            <DropDown.Item onClick={() => router.push(`/places/${id}/edit`)}>리스트 편집</DropDown.Item>
-          )}
           {isMaster && (
             <DropDown.Item onClick={() => confirmDeletePlaceList(listName, id, type === 'detail')}>
               리스트 삭제

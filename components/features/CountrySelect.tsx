@@ -120,7 +120,7 @@ export default function CountrySelect({ value, onChange }: Props) {
               >
                 {nation.label}
                 {value.countryCode === nation.countryCode && (
-                  <span className='absolute inset-y-0 right-0 flex items-center pr-4'>
+                  <span className='absolute inset-y-0 right-0 flex items-center pr-4 text-brand-blue-500'>
                     <Icon
                       name='Check'
                       size={16}

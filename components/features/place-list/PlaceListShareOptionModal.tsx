@@ -4,14 +4,18 @@ import { Icon } from '@/components/common/Icon';
 import Loader from '@/components/common/Loader';
 import ShareOptionContent from '@/components/common/ShareOption/ShareOptionContent';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
+import { useModalControl } from '@/hooks/useModalControl';
 
 export default function PlaceListShareOptionModal({ id, onClose }: { id: string; onClose: () => void }) {
+  const { handleMouseDown, handleMouseUp } = useModalControl(onClose);
+
   return createPortal(
     <div
       className='modal-overlay'
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
       onClick={(e) => {
         e.stopPropagation();
-        onClose();
       }}
     >
       <div

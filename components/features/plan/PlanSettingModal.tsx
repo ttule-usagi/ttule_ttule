@@ -6,18 +6,21 @@ import Loader from '@/components/common/Loader';
 import ShareOptionContent from '@/components/common/ShareOption/ShareOptionContent';
 import TabButton from '@/components/common/TabButton';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
+import { useModalControl } from '@/hooks/useModalControl';
 
 import PlanInfoContent from './plan-info/PlanInfoContent';
 
 export default function PlanSettingModal({ id, onClose }: { id: string; onClose: () => void }) {
   const [tab, setTab] = useState<'info' | 'shareOption'>('info');
+  const { handleMouseDown, handleMouseUp } = useModalControl(onClose);
 
   return createPortal(
     <div
       className='modal-overlay'
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
       onClick={(e) => {
         e.stopPropagation();
-        onClose();
       }}
     >
       <div
