@@ -70,13 +70,20 @@ export default function EditableOverviewField({
 
           <div className='flex flex-col gap-2'>
             <div className='flex gap-1.5 w-full'>
-              <button
-                type='button'
+              <div
+                role='button'
+                tabIndex={0}
                 aria-labelledby='icon-label'
                 aria-haspopup='true'
                 aria-expanded={isOpenIconMenu}
                 onClick={() => setIsOpenIconMenu(!isOpenIconMenu)}
                 className={`flex-1 min-w-0 flex items-center box-border w-full rounded-sm px-3 py-2 bg-brand-gray-100 border focus-within:outline-2 focus-within:-outline-offset-2 focus:bg-brand-gray-0 focus-within:outline-indigo-600 border-brand-gray-200 shadow-xs hover:bg-brand-gray-200 placeholder-brand-gray-400 gap-2.5 cursor-pointer ${icon ? 'text-brand-gray-700' : 'text-brand-gray-400'}`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setIsOpenIconMenu(!isOpenIconMenu);
+                  }
+                }}
               >
                 <span className='font-mona12 text-typo-base'>
                   {icon ? (
@@ -120,7 +127,7 @@ export default function EditableOverviewField({
                     />
                   )}
                 </div>
-              </button>
+              </div>
             </div>
 
             {isOpenIconMenu && (
