@@ -1,4 +1,3 @@
-import { Icon } from '@/components/common/Icon';
 import { Tag } from '@/types/placeList';
 
 interface EditTagListItemProps {
@@ -14,12 +13,6 @@ export default function EditTagListItem({ tag, isActivated, onClick }: EditTagLi
       onClick={onClick}
       data-drag-item
     >
-      {isActivated && (
-        <Icon
-          name='Check'
-          size={18}
-        />
-      )}
       {tag.name}
     </button>
   );
