@@ -91,20 +91,36 @@ export default function EditableOverviewField({
                 <span className='flex-1 min-w-0 text-start text-ellipsis overflow-hidden whitespace-nowrap'>
                   {icon ? icon.name : '아이콘 선택'}
                 </span>
-                <Icon
-                  name='ChevronDown'
-                  size={24}
-                />
+                <div className='flex items-center gap-2.5'>
+                  {icon && (
+                    <button
+                      type='button'
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onSelectIcon(null);
+                      }}
+                      className='rounded-full cursor-pointer text-brand-gray-400 bg-[#DBDDE3] hover:text-brand-gray-700 flex items-center justify-center size-6'
+                    >
+                      <Icon
+                        name='XClose'
+                        size={24}
+                        strokeWidth={2}
+                      />
+                    </button>
+                  )}
+                  {!isOpenIconMenu ? (
+                    <Icon
+                      name='ChevronDown'
+                      size={24}
+                    />
+                  ) : (
+                    <Icon
+                      name='ChevronUp'
+                      size={24}
+                    />
+                  )}
+                </div>
               </button>
-              {icon && (
-                <button
-                  type='button'
-                  onClick={() => onSelectIcon(null)}
-                  className='bg-tag-red-text text-brand-gray-0 rounded-sm px-2 w-14 cursor-pointer font-light hover:bg-[#da4b46]'
-                >
-                  제거
-                </button>
-              )}
             </div>
 
             {isOpenIconMenu && (
