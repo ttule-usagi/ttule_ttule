@@ -13,7 +13,7 @@ interface PlaceTagProps {
 export default function PlaceTag({ tag, onClick, isRounded = false, isEdit = false, isSelected }: PlaceTagProps) {
   return (
     <button
-      className={`shrink-0  flex gap-1 items-center justify-center box-border ${isRounded ? 'rounded-[28px]' : 'rounded-sm'} border ${isEdit && !isSelected ? 'border-brand-gray-300 text-brand-gray-500' : PLACE_TAG_COLOR[tag.color]} ${isEdit ? 'text-typo-description px-3 py-1.5' : 'text-typo-caption px-2 py-1'} hover:bg-brand-gray-50 cursor-pointer`}
+      className={`shrink-0  flex gap-1 items-center justify-center box-border ${isRounded ? 'rounded-[28px]' : 'rounded-sm'} border ${isEdit && !isSelected ? 'border-brand-gray-300 text-brand-gray-500 hover:bg-brand-gray-50' : PLACE_TAG_COLOR[tag.color]} ${isEdit ? 'text-typo-description px-3 py-1.5' : 'text-typo-caption px-2 py-1'} cursor-pointer`}
       onClick={onClick}
       aria-pressed={isEdit ? isSelected : undefined}
     >

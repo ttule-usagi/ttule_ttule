@@ -1,6 +1,7 @@
 import PlaceListEditForm from '@/components/features/place-list/edit/PlaceListEditForm';
 import { placeListDetailQueryOptions } from '@/hooks/place-list/useGetPlaceListDetail';
-import { getPlaceListDetail, getPlaceListPlaces } from '@/lib/actions/api/placeList';
+import { placeListTagsQueryOptions } from '@/hooks/place-list/useGetPlaceListTags';
+import { getPlaceListDetail, getPlaceListPlaces, getPlaceListTags } from '@/lib/actions/api/placeList';
 import { findEmoji } from '@/lib/emoji';
 import { getQueryClient } from '@/lib/utils/getQueryClient';
 import { supabaseUser } from '@/lib/utils/supabase';
@@ -28,11 +29,10 @@ export default async function PlaceListDetail({ params }: { params: Promise<{ li
           limit: null,
         }),
     }),
-    // TODO: 2차 추가
-    // queryClient.fetchQuery({
-    //   ...placeListTagsQueryOptions(listId),
-    //   queryFn: () => getPlaceListTags({supabase, listId})
-    // })
+    queryClient.fetchQuery({
+      ...placeListTagsQueryOptions(listId),
+      queryFn: () => getPlaceListTags({ supabase, listId }),
+    }),
   ]);
 
   const initialIcon = await findEmoji(detail.icon);
@@ -40,7 +40,7 @@ export default async function PlaceListDetail({ params }: { params: Promise<{ li
     id: p.id,
     customName: p.customName,
     memoContent: p.memoContent,
-    // tags: p.tags
+    tagIds: p.tags.map((tag) => tag.id),
   }));
 
   return (
