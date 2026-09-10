@@ -144,8 +144,8 @@
 
   --animate-fade-out: fade-out 1s ease-out forwards;
 }
-
-@custom-variant h-sm (@media (max-height: 939px));
+@custom-variant h-mini (@media (max-height: 700px));
+@custom-variant h-sm (@media (min-height: 701px) and (max-height: 939px));
 @custom-variant h-lg (@media (min-height: 940px));
 
 @media (prefers-color-scheme: dark) {
@@ -332,6 +332,13 @@ input:-webkit-autofill:active {
     100% {
       left: 110%;
     }
+  }
+
+  .main-content-transition {
+    @apply transition-all delay-50 duration-300 ease-in-out;
+  }
+  .main-bg-transition {
+    @apply transition-all delay-100 duration-700 ease-in-out;
   }
 }
 
