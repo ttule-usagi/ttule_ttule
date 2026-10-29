@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
 import { Icon } from '@/components/common/Icon';
@@ -17,6 +17,13 @@ export default function InfoContainerModal({ onClose }: InfoModalProps) {
   const total = InfoSteps.length;
   const current = InfoSteps[currentIndex];
 
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
   const isMounted = useIsMounted();
   if (!isMounted) return null;
 
@@ -31,16 +38,16 @@ export default function InfoContainerModal({ onClose }: InfoModalProps) {
 
   return createPortal(
     <div
-      className='modal-overlay'
+      className='modal-overlay bg-white md:bg-black/50'
       onClick={onClose}
     >
-      <div className='relative px-14'>
-        <h3 className='absolute -top-10 text-typo-sub-title text-white'>뚤레뚤레 소개</h3>
+      <div className='relative w-full h-screen md:w-auto md:h-auto md:px-14 flex flex-col'>
+        <h3 className='absolute hidden md:block -top-10 text-typo-sub-title text-white '>뚤레뚤레 소개</h3>
         {/* 이전 화살표 */}
         {currentIndex > 0 && (
           <button
             onClick={handlePrev}
-            className='absolute left-0 top-1/2 -translate-y-1/2 z-10 size-14 flex items-center justify-center'
+            className='absolute hidden md:block left-0 top-1/2 -translate-y-1/2 z-10 size-14 flex items-center justify-center'
             aria-label='이전 페이지'
           >
             <Icon
@@ -51,7 +58,7 @@ export default function InfoContainerModal({ onClose }: InfoModalProps) {
           </button>
         )}
         <div
-          className='bg-white rounded-sm w-95 min-h-100 h-150 max-h-[75vh] flex flex-col items-center gap-4 p-5 pt-4 overflow-x-visible'
+          className='bg-white rounded-sm w-full md:w-95 min-h-100 md:h-150 md:max-h-[75vh] flex flex-col items-center gap-4 p-5 pt-4 overflow-x-visible flex-grow md:flex-grow-0 '
           onClick={(e) => e.stopPropagation()}
         >
           <ModalHeader
@@ -64,7 +71,7 @@ export default function InfoContainerModal({ onClose }: InfoModalProps) {
         {currentIndex < total - 1 && (
           <button
             onClick={handleNext}
-            className='absolute right-0 top-1/2 -translate-y-1/2 z-10 size-14 flex items-center justify-center z-999'
+            className='absolute hidden md:block right-0 top-1/2 -translate-y-1/2 z-10 size-14 flex items-center justify-center z-999'
             aria-label='다음'
           >
             <Icon
@@ -74,13 +81,53 @@ export default function InfoContainerModal({ onClose }: InfoModalProps) {
             />
           </button>
         )}
-        <div className='absolute -bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5'>
+        <div className='absolute -bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 hidden md:flex'>
           {InfoSteps.map((_, i) => (
             <span
               key={i}
               className={`size-1.5 rounded-full ${i === currentIndex ? 'bg-brand-blue-400' : 'bg-brand-gray-200'}`}
             />
           ))}
+        </div>
+
+        {/* 모바일 푸터 */}
+        <div className='md:hidden flex flex-row justify-between items-center px-5 pb-5 w-full'>
+          <div className='flex gap-1.5 px-4 py-3 bg-brand-gray-100 rounded-full'>
+            {InfoSteps.map((_, i) => (
+              <span
+                key={i}
+                className={`size-1.5 rounded-full ${i === currentIndex ? 'bg-brand-blue-400' : 'bg-brand-gray-300'}`}
+              />
+            ))}
+          </div>
+          <div className='flex items-center'>
+            {currentIndex > 0 && (
+              <button
+                onClick={handlePrev}
+                className='z-10 size-7.5 flex items-center justify-center'
+                aria-label='이전 페이지'
+              >
+                <Icon
+                  name='ChevronLeft'
+                  size={56}
+                  className='text-brand-gray-500 hover:text-brand-blue-700'
+                />
+              </button>
+            )}
+            {currentIndex < total - 1 && (
+              <button
+                onClick={handleNext}
+                className='z-10 size-7.5 flex items-center justify-center'
+                aria-label='다음'
+              >
+                <Icon
+                  name='ChevronRight'
+                  size={56}
+                  className='text-brand-gray-500 hover:text-brand-blue-700'
+                />
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>,
