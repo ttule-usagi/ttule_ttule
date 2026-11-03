@@ -47,18 +47,18 @@ export default function Login() {
 
   return (
     <div className='h-screen w-full flex'>
-      <main className='flex flex-col items-center justify-center px-8 w-[30vw] max-w-160 min-w-100 relative'>
+      <main className='flex flex-col items-center justify-center px-8 w-[30vw] w-full min-w-93 md:max-w-160 relative'>
         <div className='w-full max-w-90 flex flex-col items-center relative'>
           <Link
             href='/'
-            className='absolute top-[-20%] left-0'
+            className='absolute top-[-12.5%] md:top-[-16%] left-0'
           >
             <Image
-              src='/images/logo-small.svg'
-              alt='Logo'
-              width={79.25}
-              height={22.97}
-              className='max-w-[79.25px] h-auto pl-0.5'
+              src='/images/bluetomato-full.webp'
+              alt='symbol'
+              width={55}
+              height={48}
+              className='max-w-[55px] h-auto pl-0.5'
             />
           </Link>
           <header className='text-[2rem] text-login-title font-bold text-left w-full'>로그인</header>
@@ -137,7 +137,7 @@ export default function Login() {
           alt='Service Example'
           width={1024}
           height={682}
-          className='h-[40vw] w-auto'
+          className='h-[40vw] w-auto pl-4'
         />
       </div>
     </div>
