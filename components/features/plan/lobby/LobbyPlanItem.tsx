@@ -3,6 +3,7 @@
 
 import Link from 'next/link';
 
+import { Icon } from '@/components/common/Icon';
 import { formatRelativeDate } from '@/lib/utils/date';
 import { getDestinationDisplay } from '@/lib/utils/destinationDisplay';
 import { PlanOverview } from '@/types/plan';
@@ -20,57 +21,114 @@ export default function LobbyPlanItem({
   updatedAt,
   myRole,
 }: PlanOverview) {
-  const { text, fontSize } = getDestinationDisplay(destination);
+  const mobile = getDestinationDisplay(destination, 'mobile');
+  const desktop = getDestinationDisplay(destination, 'desktop');
 
   return (
-    <Link
-      className="max-w-[275.76px] aspect-[275.76/397.69] bg-[url('/images/lobby-plan.svg')] dark:bg-[url('/images/lobby-plan-dark.svg')] bg-center bg-cover px-4 pt-19.25 pb-6 flex flex-col drop-shadow-lg"
-      href={`/plan/${id}`}
-    >
-      <div
-        className='flex justify-end'
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-        }}
+    <div>
+      <Link
+        className="relative max-w-92.5 aspect-[370px/96px] 
+      bg-[url('/images/lobby-plan-m.svg')] dark:bg-[url('/images/lobby-plan-dark.svg')] 
+      bg-center bg-cover px-8 pt-6 pb-5 flex md:hidden flex-row drop-shadow-lg justify-between"
+        href={`/plan/${id}`}
       >
-        <LobbyPlanActionMenu
-          id={id}
-          myRole={myRole}
-          planName={title}
-        />
-      </div>
-
-      {/* 목적지 */}
-      <div className='flex h-30 justify-center items-center text-brand-blue-700'>
-        <p
-          className={`mt-4.5 font-paperlogy-semi-bold  text-brand-blue-700 leading-none tracking-[-3px] text-center ${fontSize}`}
+        <div
+          className='absolute top-5 right-2'
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
         >
-          {text}
-        </p>
-      </div>
-
-      {/* 여행 기간 */}
-      <div className='flex gap-14.5 font-paperlogy-regular text-[15px] text-brand-gray-500 leading-none tracking-[-1.1%] justify-between items-center mt-14.5 w-full'>
-        <span>{isDateUndecided ? 'FROM-EGGS' : departureDate}</span>
-        <span>{isDateUndecided ? 'TO-APPLES' : arrivalDate}</span>
-      </div>
-
-      {/* 이외의 정보 */}
-      <div className='mt-6 text-[12px] font-extralight text-brand-gray-800 w-full'>
-        <div className='flex justify-between'>
-          <span>plan name</span>
-          <p className='max-w-42 truncate'>{title ? title : 'Untitled'}</p>
+          <LobbyPlanActionMenu
+            id={id}
+            myRole={myRole}
+            planName={title}
+          />
         </div>
-        <p className='flex justify-between'>
-          <span>shared</span>
-          {isPublic ? 'public' : 'private'}
-        </p>
-        <p className='flex justify-between'>
-          <span>updated</span>
-          {formatRelativeDate(updatedAt)}
-        </p>
-      </div>
-    </Link>
+        {/* 목적지 */}
+        <div className='flex justify-center items-center text-brand-blue-700'>
+          <p
+            className={`font-paperlogy-medium md:font-paperlogy-semi-bold text-brand-blue-700 leading-none tracking-[-2px] text-center ${mobile.fontSize}`}
+          >
+            {mobile.text}
+          </p>
+        </div>
+
+        {/* 이외의 정보 */}
+        <div className='flex flex-col gap-0.5 w-45 text-[14px] text-typo-caption text-brand-gray-400'>
+          <div className='flex justify-between font-semibold text-brand-blue-700'>
+            <p className='max-w-42 truncate'>{title ? title : 'Untitled'}</p>
+          </div>
+          <div className='flex items-center gap-2'>
+            <span>{isDateUndecided ? 'FROM-EGGS' : departureDate}</span>
+            <Icon
+              name='ArrowRight'
+              size={14}
+              className='text-brand-gray-300'
+            />
+            <span>{isDateUndecided ? 'TO-APPLES' : arrivalDate}</span>
+          </div>
+
+          <p className='flex gap-1 items-center'>
+            <Icon
+              name='Clock'
+              size={14}
+            />
+            {formatRelativeDate(updatedAt)}
+          </p>
+        </div>
+      </Link>
+      <Link
+        className="max-w-[275.76px] aspect-[275.76/397.69] 
+      bg-[url('/images/lobby-plan.svg')] dark:bg-[url('/images/lobby-plan-dark.svg')] 
+      hidden bg-center bg-cover px-4 pt-19.25 pb-6 md:flex flex-col drop-shadow-lg"
+        href={`/plan/${id}`}
+      >
+        <div
+          className='flex justify-end'
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        >
+          <LobbyPlanActionMenu
+            id={id}
+            myRole={myRole}
+            planName={title}
+          />
+        </div>
+
+        {/* 목적지 */}
+        <div className='flex h-30 justify-center items-center text-brand-blue-700'>
+          <p
+            className={`mt-4.5 font-paperlogy-semi-bold  text-brand-blue-700 leading-none tracking-[-3px] text-center ${desktop.fontSize}`}
+          >
+            {desktop.text}
+          </p>
+        </div>
+
+        {/* 여행 기간 */}
+        <div className='flex gap-14.5 font-paperlogy-regular text-[15px] text-brand-gray-500 leading-none tracking-[-1.1%] justify-between items-center mt-14.5 w-full'>
+          <span>{isDateUndecided ? 'FROM-EGGS' : departureDate}</span>
+          <span>{isDateUndecided ? 'TO-APPLES' : arrivalDate}</span>
+        </div>
+
+        {/* 이외의 정보 */}
+        <div className='mt-6 text-[12px] font-extralight text-brand-gray-800 w-full'>
+          <div className='flex justify-between'>
+            <span>plan name</span>
+            <p className='max-w-42 truncate'>{title ? title : 'Untitled'}</p>
+          </div>
+          <p className='flex justify-between'>
+            <span>shared</span>
+            {isPublic ? 'public' : 'private'}
+          </p>
+          <p className='flex justify-between'>
+            <span>updated</span>
+            {formatRelativeDate(updatedAt)}
+          </p>
+        </div>
+      </Link>
+    </div>
   );
 }

@@ -30,6 +30,7 @@
   --font-sans: var(--font-pretendard), sans-serif;
   --font-pretendard: var(--font-pretendard), sans-serif;
   --font-paperlogy-semi-bold: var(--font-paperlogy-semi-bold), sans-serif;
+  --font-paperlogy-medium: var(--font-paperlogy-medium), sans-serif;
   --font-paperlogy-regular: var(--font-paperlogy-regular), sans-serif;
   --font-mona12: var(--font-mona12);
 }
