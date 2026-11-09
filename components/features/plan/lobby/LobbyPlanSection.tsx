@@ -21,8 +21,10 @@ export default function LobbyPlanSection() {
     <>
       <header className='flex items-center justify-between mt-10'>
         <div className='flex flex-col gap-0'>
-          <p className='text-typo-big-title font-semibold text-brand-blue-700'>환영해요 {user.username}님!</p>
-          <p className='text-typo-sub-title font-medium text-brand-gray-400'>
+          <p className='text-typo-base-bold md:text-typo-big-title font-semibold text-brand-blue-700'>
+            환영해요 {user.username}님!
+          </p>
+          <p className='text-typo-description md:text-typo-sub-title font-medium text-brand-gray-400'>
             {upcomingPlans.length}개의 다가오는 여행이 있어요
           </p>
         </div>

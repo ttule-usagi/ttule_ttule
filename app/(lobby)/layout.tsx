@@ -8,7 +8,7 @@ export default async function LobbyLayout({
   return (
     <div className='h-screen w-full flex bg-brand-gray-50 overflow-hidden overscroll-none'>
       <Sidebar />
-      <main className='flex-1 pl-16 overflow-hidden'>{children}</main>
+      <main className='flex-1 md:pl-16 overflow-hidden'>{children}</main>
     </div>
   );
 }
