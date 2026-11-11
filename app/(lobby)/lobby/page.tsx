@@ -1,5 +1,6 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
+import SearchSection from '@/components/common/SearchSection';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import LobbyPlanSection from '@/components/features/plan/lobby/LobbyPlanSection';
 import Footer from '@/components/layouts/Footer';
@@ -19,6 +20,7 @@ export default async function Page() {
           {/* <NoticeHeader /> */}
 
           {/* 헤더 및 여행 아이템 섹션 */}
+          <SearchSection />
           <QueryBoundary subject='여행 목록'>
             <LobbyPlanSection />
           </QueryBoundary>

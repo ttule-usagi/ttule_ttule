@@ -93,26 +93,29 @@ export default function LobbyLastPlanItem({
           <p className='text-typo-description truncate font-semibold'>{title ? title : 'Untitled'}</p>
 
           {/* 여행 기간 */}
-          <div className='flex items-center gap-1.5'>
+          <div className='flex items-center gap-1'>
             <Icon
               name='Calendar'
               size={14}
+              className='text-brand-gray-400'
             />
-            <div className='flex items-center gap-2 text-typo-caption whitespace-nowrap'>
+            <div className='flex items-center gap-1.5 text-typo-caption whitespace-nowrap'>
               <span>{departureDate}</span>
               <Icon
                 name='ArrowRight'
-                size={16}
+                size={14}
+                className='text-brand-gray-300'
               />
               <span>{arrivalDate}</span>
             </div>
           </div>
 
           {/* 업데이트 시간 */}
-          <div className='flex items-center gap-1.5'>
+          <div className='flex items-center gap-1'>
             <Icon
               name='Clock'
               size={14}
+              className='text-brand-gray-400'
             />
             <span className='text-typo-caption whitespace-nowrap'>{formatRelativeDate(updatedAt)}</span>
           </div>

@@ -19,7 +19,7 @@ export default function LobbyPlanSection() {
 
   return (
     <>
-      <header className='flex items-center justify-between mt-10'>
+      <header className='flex items-center justify-between mt-4 md:mt-10'>
         <div className='flex flex-col gap-0'>
           <p className='text-typo-base-bold md:text-typo-big-title font-semibold text-brand-blue-700'>
             환영해요 {user.username}님!
@@ -33,7 +33,7 @@ export default function LobbyPlanSection() {
           <JoinPlanButton variant='secondary' />
         </div>
       </header>
-      <main className='mt-22.75 flex flex-col gap-19.5'>
+      <main className='mt-8 md:mt-22.75 flex flex-col gap-15 md:gap-19.5'>
         {currentPlans.length > 0 && (
           <div className='flex flex-col gap-4 md:gap-6'>
             <SectionHeader title='현재 여행' />
