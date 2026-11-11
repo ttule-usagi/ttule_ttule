@@ -27,58 +27,6 @@ export default function LobbyPlanItem({
   return (
     <div>
       <Link
-        className="relative max-w-92.5 aspect-[370px/96px] 
-      bg-[url('/images/lobby-plan-m.svg')] dark:bg-[url('/images/lobby-plan-dark.svg')] 
-      bg-center bg-cover px-8 pt-6 pb-5 flex md:hidden flex-row drop-shadow-lg justify-between"
-        href={`/plan/${id}`}
-      >
-        <div
-          className='absolute top-5 right-2'
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
-          <LobbyPlanActionMenu
-            id={id}
-            myRole={myRole}
-            planName={title}
-          />
-        </div>
-        {/* 목적지 */}
-        <div className='flex justify-center items-center text-brand-blue-700'>
-          <p
-            className={`font-paperlogy-medium md:font-paperlogy-semi-bold text-brand-blue-700 leading-none tracking-[-2px] text-center ${mobile.fontSize}`}
-          >
-            {mobile.text}
-          </p>
-        </div>
-
-        {/* 이외의 정보 */}
-        <div className='flex flex-col gap-0.5 w-45 text-[14px] text-typo-caption text-brand-gray-400'>
-          <div className='flex justify-between font-semibold text-brand-blue-700'>
-            <p className='max-w-42 truncate'>{title ? title : 'Untitled'}</p>
-          </div>
-          <div className='flex items-center gap-2'>
-            <span>{isDateUndecided ? 'FROM-EGGS' : departureDate}</span>
-            <Icon
-              name='ArrowRight'
-              size={14}
-              className='text-brand-gray-300'
-            />
-            <span>{isDateUndecided ? 'TO-APPLES' : arrivalDate}</span>
-          </div>
-
-          <p className='flex gap-1 items-center'>
-            <Icon
-              name='Clock'
-              size={14}
-            />
-            {formatRelativeDate(updatedAt)}
-          </p>
-        </div>
-      </Link>
-      <Link
         className="max-w-[275.76px] aspect-[275.76/397.69] 
       bg-[url('/images/lobby-plan.svg')] dark:bg-[url('/images/lobby-plan-dark.svg')] 
       hidden bg-center bg-cover px-4 pt-19.25 pb-6 md:flex flex-col drop-shadow-lg"
@@ -127,6 +75,62 @@ export default function LobbyPlanItem({
             <span>updated</span>
             {formatRelativeDate(updatedAt)}
           </p>
+        </div>
+      </Link>
+
+      {/* 모바일 버전 */}
+      <Link
+        className="relative grid md:hidden grid-cols-[146px_minmax(0,1fr)_24px] w-full min-w-85 max-w-92.5 aspect-370/96 pr-2 bg-[url('/images/lobby-plan-m.svg')] dark:bg-[url('/images/lobby-plan-dark.svg')] bg-center bg-cover drop-shadow-lg"
+        href={`/plan/${id}`}
+      >
+        {/* 목적지 */}
+        <div className='flex pl-8 pt-7'>
+          <p className={`font-paperlogy-medium leading-none tracking-[-0.03em] text-brand-blue-600 ${mobile.fontSize}`}>
+            {mobile.text}
+          </p>
+        </div>
+
+        {/* 계획 정보 */}
+        <div className='grid gap-0.5 self-start pt-5.75 pl-4.5 pr-2 text-brand-gray-400'>
+          <p className='text-typo-description truncate font-semibold text-brand-blue-700'>
+            {title ? title : 'Untitled'}
+          </p>
+          <div className='flex items-center gap-1 text-typo-caption whitespace-nowrap'>
+            <Icon
+              name='Calendar'
+              size={14}
+              className='text-brand-gray-400'
+            />
+            <span>{isDateUndecided ? 'FROM-EGGS' : departureDate}</span>
+            <Icon
+              name='ArrowRight'
+              size={14}
+              className='text-brand-gray-300'
+            />
+            <span>{isDateUndecided ? 'TO-APPLES' : arrivalDate}</span>
+          </div>
+          <div className='flex items-center gap-1.5'>
+            <Icon
+              name='Clock'
+              size={14}
+            />
+            <p className='text-typo-caption'>{formatRelativeDate(updatedAt)}</p>
+          </div>
+        </div>
+
+        {/* 더보기 메뉴 */}
+        <div
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          className='mt-5 flex size-6 items-center justify-center self-start'
+        >
+          <LobbyPlanActionMenu
+            id={id}
+            myRole={myRole}
+            planName={title}
+          />
         </div>
       </Link>
     </div>
