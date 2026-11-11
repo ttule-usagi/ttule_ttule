@@ -35,18 +35,18 @@ export default function LobbyPlanSection() {
       </header>
       <main className='mt-22.75 flex flex-col gap-19.5'>
         {currentPlans.length > 0 && (
-          <div className='flex flex-col gap-6'>
+          <div className='flex flex-col gap-4 md:gap-6'>
             <SectionHeader title='현재 여행' />
             <PlanListWithTag plans={currentPlans} />
           </div>
         )}
 
-        <div className='flex flex-col gap-6'>
+        <div className='flex flex-col gap-4 md:gap-6'>
           <SectionHeader title='다가오는 여행' />
           <PlanListWithTag plans={upcomingPlans} />
         </div>
 
-        <div className='flex flex-col gap-6'>
+        <div className='flex flex-col gap-4 md:gap-6'>
           <SectionHeader title='지난 여행' />
           <LastPlanList plans={lastPlans} />
         </div>
