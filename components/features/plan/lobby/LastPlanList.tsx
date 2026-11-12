@@ -6,7 +6,7 @@ export default function LastPlanList({ plans }: { plans: PlanOverview[] }) {
   return (
     <>
       {plans.length > 0 ? (
-        <div className='grid grid-cols-[repeat(auto-fill,370px)] md:grid-cols-[repeat(auto-fill,340px)] gap-2 md:gap-3.25'>
+        <div className='grid grid-cols-1 md:grid-cols-[repeat(auto-fill,340px)] gap-2 md:gap-3.25'>
           {plans.map((plan) => (
             <LobbyLastPlanItem
               key={plan.id}

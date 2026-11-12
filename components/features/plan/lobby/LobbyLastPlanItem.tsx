@@ -19,7 +19,7 @@ export default function LobbyLastPlanItem({
   return (
     <div>
       <Link
-        className="bg-[url('/images/lobby-plan-folder.svg')] dark:bg-[url('/images/lobby-plan-folder-dark.svg')] hidden md:flex bg-cover bg-center min-w-85 aspect-340/252 px-7 flex-col"
+        className="bg-[url('/images/lobby-plan-folder.svg')] dark:bg-[url('/images/lobby-plan-folder-dark.svg')] hidden md:flex bg-cover bg-center aspect-340/252 px-7 flex-col"
         href={`/plan/${id}`}
       >
         {/* 여행지 */}
@@ -79,17 +79,21 @@ export default function LobbyLastPlanItem({
 
       {/* 모바일 버전 */}
       <Link
-        className="relative grid md:hidden grid-cols-[72px_minmax(0,1fr)_24px] items-start min-w-85 w-full aspect-370/96 pl-4 pr-2.25 pt-4 bg-[url('/images/lobby-plan-folder-m.svg')] dark:bg-[url('/images/lobby-plan-folder-m.svg')] bg-cover bg-center drop-shadow-lg"
+        className="relative grid md:hidden grid-cols-[23.72%_minmax(0,1fr)_33px] 
+        items-start w-full aspect-370/96 pt-3.5 sm:pt-5
+        bg-[length:100%_100%] bg-[url('/images/lobby-plan-folder-m.svg')] 
+        dark:bg-[url('/images/lobby-plan-folder-m.svg')] 
+        bg-cover bg-center drop-shadow-lg overflow-hidden"
         href={`/plan/${id}`}
       >
         {/* 여행지 */}
-        <div className='flex flex-col pr-3.5 text-brand-gray-400'>
+        <div className='flex flex-col pl-4 pr-3.5 text-brand-gray-400'>
           <span className='text-typo-caption font-semibold'>TO.</span>
           <span className='text-typo-description line-clamp-2 break-words'>{destination}</span>
         </div>
 
         {/* 계획 정보 */}
-        <div className='grid gap-1 pl-4 pr-2 text-brand-gray-500'>
+        <div className='grid gap-1 pl-4.5 pr-2 text-brand-gray-500'>
           <p className='text-typo-description truncate font-semibold'>{title ? title : 'Untitled'}</p>
 
           {/* 여행 기간 */}
@@ -127,7 +131,7 @@ export default function LobbyLastPlanItem({
             e.preventDefault();
             e.stopPropagation();
           }}
-          className='flex size-6 items-center justify-center'
+          className='flex size-6 items-center justify-center justify-self-start'
         >
           <LobbyPlanActionMenu
             id={id}

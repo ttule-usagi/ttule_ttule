@@ -80,18 +80,18 @@ export default function LobbyPlanItem({
 
       {/* 모바일 버전 */}
       <Link
-        className="relative grid md:hidden grid-cols-[146px_minmax(0,1fr)_24px] w-full min-w-85 max-w-92.5 aspect-370/96 pr-2 bg-[url('/images/lobby-plan-m.svg')] dark:bg-[url('/images/lobby-plan-dark.svg')] bg-center bg-cover drop-shadow-lg"
+        className="@container relative grid md:hidden grid-cols-[39.46%_minmax(0,1fr)_32px] w-full max-w-92.5 aspect-370/96 pr-2 bg-[url('/images/lobby-plan-m.svg')] dark:bg-[url('/images/lobby-plan-dark.svg')] bg-center bg-cover drop-shadow-lg"
         href={`/plan/${id}`}
       >
         {/* 목적지 */}
-        <div className='flex pl-8 pt-7'>
+        <div className='flex pl-[8cqw] pt-7'>
           <p className={`font-paperlogy-medium leading-none tracking-[-0.03em] text-brand-blue-600 ${mobile.fontSize}`}>
             {mobile.text}
           </p>
         </div>
 
         {/* 계획 정보 */}
-        <div className='grid gap-0.5 self-start pt-5.75 pl-4.5 pr-2 text-brand-gray-400'>
+        <div className='@container grid gap-0.5 self-start pt-[5.75cqw] pl-4.5 pr-2 text-brand-gray-400'>
           <p className='text-typo-description truncate font-semibold text-brand-blue-700'>
             {title ? title : 'Untitled'}
           </p>

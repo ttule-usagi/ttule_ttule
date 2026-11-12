@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
+import MobileProfileMenu from '../features/profile/MobileProfileMenu';
 import CorePlaceSearchInput from '../features/search/CorePlaceSearchInput';
 
 import { Icon } from './Icon';
@@ -19,6 +20,8 @@ export default function SearchSection() {
   // 배열 내 href 중 하나라도 pathname에 매칭되는지 검사
   const shouldShowButton = urls.some((url) => pathname.startsWith(url.href));
 
+  const setClose = () => setIsProfilePageOpen(false);
+
   return (
     <div className='z-20 md:px-4 pt-5 md:mb-8 flex-none flex flex-row items-center justify-center gap-3'>
       <button
@@ -33,7 +36,11 @@ export default function SearchSection() {
         />
       </button>
       <CorePlaceSearchInput />
-      <div className={isProfilePageOpen ? 'flex' : 'hidden'}>page</div>
+      {isProfilePageOpen && (
+        <div className='flex'>
+          <MobileProfileMenu onClose={setClose} />
+        </div>
+      )}
     </div>
   );
 }

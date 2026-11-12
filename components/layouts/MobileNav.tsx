@@ -13,7 +13,7 @@ const icons = [
 export default function MobileNav() {
   const pathname = usePathname();
   return (
-    <div className='absolute bottom-5 left-1/2 -translate-x-1/2 px-1 rounded-full bg-brand-blue-500  drop-shadow-lg z-999'>
+    <div className='absolute md:hidden bottom-5 left-1/2 -translate-x-1/2 px-1 rounded-full bg-brand-blue-500 drop-shadow-lg z-999'>
       <div className='flex flex-row justify-center gap-2 px-2 py-0.5'>
         {icons.map((icon) => (
           <Link

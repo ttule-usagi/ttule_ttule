@@ -5,7 +5,7 @@ import LobbyPlanItem from './LobbyPlanItem';
 
 export default function PlanListWithTag({ plans }: { plans: PlanOverview[] }) {
   return (
-    <div className='grid grid-cols-[repeat(auto-fill,370px)] gap-2 md:grid-cols-[repeat(auto-fill,275.76px)] md:gap-10.75'>
+    <div className='grid grid-cols-1 gap-2 md:grid-cols-[repeat(auto-fill,275.76px)] md:gap-10.75'>
       {plans.length > 0 &&
         plans.map((plan, index) => (
           <div
