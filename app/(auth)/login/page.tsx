@@ -47,7 +47,7 @@ export default function Login() {
 
   return (
     <div className='h-screen w-full flex'>
-      <main className='flex flex-col items-center justify-center px-8 w-[30vw] w-full min-w-93 md:max-w-160 relative'>
+      <main className='flex flex-col items-center justify-center px-8 w-[30vw] w-full md:max-w-160 relative'>
         <div className='w-full max-w-90 flex flex-col items-center relative'>
           <Link
             href='/'
