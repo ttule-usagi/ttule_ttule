@@ -15,7 +15,7 @@ const FONT_SIZE: Record<Variant, Record<number, string>> = {
     4: 'text-[72px]',
   },
   mobile: {
-    2: 'text-[11cqw]', // 실제 디자인 값으로 교체해 주세요
+    2: 'text-[11cqw]',
     3: 'text-[10.81cqw]',
   },
 };
