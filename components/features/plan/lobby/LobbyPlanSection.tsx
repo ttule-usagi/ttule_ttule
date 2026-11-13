@@ -19,7 +19,7 @@ export default function LobbyPlanSection() {
 
   return (
     <>
-      <header className='flex items-center justify-between mt-4 sm:px-0 md:mt-10'>
+      <header className='flex items-center justify-between mt-4 md:mt-10'>
         <div className='flex flex-col gap-0'>
           <p className='text-typo-base-bold md:text-typo-big-title font-semibold text-brand-blue-700'>
             환영해요 {user.username}님!
