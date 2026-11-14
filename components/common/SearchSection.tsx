@@ -27,7 +27,7 @@ export default function SearchSection() {
       <button
         type='button'
         aria-label='메뉴 열기'
-        className={`text-brand-blue-700 cursor-pointer ${shouldShowButton ? 'block' : 'hidden'}`}
+        className={`text-brand-blue-700 cursor-pointer md:hidden ${shouldShowButton ? 'block' : 'hidden'}`}
         onClick={() => setIsProfilePageOpen(true)}
       >
         <Icon

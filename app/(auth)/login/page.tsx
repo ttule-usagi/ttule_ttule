@@ -47,7 +47,7 @@ export default function Login() {
 
   return (
     <div className='h-screen w-full flex'>
-      <main className='flex flex-col items-center justify-center px-8 w-[30vw] w-full md:max-w-160 relative'>
+      <main className='flex flex-col items-center justify-center px-8 w-full md:min-w-90 md:w-[30vw] md:max-w-160 relative'>
         <div className='w-full max-w-90 flex flex-col items-center relative'>
           <Link
             href='/'
@@ -131,7 +131,7 @@ export default function Login() {
         </footer>
       </main>
 
-      <div className='flex-1 bg-login-description flex items-center justify-center overflow-hidden'>
+      <div className='hidden md:flex flex-1 bg-login-description items-center justify-center overflow-hidden'>
         <Image
           src='/images/service-example.svg'
           alt='Service Example'

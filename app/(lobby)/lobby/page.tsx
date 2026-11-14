@@ -20,7 +20,9 @@ export default async function Page() {
           {/* <NoticeHeader /> */}
 
           {/* 헤더 및 여행 아이템 섹션 */}
-          <SearchSection />
+          <div className='md:hidden'>
+            <SearchSection />
+          </div>
           <QueryBoundary subject='여행 목록'>
             <LobbyPlanSection />
           </QueryBoundary>
