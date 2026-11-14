@@ -11,7 +11,7 @@ interface Props {
 
 export default function FormTypeCalendar({ id, value, onChange, min, max, required = false }: Props) {
   return (
-    <div className='flex w-full'>
+    <div className='flex min-w-0 flex-1'>
       <label
         htmlFor={id}
         className='text-typo-base text-brand-gray-100'
@@ -25,7 +25,7 @@ export default function FormTypeCalendar({ id, value, onChange, min, max, requir
         min={min}
         max={max}
         onChange={(e) => onChange(e.target.value)}
-        className='w-full max-h-11 rounded-lg border border-brand-gray-200 
+        className='w-full min-w-0 max-h-11 rounded-lg border border-brand-gray-200 
         px-3 py-2 text-typo-base text-brand-gray-700 font-light bg-brand-gray-100 
         focus:outline-none focus:bg-brand-gray-0 focus:border-brand-blue-400 shadow-xs'
       />

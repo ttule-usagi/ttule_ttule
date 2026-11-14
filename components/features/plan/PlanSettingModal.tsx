@@ -16,7 +16,7 @@ export default function PlanSettingModal({ id, onClose }: { id: string; onClose:
 
   return createPortal(
     <div
-      className='modal-overlay'
+      className='modal-overlay bg-white md:bg-black/50'
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onClick={(e) => {
@@ -24,7 +24,7 @@ export default function PlanSettingModal({ id, onClose }: { id: string; onClose:
       }}
     >
       <div
-        className='relative flex flex-col bg-white rounded-lg min-h-100 h-187 max-h-[80vh] min-w-126 overflow-hidden'
+        className='relative flex flex-col bg-white md:rounded-lg min-h-100 h-full md:h-187 md:max-h-[80vh] w-full max-w-126 md:min-w-126 overflow-hidden'
         onClick={(e) => e.stopPropagation()}
       >
         <header className='flex justify-between items-center shrink-0 mb-4 pt-7 px-6'>

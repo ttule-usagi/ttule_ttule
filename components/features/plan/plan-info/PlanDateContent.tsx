@@ -61,13 +61,13 @@ export default function PlanDateContent({
 
       {mode === 'date' ? (
         <>
-          <div className='flex flex-row gap-2 items-center'>
+          <div className='flex w-full flex-row items-center gap-2'>
             <FormTypeCalendar
               id='start_date'
               value={startDate}
               onChange={onStartDateChange}
               min={getToday()}
-            />{' '}
+            />
             <Icon
               name='ArrowRightCirle'
               size={24}

@@ -1,8 +1,9 @@
 'use client';
 
-import { ResourceType } from '@/types/invite';
-import { PrivateButton, PublicButton } from './publicSelector/SetPublicButton';
 import { useGetPlaceListIsPublic, useGetPlanIsPublic } from '@/hooks/shareOption/useGetPublicState';
+import { ResourceType } from '@/types/invite';
+
+import { PrivateButton, PublicButton } from './publicSelector/SetPublicButton';
 
 interface PublicStateSelectorProps {
   id: string;
@@ -37,7 +38,7 @@ function PlanPublicStateSelector({ planId, disabled }: { planId: string; disable
   const { data: isPublic } = useGetPlanIsPublic(planId); // 지난번 만든 훅
 
   return (
-    <div className='flex gap-2'>
+    <div className='flex flex-col md:flex-row gap-2'>
       <PublicButton
         id={planId}
         resourceType='plan'
@@ -59,7 +60,7 @@ function PlaceListPublicStateSelector({ placeListId, disabled }: { placeListId: 
   const { data: isPublic } = useGetPlaceListIsPublic(placeListId);
 
   return (
-    <div className='flex gap-2'>
+    <div className='flex flex-col md:flex-row gap-2'>
       <PublicButton
         id={placeListId}
         resourceType='place_list'

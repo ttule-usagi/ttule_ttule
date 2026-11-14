@@ -11,7 +11,7 @@ export default function PlaceListShareOptionModal({ id, onClose }: { id: string;
 
   return createPortal(
     <div
-      className='modal-overlay'
+      className='modal-overlay bg-white md:bg-black/50'
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onClick={(e) => {
@@ -19,7 +19,7 @@ export default function PlaceListShareOptionModal({ id, onClose }: { id: string;
       }}
     >
       <div
-        className='flex flex-col gap-1 bg-white rounded-lg relative pt-7 min-h-100 h-187 max-h-[80vh] min-w-126 overflow-hidden'
+        className='flex flex-col gap-1 bg-white rounded-lg relative pt-7 h-full min-h-100 md:h-187 md:max-h-[80vh] w-full max-w-126 md:min-w-126 overflow-hidden'
         onClick={(e) => e.stopPropagation()}
       >
         <header className='flex justify-between items-center shrink-0 px-6'>
