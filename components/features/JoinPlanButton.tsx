@@ -7,8 +7,8 @@ interface JoinPlanButtonProps {
 }
 
 const variantStyle = {
-  primary: 'text-typo-title px-9 py-2.5',
-  secondary: 'text-typo-base p-3',
+  primary: 'text-typo-title text-xl sm:text-2xl px-9 py-2 sm:py-2.5 main-content-transition',
+  secondary: 'text-typo-description md:text-typo-base p-3',
 };
 
 export default function JoinPlanButton({ variant = 'primary' }: JoinPlanButtonProps) {

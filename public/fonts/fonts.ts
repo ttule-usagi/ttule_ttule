@@ -29,6 +29,13 @@ export const paperlogySemiBold = localFont({
   variable: '--font-paperlogy-semi-bold',
 });
 
+export const paperlogyMedium = localFont({
+  src: './Paperlogy-5Medium.woff2',
+  display: 'swap',
+  weight: '600',
+  variable: '--font-paperlogy-medium',
+});
+
 export const paperlogyRegular = localFont({
   src: './Paperlogy-4Regular.woff2',
   display: 'swap',

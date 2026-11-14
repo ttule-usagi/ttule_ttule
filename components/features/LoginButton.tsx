@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function LoginButton() {
   return (
     <Link href='/login'>
-      <button className='text-typo-title font-normal bg-brand-gray-50 text-brand-blue-700 border border-brand-blue-200 rounded-lg h-13 w-66 cursor-pointer hover:bg-brand-gray-100'>
+      <button className='text-typo-title text-xl sm:text-2xl font-normal bg-brand-gray-50 text-brand-blue-700 border border-brand-blue-200 rounded-lg h-11.5 sm:h-13 w-66 cursor-pointer hover:bg-brand-gray-100 main-content-transition'>
         로그인
       </button>
     </Link>

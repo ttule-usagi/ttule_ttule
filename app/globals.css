@@ -30,6 +30,7 @@
   --font-sans: var(--font-pretendard), sans-serif;
   --font-pretendard: var(--font-pretendard), sans-serif;
   --font-paperlogy-semi-bold: var(--font-paperlogy-semi-bold), sans-serif;
+  --font-paperlogy-medium: var(--font-paperlogy-medium), sans-serif;
   --font-paperlogy-regular: var(--font-paperlogy-regular), sans-serif;
   --font-mona12: var(--font-mona12);
 }
@@ -144,8 +145,8 @@
 
   --animate-fade-out: fade-out 1s ease-out forwards;
 }
-
-@custom-variant h-sm (@media (max-height: 939px));
+@custom-variant h-mini (@media (max-height: 700px));
+@custom-variant h-sm (@media (min-height: 701px) and (max-height: 939px));
 @custom-variant h-lg (@media (min-height: 940px));
 
 @media (prefers-color-scheme: dark) {
@@ -333,6 +334,13 @@ input:-webkit-autofill:active {
       left: 110%;
     }
   }
+
+  .main-content-transition {
+    @apply transition-all delay-50 duration-300 ease-in-out;
+  }
+  .main-bg-transition {
+    @apply transition-all delay-100 duration-700 ease-in-out;
+  }
 }
 
 /* 배경 점 패턴 */
@@ -373,6 +381,27 @@ input:-webkit-autofill:active {
   background-repeat: repeat;
   background-color: #f9f9fb;
   background-image: radial-gradient(circle, #adc6ff 1.6px, transparent 0.8px);
+}
+
+/* 회원가입 - 모바일 배경 */
+@utility bg-note-mobile {
+  --note-top-height: 53px;
+  --note-line-height: 32px;
+  --note-line-color: #c9dcff;
+
+  padding-top: var(--note-top-height);
+  background-color: white;
+  background-image:
+    url('/images/bg-note-top.svg'), linear-gradient(to bottom, transparent calc(100% - 1px), var(--note-line-color) 0);
+  background-repeat: repeat-x, repeat-y;
+  background-position:
+    top left,
+    left top;
+  background-size:
+    auto var(--note-top-height),
+    100% var(--note-line-height);
+  background-origin: border-box, content-box;
+  background-clip: border-box, content-box;
 }
 
 @utility no-scrollbar {
