@@ -101,7 +101,7 @@ export default function NewPlaceFormContainer({ place, onClose, onCancelClose }:
               </div>
             </form>
           </div>
-          <div className='flex-shrink-0 absolute w-full rounded-b-lg bottom-0 right-0 px-6 py-5 bg-brand-gray-200'>
+          <div className='flex flex-shrink-0 absolute w-full rounded-b-lg bottom-0 right-0 px-6 py-5 bg-brand-gray-200 flex-row-reverse'>
             {error && (
               <p
                 role='alert'
@@ -112,7 +112,7 @@ export default function NewPlaceFormContainer({ place, onClose, onCancelClose }:
             )}
 
             <button
-              className='float-right py-3 px-9 typo-text-base-bold text-white bg-brand-blue-700 rounded-sm hover:bg-brand-blue-800  cursor-pointer'
+              className='w-full md:w-fit py-3 px-9 typo-text-base-bold text-white bg-brand-blue-700 rounded-sm hover:bg-brand-blue-800  cursor-pointer'
               form='newPlaceForm'
               type='submit'
               disabled={isPending}
@@ -120,7 +120,7 @@ export default function NewPlaceFormContainer({ place, onClose, onCancelClose }:
               {isPending ? '등록 중...' : '등록하기'}
             </button>
             <button
-              className=' float-right py-3 px-11 mr-4 text-typo-base-bold text-brand-gray-500 rounded-sm cursor-pointer hover:bg-gray-300'
+              className='flex-shrink-0 py-3 px-4 md:px-11 mr-4 text-typo-base-bold text-brand-gray-500 rounded-sm cursor-pointer hover:bg-gray-300'
               type='button'
               onClick={handleClose}
             >
