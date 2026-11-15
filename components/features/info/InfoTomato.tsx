@@ -15,12 +15,13 @@ export default function InfoTomato({ onClick }: InfoTomatoProps) {
           <p className='text-typo-base text-brand-gray-600 p-1'>안녕하세요? 뚤레예요.</p>
           {/* <span className='text-typo-caption text-brand-blue-400'>클릭해주세요</span> */}
         </div>
-        <div className='absolute top-1 left-1 blue-tomato-flag'>
+        <div className='absolute top-1 left-1 blue-tomato-flag z-1'>
           <Image
             src='/images/bluetomato2.webp'
             width={90}
             height={77.91}
             alt='tomato-base'
+            className='scale-90 sm:scale-100 main-content-transition'
           />
         </div>
 
@@ -29,6 +30,7 @@ export default function InfoTomato({ onClick }: InfoTomatoProps) {
           width={90}
           height={77.91}
           alt='tomato-base'
+          className='scale-90 sm:scale-100 main-content-transition'
         />
       </div>
     </div>

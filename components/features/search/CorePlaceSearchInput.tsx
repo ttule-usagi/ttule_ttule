@@ -114,11 +114,11 @@ export default function CorePlaceSearchInput() {
     setIsAutoCompleteOpen(false);
   };
 
-  const shouldShowBack = path !== '/places' && !path.startsWith('/plan/');
+  const shouldShowBack = path !== '/places' && !path.startsWith('/plan/') && path !== '/lobby';
 
   return (
     // TODO: 장소 상세페이지에서 이미지 위에 검색창이 뜨게 하기 위해 z-index값 필요
-    <div className='relative flex gap-4 items-center mb-8'>
+    <div className='relative flex gap-4 items-center w-full'>
       {shouldShowBack && (
         <Icon
           name='ArrowLeft'

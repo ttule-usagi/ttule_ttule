@@ -19,10 +19,12 @@ export default function LobbyPlanSection() {
 
   return (
     <>
-      <header className='flex items-center justify-between mt-10'>
+      <header className='flex items-center justify-between mt-4 md:mt-10'>
         <div className='flex flex-col gap-0'>
-          <p className='text-typo-big-title font-semibold text-brand-blue-700'>환영해요 {user.username}님!</p>
-          <p className='text-typo-sub-title font-medium text-brand-gray-400'>
+          <p className='text-typo-base-bold md:text-typo-big-title font-semibold text-brand-blue-700'>
+            환영해요 {user.username}님!
+          </p>
+          <p className='text-typo-description md:text-typo-sub-title font-medium text-brand-gray-400'>
             {upcomingPlans.length}개의 다가오는 여행이 있어요
           </p>
         </div>
@@ -31,20 +33,20 @@ export default function LobbyPlanSection() {
           <JoinPlanButton variant='secondary' />
         </div>
       </header>
-      <main className='mt-22.75 flex flex-col gap-19.5'>
+      <main className='mt-8 md:mt-22.75 flex flex-col gap-15 md:gap-19.5'>
         {currentPlans.length > 0 && (
-          <div className='flex flex-col gap-6'>
+          <div className='flex flex-col gap-4 md:gap-6'>
             <SectionHeader title='현재 여행' />
             <PlanListWithTag plans={currentPlans} />
           </div>
         )}
 
-        <div className='flex flex-col gap-6'>
+        <div className='flex flex-col gap-4 md:gap-6'>
           <SectionHeader title='다가오는 여행' />
           <PlanListWithTag plans={upcomingPlans} />
         </div>
 
-        <div className='flex flex-col gap-6'>
+        <div className='flex flex-col gap-4 md:gap-6'>
           <SectionHeader title='지난 여행' />
           <LastPlanList plans={lastPlans} />
         </div>

@@ -1,5 +1,6 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
+import SearchSection from '@/components/common/SearchSection';
 import { QueryBoundary } from '@/components/common/ui/boundary/Queryboundary';
 import LobbyPlanSection from '@/components/features/plan/lobby/LobbyPlanSection';
 import Footer from '@/components/layouts/Footer';
@@ -14,11 +15,14 @@ export default async function Page() {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className='h-full w-full overflow-y-auto'>
-        <div className='max-w-350 min-w-230 mx-auto pl-16 pr-16 pb-40 overflow-y-auto'>
+        <div className='max-w-130 md:max-w-350 mx-auto px-4 md:px-16 pb-40'>
           {/* 공지 - 2차 */}
           {/* <NoticeHeader /> */}
 
           {/* 헤더 및 여행 아이템 섹션 */}
+          <div className='md:hidden'>
+            <SearchSection />
+          </div>
           <QueryBoundary subject='여행 목록'>
             <LobbyPlanSection />
           </QueryBoundary>

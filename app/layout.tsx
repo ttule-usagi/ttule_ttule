@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 
 import GlobalModal from '@/components/common/Modal/GlobalModal';
 import Providers from '@/components/features/provider/Provider';
-import { pretendard, paperlogySemiBold, paperlogyRegular, mona12 } from '@/public/fonts/fonts';
+import { pretendard, paperlogySemiBold, paperlogyRegular, mona12, paperlogyMedium } from '@/public/fonts/fonts';
 
 import './globals.css';
 
@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html
       lang='ko'
-      className={`${pretendard.variable} ${paperlogySemiBold.variable} ${paperlogyRegular.variable} ${mona12.variable} font-pretendard`}
+      className={`${pretendard.variable} ${paperlogySemiBold.variable} ${paperlogyMedium.variable} ${paperlogyRegular.variable} ${mona12.variable} font-pretendard`}
     >
       <head>
         <meta charSet='utf-8' />

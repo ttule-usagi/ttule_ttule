@@ -17,7 +17,7 @@ export default async function Sidebar() {
   }
 
   return (
-    <div className='fixed h-full max-w-16 bg-brand-blue-700 flex flex-col justify-center items-center z-999'>
+    <div className='fixed hidden md:flex h-full max-w-16 bg-brand-blue-700 flex-col justify-center items-center z-999'>
       <SidebarNav />
       <HydrationBoundary state={dehydrate(queryClient)}>
         {session ? <SidebarProfile /> : <LoginButtonProfile />}
