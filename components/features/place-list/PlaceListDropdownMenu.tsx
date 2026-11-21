@@ -42,7 +42,7 @@ export default function PlaceListDropdownMenu({ id, type = 'overview', listName,
           <Icon
             name='DotsHorizontal'
             size={32}
-            className={`cursor-pointer rounded-sm text-brand-blue-700 hover:text-brand-blue-800 ${type === 'overview' ? 'hover:bg-brand-gray-100' : 'hover:bg-black/5'}`}
+            className={`cursor-pointer rounded-sm size-7 md:size-8 text-brand-blue-700 hover:text-brand-blue-800 ${type === 'overview' ? 'hover:bg-brand-gray-100' : 'hover:bg-black/5'}`}
           />
         </DropDown.Trigger>
 
