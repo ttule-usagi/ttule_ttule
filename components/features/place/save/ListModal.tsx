@@ -75,7 +75,7 @@ export default function SaveToListModal({ placeDetail, onClose, onCreateNewList 
       onClick={onClose}
     >
       <div
-        className='bg-white rounded-lg w-70 flex flex-col px-5 pt-4 h-[50vh] overflow-y-auto relative'
+        className='bg-white rounded-lg w-70 flex flex-col px-5 pt-4 h-[50vh] relative'
         onClick={(e) => e.stopPropagation()}
       >
         {/* 헤더 */}
@@ -98,7 +98,7 @@ export default function SaveToListModal({ placeDetail, onClose, onCreateNewList 
         </button>
 
         {/* 리스트 목록 */}
-        <div className='flex flex-col gap-4'>
+        <div className='flex flex-col gap-4 overflow-y-auto'>
           {allLists.map((list) => {
             const isAlreadySaved = savedListIds.has(list.id);
             const isSelected = selectedId === list.id;
