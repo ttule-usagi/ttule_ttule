@@ -35,7 +35,7 @@ export default function GoogleMapEmbed({ mode, googlePlaceId, query, center, zoo
   return (
     <iframe
       src={src}
-      className='w-full h-full border-0'
+      className='w-full h-full border-0 rounded-lg md:rounded-none'
       loading='lazy'
       allowFullScreen
       referrerPolicy='no-referrer-when-downgrade'

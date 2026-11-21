@@ -7,7 +7,7 @@ export default async function LobbyLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className='h-screen w-full flex bg-brand-gray-50 overflow-hidden overscroll-none'>
+    <div className='absolute inset-0 flex bg-brand-gray-50 overflow-hidden overscroll-none'>
       <Sidebar />
       <MobileNav />
       <main className='flex-1 md:pl-16 overflow-hidden'>{children}</main>

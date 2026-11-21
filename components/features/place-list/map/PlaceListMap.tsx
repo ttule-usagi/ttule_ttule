@@ -1,8 +1,10 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import GoogleMapEmbed from '../../map/GoogleMapEmbed';
 import { Suspense } from 'react';
+
+import GoogleMapEmbed from '../../map/GoogleMapEmbed';
+
 import PlaceListDetailJSMap from './PlaceListDetailJSMap';
 
 interface MapParams {
@@ -32,7 +34,7 @@ export default function PlaceListMap() {
   const listId = config?.mapType === 'js' ? listIdMatch?.[1] : undefined;
 
   return (
-    <div className='absolute inset-0 ml-118'>
+    <div className='absolute inset-0 md:ml-118'>
       {config.mapType === 'embed' && <GoogleMapEmbed mode='view' />}
       {config.mapType === 'js' && listId && (
         <Suspense fallback={null}>

@@ -34,7 +34,7 @@ export default async function PlaceDetailPage({ params }: { params: Promise<{ pl
           />
         </div>
       </QueryBoundary>
-      <div className='absolute inset-0 ml-118'>
+      <div className='absolute inset-0 hidden md:block md:ml-118'>
         <GoogleMapEmbed
           mode='place'
           googlePlaceId={googlePlaceId}

@@ -1,6 +1,7 @@
 // components/features/search/CoreSearchContainer.tsx
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -16,7 +17,11 @@ interface CoreSearchContainerProps {
   keyword: string;
 }
 
+const MD_QUERY = '(min-width: 768px)';
+
 export default function CoreSearchContainer({ keyword }: CoreSearchContainerProps) {
+  const router = useRouter();
+
   const [selectedPlace, setSelectedPlace] = useState<{ googlePlaceId: string; id: string } | null>(null);
   const { isOpenPlaceModal, selectedId, handleClickPlaceItem, handleClosePlaceDetailModal } = useOpenPlaceDetailModal();
   const [currentKeyword, setCurrentKeyword] = useState(keyword);
@@ -26,11 +31,21 @@ export default function CoreSearchContainer({ keyword }: CoreSearchContainerProp
     setSelectedPlace(null);
   }
 
+  // 해상도에 따른 장소 상세 분기
+  const handlePlaceSelect = (place: { googlePlaceId: string; id: string }) => {
+    if (window.matchMedia(MD_QUERY).matches) {
+      setSelectedPlace(place); // PC: 지도 마커 갱신 + 우측 모달
+      handleClickPlaceItem(place.id);
+    } else {
+      router.push(`/places/detail/${place.id}`); // 모바일: 상세 페이지 이동
+    }
+  };
+
   return (
     <>
-      <div className='px-4 pb-7 h-full overflow-y-auto'>
+      <div className='pt-20 px-4 pb-28 md:pb-7 h-full overflow-y-auto'>
         {/* 지도 */}
-        <div className='absolute inset-0 ml-118'>
+        <div className='hidden md:block md:fixed md:inset-y-0 md:right-0 md:left-118'>
           <GoogleMapEmbed
             mode={selectedPlace ? 'place' : 'view'}
             googlePlaceId={selectedPlace?.googlePlaceId ?? undefined}
@@ -42,10 +57,7 @@ export default function CoreSearchContainer({ keyword }: CoreSearchContainerProp
           <QueryBoundary>
             <CoreSearchResultList
               keyword={keyword}
-              onPlaceSelect={(place) => {
-                setSelectedPlace(place);
-                handleClickPlaceItem(place.id);
-              }}
+              onPlaceSelect={handlePlaceSelect}
             />
           </QueryBoundary>
         </div>
@@ -53,7 +65,7 @@ export default function CoreSearchContainer({ keyword }: CoreSearchContainerProp
       {isOpenPlaceModal &&
         selectedId &&
         createPortal(
-          <div className='absolute left-120 w-90 rounded-lg overflow-hidden flex flex-col max-h-[90vh] top-1/2 -translate-y-1/2 overscroll-contain'>
+          <div className='absolute left-120 w-90 rounded-lg overflow-hidden flex flex-col max-h-[90vh] top-1/2 -translate-y-1/2 overscroll-contain z-20'>
             <QueryBoundary>
               <CorePlaceDetailContainer
                 placeId={selectedPlace?.id ?? ''}
