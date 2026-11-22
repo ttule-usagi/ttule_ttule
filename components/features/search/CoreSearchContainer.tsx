@@ -43,7 +43,7 @@ export default function CoreSearchContainer({ keyword }: CoreSearchContainerProp
 
   return (
     <>
-      <div className='pt-20 px-4 pb-28 md:pb-7 h-full overflow-y-auto'>
+      <div className='pt-20 md:pt-0 px-4 pb-28 md:pb-7 h-full overflow-y-auto'>
         {/* 지도 */}
         <div className='hidden md:block md:fixed md:inset-y-0 md:right-0 md:left-118'>
           <GoogleMapEmbed
