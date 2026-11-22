@@ -41,7 +41,7 @@ export default function CreatePlace() {
   };
 
   return (
-    <div className='h-full flex flex-col'>
+    <div className='h-full flex flex-col pt-4 md:pt-0'>
       <header className='px-4 flex items-center flex-none pb-6'>
         <p className='flex-1 text-typo-big-title text-brand-blue-700'>장소 리스트 생성</p>
         <button

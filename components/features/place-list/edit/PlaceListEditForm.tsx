@@ -104,7 +104,7 @@ export default function PlaceListEditForm({
   }, [activeTagIds, places]);
 
   return (
-    <div className='flex flex-col h-full gap-6'>
+    <div className='flex flex-col h-full gap-6 pt-4 md:pt-0'>
       <header className='px-4 flex items-center flex-none'>
         <p className='flex-1 text-typo-big-title text-brand-blue-700'>장소 리스트 관리</p>
         <button

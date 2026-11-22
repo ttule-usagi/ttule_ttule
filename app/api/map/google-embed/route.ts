@@ -7,13 +7,15 @@ export async function GET(request: NextRequest) {
   const query = searchParams.get('query');
   const center = searchParams.get('center') ?? '37.5665,126.9780';
   const zoom = searchParams.get('zoom') ?? '10';
+  const zoomParam = searchParams.get('zoom');
 
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
   let src = '';
 
   if (mode === 'place' && googlePlaceId) {
-    src = `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=place_id:${googlePlaceId}&language=ko&zoom=17&maptype=roadmap`;
+    const placeZoom = zoomParam ?? '17';
+    src = `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=place_id:${googlePlaceId}&language=ko&zoom=${placeZoom}&maptype=roadmap`;
   } else if (mode === 'search' && query) {
     src = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=${encodeURIComponent(query)}&language=ko&maptype=roadmap`;
   } else {

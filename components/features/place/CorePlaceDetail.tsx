@@ -72,6 +72,7 @@ export default function CorePlaceDetail({ data, onAddToSchedule, onSave }: CoreP
         <GoogleMapEmbed
           mode='place'
           googlePlaceId={place.googlePlaceId}
+          zoom='15'
         />
       </div>
 
