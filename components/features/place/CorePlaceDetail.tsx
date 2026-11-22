@@ -86,7 +86,7 @@ export default function CorePlaceDetail({ data, onAddToSchedule, onSave }: CoreP
         {/* 구글에서 보기 */}
         <ExternalLinkButton
           type='google'
-          link={getGoogleLink(place.googlePlaceId)}
+          link={getGoogleLink(place)}
         />
       </div>
 
