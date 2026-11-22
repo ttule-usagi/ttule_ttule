@@ -23,7 +23,7 @@ export default function SearchSection() {
   const setClose = () => setIsProfilePageOpen(false);
 
   return (
-    <div className='z-20 md:px-4 pt-5 md:mb-8 flex-none flex flex-row items-center justify-center gap-3'>
+    <div className='z-20 px-4 pt-5 md:mb-8 flex-none flex flex-row items-center justify-center gap-3'>
       <button
         type='button'
         aria-label='메뉴 열기'

@@ -14,10 +14,12 @@ export default async function Page() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className='flex flex-col h-full gap-6'>
-        <div className='flex-none text-typo-big-title font-semibold text-brand-blue-700 px-4'>저장된 장소 리스트</div>
+      <div className='flex flex-col h-full mt-4 md:mt-0 gap-3 md:gap-6 overflow-y-auto '>
+        <div className='flex-none text-typo-title md:text-typo-big-title font-semibold text-brand-blue-700 px-4'>
+          저장된 장소 리스트
+        </div>
 
-        <div className='flex-1 px-4 overflow-y-auto pb-7'>
+        <div className='flex-1 px-4  pb-24 md:pb-7'>
           <Link
             href='/places/create'
             className='w-full max-h-19 flex justify-center items-center py-5.5 text-brand-gray-400 text-typo-sub-title font-medium mb-3 gap-2 wobbly-box hover:text-brand-blue-700'
@@ -36,7 +38,7 @@ export default async function Page() {
           </QueryBoundary>
 
           <div className='mt-17.5 flex justify-between items-center h-8 w-full mb-3'>
-            <p className='text-typo-title font-semibold text-brand-blue-700'>공유된 장소 리스트</p>
+            <p className='text-typo-title text-brand-blue-700'>공유된 장소 리스트</p>
             <JoinPlaceListButton />
           </div>
           <QueryBoundary>

@@ -14,16 +14,16 @@ export default function PlaceListHeader({ listId }: { listId: string }) {
   const { open } = useModalStore();
 
   return (
-    <header className='flex flex-col gap-4'>
-      <div className='flex items-start gap-3'>
-        {data.icon && <span className='font-mona12 text-typo-big-title'>{data.icon}</span>}
-        <p className='font-semibold flex-1 text-typo-big-title text-brand-blue-700'>{data.title}</p>
+    <header className='flex flex-col gap-2 md:gap-4'>
+      <div className='flex items-start gap-2 md:gap-3'>
+        {data.icon && <span className='font-mona12 text-typo-sub-title md:text-typo-big-title'>{data.icon}</span>}
+        <p className='flex-1 text-typo-sub-title md:text-typo-big-title text-brand-blue-700'>{data.title}</p>
 
         <div className='flex gap-3 mt-0.5'>
           <Icon
             name='Share'
             size={32}
-            className='text-brand-blue-700 cursor-pointer rounded-sm hover:bg-black/5 hover:text-brand-blue-800'
+            className='text-brand-blue-700 cursor-pointer size-7 md:size-8 rounded-sm hover:bg-black/5 hover:text-brand-blue-800'
             onClick={() =>
               open({ type: 'shareLink', props: { type: 'VIEW', link: createViewLink(listId, 'place_list') } })
             }
@@ -39,7 +39,7 @@ export default function PlaceListHeader({ listId }: { listId: string }) {
         </div>
       </div>
 
-      <div className='flex flex-col gap-1 text-typo-base font-light'>
+      <div className='flex flex-col gap-1 text-typo-description md:text-typo-base font-light'>
         <div className='flex gap-2 text-brand-gray-400 items-center'>
           <span>{data.master.username}</span>
           {data.participantCount > 0 && (

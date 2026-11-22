@@ -1,6 +1,7 @@
-import { ResourceType } from '@/types/invite';
-import { IconButtonText } from './IconButtonText';
 import { useConfirmSetPublic } from '@/hooks/shareOption/useConfirmSetPublic';
+import { ResourceType } from '@/types/invite';
+
+import { IconButtonText } from './IconButtonText';
 
 interface SetPublicButtonProps {
   id: string;

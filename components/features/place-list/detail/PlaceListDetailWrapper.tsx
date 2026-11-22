@@ -40,7 +40,7 @@ export default function PlaceListDetailWrapper({ listId }: { listId: string }) {
       </div>
 
       {/* 저장된 장소 */}
-      <div className='flex flex-col gap-3 pb-7 px-4 flex-1 overflow-y-auto'>
+      <div className='flex flex-col gap-3 pb-25 md:pb-7 px-4 flex-1 overflow-y-auto'>
         <QueryBoundary subject='저장된 장소'>
           <PlaceListPlaces
             listId={listId}

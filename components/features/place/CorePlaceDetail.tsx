@@ -3,6 +3,8 @@
 import { getGoogleLink, getNaverLink } from '@/lib/utils/getExternalLink';
 import type { CorePlaceDetail } from '@/types/corePlace';
 
+import GoogleMapEmbed from '../map/GoogleMapEmbed';
+
 import PlaceActionBar from './detail/action-bar/PlaceActionBar';
 import ExternalLinkButton from './detail/ExternalLinkButton';
 import Address from './detail/info/Address';
@@ -66,8 +68,15 @@ export default function CorePlaceDetail({ data, onAddToSchedule, onSave }: CoreP
         {place.websiteUri && <WebsiteUri websiteUri={place.websiteUri} />}
       </div>
 
+      <div className='h-30 px-4 w-full md:hidden md:ml-118 mb-4'>
+        <GoogleMapEmbed
+          mode='place'
+          googlePlaceId={place.googlePlaceId}
+        />
+      </div>
+
       {/* 외부 링크 버튼 */}
-      <div className='flex gap-2 pb-5 px-4'>
+      <div className='flex gap-2 pb-24 md:pb-5 px-4'>
         {/* 네이버에서 보기 */}
         <ExternalLinkButton
           type='naver'

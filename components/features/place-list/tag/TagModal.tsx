@@ -78,7 +78,7 @@ export default function TagModal({ listId }: { listId: string }) {
   return (
     <>
       <div
-        className='relative flex flex-col bg-white rounded-lg min-h-100 h-187 max-h-[80vh] min-w-126 overflow-hidden pt-7 px-6'
+        className='relative flex flex-col bg-white rounded-none md:rounded-lg h-full md:min-h-100 md:h-187 md:max-h-[80vh] w-full md:max-w-126 overflow-hidden pt-7 px-6'
         onClick={(e) => e.stopPropagation()}
       >
         <header className='flex items-center justify-between'>
@@ -122,7 +122,7 @@ export default function TagModal({ listId }: { listId: string }) {
           )}
         </div>
 
-        <div className='absolute left-0 bottom-0 w-full px-6 py-5 bg-brand-gray-200 rounded-b-lg flex flex-row justify-end gap-3'>
+        <div className='absolute left-0 bottom-0 w-full px-6 py-5 bg-brand-gray-200 rounded-none md:rounded-b-lg flex flex-row justify-end gap-3'>
           {error && (
             <span
               role='alert'

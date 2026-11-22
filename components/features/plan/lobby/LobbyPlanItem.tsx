@@ -80,7 +80,7 @@ export default function LobbyPlanItem({
 
       {/* 모바일 버전 */}
       <Link
-        className="@container relative grid md:hidden grid-cols-[39.46%_minmax(0,1fr)_32px] w-full aspect-370/96 pr-2 bg-[url('/images/lobby-plan-m.svg')] dark:bg-[url('/images/lobby-plan-dark.svg')] bg-center bg-cover drop-shadow-lg"
+        className="@container relative grid md:hidden grid-cols-[39.46%_minmax(0,1fr)_32px] w-full aspect-370/96 bg-[url('/images/lobby-plan-m.svg')] dark:bg-[url('/images/lobby-plan-dark.svg')] bg-center bg-cover drop-shadow-lg"
         href={`/plan/${id}`}
       >
         {/* 목적지 */}

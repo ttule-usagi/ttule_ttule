@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -14,6 +15,8 @@ import CorePlaceDetailContainer from '../../place/CorePlaceDetailContainer';
 
 import PlaceItem from './PlaceItem';
 
+const MD_QUERY = '(min-width: 768px)';
+
 export default function PlaceListPlaces({
   listId,
   sortBy,
@@ -27,6 +30,7 @@ export default function PlaceListPlaces({
     listId,
     sortBy,
   });
+  const router = useRouter();
 
   // 태그 필터링
   const filteredPlaces = useMemo(() => {
@@ -58,6 +62,15 @@ export default function PlaceListPlaces({
     };
   }, [hasNextPage, isFetchingNextPage, fetchNextPage, isFetchNextPageError]);
 
+  // 해상도에 따른 장소 상세 분기
+  const handleClickItem = (placeId: string) => {
+    if (window.matchMedia(MD_QUERY).matches) {
+      handleClickPlaceItem(placeId); // PC: 우측 모달 오픈
+    } else {
+      router.push(`/places/detail/${placeId}`); // 모바일: 상세 페이지 이동
+    }
+  };
+
   if (data.length === 0) return <EmptyState message='저장된 장소가 아직 없습니다.' />;
 
   return (
@@ -68,7 +81,7 @@ export default function PlaceListPlaces({
             key={item.id}
             place={item}
             listId={listId}
-            onClickItem={handleClickPlaceItem}
+            onClickItem={handleClickItem}
             listTags={tags}
           />
         ))
@@ -78,7 +91,10 @@ export default function PlaceListPlaces({
       {isOpenPlaceModal &&
         selectedId &&
         createPortal(
-          <div className='absolute left-120 w-90 rounded-lg overflow-hidden flex flex-col max-h-[90vh] top-1/2 -translate-y-1/2 overscroll-contain'>
+          <div
+            className='absolute left-120 w-90 rounded-lg overflow-hidden 
+          flex flex-col max-h-[90vh] top-1/2 -translate-y-1/2 overscroll-contain'
+          >
             <QueryBoundary>
               <CorePlaceDetailContainer
                 placeId={selectedId}
