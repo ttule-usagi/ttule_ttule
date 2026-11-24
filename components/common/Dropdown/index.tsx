@@ -1,9 +1,23 @@
+import {
+  autoUpdate,
+  flip,
+  offset,
+  Placement,
+  shift,
+  useClick,
+  useDismiss,
+  useFloating,
+  useInteractions,
+  useRole,
+} from '@floating-ui/react';
 import { useState } from 'react';
+
+import { MD_QUERY, useMediaQuery } from '@/hooks/useMediaQuery';
+
+import { DropdownContent } from './DropdownContext';
 import DropDownItem from './Item';
 import DropDownMenu from './Menu';
 import DropDownTrigger from './Trigger';
-import { DropdownContent } from './DropdownContext';
-import { flip, offset, Placement, shift, useClick, useDismiss, useFloating, useInteractions } from '@floating-ui/react';
 
 interface DropDownProps {
   children: React.ReactNode;
@@ -13,21 +27,29 @@ interface DropDownProps {
 
 export default function DropDown({ children, placement = 'right-start', offsetValue = 18 }: DropDownProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const isDesktop = useMediaQuery(MD_QUERY);
+
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
+    whileElementsMounted: isDesktop ? autoUpdate : undefined,
     placement: placement,
-    middleware: [offset(offsetValue), flip(), shift()],
+    middleware: isDesktop ? [offset(offsetValue), flip({ padding: 8 }), shift({ padding: 8 })] : [],
   });
 
   const click = useClick(context);
-  const dismiss = useDismiss(context);
-  const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss]);
+  const dismiss = useDismiss(context, {
+    outsidePressEvent: 'mousedown',
+  });
+  const role = useRole(context, { role: isDesktop ? 'menu' : 'dialog' });
+  const { getReferenceProps, getFloatingProps } = useInteractions([click, dismiss, role]);
 
   return (
     <DropdownContent.Provider
       value={{
         isOpen,
+        isDesktop,
+        context,
         setReference: refs.setReference,
         setFloating: refs.setFloating,
         floatingStyles,
