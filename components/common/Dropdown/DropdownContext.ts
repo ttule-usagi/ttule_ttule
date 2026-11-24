@@ -1,8 +1,10 @@
+import type { FloatingContext, UseInteractionsReturn } from '@floating-ui/react';
 import { createContext, useContext } from 'react';
-import type { UseInteractionsReturn } from '@floating-ui/react';
 
 export const DropdownContent = createContext<{
   isOpen: boolean;
+  isDesktop: boolean;
+  context: FloatingContext;
   close: () => void;
   setReference: ((node: Element | null) => void) | null;
   setFloating: ((node: HTMLElement | null) => void) | null;

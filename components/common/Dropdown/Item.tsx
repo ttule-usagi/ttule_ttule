@@ -1,4 +1,5 @@
 import { HTMLAttributes } from 'react';
+
 import { useDropdown } from './DropdownContext';
 
 interface DropDownItemProps extends HTMLAttributes<HTMLDivElement> {
@@ -16,9 +17,13 @@ export default function DropDownItem({
   isSelected = false,
   ...props
 }: DropDownItemProps) {
-  const { close } = useDropdown();
+  const { close, isDesktop } = useDropdown();
 
-  const sizeClasses = size === 'mini' ? 'px-[7.5px] py-1 text-typo-description' : 'px-5 py-2 text-typo-base';
+  const sizeClasses = isDesktop
+    ? `rounded-lg hover:bg-brand-gray-100 ${
+        size === 'mini' ? 'px-[7.5px] py-1 text-typo-description ' : 'px-5 py-2 text-typo-base'
+      }`
+    : 'px-5 py-3';
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (disabled) return;
@@ -29,7 +34,7 @@ export default function DropDownItem({
   return (
     <div
       {...props}
-      className={`w-full font-light text-left text-brand-gray-700 cursor-pointer hover:bg-brand-gray-100 rounded-lg ${sizeClasses} ${className} ${isSelected ? 'text-brand-gray-600 font-medium' : ''}`}
+      className={`w-full font-light text-left text-brand-gray-700 cursor-pointer ${sizeClasses} ${className} ${isSelected ? 'text-brand-gray-600 font-medium' : ''}`}
       onClick={handleClick}
     >
       {children}
